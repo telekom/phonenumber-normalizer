@@ -59,7 +59,7 @@ We need to differentiate the real number entered with or without area code and n
 
 Additionally, we want to normalize a number with a default NDC, because we might know where the device - using that number - is located and which NDC is implicitly used.
 
-### Roote Cause
+### Root Cause
 
 We think the problem arises from the following situation:
 - PhoneLib is storing the National Significant Number (NSN) as the number, which is the combination of NDC + SN.
