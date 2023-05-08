@@ -43,7 +43,7 @@ d) a SN with NDC and CC (but without NAC in Germany but with in Italy)
 We need that differentiation upfront normalization to E164 (which is d).
 Currently, PhoneLib does not identify this situation and adds the CC infront a number b-style, which represents a complete different phone line.
 
-### Example of failing normalzation
+### Example of failing normalization
 
 The number 20355555 itself is a valid number in many areas and can be dialed if you are within those areas.
 If you are outside you need to add the area code with area exit code like 030 for Berlin so for Berlin the number would end up 03020355555. 
