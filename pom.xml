@@ -24,13 +24,13 @@
     <artifactId>phonenumber-normalizer</artifactId>
     <name>Phonenumber Normalizer</name>
     <description>Library to work with phonenumbers, especially to fix googles PhoneLib ignoring German Landline specifics.</description>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <scm>
         <connection>scm:git:https://github.com/telekom/phonenumber-normalizer.git</connection>
         <developerConnection>scm:git:https://github.com/telekom/phonenumber-normalizer.git</developerConnection>
-        <url>https://github.com/telekom/phonenumber-normalizer</url>
-        <tag>master</tag>
+        <url>git@github.com:telekom/phonenumber-normalizer.git</url>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
@@ -47,7 +47,7 @@
         <sonar.coverage.jacoco.xmlReportPaths>
             ${project.basedir}/../${aggregate.report.dir}
         </sonar.coverage.jacoco.xmlReportPaths>
-
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
     </properties>
 
     <dependencies>
@@ -157,6 +157,14 @@
     <build>
         <plugins>
 
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven-release-plugin.version}</version>
+                <configuration>
+                    <scmCommentPrefix>[ci skip]</scmCommentPrefix>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
+                </configuration>
+            </plugin>
             <!-- Configure JaCoCo -->
             <plugin>
                 <groupId>org.jacoco</groupId>

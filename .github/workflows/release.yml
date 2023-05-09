@@ -1,0 +1,29 @@
+name: release version
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Build and Test
+        uses: telekom/phonenumber-normalizer@master
+        with:
+          maven-args: "clean install"
+
+      - name: Release
+        uses: telekom/phonenumber-normalizer@master
+        with:
+          git-release-bot-name: "bot-idhub"
+          git-release-bot-email: "bot@idhub.io"
+
+          maven-args: "-Dmaven.javadoc.skip=true -DskipTests -DskipITs -Ddockerfile.skip -DdockerCompose.skip -Dmaven.deploy.skip=true"
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
