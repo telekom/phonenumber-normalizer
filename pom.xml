@@ -26,6 +26,14 @@
     <description>Library to work with phonenumbers, especially to fix googles PhoneLib ignoring German Landline specifics.</description>
     <version>1.0.1-SNAPSHOT</version>
 
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <scm>
         <connection>scm:git:https://github.com/telekom/phonenumber-normalizer.git</connection>
         <developerConnection>scm:git:https://github.com/telekom/phonenumber-normalizer.git</developerConnection>
