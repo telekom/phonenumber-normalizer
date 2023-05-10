@@ -20,8 +20,8 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.telekom</groupId>
-    <artifactId>phonenumber-normalizer</artifactId>
+    <groupId>de.telekom.phonenumber</groupId>
+    <artifactId>normalizer</artifactId>
     <name>Phonenumber Normalizer</name>
     <description>Library to work with phonenumbers, especially to fix googles PhoneLib ignoring German Landline specifics.</description>
     <version>1.0.1-SNAPSHOT</version>
