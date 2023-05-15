@@ -17,7 +17,6 @@
 
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.telekom.phonenumber</groupId>
@@ -25,6 +24,7 @@
     <name>Phonenumber Normalizer</name>
     <description>Library to work with phonenumbers, especially to fix googles PhoneLib ignoring German Landline specifics.</description>
     <version>1.1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <licenses>
         <license>
@@ -33,6 +33,26 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <developers>
+        <developer>
+            <name>Emil Thies</name>
+            <email>E.Thies@telekom.de</email>
+            <organization>Deutsche Telekom AG</organization>
+            <organizationUrl>https://github.com/telekom</organizationUrl>
+        </developer>
+        <developer>
+            <name>Jens Hellwig</name>
+            <email>Jens.Hellwig@telekom.de</email>
+            <organization>Deutsche Telekom AG</organization>
+            <organizationUrl>https://github.com/telekom</organizationUrl>
+        </developer>
+        <developer>
+            <name>Kai Kreuzer</name>
+            <email>Kai.Kreuzer@telekom.de</email>
+            <organization>Deutsche Telekom AG</organization>
+            <organizationUrl>https://github.com/telekom</organizationUrl>
+        </developer>
+    </developers>
 
     <scm>
         <connection>scm:git:https://github.com/telekom/phonenumber-normalizer.git</connection>
@@ -120,15 +140,15 @@
             <version>2.203</version>
             <scope>test</scope>
         </dependency>
-       <dependency>
-           <groupId>org.codehaus.groovy</groupId>
-           <artifactId>groovy-all</artifactId>
-           <version>3.0.17</version>
-           <scope>test</scope>
-           <type>pom</type>
-           <exclusions>
-               <exclusion>
-                   <!-- Used Version 7.5 has https://devhub.checkmarx.com/cve-details/CVE-2022-4065/?utm_source=jetbrains&utm_medium=referral&utm_campaign=idea&utm_term=maven -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>3.0.17</version>
+            <scope>test</scope>
+            <type>pom</type>
+            <exclusions>
+                <exclusion>
+                    <!-- Used Version 7.5 has https://devhub.checkmarx.com/cve-details/CVE-2022-4065/?utm_source=jetbrains&utm_medium=referral&utm_campaign=idea&utm_term=maven -->
                     <groupId>org.testng</groupId>
                     <artifactId>testng</artifactId>
                 </exclusion>
@@ -213,14 +233,14 @@
                         <year>2023</year>
                     </properties>
                     <licenseSets>
-                    <licenseSet>
-                        <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
-                        <excludes>
-                            <exclude>**/README</exclude>
-                            <exclude>src/test/resources/**</exclude>
-                            <exclude>src/main/resources/**</exclude>
-                        </excludes>
-                    </licenseSet>
+                        <licenseSet>
+                            <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+                            <excludes>
+                                <exclude>**/README</exclude>
+                                <exclude>src/test/resources/**</exclude>
+                                <exclude>src/main/resources/**</exclude>
+                            </excludes>
+                        </licenseSet>
                     </licenseSets>
                 </configuration>
             </plugin>
