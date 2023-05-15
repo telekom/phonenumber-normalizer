@@ -29,16 +29,16 @@ public interface PhoneNumberAreaLabel {
      * Get a location name for a E164 formated number
      *
      * @param e164number number following E164 schema eg. +4961511234567
-     * @return Optional<String> - nullable optional with either a national label or if non is available a country label
+     * @return nullable optional with either a national label or if non is available a country label
      */
     Optional<String> getLocationByE164Number(String e164number);
 
     /**
      * Get a location name for a nationalnumber and region code
      *
-     * @param nationalNumber - number without the country prefix like 61511234567 (for number +4961511234567)
-     * @param regionCode -  region code for the number plan like de, us
-     * @return Optional<String> - nullable optional with location name if present
+     * @param nationalNumber number without the country prefix like 61511234567 (for number +4961511234567)
+     * @param regionCode region code for the number plan like de, us
+     * @return nullable optional with location name if present
      */
     Optional<String> getLocationByNationalNumberAndRegionCode(String nationalNumber, String regionCode);
 
@@ -46,7 +46,7 @@ public interface PhoneNumberAreaLabel {
      * Get country name string by country code
      *
      * @param countryCode - specific telephony code of country (telephone number prefix) like 49 (Germany), 1 (US),
-     * @return Optional<String> - nullable optional with country name if present
+     * @return nullable optional with country name if present
      */
     Optional<String> getCountryNameByCountryCode(String countryCode);
 }

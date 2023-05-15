@@ -27,10 +27,11 @@ import java.util.Objects;
 
 /**
  * Wrapper around the PhoneLib library from Google
- * <p/>
- * Using reflection to access internal information to know if a region has a nation prefix & which one it is.<br/>
+ * <p>
+ * Using reflection to access internal information to know if a region has a nation prefix &amp; which one it is.
+ * </p><p>
  * Providing own NumberPlans logic as an alternative to PhoneLib ShortNumber.
- *
+ * </p>
  * @see PhoneLibWrapper#getMetadata()
  * @see NumberPlan
  */
@@ -132,8 +133,9 @@ public class PhoneLibWrapper {
 
     /**
      * Using PhoneLib short number utility if it identifies the given number as a short number, which would not need a NAC.
-     * <p/>
+     * <p>
      * This is a fallback for {@link PhoneLibWrapper#isShortNumber(NumberPlan)}, when we do not have an own number plan information.
+     * </p>
      * @return if PhoneLib identifies given number as a short number
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
@@ -145,9 +147,9 @@ public class PhoneLibWrapper {
 
     /**
      * Using own {@link NumberPlan} to identify if the given number is a short number, which would not need a NAC.
-     * <p/>
+     * <p>
      * If no number plan is given, {@link PhoneLibWrapper#isShortNumber} is used as fallback.
-     *
+     * </p>
      * @param numberplan the number plan we identified to be used for a check
      * @return if number plan or as fallback PhoneLib identifies given number as a short number
      *
@@ -162,8 +164,9 @@ public class PhoneLibWrapper {
 
     /**
      * If we have a plain national number based on regions number plan and potential NAC logic.
-     * <p/>
+     * <p>
      * For a number plan without NAC logic, it will always return false!
+     * </p>
      * @return if given number could have CC and NAC, but does not have any of them.
      */
     public boolean hasNoCountryCodeNorNationalAccessCode() {
@@ -177,8 +180,9 @@ public class PhoneLibWrapper {
 
     /**
      * Using PhoneLib to get a E164 formatted representation of the given number
-     * <p/>
+     * <p>
      * This is a straight invocation, so no compensation of some inaccuracy is done here.
+     * </p>
      * @return E164 format of the given phone number
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
@@ -327,8 +331,9 @@ public class PhoneLibWrapper {
 
     /**
      * Using PhoneLib to get the Country Calling Code for a region code
-     * <p/>
-     * e.g. "DE" -> "49"
+     * <p>
+     * e.g. "DE" is "49"
+     * </p>
      * @param regionCode ISO2 code of a region
      * @return country calling code of the region or 0 if regionCode is invalid.
      */
@@ -338,8 +343,9 @@ public class PhoneLibWrapper {
 
     /**
      * Using PhoneLib to get the region code for a Country Calling Code
-     * <p/>
-     * e.g. "49" -> "DE"
+     * <p>
+     * e.g. "49" is "DE"
+     * </p>
      * @param countryCode only digits without IDP
      * @return regionCode or {@link PhoneLibWrapper#UNKNOWN_REGIONCODE} if countryCode is invalid.
      */

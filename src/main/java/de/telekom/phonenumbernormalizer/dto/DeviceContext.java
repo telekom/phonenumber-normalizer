@@ -55,9 +55,9 @@ public interface DeviceContext {
     /**
      * Getter for the Country (Calling) Code of the countries number plan, where the device is originated.
      * Without international dialing prefix nor trunc code. If not known or not set, it should return DeviceContext.UNKNOWN_VALUE.
-     * <p/>
+     * <p>
      * E.G. "49" for Germany
-     *
+     * </p>
      * @return either a string containing one to three digits representing a country calling code or "unknown"
      *
      * @see DeviceContext#getCountryCode()
@@ -68,9 +68,9 @@ public interface DeviceContext {
     /**
      * Setter for the Country (Calling) Code of the countries number plan, where the device is originated.
      * Without international deailing prefix nor trunc code. If not known it should be set to DeviceContext.UNKNOWN_VALUE.
-     * <p/>
+     * <p>
      * E.G. "49" for Germany
-     *
+     * </p>
      * @param countryCode either a string containing one to three digits representing a country calling code or "unknown"
      *
      * @see DeviceContext#getCountryCode()
@@ -81,9 +81,9 @@ public interface DeviceContext {
     /**
      * Getter for the National Destination Code (NDC) of the countries number plan, where the device is originated.
      * Without National Access Code (NAC) nor trunc code. If not known or not set, it should return DeviceContext.UNKNOWN_VALUE.
-     * <p/>
+     * <p>
      * E.G. "228" for Bonn in Germany where the Deutsche Telekom Headquarter is located
-     *
+     * </p>
      * @return either a string containing a variable amount of digits representing a country calling code or "unknown"
      *
      * @see DeviceContext#setNationalDestinationCode(String)
@@ -94,9 +94,9 @@ public interface DeviceContext {
     /**
      * Setter for the National Destination Code (NDC) of the countries number plan, where the device is originated.
      * Without National Access Code (NAC) nor trunc code. If not known it should be set to DeviceContext.UNKNOWN_VALUE.
-     * <p/>
+     * <p>
      * E.G. "228" for Bonn in Germany where the Deutsche Telekom Headquarter is located
-     *
+     * </p>
      * @param nationalDestinationCode either a string containing a variable amount of digits representing a country calling code or "unknown"
      *
      * @see DeviceContext#getCountryCode()

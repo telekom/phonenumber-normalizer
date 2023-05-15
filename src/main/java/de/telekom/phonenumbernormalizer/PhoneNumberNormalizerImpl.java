@@ -27,8 +27,10 @@ import org.springframework.stereotype.Component;
 
 
 /**
- *  Concrete implementation of {@link PhoneNumberNormalizer} using {@link PhoneLibWrapper} to normalize a number by mitigating some inaccuracies when it comes to number plans of optional NDC and NAC as zero.<br/>
+ *  Concrete implementation of {@link PhoneNumberNormalizer} using {@link PhoneLibWrapper} to normalize a number by mitigating some inaccuracies when it comes to number plans of optional NDC and NAC as zero.
+ *  <p>
  *  Also supports {@link DeviceContext} to enrich a phone number during normalization if the optional NDC is missing.
+ *  </p>
  */
 @RequiredArgsConstructor
 @Component

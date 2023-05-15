@@ -35,8 +35,9 @@ public interface PhoneNumberNormalizer {
 
     /**
      * Normalizes the number using PhoneLib with some additions to compensate.
-     * <p/>
+     * <p>
      * Preferable to {@link PhoneNumberNormalizer#normalizePhoneNumber(String, String)}, because default NDC can be provided, so that more compensation for generating a valid E164 can be done.
+     * </p>
      * @param number plain number to normalize
      * @param deviceContext  information like CC, NDC and {@link de.telekom.phonenumbernormalizer.dto.DeviceContextLineType} from which the number is dialled
      * @return E164 formatted phone number or at least a dialable version of the number
@@ -47,8 +48,9 @@ public interface PhoneNumberNormalizer {
 
     /**
      * Normalizes the number using PhoneLib with some additions to compensate.
-     * <p/>
+     * <p>
      * Not as powerful as {@link PhoneNumberNormalizer#normalizePhoneNumber(String, DeviceContext)}, because no default NDC can be set.
+     * </p>
      * @param number plain number to normalize
      * @param regionCode ISO2 code of the country, which number-plan is used for normalization
      * @return E164 formatted phone number or at least a dialable version of the number
