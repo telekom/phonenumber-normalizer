@@ -27,11 +27,11 @@ import java.util.Objects;
 
 /**
  * Wrapper around the PhoneLib library from Google
- * <p/>
- * Using reflection to access internal information to know if a region has a nation prefix & which one it is.<br/>
+ * <p>
+ * Using reflection to access internal information to know if a region has a nation prefix &amp; which one it is.
+ * </p><p>
  * Providing own NumberPlans logic as an alternative to PhoneLib ShortNumber.
- *
- * @see PhoneLibWrapper#getMetadata()
+ * </p>
  * @see NumberPlan
  */
 @Data
@@ -94,9 +94,6 @@ public class PhoneLibWrapper {
      * Initialize the wrapper by giving a phone number to be analyzed against a number plan of a given region
      * @param number the phone number to be analyzed
      * @param regionCode the ISO2 Code of the Region / Country, which telephone number plan is used
-     *
-     * @see PhoneLibWrapper#getDialableNumber()
-     * @see PhoneLibWrapper#getSemiNormalizedNumber()
      */
     public PhoneLibWrapper(String number, String regionCode) {
         this.regionCode = regionCode;
@@ -124,7 +121,6 @@ public class PhoneLibWrapper {
      * @return {@link PhoneLibWrapper#isNormalizingTried}
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
-     * @see PhoneLibWrapper#getSemiNormalizedNumber()
      */
     public boolean isNormalizingTried() {
         return isNormalizingTried;
@@ -132,8 +128,9 @@ public class PhoneLibWrapper {
 
     /**
      * Using PhoneLib short number utility if it identifies the given number as a short number, which would not need a NAC.
-     * <p/>
+     * <p>
      * This is a fallback for {@link PhoneLibWrapper#isShortNumber(NumberPlan)}, when we do not have an own number plan information.
+     * </p>
      * @return if PhoneLib identifies given number as a short number
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
@@ -145,9 +142,9 @@ public class PhoneLibWrapper {
 
     /**
      * Using own {@link NumberPlan} to identify if the given number is a short number, which would not need a NAC.
-     * <p/>
+     * <p>
      * If no number plan is given, {@link PhoneLibWrapper#isShortNumber} is used as fallback.
-     *
+     * </p>
      * @param numberplan the number plan we identified to be used for a check
      * @return if number plan or as fallback PhoneLib identifies given number as a short number
      *
@@ -162,8 +159,9 @@ public class PhoneLibWrapper {
 
     /**
      * If we have a plain national number based on regions number plan and potential NAC logic.
-     * <p/>
+     * <p>
      * For a number plan without NAC logic, it will always return false!
+     * </p>
      * @return if given number could have CC and NAC, but does not have any of them.
      */
     public boolean hasNoCountryCodeNorNationalAccessCode() {
@@ -177,8 +175,9 @@ public class PhoneLibWrapper {
 
     /**
      * Using PhoneLib to get a E164 formatted representation of the given number
-     * <p/>
+     * <p>
      * This is a straight invocation, so no compensation of some inaccuracy is done here.
+     * </p>
      * @return E164 format of the given phone number
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
@@ -192,10 +191,9 @@ public class PhoneLibWrapper {
      * so we could permanently add a default NDC and NAC to the given number and for this new value the method directly return a E164 formatted representation.
      * @param nationalAccessCode the NAC to be added e.g. for Germany it would be "0"
      * @param defaultNationalDestinationCode the NDC to be added depending on the use telephone line origination.
-     * @return if possible a E164 formatted representation or the {@link PhoneLibWrapper#getDialableNumber()} representation of the given number.
+     * @return if possible a E164 formatted representation or just the diallable representation of the given number.
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
-     * @see PhoneLibWrapper#getSemiNormalizedNumber()
      */
     public String extendNumberByDefaultAreaCodeAndCountryCode(String nationalAccessCode, String defaultNationalDestinationCode) {
         String nationalPhoneNumberWithoutNationalAccessCode = this.getNationalPhoneNumberWithoutNationalAccessCode();
@@ -253,8 +251,6 @@ public class PhoneLibWrapper {
     /**
      * The National Access Code used before the National Destination Code in the given region from PhoneLib
      * @return NAC of given {@link PhoneLibWrapper#regionCode}
-     *
-     * @see PhoneLibWrapper#getMetadata()
      */
     public String getNationalAccessCode() {
         if (metadata == null) {
@@ -266,8 +262,6 @@ public class PhoneLibWrapper {
     /**
      * From PhoneLib, if a National Access Code is used before the National Destination Code in the given region
      * @return if given {@link PhoneLibWrapper#regionCode} is using NAC
-     *
-     * @see PhoneLibWrapper#getMetadata()
      */
     public boolean hasRegionNationalAccessCode() {
         return metadata != null && metadata.hasNationalPrefix();
@@ -327,8 +321,9 @@ public class PhoneLibWrapper {
 
     /**
      * Using PhoneLib to get the Country Calling Code for a region code
-     * <p/>
-     * e.g. "DE" -> "49"
+     * <p>
+     * e.g. "DE" is "49"
+     * </p>
      * @param regionCode ISO2 code of a region
      * @return country calling code of the region or 0 if regionCode is invalid.
      */
@@ -338,8 +333,9 @@ public class PhoneLibWrapper {
 
     /**
      * Using PhoneLib to get the region code for a Country Calling Code
-     * <p/>
-     * e.g. "49" -> "DE"
+     * <p>
+     * e.g. "49" is "DE"
+     * </p>
      * @param countryCode only digits without IDP
      * @return regionCode or {@link PhoneLibWrapper#UNKNOWN_REGIONCODE} if countryCode is invalid.
      */

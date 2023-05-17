@@ -38,9 +38,9 @@ import java.util.regex.Pattern;
  * Concrete implementation of {@link PhoneNumberAreaLabel}, which is using per default provided label configuration from resources folder:
  * <ul>
  *     <li>Country Calling Code to German Country Names</li>
- *     <li>AU-NDC: "Weihnachtsinsel" & "Kokosinseln"</li>
- *     <li>DE-NDC: German City-Names replacing formal abbreviation with long name</>
- *     <li>RU-NDC: Country seperation "Russland" & "Kasachstan"</li>
+ *     <li>AU-NDC: "Weihnachtsinsel" &amp; "Kokosinseln"</li>
+ *     <li>DE-NDC: German City-Names replacing formal abbreviation with long name</li>
+ *     <li>RU-NDC: Country seperation "Russland" &amp; "Kasachstan"</li>
  *     <li>US-NDC: For US and CA just the state names</li>
  * </ul>
  */
@@ -85,8 +85,10 @@ public class PhoneNumberAreaLabelImpl implements PhoneNumberAreaLabel {
     private HashMap<?, ?> internationalCountryCodes;
 
     /**
-     * Loading {@link PhoneNumberAreaLabelImpl#internationalCountryCodes} from {@link PhoneNumberAreaLabelImpl#countryCodeResource}<br/>
-     * Loading {@link PhoneNumberAreaLabelImpl#areaCodes} from {@link PhoneNumberAreaLabelImpl#numberPlanResources}
+     * <ul>
+     * <li>Loading {@link PhoneNumberAreaLabelImpl#internationalCountryCodes} from {@link PhoneNumberAreaLabelImpl#countryCodeResource}</li>
+     * <li>Loading {@link PhoneNumberAreaLabelImpl#areaCodes} from {@link PhoneNumberAreaLabelImpl#numberPlanResources}</li>
+     * </ul>
      */
     @PostConstruct
     public void initFile() {

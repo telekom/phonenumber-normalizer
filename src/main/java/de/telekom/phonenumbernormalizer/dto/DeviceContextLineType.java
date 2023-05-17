@@ -26,9 +26,9 @@ import java.util.Locale;
 
 /**
  * The enum values define the line-type in the context of a device involved in the call
- * <p/>
+ * <p>
  * Currently supported values are for fixed-line, mobile and unknown (also for anything else).
- *
+ * </p>
  * @see DeviceContextLineType#FIXEDLINE
  * @see DeviceContextLineType#MOBILE
  * @see DeviceContextLineType#UNKNOWN
@@ -163,7 +163,7 @@ public enum DeviceContextLineType {
 
     /**
      * Return the string representation of a line-type enum value
-     * @return (String) - line-type string representation
+     * @return line-type string representation
      *
      * @see DeviceContextLineType#FIXEDLINE_VALUE
      * @see DeviceContextLineType#MOBILE_VALUE
