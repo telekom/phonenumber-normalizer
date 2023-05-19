@@ -79,13 +79,26 @@ Reasons are either PhoneLib just make best efforts for formatting and not format
 
 ## State of Our Implementation
 
+### Code
+
 As a wrapper we did not change any code of PhoneLib itself, so an upgrade to the newest version should be possible by just updating the version in the dependency POM definition.
 
-For normalizing a phone number you should just use the our PhoneNumberNormalizer either bei Dependency injection or directly with its implementation like:
+You could either take the sourcecode directly from the repository or use Maven dependency management by adding:
+```
+    <dependency>
+      <groupId>de.telekom.phonenumber</groupId>
+      <artifactId>normalizer</artifactId>
+    </dependency>
+```
+to your POM.
+
+### How to Use
+
+For normalizing a phone number you should just use our PhoneNumberNormalizer either bei Dependency injection or directly with its implementation like:
 
 ```
 String number = "20355555";
-String normalizedNumber = PhoneNumberNormalizerImpl().normalizePhoneNumber(number, "DE");
+String normalizedNumber = new PhoneNumberNormalizerImpl().normalizePhoneNumber(number, "DE");
 // normalizedNumber -> "20355555"
 ```
 So here the number without NAC does not get E164 format, because it is only valid locally.
@@ -93,11 +106,11 @@ So here the number without NAC does not get E164 format, because it is only vali
 If we know the context of the devices use (where and how it is used), you can create a DeviceContext:
 
 ```
-// Device is used on a fixed-line access in Berlin
-DeviceContextDto deviceContext = new DeviceContextDto(DeviceContextLineType.FIXEDLINE, "DE", "30")
+// Device is used on a fixed-line access in Berlin (NDC for Berlin "30" and CC for Germany "49")
+DeviceContextDto deviceContext = new DeviceContextDto(DeviceContextLineType.FIXEDLINE, "49", "30");
 
 String number = "20355555";
-String normalizedNumber = PhoneNumberNormalizerImpl().normalizePhoneNumber(number, deviceContext);
+String normalizedNumber = new PhoneNumberNormalizerImpl().normalizePhoneNumber(number, deviceContext);
 // normalizedNumber -> "+493020355555"
 ```
 
@@ -139,7 +152,7 @@ We only use the PhoneLib's GeoCoder in some testcases, to check if ours and thei
 
 ```
 String normalizedNumber = "+493020355555";
-String label = PhoneNumberAreaLabelImpl().getLocationByE164Number(normalizedNumber);
+Optional<String> label = new PhoneNumberAreaLabelImpl().getLocationByE164Number(normalizedNumber);
 // label -> "Berlin"
 ```
 

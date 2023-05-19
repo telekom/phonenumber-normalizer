@@ -298,7 +298,6 @@
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.6</version>
                 <executions>
-                    <!--
                     <execution>
                         <id>sign-artifacts</id>
                         <phase>verify</phase>
@@ -312,7 +311,6 @@
                             </gpgArguments>
                         </configuration>
                     </execution>
-                    -->
                 </executions>
             </plugin>
 
