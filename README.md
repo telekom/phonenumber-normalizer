@@ -95,6 +95,7 @@ to your POM.
 ### How to Use
 
 For normalizing a phone number you should just use our PhoneNumberNormalizer either bei Dependency injection or directly with its implementation like:
+
 ```
 String number = "20355555";
 String normalizedNumber = new PhoneNumberNormalizerImpl().normalizePhoneNumber(number, "DE");
