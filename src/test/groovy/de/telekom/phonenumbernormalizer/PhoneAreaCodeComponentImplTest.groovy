@@ -37,6 +37,20 @@ class PhoneAreaCodeComponentImplTest extends Specification {
         this.phoneAreaCodeComponentImpl.initFile()
     }
 
+    def "default data loaded"() {
+        given:
+        def arealabel
+
+        when:
+        arealabel = new PhoneNumberAreaLabelImpl()
+        arealabel.initFile()
+
+        then:
+        arealabel.numberPlanResources != null
+
+
+    }
+
     def "get location by unknown area code"() {
         given:
         def nationalNumber = "123456789"
