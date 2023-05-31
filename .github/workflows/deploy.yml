@@ -15,6 +15,7 @@ jobs:
           cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
           # Verify gpg secret key
           gpg --list-secret-keys --keyid-format LONG
+          gpg --armor --export-secret-keys ${{ secrets.OSSRH_GPG_SECRET_KEY }} > gpg_key.asc
       - uses: actions/checkout@v3
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v3
