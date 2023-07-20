@@ -23,7 +23,7 @@
     <artifactId>normalizer</artifactId>
     <name>Phonenumber Normalizer</name>
     <description>Library to work with phonenumbers, especially to fix googles PhoneLib ignoring German Landline specifics.</description>
-    <version>1.1.7-SNAPSHOT</version>
+    <version>1.1.7</version>
     <packaging>jar</packaging>
     <url>https://github.com/telekom/phonenumber-normalizer</url>
 
@@ -86,7 +86,7 @@
         <dependency>
             <groupId>com.googlecode.libphonenumber</groupId>
             <artifactId>libphonenumber</artifactId>
-            <version>8.13.16</version>
+            <version>8.13.17</version>
         </dependency>
 
         <dependency>
@@ -139,7 +139,7 @@
         <dependency>
             <groupId>com.googlecode.libphonenumber</groupId>
             <artifactId>geocoder</artifactId>
-            <version>2.210</version>
+            <version>2.211</version>
             <scope>test</scope>
         </dependency>
         <dependency>
