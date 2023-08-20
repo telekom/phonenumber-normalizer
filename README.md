@@ -151,6 +151,8 @@ This project has adopted the [Contributor Covenant](https://www.contributor-cove
 
 By participating in this project, you agree to abide by its [Code of Conduct](./CODE_OF_CONDUCT.md) at all times.
 
+A simple regular task is to adapt the project to use a new versions of Google's [PhoneLib](https://github.com/google/libphonenumber). We also have a [guide](UPDATE_FOR_NEW_PHONELIB.md) for this.
+
 ## Licensing
 
 Copyright (c) 2023 Deutsche Telekom AG.

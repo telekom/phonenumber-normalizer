@@ -45,3 +45,6 @@ If Google updates its [PhoneLib](https://github.com/google/libphonenumber), this
    ```
 14. Go to Github and create a pull request for the branch.
 15. Wait until pull request passed all checks - merge or ask a maintainer to merge the pull request into main.
+16. Delete the branch ```phonelib/X_YY_ZZ```.
+
+Congratulation! You have updated the project to the [current PhoneLib version](https://central.sonatype.com/artifact/com.googlecode.libphonenumber/libphonenumber).
