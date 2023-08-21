@@ -1,4 +1,4 @@
-# Phone Number Normalizer
+# How to adapt to a new Version of PhoneLib
 
 If Google updates its [PhoneLib](https://github.com/google/libphonenumber), this project should be updated to use that new version. This file is a step by step instruction how to do this:
 
