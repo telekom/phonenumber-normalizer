@@ -47,8 +47,6 @@ class PhoneAreaCodeComponentImplTest extends Specification {
 
         then:
         arealabel.numberPlanResources != null
-
-
     }
 
     def "get location by unknown area code"() {
