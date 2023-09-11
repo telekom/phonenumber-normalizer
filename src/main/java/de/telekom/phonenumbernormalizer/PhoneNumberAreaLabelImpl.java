@@ -25,7 +25,10 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
 
@@ -92,6 +95,22 @@ public class PhoneNumberAreaLabelImpl implements PhoneNumberAreaLabel {
      */
     @PostConstruct
     public void initFile() {
+
+        ClassLoader cl = this.getClass().getClassLoader();
+        // if no resources are given, the default once are used:
+        if (countryCodeResource == null) {
+            countryCodeResource = new ClassPathResource("arealabels/international_country_codes.json", cl);
+        }
+
+        if (numberPlanResources == null || numberPlanResources.length==0) {
+            ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(cl);
+            try {
+                numberPlanResources = resolver.getResources("classpath:arealabels/nationallabels/*.json");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         try {
             LOGGER.debug("init code files");
             LOGGER.debug("read international country codes");
@@ -116,7 +135,7 @@ public class PhoneNumberAreaLabelImpl implements PhoneNumberAreaLabel {
     @Override
     public Optional<String> getLocationByNationalNumberAndRegionCode(String nationalNumber, String regionCode) {
         regionCode = regionCode.toUpperCase(Locale.ROOT);
-        if (!this.areaCodes.containsKey(regionCode)) {
+        if (Objects.nonNull(this.areaCodes) && !this.areaCodes.containsKey(regionCode)) {
             LOGGER.debug("no number plan for regioncode: {} available", regionCode);
             return Optional.empty();
         }
@@ -127,6 +146,9 @@ public class PhoneNumberAreaLabelImpl implements PhoneNumberAreaLabel {
 
     @Override
     public Optional<String> getCountryNameByCountryCode(String countryCode) {
+        if (Objects.isNull(this.internationalCountryCodes)) {
+            return Optional.empty();
+        }
         return Optional.ofNullable((String) this.internationalCountryCodes.get(countryCode));
     }
 
