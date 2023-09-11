@@ -13,7 +13,7 @@ If Google updates its [PhoneLib](https://github.com/google/libphonenumber), this
    </dependency>
    ```
    
-3. Check on Maven Central ```https://central.sonatype.com/artifact/com.googlecode.libphonenumber/libphonenumber/X.YY.ZZ/dependents``` the version number for ```com.googlecode.libphonenumber``` (referred as A.BBB).
+3. Check on Maven Central ```https://central.sonatype.com/artifact/com.googlecode.libphonenumber/libphonenumber/X.YY.ZZ/dependents``` the version number for ```geocoder``` (referred as A.BBB).
 
 4. Update [pom.xml](pom.xml) to use the new geocoder version in testing:
    ```
@@ -34,7 +34,7 @@ If Google updates its [PhoneLib](https://github.com/google/libphonenumber), this
 
 7. Commit & Push the Snapshot with a message like:
    ```
-   Uses PhoneLib X.YY.ZZ and prepare release
+   Use PhoneLib X.YY.ZZ and prepare release
    ```
    
 8. Go to Github and create a pull request for the branch.
@@ -43,7 +43,7 @@ If Google updates its [PhoneLib](https://github.com/google/libphonenumber), this
 
 10. After merge has finished, draft a new Release. Use as tag the ```v```+ the version number of the pom, where you removed ```-SNAPSHOT```. As Release title use  ```PhoneLib X.YY.ZZ``` and add a message like:
     ```
-    Using the latest PhoneLib version from four days ago.
+    Use the latest PhoneLib version from four days ago.
     ```
     Keep the flag "Set as the latest release" and press Publish release.
 
