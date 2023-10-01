@@ -14,7 +14,7 @@ While Google's [PhoneLib](https://github.com/google/libphonenumber) is a general
 If you have to deal with the complexity of telephone numbers your natural choice of handling it, should be the great [PhoneLib](https://github.com/google/libphonenumber) of [Google](https://opensource.google).
 
 That's what we did for some projects.
-And when we found bugs, we returned that as feedback in good open-source tradition.
+And when we found bugs, we [returned that as feedback](./REPORTED_ISSUES.md) in good open-source tradition.
 But while some have been accepted and improved that library, other have been long discussed and finally rejected.
 
 We are thankful for Googles work and are not here to blame them for any decision in those discussions, but for providing a technical solution for some inaccuracies which are not (yet) in their center of interest.
@@ -72,7 +72,7 @@ What needs to be done:
 - Checking if the number is starting with NAC
   - Is the NAC Zero, needs to check hasNumberOfLeadingZeros etc.
   - otherwise need to check prefix of number itself
-- if that all applies, such an input needs to be treated as a short number at not be changed for E164 or National format (see short number [normalization of 116116](https://libphonenumber.appspot.com/phonenumberparser?number=116116&country=DE))
+- if that all applies, such an input needs to be treated as a short number and not be changed for E164 or National format (see short number [normalization of 116116](https://libphonenumber.appspot.com/phonenumberparser?number=116116&country=DE))
 
 The problem has been addressed but rejected like with [issue tracker 180311606](https://issuetracker.google.com/issues/180311606).
 Reasons are either PhoneLib just make best efforts for formatting and not format checking or that they focus on mobile context while most problems happens in fixed-line context.
@@ -81,7 +81,7 @@ Reasons are either PhoneLib just make best efforts for formatting and not format
 
 ### Code
 
-As a wrapper we did not change any code of PhoneLib itself, so an upgrade to the newest version should be possible by just updating the version in the dependency POM definition.
+As a wrapper we did not change any code of PhoneLib itself, so an [upgrade to the newest version should be possible by just updating the version in the dependency POM definition](UPDATE_FOR_NEW_PHONELIB.md).
 
 You could either take the sourcecode directly from the repository or use Maven dependency management by adding:
 ```
@@ -121,7 +121,7 @@ To check if a number plan of a country is using an optional NDC and NAC, we need
 
 With getMetadataForRegion there is a method on the PhoneNumberUtil class, but it is not public.
 
-So we are forced to [use reflection and override its accessibility](https://github.com/telekom/phonenumber-normalizer/blob/main/src/main/java/de/telekom/phonenumbernormalizer/numberplans/PhoneLibWrapper.java#L286).
+So we are forced to [use reflection and override its accessibility](https://github.com/telekom/phonenumber-normalizer/blob/main/src/main/java/de/telekom/phonenumbernormalizer/numberplans/PhoneLibWrapper.java#L280).
 
 If you are using AOT (ahead of time) compiler, you need to take care of this.
 (While it is used indirectly with the normal PhoneLib use of the wrapper, it might not be safe for all AOT compilers).
