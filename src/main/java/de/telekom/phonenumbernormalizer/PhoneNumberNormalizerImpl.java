@@ -45,7 +45,7 @@ public class PhoneNumberNormalizerImpl implements PhoneNumberNormalizer {
 
     @Override
     public void setFallbackRegionCode(String fallBackRegionCode) {
-        if (PhoneLibWrapper.getCountryCodeForRegion(fallBackRegionCode) > 0) {
+        if (fallBackRegionCode != null && !fallBackRegionCode.isEmpty() && PhoneLibWrapper.getCountryCodeForRegion(fallBackRegionCode) > 0) {
             this.fallbackRegionCode = fallBackRegionCode;
         } else {
             this.fallbackRegionCode = null; //invalid region code!
