@@ -78,6 +78,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // short code for Police (110) is not dial-able internationally nor does it has additional numbers
         "110"                       | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
         "0110"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // checked
+        "0110 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0203 110"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0203 110555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+49110"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // IS_POSSIBLE_LOCAL_ONLY would also acceptable
