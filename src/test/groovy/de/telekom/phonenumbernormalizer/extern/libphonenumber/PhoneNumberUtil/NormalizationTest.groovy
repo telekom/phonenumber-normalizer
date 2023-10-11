@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.telekom.phonenumbernormalizer.extern.libphonenumber
+package de.telekom.phonenumbernormalizer.extern.libphonenumber.PhoneNumberUtil
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import spock.lang.Specification
 import java.util.logging.Logger
 
 
-class PhoneNumberUtilTest extends Specification {
+class NormalizationTest extends Specification {
 
     PhoneNumberUtil phoneUtil
 
@@ -65,6 +65,10 @@ class PhoneNumberUtilTest extends Specification {
         "0176 3 0 6 9 6544"       | "DE"        | "+4917630696544"  | false
         "0203556677"              | "DE"        | "+49203556677"    | false
         "203556677"               | "DE"        | "203556677"       | true
+        "55"                      | "DE"        | "55"              | true
+        "556"                     | "DE"        | "556"             | true
+        "5566"                    | "DE"        | "5566"            | true
+        "55667"                   | "DE"        | "55667"           | true
         "556677"                  | "DE"        | "556677"          | true
         "5566778"                 | "DE"        | "5566778"         | true
         "55667789"                | "DE"        | "55667789"        | true
@@ -83,10 +87,10 @@ class PhoneNumberUtilTest extends Specification {
 
         when: "get number isPossibleNumberWithReason: $number"
 
-        def result = phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        def result1 = phoneUtil.isPossibleNumberWithReason(phoneNumber)
 
         then: "is number expected: $expectedResult"
-        if (result != expectedResult) {
+        if (result1 != expectedResult) {
             if (expectingFail) {
                 logger.info("PhoneLib is still not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
             } else {
@@ -111,6 +115,10 @@ class PhoneNumberUtilTest extends Specification {
         "0176 3 0 6 9 6544"       | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "0203556677"              | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "203556677"               | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
+        "55"                      | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
+        "556"                     | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
+        "5566"                    | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
+        "55667"                   | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
         "556677"                  | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
         "5566778"                 | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
         "55667789"                | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
@@ -122,5 +130,5 @@ class PhoneNumberUtilTest extends Specification {
         "312345678"               | "IT"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
     }
 
-}
 
+}
