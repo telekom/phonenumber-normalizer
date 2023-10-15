@@ -1351,8 +1351,83 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0370 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // 0371 is Chemnitz Sachsen
         // 037200 is Wittgensdorf bei Chemnitz
-        "037201 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-
+        "037201 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 037202 till 03724 is in use
+        "037205 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 037206 till 037209 is in use
+        // 03721 till 03727 is in use
+        "03728 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "037290 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 037291 till 037298 is in use
+        "037299 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03730 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03731 till 03733 (including total 03732x) is in use
+        "037340 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 037341 till 037344 is in use
+        "037345 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 037346 till 037349 is in use
+        // 03735 till 03737 (including total 03736x) is in use
+        "037380 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 037381 till 037384 is in use
+        "037385 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "037386 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "037387 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "037388 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "037389 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03739 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03740 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03741 is Plauen
+        "037420 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 037421 till 037423 is in use
+        "037424 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "037425 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "037426 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "037427 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "037428 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "037429 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03473x till 03745 is in use
+        "037460 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "037461 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 037462 till 037465 is in use
+        "037466 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 037467 till 037468 is in use
+        "037469 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03747 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03748 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03749 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 0375 is Zwickau
+        // 03760x till 03765 is in use
+        "03766 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03767 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03768 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03769 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03770 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03771 till 03774 is in use
+        "037750 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "037751 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 037752 is Eibenstock
+        "037753 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 037754 till 037757
+        "037758 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "037759 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03776 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03777 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03778 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03779 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0378 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0379 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0380 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 0381 is Rostock
+        "038200 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 038201 till 038209
+        // 03821 till 03822x
+        "038230 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 038231 till 038234
+        "038235 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "038236 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "038237 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "038238 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "038239 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
 
     }
 
