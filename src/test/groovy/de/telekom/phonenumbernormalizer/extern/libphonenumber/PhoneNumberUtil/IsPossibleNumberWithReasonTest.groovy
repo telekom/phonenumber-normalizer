@@ -1545,6 +1545,154 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // 0391 is Magdeburg
         // 03920x till 03921 is in use
         "039220 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039221 till 039226 is in use
+        "039227 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039228 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039229 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03923 is Zerbst
+        "039240 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039241 till 039248 is in use
+        "0392498 556677"            | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 032925 is Stassfurt
+        "039260 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039261 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039262 till 039268 is in use
+        "039269 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03927 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03928 is Schönebeck Elbe
+        "039290 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039291 till 039298 is in use
+        "039299 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03930 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03931 is Stendal
+        // 039320 till 039325 is in use
+        "039326 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039327 till 039329 is in use
+        // 03933 is Genthin
+        "039340 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039341 till 039349 is in use
+        // 03935 is Tangerhütte
+        "039360 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039361 till 039366 is in use
+        "039367 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039368 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039369 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03937 is Osterburg Altmark
+        "039380 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039381 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039382 till 039384 is in use
+        "039385 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039386 till 039389 is in use
+        // total 03939x is in use
+        // 03940x till 03941 is in use
+        "039420 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039421 till 039428 is in use
+        "039429 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03943 till 03944 is in use
+        "039450 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039451 till 039459 is in use
+        // 03946 till 03947 is in use
+        "039480 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039481 till 039485 is in use
+        "039486 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039487 till 039489 is in use
+        // 03949 is Oschersleben Bode
+        // 0395 is Zwiedorf
+        // 039600 till 039608 is in use
+        "039609 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03961 till 03969 is in use
+        "03970 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03971 is Anklam
+        "039720 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039721 till 039724 is in use
+        "039725 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039726 till 039728 is in use
+        "039729 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03973 till 03974x is in use
+        "039750 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039751 till 039754 is in use
+        "039755 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039756 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039757 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039758 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039759 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03976 is Torgelow bei Uckermünde
+        "039770 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039771 till 039779 is in use
+        "03980 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03981 to 03982x is in use
+        "039830 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039831 till 039833 is in use
+        "039834 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039835 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039836 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039837 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039838 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039839 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03984 is Prenzlau
+        "039850 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039851 till 039859 is in use
+        "039860 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039861 till 039863 is in use
+        "039863 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039864 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039865 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039866 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039867 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039868 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039869 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03987 is Templin
+        "039880 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039881 till 039889 is in use
+        "03989 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "03990 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03991 is Waren Müritz
+        "039920 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039921 till 039929 is in use
+        "039930 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039931 till 039934 is in use
+        "039935 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039936 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039937 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039938 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "039939 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03994 is Malchin
+        "039950 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039951 till 039957 is in use
+        "039958 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039959 is Dargun
+        // 03996 is Teterow
+        "039970 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039971 till 039973 is in use
+        "039974 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039975 till 039978
+        "039979 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 03998 is Demmin
+        "039990 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 039991 till 039999 is in use
+        // 040 is Hamburg
+        "04100 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04101 till 04109 is in use
+        "0411 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // total 0412x is in use
+        "04130 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04131 till 04139 is in use
+        // 04140 till 04144 is in use
+        "04145 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04146 is Stade-Bützfleth
+        "04147 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04148 till 04149 is in use
+        "04150 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04151 till 04156 is in use
+        "04157 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04158 till 04159 is in use
+        "04160 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04161 till 04169 is in use
+        "04170 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04171 till 04179 is in use
+        // total 0418x is in sue
+        "04190 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+
 
     }
 
