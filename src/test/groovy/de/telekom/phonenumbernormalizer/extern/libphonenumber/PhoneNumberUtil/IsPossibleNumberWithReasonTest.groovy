@@ -1692,7 +1692,136 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // 04171 till 04179 is in use
         // total 0418x is in sue
         "04190 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-
+        // 04191 till 04195 is in use
+        "04196 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04197 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04198 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04199 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04200 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04201 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04202 till 04209 is in use
+        // 0421 is Bremen
+        "04220 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04221 till 04224 is in use
+        "04225 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04226 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04227 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04228 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04229 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 0423x till 0424x is in use
+        "04250 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04251 till 04258 is in use
+        "04259 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // total 0426x is in use
+        "04270 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04271 till 04277 is in use
+        "04278 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04279 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04280 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04281 till 04289 is in use
+        "04290 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04291 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04292 till 04298 is in use
+        "04299 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04300 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04301 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04302 till 04303 is in use
+        "04304 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04305 is Westensee
+        "04306 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04307 till 04308 is in use
+        "04309 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 0431 till 0433x (including total 0432x) is in use
+        // 04340 is Achterwehr
+        "04341 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04342 till 04346 is in use
+        "04350 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04351 till 04358 is in use
+        "04359 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04360 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04361 till 04367 is in use
+        "04368 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04369 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04370 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04371 till 04372 is in use
+        "04373 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04374 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04375 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04376 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04377 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04378 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04379 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04380 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04381 till 04385 is in use
+        "04386 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04387 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04388 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04389 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04390 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04391 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04392 till 04394 is in use
+        "04395 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04396 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04397 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04398 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04399 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04400 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04401 till 04409 is in use
+        // 0441 is Oldenburg (Oldb)
+        "04420 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04421 till 04423 is in use
+        "04424 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04425 till 04426 is in use
+        "04427 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04428 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04429 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04430 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04431 till 04435 is in use
+        "04436 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04437 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04438 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04439 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04440 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04441 till 04447 is in use
+        "04448 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04449 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04450 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04451 till 04456 is in use
+        "04457 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04458 is Wiefeldstede-Spohle
+        "04459 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04460 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04461 till 04469 is in use
+        "04470 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04471 till 04475 is in use
+        "04476 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04477 till 04479 is in use
+        // total 0448x is in use
+        "04490 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04491 till 1199 is in use
+        "04500 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04501 till 04506 is in use
+        "04507 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04508 till 0459 is in use
+        // 0451 is Lübeck
+        "04520 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04521 till 04529 is in use
+        "04530 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04531 till 04537 is in use
+        "04538 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04539 is Westerau
+        "04540 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04541 till 04547 is in use
+        "04548 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04549 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // total 0455x is in use
+        "04560 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 04561 till 04564 is in use
+        "0457 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0458 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0459 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04600 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "04601 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
 
     }
 
