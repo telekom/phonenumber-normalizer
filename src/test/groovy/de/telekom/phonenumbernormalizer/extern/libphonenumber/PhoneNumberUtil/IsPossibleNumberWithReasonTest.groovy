@@ -2187,7 +2187,196 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // 05601 till 05609 is in use
         // 0561 is Kassel
         "05620 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-
+        // 05621 till 05626 is in use
+        "05627 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05628 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05629 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05630 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05631 till 05636 is in use
+        "05637 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05638 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05639 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05640 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05641 till 05648 is in use
+        "05649 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // total 0565x is in use
+        "05660 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05661 till 05665 is in use
+        "05666 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05667 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05668 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05669 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05670 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05671 till 05677 is in use
+        "05678 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05679 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05680 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05681 till 05686
+        "05687 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05688 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05689 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05690 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05691 till 05696 is in use
+        "05697 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05698 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05699 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05700 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05701 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05702 till 05707 is in use
+        "05708 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05709 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05700 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 0571 is Minden Westfalen
+        "05720 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05721 till 05726 is in use
+        "05727 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05728 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05729 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05730 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05731 till 05734 is in use
+        "05735 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05736 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05737 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05738 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05739 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05740 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05741 till 05746 is in use
+        "05747 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05748 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05749 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05750 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05751 till 05755 is in use
+        "05756 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05757 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05758 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05759 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05760 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05761 is Stolzenau
+        "05762 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05763 till 05769 is in use
+        "05770 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05771 till 05777 is in use
+        "05778 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05779 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0578 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0579 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05800 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05801 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05802 till 05808 is in use
+        "05809 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 0581 is Uelzen
+        // total 0582x is in use
+        "05830 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05831 till 05839 is in use
+        // 05840 till 05846 is in use
+        "05847 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05848 till 05849 is in use
+        // 05850 till 05855 is in use
+        "05856 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05857 till 05859 is in use
+        "05860 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05861 till 05865 is in use
+        "05866 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05867 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05868 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05869 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05870 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05871 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 5872 till 5875 is in use
+        "05876 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05877 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05878 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05879 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05880 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05881 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05882 till 05883 is in use
+        "05884 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05885 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05886 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05887 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05888 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05889 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0589 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05900 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05901 till 05909 is in use
+        // 0591 is Lingen (ems)
+        "05920 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05921 till 05926 is in use
+        "05927 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05928 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05929 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05930 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05931 till 05937 is in use
+        "05938 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05939 is Sustrum
+        "05940 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05941 till 05948 is in use
+        "05949 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05950 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05951 till 05957 is in use
+        "05958 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05959 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05960 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05961 till 05966 is in use
+        "05967 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05968 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05969 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "05970 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05971 is Rheine
+        "05972 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05973 is Neuenkirchen Kreis Steinfurt
+        "05974 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 05975 till 05978 is in use
+        "05979 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0598 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0599 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "06000 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "06001 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06002 till 06004 is in use
+        "06005 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "06006 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06007 till 06008 is in use
+        "06009 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0601 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06020 till 06024 is in use
+        "06025 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06026 till 06029 is in use
+        "06030 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06031 till 06036 is in use
+        "06037 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "06038 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06039 is Karben
+        "06040 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06041 till 06049 is in use
+        // total 0605x is in use
+        "06060 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06061 till 06063 is in use
+        "06064 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "06065 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06066 is Michelstadt-Vielbrunn
+        "06067 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06068 is Beerfelden
+        "06070 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06071 is Dieburg
+        "06072 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06073 till 06074 is in use
+        "06075 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "06076 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "06077 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06078 is Gross-Umstadt
+        "06079 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "06080 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06081 till 06087 is in use
+        "06088 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "06089 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "06090 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "06091 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06092 till 06096 is in use
+        "06097 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "06098 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "06099 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "06100 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 06101 till 06109 is in use
     }
 
 
