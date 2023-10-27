@@ -25,6 +25,9 @@ import java.util.logging.Logger
 // NDC with labels: https://www.itu.int/dms_pub/itu-t/oth/02/02/T02020000510006PDFE.pdf
 // Overview of special number ranges: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/start.html
 
+// Version 5.V.2020 of BenetzA number plan
+
+
 class IsPossibleNumberWithReasonTest extends Specification {
 
     PhoneNumberUtil phoneUtil
@@ -1561,7 +1564,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "039240 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // 039241 till 039248 is in use
         "0392498 556677"            | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        // 032925 is Stassfurt
+        // 03925 is Stassfurt
         "039260 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "039261 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // 039262 till 039268 is in use
@@ -2661,7 +2664,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // 06897 till 06898 is in use
         "06899 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // 069 is Frankfurt am Mai
-        // 0700 is special number code see: TODO will becoded
+        // 0700 is special number code see: TODO will be coded - see above
         "0701 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "07020 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // 7021 till 7026 is in use
@@ -2711,7 +2714,299 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0709 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0710 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // 0711 is Stuttgart
-
+        "07120 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07121 till 07129 is in use
+        // 07130 till 07136 is in use
+        "07137 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07138 till 07139 is in use
+        "07140 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07141 till 07148 is in use
+        "07149 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07150 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07150 till 07154 is in use
+        "07155 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07156 till 07159 is in use
+        "07160 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07161 till 07166 is in use
+        "07167 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07168 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07169 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07170 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07171 till 07176 is in use
+        "07177 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07178 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07179 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07180 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07181 till 07184 is in use
+        "07185 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07186 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07187 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07188 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07189 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07190 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07191 till 07195
+        "07196 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07197 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07198 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07199 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07200 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07201 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07202 till 07204 is in use
+        "07205 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07206 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07207 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07208 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07209 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 0721 is Karlsbad
+        // total 0722x is in use
+        "07230 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07231 till 07237 is in use
+        "07238 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07239 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07240 is Pfinztal
+        "07241 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07242 till 07249 is in use
+        // 0725x till 0726x is in use
+        "07270 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07271 till 07277 is in use
+        "07278 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07279 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0728 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0729 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07300 is Roggenburg
+        "07301 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 0732 till 0739 is in use
+        // 0731 is Ulm Donau
+        "07320 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07321 till 07329 is in use
+        "07330 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07331 till 07337 is in use
+        "07338 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07339 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07340 is Neenstetten
+        "07341 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07342 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07343 till 07348 is in use
+        "07349 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07350 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07351 till 07358 is in use
+        "07359 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07360 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07361 till 07367 is in use
+        "07368 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07369 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07370 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07371 is Riedlingen Württemberg
+        "07372 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07373 till 07376 is in use
+        "07377 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07378 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07379 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07380 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07381 till 07389 is in use
+        "07390 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07391 till 07395 is in use
+        "07396 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07397 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07398 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07399 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07400 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07401 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07402 till 07404 is in use
+        "07405 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07406 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07407 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07408 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07409 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 0741 is Deisslingen
+        // 07420 is Schramberg
+        // 07421 till 07429 is in use
+        "07430 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07431 till 07436 is in use
+        "07437 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07438 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07439 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // total 0744x is in use
+        "07450 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07451 till 07459 is in use
+        "07460 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07461 till 07467 is in use
+        "07468 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07469 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07470 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07471 till 07478 is in use
+        "07479 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07480 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07481 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07482 till 07486 is in use
+        "07487 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07488 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07489 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0749 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07500 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07501 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07502 till 07506 is in use
+        "07507 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07508 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07509 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 0751 Ravensburg
+        // 07520 is Bodnegg
+        "07521 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07522 is Wangen im Allgäu
+        "07523 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07524 till 07525 is in use
+        "07526 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07527 till 07529 is in use
+        "07530 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07531 till 07534 is in use
+        "07535 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07536 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07537 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07538 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07539 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07540 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07541 till 07546 is in use
+        "07547 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07548 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07549 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07550 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07551 till 07558 is in use
+        "07559 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07560 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07561 till 07569 is in use
+        // total 0757x is in use
+        "07580 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07581 till 07587 is in use
+        "07588 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07589 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0759 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07600 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07601 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07602 is Oberried Breisgau
+        "07603 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07604 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07605 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07606 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07607 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07608 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07609 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 0761 Freiburg im Breisgau
+        // total 0762x is in use
+        "07630 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07631 till 07636 is in use
+        "07637 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07638 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07639 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07640 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07641 till 07646
+        "07647 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07648 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07649 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07650 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07651 till 07657 is in use
+        "07658 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07659 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // total 0766x is in use
+        "07670 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07671 till 07676 is in use
+        "07677 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07678 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07679 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07680 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 076781 till 07685 is in use
+        "07686 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07687 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07688 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07689 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0769 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07700 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07701 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07702 till 07709 is in use
+        // 0771 is Donaueschingen
+        // total 0772x is in use
+        "07730 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07731 till 07736 is in use
+        "07737 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07738 till 07339 is in use
+        "07740 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07741 till 07748 is in use
+        "07749 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07750 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07751 is Waldshut
+        "07752 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07753 till 07755 is in use
+        "07756 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07757 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07758 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07759 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07770 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07771 is Stockach
+        "07772 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07773 till 07775 is in use
+        "07776 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07777 is Sauldorf
+        "07778 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07779 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0778 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0779 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07800 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07801 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07802 till 07808 is in use
+        "07809 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 0781 is Offenburg
+        "07820 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07821 till 07826 is in use
+        "07827 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07828 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07829 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07830 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07831 till 07839 is in use
+        "07840 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07841 till 07844 is in use
+        "07845 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07846 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07847 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07848 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07849 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07850 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07851 till 07854 is in use
+        "07855 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07856 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07857 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07858 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07859 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0786 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0787 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0788 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0789 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07900 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07901 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07902 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07903 till 07907 is in use
+        "07908 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07909 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 0791 is Schwäbisch Hall
+        "0792 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // total 0793x till 0794x is in use
+        // 07950 till 07955 is in use
+        "07956 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07957 till 07959 is in use
+        "07960 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07961 till 07967 is in use
+        "07968 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07969 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07970 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 07971 till 07977 is in use
+        "07978 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "07979 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0798 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0799 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 0800 is special number code see: TODO will be coded - see above
+        "0801 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // total 0802x is in use
+        "08030 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 08031 till 08036 is in use
+        "08037 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
 
     }
 
