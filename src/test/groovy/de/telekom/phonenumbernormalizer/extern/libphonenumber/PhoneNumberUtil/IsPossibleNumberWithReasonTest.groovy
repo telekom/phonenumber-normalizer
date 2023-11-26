@@ -143,6 +143,51 @@ class IsPossibleNumberWithReasonTest extends Specification {
     }
 
 
+    def "check if original lib fixed isPossibleNumberWithReason for EU social short codes in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when: "get number isPossibleNumberWithReason: $number"
+
+        def result = phoneUtil.isPossibleNumberWithReason(phoneNumber)
+
+        then: "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                      | regionCode  | expectedResult                                           | expectingFail
+        // 116 is mentioned in number plan as 1160 and 1161 but in special ruling a full 6 digit number block: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/116xyz/StrukturAusgestNrBereich_Id11155pdf.pdf?__blob=publicationFile&v=4
+        // 116xyz is nationally and internationally reachable - special check 116116 as initial number and 116999 as max legal number
+        "116"                       | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "116116"                    | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "116999"                    | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "116 5566"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "116 55"                    | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        // https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/116xyz/116116.html
+        // see no. 7: national 0116116 is not a valid number, but may be replaced by 116116 by the operator - caller could reach target. ( T-Mobile is doing so currently 03.11.2023 - no guarantee for the future nor for any other operator. Best practice, assuming call will not reach target=.
+        "0116"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0116116"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not valid by BnetzA definition just using NAC
+        "0116999"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not valid by BnetzA definition just using NAC
+        "0116 5566"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0116 55"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+
+        "+49116"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49116116"                 | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49116999"                 | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49116 5566"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "+49116 55"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+
+        "+49116"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49116116"                 | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49116999"                 | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49116 5566"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "+49116 55"                 | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        // end of 116
+    }
+
+
     def "check if original lib fixed isPossibleNumberWithReason for German mass traffic  NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
@@ -205,48 +250,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
     }
 
 
-    def "check if original lib fixed isPossibleNumberWithReason for EU social short codes in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
-        given:
-
-        def phoneNumber = phoneUtil.parse(number, regionCode)
-
-        when: "get number isPossibleNumberWithReason: $number"
-
-        def result = phoneUtil.isPossibleNumberWithReason(phoneNumber)
-
-        then: "is number expected: $expectedResult"
-        this.logResult(result, expectedResult, expectingFail, number, regionCode)
-
-        where:
-
-        number                      | regionCode  | expectedResult                                           | expectingFail
-        // 116 is mentioned in number plan as 1160 and 1161 but in special ruling a full 6 digit number block: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/116xyz/StrukturAusgestNrBereich_Id11155pdf.pdf?__blob=publicationFile&v=4
-        // 116xyz is nationally and internationally reachable - special check 116116 as initial number and 116999 as max legal number
-        "116"                       | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "116116"                    | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        "116999"                    | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        "116 5566"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
-        "116 55"                    | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
-
-        "0116"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "0116116"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not valid by BnetzA definition just using NAC
-        "0116999"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not valid by BnetzA definition just using NAC
-        "0116 5566"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "0116 55"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-
-        "+49116"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49116116"                 | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        "+49116999"                 | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        "+49116 5566"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
-        "+49116 55"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
-
-        "+49116"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49116116"                 | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        "+49116999"                 | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        "+49116 5566"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
-        "+49116 55"                 | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
-        // end of 116
-    }
 
     def "check if original lib fixed isPossibleNumberWithReason for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
@@ -3682,8 +3685,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "09979 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0998 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0999 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-
-
     }
 
 
