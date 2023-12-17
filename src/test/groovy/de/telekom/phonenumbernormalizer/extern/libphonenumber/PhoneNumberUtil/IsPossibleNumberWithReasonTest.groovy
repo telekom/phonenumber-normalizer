@@ -60,7 +60,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
     }
 
 
-    def "check if original lib fixed isPossibleNumberWithReason for Emergency short codes in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
+    def "check if original lib fixed isPossibleNumberWithReason for police short code 110 in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
         def phoneNumber = phoneUtil.parse(number, regionCode)
@@ -77,8 +77,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         number                      | regionCode  | expectedResult                                           | expectingFail
         // short code for Police (110) is not dial-able internationally nor does it has additional numbers
         "110"                       | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
-        "0110"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // TODO: Check if this is correct
-        "0110 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0110"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // checked
         "0203 110"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0203 110555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+49110"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // TODO: Maybe IS_POSSIBLE_LOCAL_ONLY is also acceptable
@@ -90,9 +89,26 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+49203 110"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+49203 110555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // end of 110
+    }
+
+    def "check if original lib fixed isPossibleNumberWithReason for Emergency short code 112 in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when: "get number isPossibleNumberWithReason: $number"
+
+        def result = phoneUtil.isPossibleNumberWithReason(phoneNumber)
+
+        then: "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                      | regionCode  | expectedResult                                           | expectingFail
         // short code for emergency (112) is not dial-able internationally nor does it has additional numbers
         "112"                       | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
-        "0112"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // TODO: Check if this is correct
+        "0112"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // checked
         "0112 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0203 112"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0203 112555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
@@ -187,6 +203,38 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // end of 116
     }
 
+
+    def "check if original lib fixed isPossibleNumberWithReason for ambulance transport 19222 short codes in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when: "get number isPossibleNumberWithReason: $number"
+
+        def result = phoneUtil.isPossibleNumberWithReason(phoneNumber)
+
+        then: "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                      | regionCode  | expectedResult                                           | expectingFail
+        // prior to mobile, there where 19xxx short codes in fixed line - only 19222 for no emergency ambulance call is still valid
+        // its a national reserved number, which in contrast to 112 might also be called with NDC to reach a specific ambulance center - not all NDC have a connected 19222.
+        // for more information see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/ONRufnr/Vfg_25_2006_konsFassung100823.pdf?__blob=publicationFile&v=3 chapter 7
+        "19222"                     | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true  // not valid on mobil
+        // using 19222 als NDC after NAC is checked by "online services 019xx"
+        "0203 19222"                | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "0203 19222555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // must not be longer
+        "+4919222"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // TODO: Maybe IS_POSSIBLE_LOCAL_ONLY is also acceptable
+        // using 19222 from DE als NDC after CC is checked by "online services 019xx"
+        "+49203 19222"              | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49203 19222555"           | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // must not be longer
+        // using 19222 from FR als NDC after CC is checked by "online services 019xx"
+        "+49203 19222"              | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49203 19222555"           | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // must not be longer
+        // end of 19222
+    }
 
     def "check if original lib fixed isPossibleNumberWithReason for German mass traffic  NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
@@ -3688,44 +3736,43 @@ class IsPossibleNumberWithReasonTest extends Specification {
     }
 
 
-    def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
+    def "check if original lib fixed non check of NAC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
         def phoneNumber = phoneUtil.parse(number, regionCode)
 
-        when: "get number isValidNumber: $number"
+        when: "get number isPossibleNumberWithReason: $number"
 
-        def result = phoneUtil.isValidNumber(phoneNumber)
+        def result = phoneUtil.isPossibleNumberWithReason(phoneNumber)
 
         then: "is number expected: $expectedResult"
-        if (result != expectedResult) {
-            if (expectingFail) {
-                logger.info("isValidNumber is still not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
-            } else {
-                logger.warning("isValidNumber is suddenly not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
-            }
-        } else {
-            if (expectingFail) {
-                logger.info("!!! isValidNumber is now correctly validating $number to $expectedResult for region $regionCode !!!")
-            }
-        }
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
 
         where:
 
-        number                      | regionCode  | expectedResult | expectingFail
-        // invalid area code for germany - need to be false
-        "02040 556677"              | "DE"        | false           | true
-        // 02041 is Bottrop
-        "02042 556677"              | "DE"        | false           | true
-        // 02043 is Gladbeck
-        "02044 556677"              | "DE"        | false           | true
-        // 02045 is Bottrop-Kirchhellen
-        "02046 556677"              | "DE"        | false           | true
-        /*
-        "02047 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        ....
-        */
+        number                    | regionCode  | expectedResult                                            | expectingFail
+        // Romania numbers must not have 1 has first digit of NAC
+        // those indicate a special service, but there is no special service starting with 7
+        // so normally the whole number must be invalid, but it is marked as TOO_LONG - an error not intended to check here
+        // "0040(0176) 3 0 6 9 6541" | "DE"        | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        // "0040 176 3 0 6 9 6542"   | "DE"        | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        // "004017630696543"         | "DE"        | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        // "0040-0176 3 0 6 9 6544"  | "DE"        | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "0176 3 0 6 9 6544"       | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "0203556677"              | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "203556677"               | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
+        "55"                      | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
+        "556"                     | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
+        "5566"                    | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
+        "55667"                   | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
+        "556677"                  | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
+        "5566778"                 | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
+        "55667789"                | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
+        "556677889"               | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
+        "5566778899"              | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
+        "55667788990"             | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
+        "000"                     | "AU"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true // this is Austrian Emergency code alternative for 112
+        "012345678"               | "IT"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "312345678"               | "IT"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
     }
-
-
 }

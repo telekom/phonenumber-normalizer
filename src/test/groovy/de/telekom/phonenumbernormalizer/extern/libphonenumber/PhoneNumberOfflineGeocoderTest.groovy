@@ -28,6 +28,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
 
     Logger logger = Logger.getLogger(PhoneNumberOfflineGeocoderTest.class.toString())
 
+    boolean LOGONLYUNEXPECTED = true
 
     def "setup"() {
         this.phoneUtil = PhoneNumberUtil.getInstance()
@@ -48,7 +49,9 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         then: "is number expected: $expectedResult"
         if ((result != expectedResult) && (result2 != expectedResult)){
             if (expectingFail) {
-                logger.info("PhoneLib is still not correctly labeling $areacode to $expectedResult by giving $result")
+                if (!LOGONLYUNEXPECTED) {
+                    logger.info("PhoneLib is still not correctly labeling $areacode to $expectedResult by giving $result")
+                }
             } else {
                 logger.warning("PhoneLib is suddenly not correctly labeling $areacode to $expectedResult by giving $result")
             }
