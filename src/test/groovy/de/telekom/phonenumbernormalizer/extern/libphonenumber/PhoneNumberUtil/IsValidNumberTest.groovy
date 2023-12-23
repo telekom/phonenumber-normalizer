@@ -34,7 +34,7 @@ class IsValidNumberTest extends Specification {
 
     Logger logger = Logger.getLogger("")
 
-    boolean LOGONLYUNEXPECTED = true
+    boolean LOGONLYUNEXPECTED = false
 
     def "setup"() {
         this.phoneUtil = PhoneNumberUtil.getInstance()
@@ -77,16 +77,14 @@ class IsValidNumberTest extends Specification {
         number                      | regionCode  | expectedResult | expectingFail
         // invalid area code for germany - need to be false
         "02040 556677"              | "DE"        | false           | true
+        "02041 556677"              | "DE"        | true            | false
         // 02041 is Bottrop
         "02042 556677"              | "DE"        | false           | true
         // 02043 is Gladbeck
         "02044 556677"              | "DE"        | false           | true
         // 02045 is Bottrop-Kirchhellen
         "02046 556677"              | "DE"        | false           | true
-        /*
-        "02047 556677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        ....
-        */
+
     }
 
 
