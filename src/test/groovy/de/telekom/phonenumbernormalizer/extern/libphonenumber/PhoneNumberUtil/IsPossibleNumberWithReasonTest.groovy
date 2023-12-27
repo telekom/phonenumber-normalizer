@@ -145,7 +145,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+49115"                    | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | true  // see https://www.115.de/SharedDocs/Nachrichten/DE/2018/115_aus_dem_ausland_erreichbar.html
         // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
         "0203115"                   | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        "+49203115"                 | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false  // TODO: Need to be checked what is correct here
+        "+49203115"                 | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "+49203115"                 | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         // 155 does not have additional digits
         "115555"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
@@ -175,32 +175,165 @@ class IsPossibleNumberWithReasonTest extends Specification {
 
         number                      | regionCode  | expectedResult                                           | expectingFail
         // 116 is mentioned in number plan as 1160 and 1161 but in special ruling a full 6 digit number block: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/116xyz/StrukturAusgestNrBereich_Id11155pdf.pdf?__blob=publicationFile&v=4
-        // 116xyz is nationally and internationally reachable - special check 116116 as initial number and 116999 as max legal number
-        "116"                       | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // 116xyz is nationally and internationally reachable - special check 116000 as initial number, 116116 as assigned number and 116999 as max legal number
+        "116"                       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "116000"                    | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "116116"                    | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "116999"                    | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "116 5566"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
         "116 55"                    | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
         // https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/116xyz/116116.html
+        // NAC + 116xxx
         // see no. 7: national 0116116 is not a valid number, but may be replaced by 116116 by the operator - caller could reach target. ( T-Mobile is doing so currently 03.11.2023 - no guarantee for the future nor for any other operator. Best practice, assuming call will not reach target=.
         "0116"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0116000"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not valid by BnetzA definition just using NAC
         "0116116"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not valid by BnetzA definition just using NAC
         "0116999"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not valid by BnetzA definition just using NAC
         "0116 5566"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0116 55"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
 
-        "+49116"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // NAC + NDC (e.g. for Duisburg) + 116xxx
+        "0203116"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0203116000"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0203116116"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0203116999"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0203116 5566"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0203116 55"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+
+        // CC + 116xxx
+        "+49116"                    | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+49116000"                 | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "+49116116"                 | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "+49116999"                 | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "+49116 5566"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
         "+49116 55"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
 
-        "+49116"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        // CC + NDC (e.g. for Duisburg) + 116xxx
+        "+49203116"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49203116000"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49203116116"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49203116999"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49203116 5566"            | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49203116 55"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+
+        // CC + 116xxx from outside Germany
+        "+49116"                    | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+49116000"                 | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "+49116116"                 | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "+49116999"                 | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "+49116 5566"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
         "+49116 55"                 | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
         // end of 116
+    }
+
+
+    def "check if original lib fixed isPossibleNumberWithReason for German Call Assistant short codes in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when: "get number isPossibleNumberWithReason: $number"
+
+        def result = phoneUtil.isPossibleNumberWithReason(phoneNumber)
+
+        then: "is number expected: $expectedResult"
+
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                      | regionCode  | expectedResult                                           | expectingFail
+        // https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/118xy/118xyNummernplan.pdf?__blob=publicationFile&v=1
+        // it is mentioned, that those numbers are nationally reachable - which excludes them from locally, so no local number should work this way because without NDC it could not be seperated from the national number
+        // implicitly it could also mean that those numbers are not routed from outside germany
+
+        // 118 is starting part and in general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "118"                       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "1180"                      | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "11800"                     | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "118000"                    | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "1180000"                   | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "1181"                      | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "11810"                     | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        // Call Assistant of Deutsche Telekom
+        "11833"                     | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "118100"                    | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "1189"                      | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "11899"                     | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "118999"                    | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+
+        // Tested on 26.12.2023 - 11833 works on TMD, but neither 011833 nor +4911833 is working on T-Mobile Germany #TODO: find regulatory statement
+        // NAC + 118(y)xx
+        "0118"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "01180"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "011800"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0118000"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "01180000"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "01181"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "011810"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "011833"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0118100"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "01189"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "011899"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0118999"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+
+        // NAC + NDC (e.g. for Duisburg) + 118(y)xx
+        "0203118"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "02031180"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "020311800"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0203118000"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "02031180000"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "02031181"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "020311810"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "020311833"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0203118100"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "02031189"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "020311899"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0203118999"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+
+        // CC + 118(y)xx
+        "+49118"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+491180"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4911800"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49118000"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+491180000"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+491181"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4911810"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4911833"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49118100"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+491189"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4911899"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49118999"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+
+        // CC + NDC (e.g. for Duisburg) + 118(y)xx
+        "+49203118"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+492031180"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4920311800"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49203118000"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+492031180000"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+492031181"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4920311810"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4920311833"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49203118100"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+492031189"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4920311899"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49203118999"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+
+        // CC + 118(y)xx from outside Germany
+        "+49118"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+491180"                   | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4911800"                  | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49118000"                 | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+491180000"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+491181"                   | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4911810"                  | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4911833"                  | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49118100"                 | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+491189"                   | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4911899"                  | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49118999"                 | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+
+        // end of 118
     }
 
 
@@ -333,9 +466,9 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // 0116 is checked in EU social short codes see above
         // ---
         "0117 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        // TODO: 118 is cal assistance service see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/118xy/start.html
-        "0118 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-
+        // ---
+        // 0118 is checked in German call assistant services see above
+        // ---
         "0119 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "012 556677"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0120 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
@@ -384,7 +517,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // TODO: 0900 - premium: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0900/start.html
         // TODO: 09009 - Dialer: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/09009/9009_node.html
         // TODO: 031 - Testnumbers: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/031/031_node.html
-
 
         // TODO: DRAMA numbers: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mittlg148_2021.pdf?__blob=publicationFile&v=1
 
