@@ -34,7 +34,7 @@ class IsValidNumberTest extends Specification {
 
     Logger logger = Logger.getLogger("")
 
-    boolean LOGONLYUNEXPECTED = false
+    boolean LOGONLYUNEXPECTED = true
 
     def "setup"() {
         this.phoneUtil = PhoneNumberUtil.getInstance()
