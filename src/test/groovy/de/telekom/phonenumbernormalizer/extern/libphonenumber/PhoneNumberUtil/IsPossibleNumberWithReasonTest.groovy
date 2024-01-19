@@ -16,6 +16,7 @@
 package de.telekom.phonenumbernormalizer.extern.libphonenumber.PhoneNumberUtil
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import de.telekom.phonenumbernormalizer.numberplans.PhoneNumberValidationResult
 import spock.lang.Specification
 
 import java.util.logging.Logger
@@ -428,6 +429,212 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0137 900 00000"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
         "0137 900 000"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
 
+    }
+
+
+    def "check if original lib fixed isPossibleNumberWithReason for German Mobile 15 range"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when:
+        "get number isPossibleNumberWithReason: $number"
+
+        def result = phoneUtil.isPossibleNumberWithReason(phoneNumber)
+
+        then:
+        "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number           | regionCode | expectedResult                               | expectingFail
+        // see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/start.html
+        // especially https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+
+        // 015xxyyyyyyy xx = block code, yyyyyyy fixed length number in 2 digit block, so together 9 digit is the overall length
+        // 015zzzaaaaaa zzz = newer block zzz, aaaaaa fixes length number in 3 digit block, so together 9 digit is the overall length
+        "01500100000"    | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT   | true
+        "015001000000"   | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE | false
+        "0150010000000"  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG    | true
+
+        "01599999999"    | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT   | true
+        "015999999999"   | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE | false
+        "0159999999999"  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG    | true
+
+        // There infixes of two digits used to address the voicemail of a line
+        // see 2.5 in https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // This makes the number two digits longer, but on the other hand a short version with the infix does not exists, that is the reason, why above range started at 15001, since 15000 would be an infix
+        // see own test below
+        // end of 015xx
+    }
+
+
+    def "check if original lib fixed isPossibleNumberWithReason for German Mobile 15 range with voicemail infix after 1st block digit"(String numberUntilInfix, regionCode, boolean[] expectingFails) {
+
+        given:
+        String[]  numbersToTest = [ numberUntilInfix + "00000",
+                                    numberUntilInfix + "000000",
+                                    numberUntilInfix + "0000000",
+                                    numberUntilInfix + "00000000",
+                                    numberUntilInfix + "000000000",
+                                    numberUntilInfix + "99999",
+                                    numberUntilInfix + "999999",
+                                    numberUntilInfix + "9999999",
+                                    numberUntilInfix + "99999999",
+                                    numberUntilInfix + "9999999999"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG]
+
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+
+        for (int i = 0; i<results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+
+        numberUntilInfix | regionCode | expectingFails
+        // There infixes of two digits used to address the voicemail of a line
+        // see 2.5 in https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // This makes the number two digits longer, but on the other hand a short version with the infix does not exists, that is the reason, why above range started at 15001, since 15000 would be an infix
+
+        // 15-0-INFIX:OO-xx 3-Block: 0xx
+        "015000"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+
+        // 15-1-INFIX:13-x(x) 2-Block: 1x and 3-Block: 1xx
+        "015113"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+
+        // 15-3-INFIX:OO-xx 3-Block: 3xx
+        "015300"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+
+        // 15-4-INFIX:OO-xx 3-Block: 4xx
+        "015400"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+
+        // 15-5-INFIX:OO-xx 3-Block: 5xx
+        "015500"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+
+        // 15-6-INFIX:OO-xx 3-Block: 6xx
+        "015600"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+
+        // 15-8-INFIX:OO-xx 3-Block: 8xx
+        "015800"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+
+        // end of 015xx
+    }
+
+    def "check if original lib fixed isPossibleNumberWithReason for German Mobile 15 range with voicemail infix after 2nd block digit"(String numberUntilInfix, regionCode, boolean[] expectingFails) {
+
+        given:
+        // numberUntilInfix is one digit longer than in the above test, so here the suffix needs to be one shortet for the same length
+        String[]  numbersToTest = [ numberUntilInfix + "0000",
+                                    numberUntilInfix + "00000",
+                                    numberUntilInfix + "000000",
+                                    numberUntilInfix + "0000000",
+                                    numberUntilInfix + "00000000",
+                                    numberUntilInfix + "9999",
+                                    numberUntilInfix + "99999",
+                                    numberUntilInfix + "999999",
+                                    numberUntilInfix + "9999999",
+                                    numberUntilInfix + "999999999"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG]
+
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+
+        for (int i = 0; i<results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+
+        numberUntilInfix | regionCode | expectingFails
+        // There infixes of two digits used to address the voicemail of a line
+        // see 2.5 in https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // This makes the number two digits longer, but on the other hand a short version with the infix does not exists, that is the reason, why above range started at 15001, since 15000 would be an infix
+
+        // 15-2x-INFIX:50-(x) 2-Block: 2x and 3-Block: 2xx  First Infix: 50
+        "0152050"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152150"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152250"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152350"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152450"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152550"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152650"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152750"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152850"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152950"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        // 15-2x-INFIX:55-(x) 2-Block: 2x and 3-Block: 2xx  Second Infix: 55
+        "0152055"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152155"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152255"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152355"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152455"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152555"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152655"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152755"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152855"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152955"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+
+        // 15-7x-INFIX:99-(x) 2-Block: 7x and 3-Block: 7xx
+        "0157099"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0157199"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0157299"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0157399"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0157499"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0152599"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0157699"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0157799"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0157899"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0157999"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+
+        // 15-9x-INFIX:33-(x) 2-Block: 9x and 3-Block: 9xx
+        "0159033"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0159133"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0159233"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0159333"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0159433"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0159533"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0159633"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0159733"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0159833"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0159933"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+
+        // end of 015xx
     }
 
 
