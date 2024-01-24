@@ -263,8 +263,9 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "11899"                     | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "118999"                    | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
 
-        // Tested on 26.12.2023 - 11833 works on TMD, but neither 011833 nor +4911833 is working on T-Mobile Germany #TODO: find regulatory statement
-        // NAC + 118(y)xx
+        // Tested on 26.12.2023 - 11833 works on TMD, but neither 011833 nor +4911833 is working on T-Mobile Germany
+        // NAC + 118(y)xx belongs to the number reserve of NAC + 11
+
         "0118"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "01180"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "011800"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
@@ -1389,6 +1390,656 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // end of 015xx for voicemail
     }
 
+    def "check if original lib fixed isPossibleNumberWithReason for German Mobile 16 range"(String numberUntilInfix, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest
+
+        if (numberUntilInfix.length() == 5) {
+            numbersToTest = [numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "00000000",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999",
+                             numberUntilInfix + "99999999"]
+        }
+        if (numberUntilInfix.length() == 6) {
+            numbersToTest = [numberUntilInfix + "0000",
+                             numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "9999",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999"]
+        }
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        numberUntilInfix | regionCode | expectingFails
+        // see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/start.html
+        // especially https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // 016xyyyyyyy(y) x = block code, yyyyyyy(y) variable line lenx of 7 - 8 digits
+
+        //
+        // 0160
+        //
+        "01600"          | "DE" | [true, false, false, true, true, false, false, true]
+        "016010"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016011"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016012"         | "DE" | [true, false, false, true, true, false, false, true]
+        // 016013 is reserved for voicemail - see tests below
+        "016014"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016015"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016016"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016017"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016018"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016019"         | "DE" | [true, false, false, true, true, false, false, true]
+        "01602"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01603"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01604"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01605"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01606"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01607"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01608"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01609"          | "DE" | [true, false, false, true, true, false, false, true]
+
+        //
+        // 0162
+        //
+        "01620"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01621"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01622"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01623"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01624"          | "DE" | [true, false, false, true, true, false, false, true]
+        // 016250 is reserved for voicemail - see tests below
+        "016251"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016252"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016253"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016254"         | "DE" | [true, false, false, true, true, false, false, true]
+        // 016255 is reserved for voicemail - see tests below
+        "016256"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016257"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016258"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016259"         | "DE" | [true, false, false, true, true, false, false, true]
+        "01626"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01627"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01628"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01629"          | "DE" | [true, false, false, true, true, false, false, true]
+
+        //
+        // 0163
+        //
+        "01630"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01631"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01632"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01633"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01634"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01635"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01636"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01637"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01638"          | "DE" | [true, false, false, true, true, false, false, true]
+        "016390"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016391"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016392"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016393"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016394"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016395"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016396"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016397"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016398"         | "DE" | [true, false, false, true, true, false, false, true]
+        // 016399 is reserved for voicemail - see tests below
+    }
+
+
+    def "check if original lib fixed isPossibleNumberWithReason for German Mobile 16 range with voicemail infix"(String numberUntilInfix, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [numberUntilInfix + "000000",
+                                  numberUntilInfix + "0000000",
+                                  numberUntilInfix + "00000000",
+                                  numberUntilInfix + "000000000",
+                                  numberUntilInfix + "999999",
+                                  numberUntilInfix + "9999999",
+                                  numberUntilInfix + "99999999",
+                                  numberUntilInfix + "999999999"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        numberUntilInfix | regionCode | expectingFails
+        // see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/start.html
+        // especially https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // 016xyyyyyyy(y) x = block code, yyyyyyy(y) variable line lenx of 7 - 8 digits
+
+        //
+        // 0160
+        //
+        "016013"         | "DE" | [true, false, false, true, true, false, false, true]
+        //
+        // 0162
+        //
+        "016250"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016255"         | "DE" | [true, false, false, true, true, false, false, true]
+
+        //
+        // 0163
+        //
+        "016399"         | "DE" | [true, false, false, true, true, false, false, true]
+    }
+
+
+    def "check if original lib fixed isPossibleNumberWithReason for German reserve 16 range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH
+        ]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        // see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1
+        // 0161, 165, 166, 167 are reserved for future use
+
+        "0161"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "0165"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "0166"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "0167"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+
+    }
+
+    def "check if original lib fixed isPossibleNumberWithReason for German 'Funkruf' 16(8/9) range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566",
+                                  reserve + "22334455667",
+                                  reserve + "223344556677"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG
+        ]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        // see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1
+        // 0168, 169 are using a 14 digit national number (0164 is not further defined).
+        // TODO: could 0164 needs to be covered
+        "0168"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true, false, true]
+        "0169"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true, false, true]
+
+    }
+
+
+    def "check if original lib fixed isPossibleNumberWithReason for German Mobile 17 range"(String numberUntilInfix, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest
+
+        if (numberUntilInfix.length() == 5) {
+            numbersToTest = [numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "00000000",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999",
+                             numberUntilInfix + "99999999"]
+        }
+        if (numberUntilInfix.length() == 6) {
+            numbersToTest = [numberUntilInfix + "0000",
+                             numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "9999",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999"]
+        }
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        numberUntilInfix | regionCode | expectingFails
+        // see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/start.html
+        // especially https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // 017xyyyyyyy(y) x = block code, yyyyyyy(y) variable line lenx of 7 - 8 digits
+
+        //
+        // 0170
+        //
+        "01700"          | "DE" | [true, false, false, true, true, false, false, true]
+        "017010"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017011"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017012"         | "DE" | [true, false, false, true, true, false, false, true]
+        // 017013 is reserved for voicemail - see tests below
+        "017014"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017015"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017016"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017017"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017018"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017019"         | "DE" | [true, false, false, true, true, false, false, true]
+        "01702"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01703"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01704"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01705"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01706"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01707"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01708"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01709"          | "DE" | [true, false, false, true, true, false, false, true]
+
+        //
+        // 0171
+        //
+        "01710"          | "DE" | [true, false, false, true, true, false, false, true]
+        "017110"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017111"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017112"         | "DE" | [true, false, false, true, true, false, false, true]
+        // 017113 is reserved for voicemail - see tests below
+        "017114"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017115"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017116"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017117"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017118"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017119"         | "DE" | [true, false, false, true, true, false, false, true]
+        "01712"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01713"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01714"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01715"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01716"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01717"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01718"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01719"          | "DE" | [true, false, false, true, true, false, false, true]
+
+        //
+        // 0172
+        //
+        "01720"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01721"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01722"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01723"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01724"          | "DE" | [true, false, false, true, true, false, false, true]
+        // 017250 is reserved for voicemail - see tests below
+        "017251"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017252"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017253"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017254"         | "DE" | [true, false, false, true, true, false, false, true]
+        // 017255 is reserved for voicemail - see tests below
+        "017256"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017257"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017258"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017259"         | "DE" | [true, false, false, true, true, false, false, true]
+        "01726"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01727"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01728"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01729"          | "DE" | [true, false, false, true, true, false, false, true]
+
+        //
+        // 0173
+        //
+        "01730"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01731"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01732"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01733"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01734"          | "DE" | [true, false, false, true, true, false, false, true]
+        // 017350 is reserved for voicemail - see tests below
+        "017351"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017352"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017353"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017354"         | "DE" | [true, false, false, true, true, false, false, true]
+        // 017355 is reserved for voicemail - see tests below
+        "017356"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017357"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017358"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017359"         | "DE" | [true, false, false, true, true, false, false, true]
+        "01736"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01737"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01738"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01739"          | "DE" | [true, false, false, true, true, false, false, true]
+
+        //
+        // 0174
+        //
+        "01740"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01741"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01742"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01743"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01744"          | "DE" | [true, false, false, true, true, false, false, true]
+        // 017450 is reserved for voicemail - see tests below
+        "017451"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017452"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017453"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017454"         | "DE" | [true, false, false, true, true, false, false, true]
+        // 017455 is reserved for voicemail - see tests below
+        "017456"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017457"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017458"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017459"         | "DE" | [true, false, false, true, true, false, false, true]
+        "01746"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01747"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01748"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01749"          | "DE" | [true, false, false, true, true, false, false, true]
+
+        //
+        // 0175
+        //
+        "01750"          | "DE" | [true, false, false, true, true, false, false, true]
+        "017510"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017511"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017512"         | "DE" | [true, false, false, true, true, false, false, true]
+        // 017513 is reserved for voicemail - see tests below
+        "017514"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017515"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017516"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017517"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017518"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017519"         | "DE" | [true, false, false, true, true, false, false, true]
+        "01752"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01753"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01754"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01755"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01756"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01757"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01758"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01759"          | "DE" | [true, false, false, true, true, false, false, true]
+
+        //
+        // 0176
+        //
+        "01760"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01761"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01762"          | "DE" | [true, false, false, true, true, false, false, true]
+        "017630"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017631"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017632"         | "DE" | [true, false, false, true, true, false, false, true]
+        // 017633 is reserved for voicemail - see tests below
+        "017634"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017635"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017636"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017637"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017638"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017639"         | "DE" | [true, false, false, true, true, false, false, true]
+        "01764"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01765"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01766"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01767"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01768"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01769"          | "DE" | [true, false, false, true, true, false, false, true]
+
+        //
+        // 0177
+        //
+        "01770"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01771"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01772"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01773"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01774"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01775"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01776"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01777"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01778"          | "DE" | [true, false, false, true, true, false, false, true]
+        "017790"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017791"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017792"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017793"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017794"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017795"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017796"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017797"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017798"         | "DE" | [true, false, false, true, true, false, false, true]
+        // 017799 is reserved for voicemail - see tests below
+
+        //
+        // 0178
+        //
+        "01780"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01781"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01782"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01783"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01784"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01785"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01786"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01787"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01788"          | "DE" | [true, false, false, true, true, false, false, true]
+        "017890"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017891"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017892"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017893"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017894"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017895"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017896"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017897"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017898"         | "DE" | [true, false, false, true, true, false, false, true]
+        // 017899 is reserved for voicemail - see tests below
+
+        //
+        // 0179
+        //
+        "01790"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01791"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01792"          | "DE" | [true, false, false, true, true, false, false, true]
+        "017930"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017931"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017932"         | "DE" | [true, false, false, true, true, false, false, true]
+        // 017933 is reserved for voicemail - see tests below
+        "017934"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017935"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017936"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017937"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017938"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017939"         | "DE" | [true, false, false, true, true, false, false, true]
+        "01794"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01795"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01796"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01797"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01798"          | "DE" | [true, false, false, true, true, false, false, true]
+        "01799"          | "DE" | [true, false, false, true, true, false, false, true]
+    }
+
+
+    def "check if original lib fixed isPossibleNumberWithReason for German Mobile 17 range with voicemail infix"(String numberUntilInfix, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [numberUntilInfix + "000000",
+                                  numberUntilInfix + "0000000",
+                                  numberUntilInfix + "00000000",
+                                  numberUntilInfix + "000000000",
+                                  numberUntilInfix + "999999",
+                                  numberUntilInfix + "9999999",
+                                  numberUntilInfix + "99999999",
+                                  numberUntilInfix + "999999999"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        numberUntilInfix | regionCode | expectingFails
+        // see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/start.html
+        // especially https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // 016xyyyyyyy(y) x = block code, yyyyyyy(y) variable line lenx of 7 - 8 digits
+
+        //
+        // 0170
+        //
+        "017013"         | "DE" | [true, false, false, true, true, false, false, true]
+        //
+        // 0171
+        //
+        "017113"         | "DE" | [true, false, false, true, true, false, false, true]
+        //
+        // 0172
+        //
+        "017250"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017255"         | "DE" | [true, false, false, true, true, false, false, true]
+        //
+        // 0173
+        //
+        "017350"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017355"         | "DE" | [true, false, false, true, true, false, false, true]
+        //
+        // 0174
+        //
+        "017450"         | "DE" | [true, false, false, true, true, false, false, true]
+        "017455"         | "DE" | [true, false, false, true, true, false, false, true]
+        //
+        // 0175
+        //
+        "017513"         | "DE" | [true, false, false, true, true, false, false, true]
+        //
+        // 0176
+        //
+        "017633"         | "DE" | [true, false, false, true, true, false, false, true]
+        //
+        // 0177
+        //
+        "017799"         | "DE" | [true, false, false, true, true, false, false, true]
+        //
+        // 0178
+        //
+        "017899"         | "DE" | [true, false, false, true, true, false, false, true]
+        //
+        // 0179
+        //
+        "017933"         | "DE" | [true, false, false, true, true, false, false, true]
+    }
+
 
     def "check if original lib fixed isPossibleNumberWithReason for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
@@ -1462,8 +2113,19 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0147 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0148 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0149 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        // TODO: 015, 016, 017 are mobile see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/start.html
-        // TODO: 016x is "Funkruf": see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Funkruf/start.html
+        // ---
+        // 015x is checked in Mobile 15 and 15 voicemail see above
+        // ---
+        // ---
+        // 016x:
+        // 0160, 0162, 0163 are checked in Mobile 16 and 16 voicemail
+        // 0161, 0165, 0166, 0167 are checked in Reserve 16
+        // 0168, 0169 are checked in eMessage 16 - see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Funkruf/start.html and https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1
+        // TODO: 0164 eMessage length definition needed
+        // ---
+        // ---
+        // 017x is checked in Mobile 17 and 17 voicemail see abovee
+        // ---
         // TODO: 018 is VPN see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/018/018_Node.html
         // TODO: 0180 is Services: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0180/start.html
         // TODO: 0181 is international VPN see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0181/181_node.html
