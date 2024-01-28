@@ -1993,7 +1993,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         numberUntilInfix | regionCode | expectingFails
         // see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/start.html
         // especially https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
-        // 016xyyyyyyy(y) x = block code, yyyyyyy(y) variable line lenx of 7 - 8 digits
+        // 017xyyyyyyy(y) x = block code, yyyyyyy(y) variable line lenx of 7 - 8 digits
 
         //
         // 0170
@@ -2040,6 +2040,330 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "017933"         | "DE" | [true, false, false, true, true, false, false, true]
     }
 
+
+    def "check if original lib fixed isPossibleNumberWithReason for German ServiceNumbers 180 range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566",
+                                  reserve + "22334455667"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG
+        ]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  0180 is Services: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0180/start.html
+        //  Numberplan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0180/Nummernplan0180_ServiceDiensteRufnummer.pdf?__blob=publicationFile&v=1
+        //  points out, that national numbers have 10 (3+7) digits in this range, but that there are historically shorter numbers
+        //  At https://data.bundesnetzagentur.de/Bundesnetzagentur/SharedDocs/ExterneLinks/DE/Sachgebiete/Telekommunikation/Nummerierung/NVMwD.0180.Rufnummer.Vergeben.zip it can be checked, that shorter numbers have 3+5 & 3+6 digits
+        // 01800 is reserve
+        "01801"           | "DE" | [true, true, true, true, false, false, false, true, true, true, true, true]
+        "01802"           | "DE" | [true, true, true, true, false, false, false, true, true, true, true, true]
+        "01803"           | "DE" | [true, true, true, true, false, false, false, true, true, true, true, true]
+        "01804"           | "DE" | [true, true, true, true, false, false, false, true, true, true, true, true]
+        "01805"           | "DE" | [true, true, true, true, false, false, false, true, true, true, true, true]
+        "01806"           | "DE" | [true, true, true, true, false, false, false, true, true, true, true, true]
+        "01807"           | "DE" | [true, true, true, true, false, false, false, true, true, true, true, true]
+        // 01808 is reserve
+        // 01809 is reserve
+    }
+
+    def "check if original lib fixed isPossibleNumberWithReason for German reserve 180 range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH
+        ]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  0180 is Services: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0180/start.html
+        //  Numberplan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0180/Nummernplan0180_ServiceDiensteRufnummer.pdf?__blob=publicationFile&v=1
+        //  points out, that national numbers have 10 (3+7) digits in this range, but that there are historically shorter numbers
+        //  At https://data.bundesnetzagentur.de/Bundesnetzagentur/SharedDocs/ExterneLinks/DE/Sachgebiete/Telekommunikation/Nummerierung/NVMwD.0180.Rufnummer.Vergeben.zip it can be checked, that shorter numbers have 3+5 & 3+6 digits
+        // reserve:
+
+        "01800"          | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "01808"          | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "01809"          | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+
+    }
+
+    def "check if original lib fixed isPossibleNumberWithReason for German international VPN 181 range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566",
+                                  reserve + "22334455667"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,  // TODO: Maybe IS Possible_Local_Only is better value, since VPN numbers are not public accessible, but only from numbers of same VPN
+                                                              // that would mean at least first 6 to 7 digits after NAC have to be same, depending on the VPN size.
+
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG
+        ]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  0181 is VPN: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0181/181_node.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0181/Nummernplan_IVPN.pdf?__blob=publicationFile&v=1
+        //  nation number with 14 digits
+        "0181"           | "DE" | [true, true, true, false, false, false, false, false, false, false, false, true]
+        "+49181"         | "FR" | [true, true, true, false, false, false, false, false, false, false, false, true]
+    }
+
+    def "check if original lib fixed isPossibleNumberWithReason for German VPN 18(2-9) range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566",
+                                  reserve + "22334455667"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,  // TODO: Maybe IS Possible_Local_Only is better value, since VPN numbers are not public accessible, but only from numbers of same VPN
+                                                                                                             // that would mean at least first 4 to 9 digits after NAC have to be same, depending on the VPN size.
+                                                                                                             // if such a check is added, 18 59995 would be an exception which a public accessible exception for historical reason.
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG
+        ]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  018 is VPN: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/018/018_Node.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/018/Nummernplan.pdf?__blob=publicationFile&v=1
+        //  Historical Reorder: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/018/TWiderruf.pdf?__blob=publicationFile&v=1
+        //  nation number with 11 digits
+        "0182"           | "DE" | [true, true, true, true, true, true, true, true, false, true, true, true]
+        "0183"           | "DE" | [true, true, true, true, true, true, true, true, false, true, true, true]
+        "0184"           | "DE" | [true, true, true, true, true, true, true, true, false, true, true, true]
+        "0185"           | "DE" | [true, true, true, true, true, true, true, true, false, true, true, true]
+        "0186"           | "DE" | [true, true, true, true, true, true, true, true, false, true, true, true]
+        "0187"           | "DE" | [true, true, true, true, true, true, true, true, false, true, true, true]
+        "0188"           | "DE" | [true, true, true, true, true, true, true, true, false, true, true, true]
+        "0189"           | "DE" | [true, true, true, true, true, true, true, true, false, true, true, true]
+    }
+
+    def "check if original lib fixed isPossibleNumberWithReason for German VPN 18(2-9) range which is only reachable nationally"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566",
+                                  reserve + "22334455667"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,  // TODO: Maybe IS Possible_Local_Only is better value, since VPN numbers are not public accessible, but only from numbers of same VPN
+                                                              // that would mean at least first 4 to 9 digits after NAC have to be same, depending on the VPN size.
+                                                              // if such a check is added, 18 59995 would be an exception which a public accessible exception for historical reason.
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH
+        ]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  018 is VPN: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/018/018_Node.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/018/Nummernplan.pdf?__blob=publicationFile&v=1
+        //  Historical Reorder: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/018/TWiderruf.pdf?__blob=publicationFile&v=1
+        //  nation number with 11 digits
+        "+49182"           | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true]
+        "+49183"           | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true]
+        "+49184"           | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true]
+        "+49185"           | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true]
+        "+49186"           | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true]
+        "+49187"           | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true]
+        "+49188"           | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true]
+        "+49189"           | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true]
+
+    }
+
+    def "check if original lib fixed isPossibleNumberWithReason for German VPN 018 59995 xxxx is reachable"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,  // is reachable from normal telephony network
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+        ]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  018 is VPN: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/018/018_Node.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/018/Nummernplan.pdf?__blob=publicationFile&v=1
+        //  Historical Reorder: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/018/TWiderruf.pdf?__blob=publicationFile&v=1
+        //  nation number with 11 digits
+        "018 59995"      | "DE" | [true, true, true, true, false, true, true]
+        "+4918 59995"    | "FR" | [true, true, true, true, false, true, true]
+    }
 
     def "check if original lib fixed isPossibleNumberWithReason for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
@@ -2124,10 +2448,12 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // TODO: 0164 eMessage length definition needed
         // ---
         // ---
-        // 017x is checked in Mobile 17 and 17 voicemail see abovee
+        // 017x is checked in Mobile 17 and 17 voicemail see above
         // ---
-        // TODO: 018 is VPN see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/018/018_Node.html
-        // TODO: 0180 is Services: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0180/start.html
+        // ---
+        // 0180 TODO: 0180 is Services: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0180/start.html
+        // ---
+        // TODO: 018(2-9) is VPN see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/018/018_Node.html
         // TODO: 0181 is international VPN see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0181/181_node.html
         // TODO: 019xyz Online Services see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/019xyz/019xyz_node.html
         // TODO: 019x is traffic management see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Verkehrslenkungsnummern/start.html
@@ -5488,6 +5814,32 @@ class IsPossibleNumberWithReasonTest extends Specification {
     }
 
 
+    def "check if original lib fixes Romania special service 7 marking too long"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when:
+        "get number isPossibleNumberWithReason: $number"
+
+        def result = phoneUtil.isPossibleNumberWithReason(phoneNumber)
+
+        then:
+        "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                    | regionCode | expectedResult                                  | expectingFail
+        // Romania numbers must not have 1 has first digit of NAC
+        // those indicate a special service, but there is no special service starting with 7
+        // so normally the whole number must be invalid, but it is marked as TOO_LONG - an error not intended to check here
+        "0040(0176) 3 0 6 9 6541" | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH | true
+        "0040 176 3 0 6 9 6542"   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH | true
+        "004017630696543"         | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH | true
+        "0040-0176 3 0 6 9 6544"  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH | true
+    }
+
     def "check if original lib fixed non check of NAC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
@@ -5503,13 +5855,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         where:
 
         number                    | regionCode  | expectedResult                                            | expectingFail
-        // Romania numbers must not have 1 has first digit of NAC
-        // those indicate a special service, but there is no special service starting with 7
-        // so normally the whole number must be invalid, but it is marked as TOO_LONG - an error not intended to check here
-        // "0040(0176) 3 0 6 9 6541" | "DE"        | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
-        // "0040 176 3 0 6 9 6542"   | "DE"        | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
-        // "004017630696543"         | "DE"        | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
-        // "0040-0176 3 0 6 9 6544"  | "DE"        | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
         "0176 3 0 6 9 6544"       | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "0203556677"              | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "203556677"               | "DE"        | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | true
