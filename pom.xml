@@ -95,10 +95,13 @@
             <scope>provided</scope> <!-- must be provided, see docs -->
             <version>${lombok.version}</version>
         </dependency>
+        <!--
+        TODO: need to upgrade spring context to 6.x
+        -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>5.3.27</version>
+            <version>5.3.31</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
