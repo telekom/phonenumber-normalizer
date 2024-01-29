@@ -29,7 +29,7 @@ import java.util.Comparator;
  * This class provides basic logic to check a given number against a simple set of rules to identify if it is short numbers, which does not need normalization.
  * It also needs to provide its country calling code, to specify where the rules apply.
  * <p>
- * PhoneLib already provide a ShortNumbers, but for EU wide 116xxx range only a few countries are configured to support the range. 
+ * LibPhoneNumber already provide a ShortNumbers, but for EU wide 116xxx range only a few countries are configured to support the range.
  * For Germany only currently assigned numbers are configured which is in contrast to Googles definition of checks, 
  * but nevertheless the <a href="https://issuetracker.google.com/u/1/issues/183669955">corresponding Issues</a> has been rejected.
  * </p><p>
