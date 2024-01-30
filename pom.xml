@@ -72,13 +72,20 @@
         <geocoder.version>2.223</geocoder.version>
         <!-- Used Versions of other dependencies: -->
         <java.version>17</java.version>
-        <mapstruct.version>1.3.0.Final</mapstruct.version>
-        <lombok.version>1.18.28</lombok.version>
-        <surefire.plugin.version>2.22.2</surefire.plugin.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <lombok.version>1.18.30</lombok.version>
+        <surefire.plugin.version>2.22.2</surefire.plugin.version> <!-- not yet updated because version 3.x has vulnerability-->
         <com.fasterxml.jackson.core.version>2.16.1</com.fasterxml.jackson.core.version>
         <org.codehaus.gmavenplus.version>1.11.0</org.codehaus.gmavenplus.version>
         <org.springframework.version>6.1.3</org.springframework.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <org.apache.commons.version>3.14.0</org.apache.commons.version>
+        <io.swagger.verion>1.6.13</io.swagger.verion>
+        <org.slf4j.version>2.0.11</org.slf4j.version>
+        <jakarta.annotation.version>3.0.0-M1</jakarta.annotation.version>
+        <org.apache.groovy.version>4.0.18</org.apache.groovy.version>
+        <org.junit.platform.version>1.10.1</org.junit.platform.version>
+        <org.spockframework.version>2.4-M1-groovy-4.0</org.spockframework.version>
         <!-- JaCoCo & SonarQube -->
         <rootDir>${project.basedir}</rootDir>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -112,12 +119,12 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.14.0</version>
+            <version>${org.apache.commons.version}</version>
         </dependency>
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>1.6.13</version>
+            <version>${io.swagger.verion}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -137,12 +144,12 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.11</version>
+            <version>${org.slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
-            <version>3.0.0-M1</version>
+            <version>${jakarta.annotation.version}</version>
         </dependency>
         <!-- For Testing only -->
         <dependency>
@@ -154,20 +161,20 @@
         <dependency>
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>4.0.18</version>
+            <version>${org.apache.groovy.version}</version>
             <scope>test</scope>
             <type>pom</type>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
-            <version>1.10.1</version>
+            <version>${org.junit.platform.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
-            <version>2.4-M1-groovy-4.0</version>
+            <version>${org.spockframework.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
