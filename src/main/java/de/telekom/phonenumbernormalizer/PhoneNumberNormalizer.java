@@ -34,7 +34,7 @@ public interface PhoneNumberNormalizer {
     void setFallbackRegionCode(String fallBackRegionCode);
 
     /**
-     * Normalizes the number using PhoneLib with some additions to compensate.
+     * Normalizes the number using LibPhoneNumber with some additions to compensate.
      * <p>
      * Preferable to {@link PhoneNumberNormalizer#normalizePhoneNumber(String, String)}, because default NDC can be provided, so that more compensation for generating a valid E164 can be done.
      * </p>
@@ -47,7 +47,7 @@ public interface PhoneNumberNormalizer {
     String normalizePhoneNumber(String number, DeviceContext deviceContext);
 
     /**
-     * Normalizes the number using PhoneLib with some additions to compensate.
+     * Normalizes the number using LibPhoneNumber with some additions to compensate.
      * <p>
      * Not as powerful as {@link PhoneNumberNormalizer#normalizePhoneNumber(String, DeviceContext)}, because no default NDC can be set.
      * </p>

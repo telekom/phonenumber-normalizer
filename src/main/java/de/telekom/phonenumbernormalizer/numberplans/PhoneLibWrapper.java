@@ -26,11 +26,11 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 
 /**
- * Wrapper around the PhoneLib library from Google
+ * Wrapper around the LibPhoneNumber library from Google
  * <p>
  * Using reflection to access internal information to know if a region has a nation prefix &amp; which one it is.
  * </p><p>
- * Providing own NumberPlans logic as an alternative to PhoneLib ShortNumber.
+ * Providing own NumberPlans logic as an alternative to LibPhoneNumber ShortNumber.
  * </p>
  * @see NumberPlan
  */
@@ -48,7 +48,7 @@ public class PhoneLibWrapper {
     String dialableNumber;
 
     /**
-     * The given number normalized with PhoneLib, risking we get a incorrect normalization
+     * The given number normalized with LibPhoneNumber, risking we get an incorrect normalization
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
      * @see PhoneLibWrapper#isNormalizingTried()
@@ -65,24 +65,24 @@ public class PhoneLibWrapper {
     String regionCode;
 
     /**
-     * The number plan metadata which PhoneLib is using for the given region code.
+     * The number plan metadata which LibPhoneNumber is using for the given region code.
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
      */
     Phonemetadata.PhoneMetadata metadata;
 
     /**
-     * An instance of the PhoneLib short number utility.
+     * An instance of the LibPhoneNumber short number utility.
      */
     private static final ShortNumberInfo shortNumberUtil = ShortNumberInfo.getInstance();
 
     /**
-     * An instance of the PhoneLib number utility.
+     * An instance of the LibPhoneNumber number utility.
      */
     private static final PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
 
     /**
-     * Storing if PhoneLib has been used to parse the given number into semiNormalizedNumber.
+     * Storing if LibPhoneNumber has been used to parse the given number into semiNormalizedNumber.
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
      * @see PhoneLibWrapper#semiNormalizedNumber
@@ -116,7 +116,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * If PhoneLib has been used to parse the given number into semiNormalizedNumber.
+     * If LibPhoneNumber has been used to parse the given number into semiNormalizedNumber.
      *
      * @return {@link PhoneLibWrapper#isNormalizingTried}
      *
@@ -127,11 +127,11 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Using PhoneLib short number utility if it identifies the given number as a short number, which would not need a NAC.
+     * Using LibPhoneNumber short number utility if it identifies the given number as a short number, which would not need a NAC.
      * <p>
      * This is a fallback for {@link PhoneLibWrapper#isShortNumber(NumberPlan)}, when we do not have an own number plan information.
      * </p>
-     * @return if PhoneLib identifies given number as a short number
+     * @return if LibPhoneNumber identifies given number as a short number
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
      * @see PhoneLibWrapper#isShortNumber(NumberPlan)
@@ -146,7 +146,7 @@ public class PhoneLibWrapper {
      * If no number plan is given, {@link PhoneLibWrapper#isShortNumber} is used as fallback.
      * </p>
      * @param numberplan the number plan we identified to be used for a check
-     * @return if number plan or as fallback PhoneLib identifies given number as a short number
+     * @return if number plan or as fallback LibPhoneNumber identifies given number as a short number
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
      */
@@ -174,7 +174,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Using PhoneLib to get a E164 formatted representation of the given number
+     * Using LibPhoneNumber to get a E164 formatted representation of the given number
      * <p>
      * This is a straight invocation, so no compensation of some inaccuracy is done here.
      * </p>
@@ -232,7 +232,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Use PhoneLib to parse a number for a regions code. If any exception occurs, they are logged and null is returned.
+     * Use LibPhoneNumber to parse a number for a regions code. If any exception occurs, they are logged and null is returned.
      * @param number the phone number to be parsed
      * @param regionCode ISO2 code for the regions number plan used for parsing the number
      * @return either the parsed {@link Phonenumber.PhoneNumber} or null
@@ -249,7 +249,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * The National Access Code used before the National Destination Code in the given region from PhoneLib
+     * The National Access Code used before the National Destination Code in the given region from LibPhoneNumber
      * @return NAC of given {@link PhoneLibWrapper#regionCode}
      */
     public String getNationalAccessCode() {
@@ -260,7 +260,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * From PhoneLib, if a National Access Code is used before the National Destination Code in the given region
+     * From LibPhoneNumber, if a National Access Code is used before the National Destination Code in the given region
      * @return if given {@link PhoneLibWrapper#regionCode} is using NAC
      */
     public boolean hasRegionNationalAccessCode() {
@@ -287,7 +287,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Using PhoneLib to get the national number from the given number
+     * Using LibPhoneNumber to get the national number from the given number
      *
      * @return national number without NAC, but any other leading zero.
      *
@@ -300,10 +300,10 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Using PhoneLib to get the national number from a parsed phone number with leading zeros, if those are not representing a National Access Code.
+     * Using LibPhoneNumber to get the national number from a parsed phone number with leading zeros, if those are not representing a National Access Code.
      * <p/>
-     * This is necessary, because PhoneLib is storing the national number as a long, so leading "0" Digits as part of it are stored in other attributes.
-     * @param phoneNumber A PhoneLib parsed phone number
+     * This is necessary, because LibPhoneNumber is storing the national number as a long, so leading "0" Digits as part of it are stored in other attributes.
+     * @param phoneNumber A LibPhoneNumber parsed phone number
      * @return national number part without NationalPrefix (aka NAC) but any other leading zero.
      */
     private static String nationalPhoneNumberWithoutNationalPrefix(Phonenumber.PhoneNumber phoneNumber) {
@@ -320,7 +320,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Using PhoneLib to get the Country Calling Code for a region code
+     * Using LibPhoneNumber to get the Country Calling Code for a region code
      * <p>
      * e.g. "DE" is "49"
      * </p>
@@ -332,7 +332,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Using PhoneLib to get the region code for a Country Calling Code
+     * Using LibPhoneNumber to get the region code for a Country Calling Code
      * <p>
      * e.g. "49" is "DE"
      * </p>

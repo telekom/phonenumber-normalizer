@@ -48,13 +48,13 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         then: "is number expected: $expectedResult"
         if ((result != expectedResult) && (result2 != expectedResult)){
             if (expectingFail) {
-                logger.info("PhoneLib is still not correctly labeling $areacode to $expectedResult by giving $result")
+                logger.info("LibPhoneNumber is still not correctly labeling $areacode to $expectedResult by giving $result")
             } else {
-                logger.warning("PhoneLib is suddenly not correctly labeling $areacode to $expectedResult by giving $result")
+                logger.warning("LibPhoneNumber is suddenly not correctly labeling $areacode to $expectedResult by giving $result")
             }
         } else {
             if (expectingFail) {
-                logger.info("!!! PhoneLib is now correctly labeling $areacode to $expectedResult !!!")
+                logger.info("!!! LibPhoneNumber is now correctly labeling $areacode to $expectedResult !!!")
             }
         }
 
@@ -1586,7 +1586,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "38326"  | "Grimmen"                                | false
         "38327"  | "Elmenhorst Vorpommern"                  | true   // see https://issuetracker.google.com/issues/183383466
         "38328"  | "Miltzow"                                | false
-        "38331"  | "Rakow Vorpommern"                       | true   // Both ITU and BNetzA "Rakow Vorpom", which is short form of "Vorpommern", it is included in PhoneLibe data, but Geocoder does not delivers it.
+        "38331"  | "Rakow Vorpommern"                       | true   // Both ITU and BNetzA "Rakow Vorpom", which is short form of "Vorpommern", it is included in LibPhoneNumber data, but Geocoder does not delivers it.
         "38332"  | "Gross Bisdorf"                          | false
         "38333"  | "Horst bei Grimmen"                      | false
         "38334"  | "Grammendorf"                            | false
@@ -1612,7 +1612,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "38391"  | "Altenkirchen Rügen"                     | false
         "38392"  | "Sassnitz"                               | false
         "38393"  | "Binz Ostseebad"                         | false
-        "3841"   | "Wismar Mecklenburg"                     | true   // TODO: ITU "Wismar" only, but BNetzA "Wismar Meckl", which is short form of "Mecklenburg", it is not included in PhoneLibe data.
+        "3841"   | "Wismar Mecklenburg"                     | true   // TODO: ITU "Wismar" only, but BNetzA "Wismar Meckl", which is short form of "Mecklenburg", it is not included in LibPhoneNumber data.
         "38422"  | "Neukloster"                             | false
         "38423"  | "Bad Kleinen"                            | false
         "38424"  | "Bobitz"                                 | false
@@ -1634,7 +1634,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "38458"  | "Zehna"                                  | false
         "38459"  | "Laage"                                  | false
         "38461"  | "Bützow"                                 | false
-        "38462"  | "Baumgarten Mecklenburg"                 | true   // TODO: ITU "Baumgarten" only, but BNetzA "Baumgarten Meckl", which is short form of "Mecklenburg", it is not included in PhoneLibe data.
+        "38462"  | "Baumgarten Mecklenburg"                 | true   // TODO: ITU "Baumgarten" only, but BNetzA "Baumgarten Meckl", which is short form of "Mecklenburg", it is not included in LibPhoneNumber data.
         "38464"  | "Bernitt"                                | false
         "38466"  | "Jürgenshagen"                           | false
         "3847"   | "Sternberg"                              | false
@@ -1645,7 +1645,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "38485"  | "Dabel"                                  | false
         "38486"  | "Gustävel"                               | false
         "38488"  | "Demen"                                  | false
-        "385"    | "Schwerin Mecklenburg"                   | true   // TODO: ITU "Schwerin" only, but BNetzA "Schwerin Meckl", which is short form of "Mecklenburg", it is not included in PhoneLibe data.
+        "385"    | "Schwerin Mecklenburg"                   | true   // TODO: ITU "Schwerin" only, but BNetzA "Schwerin Meckl", which is short form of "Mecklenburg", it is not included in LibPhoneNumber data.
         "3860"   | "Raben Steinfeld"                        | false
         "3861"   | "Plate"                                  | false
         "3863"   | "Crivitz"                                | false
@@ -1669,17 +1669,17 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "38732"  | "Gallin bei Lübz"                        | false
         "38733"  | "Karbow Vietlübbe"                       | false
         "38735"  | "Plau am See"                            | false
-        "38736"  | "Goldberg Mecklenburg"                   | true   // TODO: ITU "Goldberg" only, but BNetzA "Goldberg Meckl", which is short form of "Mecklenburg", it is not included in PhoneLibe data.
+        "38736"  | "Goldberg Mecklenburg"                   | true   // TODO: ITU "Goldberg" only, but BNetzA "Goldberg Meckl", which is short form of "Mecklenburg", it is not included in LibPhoneNumber data.
         "38737"  | "Ganzlin"                                | false
         "38738"  | "Karow bei Lübz"                         | false
-        "3874"   | "Ludwigslust Mecklenburg"                | true   // TODO: ITU "Ludwigslust" only, but BNetzA "Ludwigslust Meckl", which is short form of "Mecklenburg", it is not included in PhoneLibe data.
+        "3874"   | "Ludwigslust Mecklenburg"                | true   // TODO: ITU "Ludwigslust" only, but BNetzA "Ludwigslust Meckl", which is short form of "Mecklenburg", it is not included in LibPhoneNumber data.
         "38750"  | "Malliss"                                | false
         "38751"  | "Picher"                                 | false
         "38752"  | "Zierzow bei Ludwigslust"                | false
         "38753"  | "Wöbbelin"                               | false
         "38754"  | "Leussow bei Ludwigslust"                | false
         "38755"  | "Eldena"                                 | false
-        "38756"  | "Grabow Mecklenburg"                     | true   // TODO: ITU "Grabow" only, but BNetzA "Grabow Meckl", which is short form of "Mecklenburg", it is not included in PhoneLibe data.
+        "38756"  | "Grabow Mecklenburg"                     | true   // TODO: ITU "Grabow" only, but BNetzA "Grabow Meckl", which is short form of "Mecklenburg", it is not included in LibPhoneNumber data.
         "38757"  | "Neustadt Glewe"                         | false
         "38758"  | "Dömitz"                                 | false
         "38759"  | "Tewswoos"                               | false
@@ -1701,14 +1701,14 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "38796"  | "Viesecke"                               | false
         "38797"  | "Karstädt Kreis Prignitz"                | false
         "3881"   | "Grevesmühlen"                           | false
-        "38821"  | "Lüdersdorf Mecklenburg"                 | true   // TODO: ITU "Lüdersdorf" only, but BNetzA "Lüdersdorf Meckl", which is short form of "Mecklenburg", it is not included in PhoneLibe data.
+        "38821"  | "Lüdersdorf Mecklenburg"                 | true   // TODO: ITU "Lüdersdorf" only, but BNetzA "Lüdersdorf Meckl", which is short form of "Mecklenburg", it is not included in LibPhoneNumber data.
         "38822"  | "Diedrichshagen bei Grevesmühlen"        | false
         "38823"  | "Selmsdorf"                              | false
         "38824"  | "Mallentin"                              | false
         "38825"  | "Klütz"                                  | false
         "38826"  | "Dassow"                                 | false
         "38827"  | "Kalkhorst"                              | false
-        "38828"  | "Schönberg Mecklenburg"                  | true   // TODO: ITU "Schönberg" only, but BNetzA "Schönberg Meckl", which is short form of "Mecklenburg", it is not included in PhoneLibe data.
+        "38828"  | "Schönberg Mecklenburg"                  | true   // TODO: ITU "Schönberg" only, but BNetzA "Schönberg Meckl", which is short form of "Mecklenburg", it is not included in LibPhoneNumber data.
         "3883"   | "Hagenow"                                | false
         "38841"  | "Neuhaus Elbe"                           | false
         "38842"  | "Lüttenmark"                             | false
@@ -1718,7 +1718,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "38847"  | "Boizenburg Elbe"                        | false
         "38848"  | "Vellahn"                                | false
         "38850"  | "Gammelin"                               | false
-        "38851"  | "Zarrentin Mecklenburg"                  | true   // TODO: ITU "Zarrentin" only, but BNetzA "Zarrentin Meckl", which is short form of "Mecklenburg", it is not included in PhoneLibe data.
+        "38851"  | "Zarrentin Mecklenburg"                  | true   // TODO: ITU "Zarrentin" only, but BNetzA "Zarrentin Meckl", which is short form of "Mecklenburg", it is not included in LibPhoneNumber data.
         "38852"  | "Wittenburg"                             | false
         "38853"  | "Drönnewitz bei Hagenow"                 | false
         "38854"  | "Redefin"                                | false
@@ -1912,7 +1912,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "3949"   | "Oschersleben Bode"                      | false
         "395"    | "Neubrandenburg"                         | false
         "39600"  | "Zwiedorf"                               | false
-        "39601"  | "Friedland Mecklenburg"                  | true   // TODO: ITU "Friedland" only, but BNetzA "Friedland Meckl", which is short form of "Mecklenburg", it is not included in PhoneLibe data.
+        "39601"  | "Friedland Mecklenburg"                  | true   // TODO: ITU "Friedland" only, but BNetzA "Friedland Meckl", which is short form of "Mecklenburg", it is not included in LibPhoneNumber data.
         "39602"  | "Kleeth"                                 | false
         "39603"  | "Burg Stargard"                          | false
         "39604"  | "Wildberg bei Altentreptow"              | false
@@ -1927,7 +1927,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "3965"   | "Burow bei Altentreptow"                 | false
         "3966"   | "Cölpin"                                 | false
         "3967"   | "Oertzenhof bei Strasburg"               | false
-        "3968"   | "Schönbeck Mecklenburg"                  | true   // TODO: ITU "Schönbeck" only, but BNetzA "Schönbeck Meckl", which is short form of "Mecklenburg", it is not included in PhoneLibe data.
+        "3968"   | "Schönbeck Mecklenburg"                  | true   // TODO: ITU "Schönbeck" only, but BNetzA "Schönbeck Meckl", which is short form of "Mecklenburg", it is not included in LibPhoneNumber data.
         "3969"   | "Siedenbollentin"                        | false
         "3971"   | "Anklam"                                 | false
         "39721"  | "Liepen bei Anklam"                      | false
@@ -1973,8 +1973,8 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "39827"  | "Schwarz bei Neustrelitz"                | false
         "39828"  | "Wustrow Kreis Mecklenburg Strelitz"     | false
         "39829"  | "Blankenförde"                           | false
-        "39831"  | "Feldberg Mecklenburg"                   | true   // TODO: ITU "Feldberg" only, but BNetzA "Feldberg Meckl", which is short form of "Mecklenburg", it is not included in PhoneLibe data.
-        "39832"  | "Wesenberg Mecklenburg"                  | true   // TODO: ITU "Wesenberg" only, but BNetzA "Wesenberg Meckl", which is short form of "Mecklenburg", it is not included in PhoneLibe data.
+        "39831"  | "Feldberg Mecklenburg"                   | true   // TODO: ITU "Feldberg" only, but BNetzA "Feldberg Meckl", which is short form of "Mecklenburg", it is not included in LibPhoneNumber data.
+        "39832"  | "Wesenberg Mecklenburg"                  | true   // TODO: ITU "Wesenberg" only, but BNetzA "Wesenberg Meckl", which is short form of "Mecklenburg", it is not included in LibPhoneNumber data.
         "39833"  | "Mirow Kreis Neustrelitz"                | false
         "3984"   | "Prenzlau"                               | false
         "39851"  | "Göritz bei Prenzlau"                    | false
@@ -2018,7 +2018,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "39952"  | "Grammentin"                             | false
         "39953"  | "Schwinkendorf"                          | false
         "39954"  | "Stavenhagen Reuterstadt"                | false
-        "39955"  | "Jürgenstorf Mecklenburg"                | true   // TODO: ITU "Jürgenstorf" only, but BNetzA "Jürgenstorf Meckl", which is short form of "Mecklenburg", it is not included in PhoneLibe data.
+        "39955"  | "Jürgenstorf Mecklenburg"                | true   // TODO: ITU "Jürgenstorf" only, but BNetzA "Jürgenstorf Meckl", which is short form of "Mecklenburg", it is not included in LibPhoneNumber data.
         "39956"  | "Neukalen"                               | false
         "39957"  | "Gielow"                                 | false
         "39959"  | "Dargun"                                 | false

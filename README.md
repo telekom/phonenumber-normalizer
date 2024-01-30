@@ -5,13 +5,13 @@
 
 With the phonenumber-normalizer library, you can normalize phone numbers to the E164 format and national format, taking into account the specific complexities of the German number plan. The library can also differentiate between short numbers and those with NDCs and NACs, and can be useful for handling phone numbers in fixed-line contexts.
 
-While Google's [PhoneLib](https://github.com/google/libphonenumber) is a general-purpose library for handling phone numbers worldwide, phonenumber-normalizer a wrapper around it, which is specifically tailored to handle the complexities of the German number plan. Especially, phonenumber-normalizer can differentiate between short numbers and those with NDCs and NACs. When PhoneLib is not able to make this distinction, our wrapping corrects the result.
+While Google's [LibPhoneNumber](https://github.com/google/libphonenumber) is a general-purpose library for handling phone numbers worldwide, phonenumber-normalizer a wrapper around it, which is specifically tailored to handle the complexities of the German number plan. Especially, phonenumber-normalizer can differentiate between short numbers and those with NDCs and NACs. When LibPhoneNumber is not able to make this distinction, our wrapping corrects the result.
 
 ![Phone Number Normalizer](https://user-images.githubusercontent.com/3244965/235174029-e58fab4c-37e9-49ba-834e-067b50082abb.png)
 
 ## Problem Statement(s)
 
-If you have to deal with the complexity of telephone numbers your natural choice of handling it, should be the great [PhoneLib](https://github.com/google/libphonenumber) of [Google](https://opensource.google).
+If you have to deal with the complexity of telephone numbers your natural choice of handling it, should be the great [LibPhoneNumber](https://github.com/google/libphonenumber) of [Google](https://opensource.google).
 
 That's what we did for some projects.
 And when we found bugs, we [returned that as feedback](./REPORTED_ISSUES.md) in good open-source tradition.
@@ -41,7 +41,7 @@ c) a SN with NDC and NAC
 d) a SN with NDC and CC (but without NAC in Germany but with in Italy)
 
 We need that differentiation upfront normalization to E164 (which is d).
-Currently, PhoneLib does not identify this situation and adds the CC infront a number b-style, which represents a complete different phone line.
+Currently, LibPhoneNumber does not identify this situation and adds the CC infront a number b-style, which represents a complete different phone line.
 
 ### Example of failing normalization
 
@@ -62,10 +62,10 @@ Additionally, we want to normalize a number with a default NDC, because we might
 ### Root Cause
 
 We think the problem arises from the following situation:
-- PhoneLib is storing the National Significant Number (NSN) as the number, which is the combination of NDC + SN.
-- PhoneLib is storing the number as uint64 which does not allow to store (a) leading Zero(s)
-- PhoneLib is storing leading Zeros in hasNumberOfLeadingZeros and getNumberOfLeadingZeros
-- PhoneLib checks "IS_POSSIBLE_LOCAL_ONLY" only by comparing the length of a number, which might work in a fix length number plan like the North American Number plan, but not with variable number length and optional NDC as in Germany.
+- LibPhoneNumber is storing the National Significant Number (NSN) as the number, which is the combination of NDC + SN.
+- LibPhoneNumber is storing the number as uint64 which does not allow to store (a) leading Zero(s)
+- LibPhoneNumber is storing leading Zeros in hasNumberOfLeadingZeros and getNumberOfLeadingZeros
+- LibPhoneNumber checks "IS_POSSIBLE_LOCAL_ONLY" only by comparing the length of a number, which might work in a fix length number plan like the North American Number plan, but not with variable number length and optional NDC as in Germany.
 
 What needs to be done:
 - Checking if the Country is supporting optional NDC
@@ -75,13 +75,13 @@ What needs to be done:
 - if that all applies, such an input needs to be treated as a short number and not be changed for E164 or National format (see short number [normalization of 116116](https://libphonenumber.appspot.com/phonenumberparser?number=116116&country=DE))
 
 The problem has been addressed but rejected like with [issue tracker 180311606](https://issuetracker.google.com/issues/180311606).
-Reasons are either PhoneLib just make best efforts for formatting and not format checking or that they focus on mobile context while most problems happens in fixed-line context.
+Reasons are either LibPhoneNumber just make best efforts for formatting and not format checking or that they focus on mobile context while most problems happens in fixed-line context.
 
 ## State of Our Implementation
 
 ### Code
 
-As a wrapper we did not change any code of PhoneLib itself, so an [upgrade to the newest version should be possible by just updating the version in the dependency POM definition](UPDATE_FOR_NEW_PHONELIB.md).
+As a wrapper we did not change any code of LibPhoneNumber itself, so an [upgrade to the newest version should be possible by just updating the version in the dependency POM definition](UPDATE_FOR_NEW_PHONELIB.md).
 
 You could either take the sourcecode directly from the repository or use Maven dependency management by adding:
 ```
@@ -117,37 +117,37 @@ Now we get a E164 formatted number, because now we know, how which NDC has to be
 
 ### Use Of Reflection
 
-To check if a number plan of a country is using an optional NDC and NAC, we need to get the countries region metadata from PhoneLib.
+To check if a number plan of a country is using an optional NDC and NAC, we need to get the countries region metadata from LibPhoneNumber.
 
 With getMetadataForRegion there is a method on the PhoneNumberUtil class, but it is not public.
 
 So we are forced to [use reflection and override its accessibility](https://github.com/telekom/phonenumber-normalizer/blob/main/src/main/java/de/telekom/phonenumbernormalizer/numberplans/PhoneLibWrapper.java#L280).
 
 If you are using AOT (ahead of time) compiler, you need to take care of this.
-(While it is used indirectly with the normal PhoneLib use of the wrapper, it might not be safe for all AOT compilers).
+(While it is used indirectly with the normal LibPhoneNumber use of the wrapper, it might not be safe for all AOT compilers).
 
 ### Use of Own ShortNumber Recognition
 
-When we started with the wrapper, PhoneLib did not recognize some phone assistant services as short numbers.
+When we started with the wrapper, LibPhoneNumber did not recognize some phone assistant services as short numbers.
 This as been fixed by [issue tracker 182490059](https://issuetracker.google.com/u/1/issues/182490059). 
 
-But for the EU Social Service Number Range 116xxx, PhoneLib is only checking the assigned number 116116 in Germany.
+But for the EU Social Service Number Range 116xxx, LibPhoneNumber is only checking the assigned number 116116 in Germany.
 This is in contradiction to normal validation, where the range is checked and assignment checks are explicitly not in scope.
 But for the [issue 183669955](https://issuetracker.google.com/u/1/issues/183669955), they insist on assignment, since they need it for free call checks.
-But for other EU states PhoneLib is using the full raneg (e.g. [CZ](https://github.com/google/libphonenumber/blob/4c532d93587d2f9d16dc7a536df55bf179158210/resources/ShortNumberMetadata.xml#L3342))
+But for other EU states LibPhoneNumber is using the full raneg (e.g. [CZ](https://github.com/google/libphonenumber/blob/4c532d93587d2f9d16dc7a536df55bf179158210/resources/ShortNumberMetadata.xml#L3342))
 
 ### One More Thing: Area Gecode Label
 
 There is a table of names for the area code from the BNetzA, which is using non-common abbreviations, which wouldn't be understood by end users.
-But PhoneLib is using those and refusing the long transcription, because they only trust the BNetzA document (see [issue tracker 183383466](https://issuetracker.google.com/issues/183383466)).
+But LibPhoneNumber is using those and refusing the long transcription, because they only trust the BNetzA document (see [issue tracker 183383466](https://issuetracker.google.com/issues/183383466)).
 In addition, the BNetzA has published a [document on the ITU](https://www.itu.int/dms_pub/itu-t/oth/02/02/T02020000510006PDFE.pdf) and [its own website](https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/ONRufnr/Vorwahlverzeichnis_ONB.zip.zip?__blob=publicationFile&v=298), which differ for some values, too.
 
 We provide resolution for each country but also for cities in Germany and states in the US.
 Our engine is using easy to generate [JSON data](./src/main/resources/arealabels/nationallabels/), so you could also provide your own resolution.
 
-We only rely on the number analysis / formation logic of PhoneLib.
+We only rely on the number analysis / formation logic of LibPhoneNumber.
 Their GeoCoder is not used for your labeling.
-We only use the PhoneLib's GeoCoder in some testcases, to check if ours and their labeling against each other. 
+We only use the LibPhoneNumber's GeoCoder in some testcases, to check if ours and their labeling against each other. 
 
 ```
 String normalizedNumber = "+493020355555";
@@ -163,7 +163,7 @@ This project has adopted the [Contributor Covenant](https://www.contributor-cove
 
 By participating in this project, you agree to abide by its [Code of Conduct](./CODE_OF_CONDUCT.md) at all times.
 
-A simple regular task is to adapt the project to use a new versions of Google's [PhoneLib](https://github.com/google/libphonenumber). We also have a [guide](UPDATE_FOR_NEW_PHONELIB.md) for this.
+A simple regular task is to adapt the project to use a new versions of Google's [LibPhoneNumber](https://github.com/google/libphonenumber). We also have a [guide](UPDATE_FOR_NEW_PHONELIB.md) for this.
 
 ## Licensing
 

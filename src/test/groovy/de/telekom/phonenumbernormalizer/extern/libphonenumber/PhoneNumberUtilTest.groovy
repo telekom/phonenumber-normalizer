@@ -45,13 +45,13 @@ class PhoneNumberUtilTest extends Specification {
         then: "is number expected: $expectedResult"
         if (result != expectedResult) {
             if (expectingFail) {
-                logger.info("PhoneLib is still not correctly normalizing $number to $expectedResult for region $regionCode, by giving $result")
+                logger.info("LibPhoneNumber is still not correctly normalizing $number to $expectedResult for region $regionCode, by giving $result")
             } else {
-                logger.warning("PhoneLib is suddenly not correctly normalizing $number to $expectedResult for region $regionCode, by giving $result")
+                logger.warning("LibPhoneNumber is suddenly not correctly normalizing $number to $expectedResult for region $regionCode, by giving $result")
             }
         } else {
             if (expectingFail) {
-                logger.info("!!! PhoneLib is now correctly normalizing $number to $expectedResult for region $regionCode !!!")
+                logger.info("!!! LibPhoneNumber is now correctly normalizing $number to $expectedResult for region $regionCode !!!")
             }
         }
 
@@ -88,13 +88,13 @@ class PhoneNumberUtilTest extends Specification {
         then: "is number expected: $expectedResult"
         if (result != expectedResult) {
             if (expectingFail) {
-                logger.info("PhoneLib is still not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
+                logger.info("LibPhoneNumber is still not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
             } else {
-                logger.warning("PhoneLib is suddenly not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
+                logger.warning("LibPhoneNumber is suddenly not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
             }
         } else {
             if (expectingFail) {
-                logger.info("!!! PhoneLib is now correctly validating $number to $expectedResult for region $regionCode !!!")
+                logger.info("!!! LibPhoneNumber is now correctly validating $number to $expectedResult for region $regionCode !!!")
             }
         }
 
