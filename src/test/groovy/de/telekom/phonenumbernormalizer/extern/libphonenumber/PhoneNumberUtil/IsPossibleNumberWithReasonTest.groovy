@@ -2356,7 +2356,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+4918 59995"    | "FR" | [true, true, true, true, false, true, true]
     }
 
-    def "check if original lib fixed isPossibleNumberWithReason for German Online Services 019(1-4)"(String reserve, boolean historic, regionCode, boolean[] expectingFails) {
+    def "check if original lib fixed isPossibleNumberWithReason for German Online Services 019(1-4) inc. historic"(String reserve, historic,regionCode, boolean[] expectingFails) {
         given:
         String[] numbersToTest = [reserve + "",
                                   reserve + "2",
@@ -2527,13 +2527,25 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // ---
         "0190"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve - previously premium rate numbers, which were relocated to 0900
         // ---
-        // TODO: 019(1-4) Online Services see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/019xyz/019xyz_node.html
+        // 019(1-4) is checked in German Online Services 019(1-4) inc. historic
         // ---
         "0195"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve
         "0196"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve
         "0197"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve
         // ---
+        // Traffic management numbers are only valid between operators - so not for end customers to call
         // TODO: 019(8&9) is traffic management see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Verkehrslenkungsnummern/start.html
+        "01980"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve
+        // TODO: 01981 - emergency routing from mobile
+        // TODO: 01982 - emergency routing
+        "01983"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve
+        "01984"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve
+        "01985"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve
+        // TODO: 01986 - 115 Service Routing
+        // TODO: 01987 - 116 Service Routing
+        // TODO: 01988 - International FreeCall Routing
+        // TODO: 01989 - Assistant Service Routing
+        // TODO: 0199 - network internal Routing
         // ---
         // TODO: 0700 - personal: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0700/0700_node.html
         // TODO: 0800 - free call: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0800/0800_node.html
