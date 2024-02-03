@@ -159,7 +159,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // end of 115
     }
 
-
     def "check if original lib fixed isPossibleNumberWithReason for EU social short codes in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
@@ -226,7 +225,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+49116 55"                 | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
         // end of 116
     }
-
 
     def "check if original lib fixed isPossibleNumberWithReason for German Call Assistant short codes in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
@@ -338,7 +336,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // end of 118
     }
 
-
     def "check if original lib fixed isPossibleNumberWithReason for ambulance transport 19222 short codes in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
@@ -431,7 +428,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0137 900 000"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
 
     }
-
 
     def "check if original lib fixed isPossibleNumberWithReason for German Mobile 15 range"(String numberUntilInfix, regionCode, boolean[] expectingFails) {
         given:
@@ -1512,7 +1508,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // 016399 is reserved for voicemail - see tests below
     }
 
-
     def "check if original lib fixed isPossibleNumberWithReason for German Mobile 16 range with voicemail infix"(String numberUntilInfix, regionCode, boolean[] expectingFails) {
         given:
         String[] numbersToTest = [numberUntilInfix + "000000",
@@ -1566,7 +1561,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         //
         "016399"         | "DE" | [true, false, false, true, true, false, false, true]
     }
-
 
     def "check if original lib fixed isPossibleNumberWithReason for German reserve 16 range"(String reserve, regionCode, boolean[] expectingFails) {
         given:
@@ -1671,7 +1665,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0169"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true, false, true]
 
     }
-
 
     def "check if original lib fixed isPossibleNumberWithReason for German Mobile 17 range"(String numberUntilInfix, regionCode, boolean[] expectingFails) {
         given:
@@ -1956,7 +1949,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "01799"          | "DE" | [true, false, false, true, true, false, false, true]
     }
 
-
     def "check if original lib fixed isPossibleNumberWithReason for German Mobile 17 range with voicemail infix"(String numberUntilInfix, regionCode, boolean[] expectingFails) {
         given:
         String[] numbersToTest = [numberUntilInfix + "000000",
@@ -2039,7 +2031,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         //
         "017933"         | "DE" | [true, false, false, true, true, false, false, true]
     }
-
 
     def "check if original lib fixed isPossibleNumberWithReason for German ServiceNumbers 180 range"(String reserve, regionCode, boolean[] expectingFails) {
         given:
@@ -2365,6 +2356,67 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+4918 59995"    | "FR" | [true, true, true, true, false, true, true]
     }
 
+    def "check if original lib fixed isPossibleNumberWithReason for German Online Services 019(1-4)"(String reserve, boolean historic, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults
+        if (historic) {
+            expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                               PhoneNumberUtil.ValidationResult.IS_POSSIBLE,  // BnetzA mentioned historic numbers are 4 digits long
+                               PhoneNumberUtil.ValidationResult.IS_POSSIBLE,  // TODO: BnetzA only mentioned historic 4 digit numbers, but since we found 6 digit in use, we asume the gab with 5 digits should be possible
+                               PhoneNumberUtil.ValidationResult.IS_POSSIBLE,  // At TDG (Deutsche Telekom Germany) we are using historic 0191 range with a 6 digit number
+                               PhoneNumberUtil.ValidationResult.TOO_LONG,
+                               PhoneNumberUtil.ValidationResult.TOO_LONG]
+        } else {
+            expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                               PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                               PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                               PhoneNumberUtil.ValidationResult.IS_POSSIBLE,  // BnetzA specified just 6 digits for current numbers
+                               PhoneNumberUtil.ValidationResult.TOO_LONG,
+                               PhoneNumberUtil.ValidationResult.TOO_LONG]
+        }
+
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve     | historic | regionCode | expectingFails
+        //  019(1-4) is Online Services: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/019xyz/019xyz_node.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/019xyz/019_Nummernplan.pdf?__blob=publicationFile&v=1
+        //  while currently only 019(2-4) is used, there are historically 019(1-3) allocations with other structure.
+        //  are those services dead? https://www.teltarif.de/internet/by-call/
+        //  Deutsche Telekom still offers 0191011 see https://www.telekom.de/hilfe/festnetz-internet-tv/anschluss-verfuegbarkeit/anschlussvarianten/festnetz-internet/einwahlnummern-internetzugang-aus-dem-ausland?samChecked=true
+        //  that is historically a 0191 range, but not limit to 4 digits but using 6!
+        //  Vodafone Germany is offering 0192070 see https://www.vodafone.de/media/downloads/pdf/090512_Preisliste_Vodafone_Festnetz.pdf
+        //  Historical: 4 to 6
+        "0191"      | true     | "DE" | [true, false, false, false, true, true]
+        "0192"      | true     | "DE" | [true, false, false, false, true, true]
+        "0193"      | true     | "DE" | [true, false, false, false, true, true]
+        "+49191"    | true     | "FR" | [true, false, false, false, true, true]
+        "+49192"    | true     | "FR" | [true, false, false, false, true, true]
+        "+49193"    | true     | "FR" | [true, false, false, false, true, true]
+        //  current: 6 digits
+        "0194"      | false    | "DE" | [true, true, true, false, true, true]
+        "+49194"    | false    | "FR" | [true, true, true, false, true, true]
+
+    }
+
     def "check if original lib fixed isPossibleNumberWithReason for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
@@ -2465,13 +2517,24 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // 017x is checked in Mobile 17 and 17 voicemail see above
         // ---
         // ---
-        // 0180 TODO: 0180 is Services: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0180/start.html
+        // 0180 is checked in Service Numbers 0180 and its reserve
         // ---
-        // TODO: 018(2-9) is VPN see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/018/018_Node.html
-        // TODO: 0181 is international VPN see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0181/181_node.html
-        // TODO: 019xyz Online Services see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/019xyz/019xyz_node.html
-        // TODO: 019x is traffic management see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Verkehrslenkungsnummern/start.html
-
+        // ---
+        // 0181 is checked in international VPN 0181
+        // ---
+        // ---
+        // 018(2-9) is checked in German national VPN 018(2-9) range and that it is only reachable nationally
+        // ---
+        "0190"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve - previously premium rate numbers, which were relocated to 0900
+        // ---
+        // TODO: 019(1-4) Online Services see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/019xyz/019xyz_node.html
+        // ---
+        "0195"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve
+        "0196"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve
+        "0197"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve
+        // ---
+        // TODO: 019(8&9) is traffic management see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Verkehrslenkungsnummern/start.html
+        // ---
         // TODO: 0700 - personal: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0700/0700_node.html
         // TODO: 0800 - free call: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0800/0800_node.html
         // TODO: 0900 - premium: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0900/start.html
@@ -5826,7 +5889,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0998"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0999"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
     }
-
 
     def "check if original lib fixes Romania special service 7 marking too long"(String number, regionCode, expectedResult, expectingFail) {
         given:
