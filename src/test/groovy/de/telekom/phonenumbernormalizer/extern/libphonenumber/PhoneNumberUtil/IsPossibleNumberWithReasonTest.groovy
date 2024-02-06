@@ -16,7 +16,6 @@
 package de.telekom.phonenumbernormalizer.extern.libphonenumber.PhoneNumberUtil
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import de.telekom.phonenumbernormalizer.numberplans.PhoneNumberValidationResult
 import spock.lang.Specification
 
 import java.util.logging.Logger
@@ -2417,6 +2416,82 @@ class IsPossibleNumberWithReasonTest extends Specification {
 
     }
 
+    def "check if original lib fixed isPossibleNumberWithReason for German traffic routing 01981 of mobile Emergency calls"(String reserve, operator,regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566",
+                                  reserve + "22334455667",
+                                  reserve + "223344556677"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults
+        if ((operator) && (regionCode == "DE")) {
+             expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.IS_POSSIBLE,  // not callable public, but for national operators
+                                                                  PhoneNumberUtil.ValidationResult.IS_POSSIBLE,  // not callable public, but for national operators
+                                                                  PhoneNumberUtil.ValidationResult.IS_POSSIBLE,  // not callable public, but for national operators
+                                                                  PhoneNumberUtil.ValidationResult.IS_POSSIBLE,  // not callable public, but for national operators
+                                                                  PhoneNumberUtil.ValidationResult.TOO_LONG]
+        } else {
+             expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                                  PhoneNumberUtil.ValidationResult.INVALID_LENGTH,  // not callable public, but for national operators
+                                                                  PhoneNumberUtil.ValidationResult.INVALID_LENGTH,  // not callable public, but for national operators
+                                                                  PhoneNumberUtil.ValidationResult.INVALID_LENGTH,  // not callable public, but for national operators
+                                                                  PhoneNumberUtil.ValidationResult.INVALID_LENGTH,  // not callable public, but for national operators
+                                                                  PhoneNumberUtil.ValidationResult.TOO_LONG]
+        }
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve     | operator | regionCode | expectingFails
+        //  0198 is trafic control: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Verkehrslenkungsnummern/start.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Verkehrslenkungsnr/NummernplanVerkehrslenkungsnrn.pdf?__blob=publicationFile&v=1
+        //  01981 is used for emergency call routing from national mobile operators and are not callable by normal public telephony network users nor by international operators
+        //  01981-AB-(NDC 2-5 digits)-CC-XY
+        //  additionally it could be checked if A is 2..5 and B is 1..3
+        //  additionally only valid NDCs see below could also be checked but that would be more a IsValid check
+        //  for traditional libphone it makes no difference if number is used by public user or operator, so one of it will allways fail until it could distingush it
+        "01981"     | false    | "DE" | [true, true, true, true, true, true, true, true, true, true, true, true, false]
+        "01981"     | true     | "DE" | [true, true, true, true, true, true, true, true, false, false, false, false, false]
+        "+491981"   | false    | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true, false]
+        "+491981"   | true     | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true, false]
+
+    }
+
+
     def "check if original lib fixed isPossibleNumberWithReason for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
@@ -2536,7 +2611,9 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // Traffic management numbers are only valid between operators - so not for end customers to call
         // TODO: 019(8&9) is traffic management see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Verkehrslenkungsnummern/start.html
         "01980"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve
-        // TODO: 01981 - emergency routing from mobile
+        // ---
+        // 01981 is checked in German traffic routing 01981 of mobile Emergency calls
+        // ---
         // TODO: 01982 - emergency routing
         "01983"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve
         "01984"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // Reserve
