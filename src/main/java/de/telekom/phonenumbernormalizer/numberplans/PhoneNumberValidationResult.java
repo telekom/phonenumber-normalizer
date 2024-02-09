@@ -47,6 +47,10 @@ public enum PhoneNumberValidationResult {
      */
     IS_POSSIBLE_VPN_ONLY(ValidationResult.IS_POSSIBLE),
     /**
+     * The number length/pattern matches that of national operator traffic control numbers for this region only (i.e. number is only allowed to be call between national operators for call routing and not directly by users of the public telephony network).
+     */
+    IS_POSSIBLE_NATIONAL_OPERATOR_ONLY(ValidationResult.IS_POSSIBLE_LOCAL_ONLY),
+    /**
      * The number length/pattern matches that of operator traffic control numbers for this region only (i.e. number is only allowed to be call between operators for call routing and not directly by users of the public telephony network).
      */
     IS_POSSIBLE_OPERATOR_ONLY(ValidationResult.IS_POSSIBLE),
@@ -92,6 +96,18 @@ public enum PhoneNumberValidationResult {
      */
     public ValidationResult getPhoneLibValidationResult() {
         return phoneLibResult;
+    }
+
+    /**
+     * Returns if the validation result identifies a possible number regardless of calling limitations
+     * @return boolean true for any IS_POSSIBLE(_xxx) enum value
+     */
+    public boolean isSomeHowValid() {
+        return ((this == IS_POSSIBLE) || (this == IS_POSSIBLE_LOCAL_ONLY)
+                || (this == IS_POSSIBLE_NATIONAL_ONLY) || (this == IS_POSSIBLE_NATIONAL_VPN_ONLY) || (this == IS_POSSIBLE_NATIONAL_OPERATOR_ONLY)
+                || (this == IS_POSSIBLE_INTERNATIONAL_ONLY)
+                || (this == IS_POSSIBLE_VPN_ONLY)
+                || (this == IS_POSSIBLE_OPERATOR_ONLY));
     }
 
 }
