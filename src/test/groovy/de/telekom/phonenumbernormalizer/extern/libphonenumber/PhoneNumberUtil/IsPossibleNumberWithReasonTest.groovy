@@ -3048,12 +3048,122 @@ class IsPossibleNumberWithReasonTest extends Specification {
         //  0198 is trafic control: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Verkehrslenkungsnummern/start.html
         //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Verkehrslenkungsnr/NummernplanVerkehrslenkungsnrn.pdf?__blob=publicationFile&v=1
         //  01988 is used for EU public service call routing from operators and are not callable by normal public telephony network users (TODO: verfiy it is callable by international operators, which is assumed, because +49 is usable (unlike at 01981)
-        //  01988-xx
+        //  01988-xx TODO: verify called number information is transfered outside the number (no digits after xx)
         //  for traditional libphone it makes no difference if number is used by public user or operator, so one of it will always fail until it could distinguish it
         "01988"     | false    | "DE" | [true, true, true, true, true, true, true, true, true, true, true, true, true]
         "01988"     | true     | "DE" | [true, true, false, true, true, true, true, true, false, true, true, true, true]
         "+491988"   | false    | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true, true]
         "+491988"   | true     | "FR" | [true, true, false, true, true, true, true, true, false, true, true, true, true]
+    }
+
+    def "check if original lib fixed isPossibleNumberWithReason for German traffic routing 01989 for Call Assistant"(String number, boolean Operator, regionCode, expectedResult, expectingFail) {
+        given:
+        // Operator is currently not usable in original methods (just a preparation)
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when: "get number isPossibleNumberWithReason: $number"
+
+        def result = phoneUtil.isPossibleNumberWithReason(phoneNumber)
+
+        then: "is number expected: $expectedResult"
+
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number     | Operator    | regionCode  | expectedResult                                           | expectingFail
+        // traffic routing is described in https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Verkehrslenkungsnr/NummernplanVerkehrslenkungsnrn.pdf?__blob=publicationFile&v=1
+        // https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/118xy/118xyNummernplan.pdf?__blob=publicationFile&v=1
+
+        // prefix 118 is replaced by 01989 and the rest of the general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "01989"    | true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "019890"   | true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0198900"  | true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "01989000" | true        | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false  // not callable public, but for operators
+        "019890000"| true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "019891"   | true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0198910"  | true        | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false  // not callable public, but for operators
+        // Call Assistant of Deutsche Telekom
+        "0198933"  | true        | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false  // not callable public, but for operators
+        "01989100" | true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "019899"   | true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0198999"  | true        | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false  // not callable public, but for operators
+        "01989999" | true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+
+        // prefix 118 is replaced by 01989 and the rest of the general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "01989"    | false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "019890"   | false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0198900"  | false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "01989000" | false       | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not callable public, but for operators
+        "019890000"| false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "019891"   | false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0198910"  | false       | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not callable public, but for operators
+        // Call Assistant of Deutsche Telekom
+        "0198933"  | false       | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not callable public, but for operators
+        "01989100" | false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "019899"   | false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0198999"  | false       | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not callable public, but for operators
+        "01989999" | false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+
+        // prefix 118 is replaced by 01989 and the rest of the general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "01989"    | true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "019890"   | true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0198900"  | true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "01989000" | true        | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false  // not callable public, but for operators
+        "019890000"| true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "019891"   | true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0198910"  | true        | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false  // not callable public, but for operators
+        // Call Assistant of Deutsche Telekom
+        "0198933"  | true        | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false  // not callable public, but for operators
+        "01989100" | true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "019899"   | true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0198999"  | true        | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false  // not callable public, but for operators
+        "01989999" | true        | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+
+        // prefix 118 is replaced by 01989 and the rest of the general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "01989"    | false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "019890"   | false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0198900"  | false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "01989000" | false       | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not callable public, but for operators
+        "019890000"| false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "019891"   | false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0198910"  | false       | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not callable public, but for operators
+        // Call Assistant of Deutsche Telekom
+        "0198933"  | false       | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not callable public, but for operators
+        "01989100" | false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "019899"   | false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0198999"  | false       | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not callable public, but for operators
+        "01989999" | false       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+
+        // prefix 118 is replaced by 01989 and the rest of the general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "+491989"    | true        | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+4919890"   | true        | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+49198900"  | true        | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+491989000" | true        | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+4919890000"| true        | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+4919891"   | true        | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+49198910"  | true        | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        // Call Assistant of Deutsche Telekom
+        "+49198933"  | true        | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+491989100" | true        | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+4919899"   | true        | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+49198999"  | true        | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+491989999" | true        | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+
+        // prefix 118 is replaced by 01989 and the rest of the general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "+491989"    | false       | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+4919890"   | false       | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+49198900"  | false       | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+491989000" | false       | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+4919890000"| false       | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+4919891"   | false       | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+49198910"  | false       | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        // Call Assistant of Deutsche Telekom
+        "+49198933"  | false       | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+491989100" | false       | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+4919899"   | false       | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+49198999"  | false       | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
+        "+491989999" | false       | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
     }
 
     def "check if original lib fixed isPossibleNumberWithReason for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
@@ -3193,7 +3303,9 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // ---
         // 01988 is checked in German traffic routing 01988 for international freecalls
         // ---
-        // TODO: 01989 - Assistant Service Routing
+        // ---
+        // 01989 is checked in Assistant Service Routing
+        // ---
         // TODO: 0199 - network internal Routing
         // ---
 
