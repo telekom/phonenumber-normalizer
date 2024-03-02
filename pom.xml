@@ -186,10 +186,11 @@
             <scope>test</scope>
         </dependency>
         <!--Replaces Version 3.5.1 which has https://devhub.checkmarx.com/cve-details/CVE-2007-2379/?utm_source=jetbrains&utm_medium=referral&utm_campaign=idea -->
+        <!--Not usinng Version 3.7.1 which has other vulnerabilities -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
-            <version>3.6.4</version>
+            <version>3.7.0</version>
             <scope>test</scope>
         </dependency>
 
