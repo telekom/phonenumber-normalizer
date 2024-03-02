@@ -3273,8 +3273,56 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+49199"   | true     | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
     }
 
+    def "check if original lib fixed isPossibleNumberWithReason for German personale 700 range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
 
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG
+        ]
 
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  0700 is personal number range: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0700/0700_node.html
+        //  it has 8-digit long numbers TODO: unclear if those numbers may only be called within Germany (no country code example)
+        //  but general numberplan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1
+        //  indicates it is callable from outside Germany
+
+        "0700"           | "DE" | [true, true, true, true, true, true, true, true, false, true, true]
+        "+49700"         | "DE" | [true, true, true, true, true, true, true, true, false, true, true]
+        "+49700"         | "FR" | [true, true, true, true, true, true, true, true, false, true, true]
+    }
 
     def "check if original lib fixed isPossibleNumberWithReason for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
@@ -3416,10 +3464,10 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // ---
         // 01989 is checked in Assistant Service Routing
         // ---
-        // TODO: 0199 - network internal Routing
+        // ---
+        // 0199 is checked in operator internal network traffic routing
         // ---
 
-        // TODO: 0700 - personal: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0700/0700_node.html
         // TODO: 0800 - free call: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0800/0800_node.html
         // TODO: 0900 - premium: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0900/start.html
         // TODO: 09009 - Dialer: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/09009/9009_node.html
@@ -5754,7 +5802,9 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // 06897 till 06898 is in use
         "06899"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // 069 is Frankfurt am Mai
-        // 0700 is special number code see: TODO will be coded - see above
+        // ---
+        // 0700 is checked in personal number 0700 see above
+        // ---
         "0701"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "07020"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // 7021 till 7026 is in use
