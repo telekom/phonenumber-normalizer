@@ -3377,6 +3377,70 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+49800"         | "FR" | [true, true, true, true, true, true, true, false, true, true, true]
     }
 
+
+    def "check if original lib fixed isPossibleNumberWithReason for German free call 900 range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG
+        ]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  0900x is premium number range: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0900/start.html
+        //  it has 6-digit long numbers TODO: unclear if those numbers may only be called within Germany (no country code example)
+        //  see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0900/0900_NummernplanMit.pdf?__blob=publicationFile&v=1
+        //  but general numberplan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1
+        //  indicates it is callable from outside Germany
+
+        // TODO start: by Dec 1st of 2024 the ranges 9000 till 09008 will be possible for premium service
+        // Information
+        "09001"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+499001"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+499001"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+        // Entertaining
+        "09003"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+499003"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+499003"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+        // everything else
+        "09005"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+499005"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+499005"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+    }
+
+
     def "check if original lib fixed isPossibleNumberWithReason for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
@@ -3521,9 +3585,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // 0199 is checked in operator internal network traffic routing
         // ---
 
-        // TODO: 0900 - premium: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0900/start.html
         // TODO: 031 - Testnumbers: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/031/031_node.html
-
         // TODO: DRAMA numbers: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mittlg148_2021.pdf?__blob=publicationFile&v=1
 
         // invalid area code for germany - using Invalid_Lenth, because its neither to long or short, but just NDC is not valid.
@@ -6555,11 +6617,11 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // 089 is München
         // TODO start: by Dec 1st of 2024 the ranges 9000 till 09008 will be possible for premium service
         "09000"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        // 09001 Information Service TODO:see above
+        // 09001 Information Service checked in 0900 range test
         "09002"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        // 09003 Entertainment Service TODO:see above
+        // 09003 Entertainment Service checked in 0900 range test
         "09004"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        // 09005 other premium services TODO: see above
+        // 09005 other premium services checked in 0900 range test
         "09006"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "09007"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "09008"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
