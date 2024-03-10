@@ -3549,6 +3549,344 @@ class IsPossibleNumberWithReasonTest extends Specification {
     }
 
 
+    def "check if original lib fixed isPossibleNumberWithReason for German personal numbers 032 range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
+                                                              PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_LONG
+        ]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  032 is personal number range:https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/032/032_node.html
+        //  only a view blocks are currently in use https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/032/Zuteilungsregeln032NationaleTeilnehmerrufnummern.pdf?__blob=publicationFile&v=1
+
+        // (0)32210 is not usable for now
+
+        "032211"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932211"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932211"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032212"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932212"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932212"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032213"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932213"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932213"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032214"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932214"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932214"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032215"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932215"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932215"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032216"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932216"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932216"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032217"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932217"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932217"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032218"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932218"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932218"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032219"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932219"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932219"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        // (0)32220 is not usable for now
+
+        "032221"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932221"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932221"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032222"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932222"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932222"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032223"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932223"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932223"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032224"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932224"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932224"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032225"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932225"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932225"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032226"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932226"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932226"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032227"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932227"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932227"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032228"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932228"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932228"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+
+        "032229"           | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932229"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
+        "+4932229"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
+    }
+
+
+    def "check if original lib fixed isPossibleNumberWithReason for German personal numbers 032 range - low level reserve"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH
+        ]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  032 is personal number range:https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/032/032_node.html
+        //  only a view blocks are currently in use https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/032/Zuteilungsregeln032NationaleTeilnehmerrufnummern.pdf?__blob=publicationFile&v=1
+
+        "032210"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+4932210"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+4932210"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "032220"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+4932220"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+4932220"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+   }
+
+    def "check if original lib fixed isPossibleNumberWithReason for German personal numbers 032 range - mid level reserve"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH
+        ]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  032 is personal number range:https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/032/032_node.html
+        //  only a view blocks are currently in use https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/032/Zuteilungsregeln032NationaleTeilnehmerrufnummern.pdf?__blob=publicationFile&v=1
+
+        "03220"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493220"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493220"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        // (0)3221xyyy is in use see above
+        // (0)3222xyyy is in use see above
+
+        "03223"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493223"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493223"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "03224"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493224"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493224"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "03225"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493225"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493225"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "03226"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493226"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493226"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "03227"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493227"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493227"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "03228"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493228"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493228"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "03229"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493229"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+493229"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+    }
+
+    def "check if original lib fixed isPossibleNumberWithReason for German personal numbers 032 range - high level reserve"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH
+        ]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  032 is personal number range:https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/032/032_node.html
+        //  only a view blocks are currently in use https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/032/Zuteilungsregeln032NationaleTeilnehmerrufnummern.pdf?__blob=publicationFile&v=1
+
+        "0320"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49320"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49320"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0321"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49321"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49321"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        // (0)322 is checked in middle level test see above
+
+        "0323"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49323"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49323"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0324"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49324"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49324"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0325"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49325"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49325"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0326"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49326"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49326"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0327"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49327"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49327"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0328"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49328"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49328"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0329"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49329"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49329"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+    }
+
     def "check if original lib fixed isPossibleNumberWithReason for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
@@ -3693,7 +4031,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // 0199 is checked in operator internal network traffic routing
         // ---
 
-        // TODO: 032 - National numbers: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/032/032_node.html
         // TODO: DRAMA numbers: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mittlg148_2021.pdf?__blob=publicationFile&v=1
 
         // invalid area code for germany - using Invalid_Lenth, because its neither to long or short, but just NDC is not valid.
@@ -4080,6 +4417,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "02998"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "02999"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // 030 is Berlin
+        // ---
         // 0310 is checked in German test numbers 031x
         // 0311 is checked in German test numbers 031x
         // 0312 till 0319 is also checked in German test numbers 031x - TODO: by end of 2024 Call By Call is disabled in Germany, to be checked if Testnumbers are dropped then.
@@ -4091,7 +4429,10 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0317"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0318"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0319"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        // 032 is non geographical 11 till 13 length -> TODO: OWN Test
+        // ---
+        // ---
+        // 032 is checked in multiple 032 test (due to different blocks are only in use currently) see above
+        // ---
         "03300"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // 03301 till 03304 is in use
         "033050"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
@@ -6724,6 +7065,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0888"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0889"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // 089 is München
+        // ---
         // TODO start: by Dec 1st of 2024 the ranges 9000 till 09008 will be possible for premium service
         "09000"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // 09001 Information Service checked in 0900 range test
@@ -6735,6 +7077,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "09007"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "09008"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // TODO end: by Dec 1st of 2024 the ranges 9000 till 09008 will be possible for premium service
+        // ---
         "09009"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/09009/9009_node.html removed block
         "0901"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0902"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
