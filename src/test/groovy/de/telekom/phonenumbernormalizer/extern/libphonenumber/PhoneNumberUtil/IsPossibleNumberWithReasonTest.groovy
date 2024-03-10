@@ -3273,7 +3273,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+49199"   | true     | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
     }
 
-    def "check if original lib fixed isPossibleNumberWithReason for German personale 700 range"(String reserve, regionCode, boolean[] expectingFails) {
+    def "check if original lib fixed isPossibleNumberWithReason for German personal 700 range"(String reserve, regionCode, boolean[] expectingFails) {
         given:
         String[] numbersToTest = [reserve + "",
                                   reserve + "2",
@@ -3377,7 +3377,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+49800"         | "FR" | [true, true, true, true, true, true, true, false, true, true, true]
     }
 
-
     def "check if original lib fixed isPossibleNumberWithReason for German free call 900 range"(String reserve, regionCode, boolean[] expectingFails) {
         given:
         String[] numbersToTest = [reserve + "",
@@ -3439,7 +3438,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+499005"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
         "+499005"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
     }
-
 
     def "check if original lib fixed isPossibleNumberWithReason for German test numbers 031x range"(String reserve, regionCode, boolean[] expectingFails, boolean reserverange) {
         given:
@@ -3547,7 +3545,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+49319"         | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
         "+49319"         | true | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
     }
-
 
     def "check if original lib fixed isPossibleNumberWithReason for German personal numbers 032 range"(String reserve, regionCode, boolean[] expectingFails) {
         given:
@@ -3669,7 +3666,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+4932229"         | "DE" | [true, true, true, true, true, true, false, true, true, true, true]
         "+4932229"         | "FR" | [true, true, true, true, true, true, false, true, true, true, true]
     }
-
 
     def "check if original lib fixed isPossibleNumberWithReason for German personal numbers 032 range - low level reserve"(String reserve, regionCode, boolean[] expectingFails) {
         given:
@@ -3885,6 +3881,159 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0329"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
         "+49329"         | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
         "+49329"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+    }
+
+
+    def "check if original lib fixed isPossibleNumberWithReason for German explicit drama numbers"(String testnumber, regionCode, boolean expectingFail) {
+        given:
+        String[] numbersToTest = [testnumber]
+        PhoneNumberUtil.ValidationResult expectedResult = PhoneNumberUtil.ValidationResult.INVALID_LENGTH
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResult, expectingFail, numbersToTest[i], regionCode)
+        }
+
+        where:
+        testnumber          | regionCode | expectingFail
+        //  there are some drama numbers definded in https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/mittlg148_2021.pdf?__blob=publicationFile&v=1
+
+        "0152 28817386"     | "DE"       | true
+        "+49152 28817386"   | "DE"       | true
+        "+49152 28817386"   | "FR"       | true
+
+        "0152 28895456"     | "DE"       | true
+        "+49152 28895456"   | "DE"       | true
+        "+49152 28895456"   | "FR"       | true
+
+        "0152 54599371"     | "DE"       | true
+        "+49152 54599371"   | "DE"       | true
+        "+49152 54599371"   | "FR"       | true
+
+        "0172 9925904"     | "DE"       | true
+        "+49172 9925904"   | "DE"       | true
+        "+49172 9925904"   | "FR"       | true
+
+        "0172 9968532"     | "DE"       | true
+        "+49172 9968532"   | "DE"       | true
+        "+49172 9968532"   | "FR"       | true
+
+        "0172 9973185"     | "DE"       | true
+        "+49172 9973185"   | "DE"       | true
+        "+49172 9973185"   | "FR"       | true
+
+        "0172 9973186"     | "DE"       | true
+        "+49172 9973186"   | "DE"       | true
+        "+49172 9973186"   | "FR"       | true
+
+        "0172 9980752"     | "DE"       | true
+        "+49172 9980752"   | "DE"       | true
+        "+49172 9980752"   | "FR"       | true
+
+        "0174 9091317"     | "DE"       | true
+        "+49174 9091317"   | "DE"       | true
+        "+49174 9091317"   | "FR"       | true
+
+        "0174 9464308"     | "DE"       | true
+        "+49174 9464308"   | "DE"       | true
+        "+49174 9464308"   | "FR"       | true
+    }
+
+    def "check if original lib fixed isPossibleNumberWithReason for German 2 digit drama number range"(String testnumber, regionCode, boolean expectingFail) {
+        given:
+        ArrayList<String> numbersToTest = []
+
+        for (int i1=0; i1<10; i1++) {
+            for (int i2=0; i2<10; i2++) {
+                String s = testnumber + String.valueOf(i1) + String.valueOf(i2)
+                numbersToTest.add(s)
+            }
+        }
+
+        PhoneNumberUtil.ValidationResult expectedResult = PhoneNumberUtil.ValidationResult.INVALID_LENGTH
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResult, expectingFail, numbersToTest[i], regionCode)
+        }
+
+        where:
+        testnumber          | regionCode | expectingFail
+        //  there are some drama number ranges defined in https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/mittlg148_2021.pdf?__blob=publicationFile&v=1
+
+        "0171 39200"     | "DE"       | true
+        "+49171 39200"   | "DE"       | true
+        "+49171 39200"   | "FR"       | true
+
+        "0176 040690"     | "DE"       | true
+        "+49176 040690"   | "DE"       | true
+        "+49176 040690"   | "FR"       | true
+    }
+
+    def "check if original lib fixed isPossibleNumberWithReason for German 3 digit drama number range"(String testnumber, regionCode, boolean expectingFail) {
+        given:
+        ArrayList<String> numbersToTest = []
+
+        for (int i1=0; i1<10; i1++) {
+            for (int i2=0; i2<10; i2++) {
+                for (int i3=0; i3<10; i3++) {
+                    String s = testnumber + String.valueOf(i1) + String.valueOf(i2) + String.valueOf(i3)
+                    numbersToTest.add(s)
+                }
+            }
+        }
+
+        PhoneNumberUtil.ValidationResult expectedResult = PhoneNumberUtil.ValidationResult.INVALID_LENGTH
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResult, expectingFail, numbersToTest[i], regionCode)
+        }
+
+        where:
+        testnumber          | regionCode | expectingFail
+        //  there are some drama number ranges defined in https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/mittlg148_2021.pdf?__blob=publicationFile&v=1
+
+        "030 23125"     | "DE"       | true
+        "+4930 23125"   | "DE"       | true
+        "+4930 23125"   | "FR"       | true
+
+        "069 90009"     | "DE"       | true
+        "+4969 90009"   | "DE"       | true
+        "+4969 90009"   | "FR"       | true
+
+        "040 66969"     | "DE"       | true
+        "+4940 66969"   | "DE"       | true
+        "+4940 66969"   | "FR"       | true
+
+        "0221 4710"     | "DE"       | true
+        "+49221 4710"   | "DE"       | true
+        "+49221 4710"   | "FR"       | true
+
+        "089 99998"     | "DE"       | true
+        "+4989 99998"   | "DE"       | true
+        "+4989 99998"   | "FR"       | true
     }
 
     def "check if original lib fixed isPossibleNumberWithReason for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
