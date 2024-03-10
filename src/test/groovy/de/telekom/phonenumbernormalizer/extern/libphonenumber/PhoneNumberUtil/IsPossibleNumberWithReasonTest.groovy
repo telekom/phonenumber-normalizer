@@ -4179,9 +4179,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // ---
         // 0199 is checked in operator internal network traffic routing
         // ---
-
-        // TODO: DRAMA numbers: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mittlg148_2021.pdf?__blob=publicationFile&v=1
-
         // invalid area code for germany - using Invalid_Lenth, because its neither to long or short, but just NDC is not valid.
         "0200"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // 0201 is Essen
