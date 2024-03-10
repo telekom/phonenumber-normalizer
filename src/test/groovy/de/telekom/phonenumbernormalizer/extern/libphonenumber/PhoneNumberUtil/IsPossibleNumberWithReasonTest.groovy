@@ -3441,6 +3441,114 @@ class IsPossibleNumberWithReasonTest extends Specification {
     }
 
 
+    def "check if original lib fixed isPossibleNumberWithReason for German test numbers 031x range"(String reserve, regionCode, boolean[] expectingFails, boolean reserverange) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults
+        if ((reserverange) || (regionCode != "DE")) {
+            expectedResults = [PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                               PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                               PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                               PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                               PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                               PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                               PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                               PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                               PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                               PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                               PhoneNumberUtil.ValidationResult.INVALID_LENGTH
+            ]
+        } else {
+            // if +49 is even not an option inside germany, then this would be IS_POSSIBLE_LOCAL_ONLY
+            // bit currently it seems it is part of general numberplan with +49  https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1
+            expectedResults = [PhoneNumberUtil.ValidationResult.IS_POSSIBLE,
+                               PhoneNumberUtil.ValidationResult.TOO_LONG,
+                               PhoneNumberUtil.ValidationResult.TOO_LONG,
+                               PhoneNumberUtil.ValidationResult.TOO_LONG,
+                               PhoneNumberUtil.ValidationResult.TOO_LONG,
+                               PhoneNumberUtil.ValidationResult.TOO_LONG,
+                               PhoneNumberUtil.ValidationResult.TOO_LONG,
+                               PhoneNumberUtil.ValidationResult.TOO_LONG,
+                               PhoneNumberUtil.ValidationResult.TOO_LONG,
+                               PhoneNumberUtil.ValidationResult.TOO_LONG,
+                               PhoneNumberUtil.ValidationResult.TOO_LONG
+            ]
+        }
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | reserverange | regionCode | expectingFails
+        //  031 is personal number range: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/031/031_node.html
+        //  it has onl one digit (0 or 1)
+        //  https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/031/Zutregel.pdf?__blob=publicationFile&v=1
+        //  not callable from outside germany
+        //  TODO: check if inside Germany it is reachable via +49
+        //  TODO: Check if those test numbers are dropped when no preselection (010x) is possible anymore
+
+        "0310"           | false | "DE" | [false, true, true, true, true, true, true, true, true, true, true]
+        "+49310"         | false | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49310"         | false | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0311"           | false | "DE" | [false, true, true, true, true, true, true, true, true, true, true]
+        "+49311"         | false | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49311"         | false | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0312"           | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49312"         | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49312"         | true | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0313"           | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49313"         | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49313"         | true | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0314"           | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49314"         | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49314"         | true | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0315"           | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49315"         | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49315"         | true | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0316"           | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49316"         | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49316"         | true | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0317"           | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49317"         | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49317"         | true | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0318"           | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49318"         | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49318"         | true | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0319"           | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49319"         | true | "DE" | [true, true, true, true, true, true, true, true, true, true, true]
+        "+49319"         | true | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
+    }
+
+
     def "check if original lib fixed isPossibleNumberWithReason for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
@@ -3585,7 +3693,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         // 0199 is checked in operator internal network traffic routing
         // ---
 
-        // TODO: 031 - Testnumbers: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/031/031_node.html
+        // TODO: 032 - National numbers: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/032/032_node.html
         // TODO: DRAMA numbers: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mittlg148_2021.pdf?__blob=publicationFile&v=1
 
         // invalid area code for germany - using Invalid_Lenth, because its neither to long or short, but just NDC is not valid.
@@ -3972,8 +4080,9 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "02998"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "02999"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         // 030 is Berlin
-        // 0310 is National Test for length 3 -> TODO: OWN Test
-        // 0311 is National Test for length 3 -> TODO: OWN Test
+        // 0310 is checked in German test numbers 031x
+        // 0311 is checked in German test numbers 031x
+        // 0312 till 0319 is also checked in German test numbers 031x - TODO: by end of 2024 Call By Call is disabled in Germany, to be checked if Testnumbers are dropped then.
         "0312"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0313"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0314"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
