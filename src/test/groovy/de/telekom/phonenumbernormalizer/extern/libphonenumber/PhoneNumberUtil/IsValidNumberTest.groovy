@@ -59,6 +59,39 @@ class IsValidNumberTest extends Specification {
         return true
     }
 
+    def "check if original lib fixed isValid for police short code 110 in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when: "get number isValid: $number"
+
+        def result = phoneUtil.isValidNumber(phoneNumber)
+
+        then: "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                      | regionCode | expectedResult   | expectingFail
+        // short code for Police (110) is not dial-able internationally nor does it has additional numbers
+        "110"                       | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "0110"                      | "DE"       | false            | false
+        "0203 110"                  | "DE"       | false            | true
+        "0203 110555"               | "DE"       | false            | true
+        "+49110"                    | "DE"       | false            | false
+        "+49110 556677"             | "DE"       | false            | false
+        "+49203 110"                | "DE"       | false            | true
+        "+49203 110555"             | "DE"       | false            | true
+        "+49110"                    | "FR"       | false            | false
+        "+49110 556677"             | "FR"       | false            | false
+        "+49203 110"                | "FR"       | false            | true
+        "+49203 110555"             | "FR"       | false            | true
+        // end of 110
+    }
+
+
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
