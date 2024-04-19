@@ -382,7 +382,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "2623"   | "Ransbach Baumbach"                      | false
         "2624"   | "Höhr Grenzhausen"                       | false
         "2625"   | "Ochtendung"                             | false
-        "2626"   | "Selters Westferwald"                    | false
+        "2626"   | "Selters Westerwald"                     | false
         "2627"   | "Braubach"                               | false
         "2628"   | "Rhens"                                  | false
         "2630"   | "Mülheim Kärlich"                        | false
