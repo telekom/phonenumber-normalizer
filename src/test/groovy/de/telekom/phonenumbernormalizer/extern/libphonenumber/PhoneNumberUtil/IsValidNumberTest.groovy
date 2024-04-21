@@ -366,6 +366,68 @@ class IsValidNumberTest extends Specification {
         // end of 19222
     }
 
+    def "check if original lib fixed isValid for German mass traffic NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when: "get number isValid: $number"
+
+        def result = phoneUtil.isValidNumber(phoneNumber)
+
+        then: "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                      | regionCode | expectedResult   | expectingFail
+        // 137 is masstraffic 10 digits
+        "0137 000 0000"             | "DE"       | false            | false  // Zone 0 are not assigend https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/freieRNB/0137_MABEZ_FreieRNB.html?nn=326370
+        "0137 000 00000"            | "DE"       | false            | false  // Zone 0 are not assigend https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/freieRNB/0137_MABEZ_FreieRNB.html?nn=326370
+        "0137 000 000"              | "DE"       | false            | false  // Zone 0 are not assigend https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/freieRNB/0137_MABEZ_FreieRNB.html?nn=326370
+
+        // https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0137/0137_Nummernplan.pdf?__blob=publicationFile&v=4
+        // within each zone, there are only a few ranges assigned: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/belegteRNB/0137MABEZBelegteRNB_Basepage.html?nn=326370
+        // Zone 1 is valid, but only with exactly 10 digits
+        "0137 100 0000"             | "DE"       | true             | false
+        "0137 100 00000"            | "DE"       | false            | false
+        "0137 100 000"              | "DE"       | false            | false
+        // Zone 2 is valid, but only with exactly 10 digits
+        "0137 200 0000"             | "DE"       | true             | false
+        "0137 200 00000"            | "DE"       | false            | false
+        "0137 200 000"              | "DE"       | false            | false
+        // Zone 3 is valid, but only with exactly 10 digits
+        "0137 300 0000"             | "DE"       | true             | false
+        "0137 300 00000"            | "DE"       | false            | false
+        "0137 300 000"              | "DE"       | false            | false
+        // Zone 4 is valid, but only with exactly 10 digits
+        "0137 400 0000"             | "DE"       | true             | false
+        "0137 400 00000"            | "DE"       | false            | false
+        "0137 400 000"              | "DE"       | false            | false
+        // Zone 5 is valid, but only with exactly 10 digits
+        "0137 500 0000"             | "DE"       | true             | false
+        "0137 500 00000"            | "DE"       | false            | false
+        "0137 500 000"              | "DE"       | false            | false
+        // Zone 6 is valid, but only with exactly 10 digits
+        "0137 600 0000"             | "DE"       | true             | false
+        "0137 600 00000"            | "DE"       | false            | false
+        "0137 600 000"              | "DE"       | false            | false
+        // Zone 7 is valid, but only with exactly 10 digits
+        "0137 700 0000"             | "DE"       | true             | false
+        "0137 700 00000"            | "DE"       | false            | false
+        "0137 700 000"              | "DE"       | false            | false
+        // Zone 8 is valid, but only with exactly 10 digits
+        "0137 800 0000"             | "DE"       | true             | false
+        "0137 800 00000"            | "DE"       | false            | false
+        "0137 800 000"              | "DE"       | false            | false
+        // Zone 9 is valid, but only with exactly 10 digits
+        "0137 900 0000"             | "DE"       | true             | false
+        "0137 900 00000"            | "DE"       | false            | false
+        "0137 900 000"              | "DE"       | false            | false
+
+    }
+
+
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
