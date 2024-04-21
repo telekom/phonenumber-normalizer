@@ -334,6 +334,37 @@ class IsValidNumberTest extends Specification {
         // end of 118
     }
 
+    def "check if original lib fixed isValid for ambulance transport 19222 short codes in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when: "get number isValid: $number"
+
+        def result = phoneUtil.isValidNumber(phoneNumber)
+
+        then: "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                      | regionCode | expectedResult   | expectingFail
+        // prior to mobile, there where 19xxx short codes in fixed line - only 19222 for no emergency ambulance call is still valid
+        // its a national reserved number, which in contrast to 112 might also be called with NDC to reach a specific ambulance center - not all NDC have a connected 19222.
+        // for more information see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/ONRufnr/Vfg_25_2006_konsFassung100823.pdf?__blob=publicationFile&v=3 chapter 7
+        "19222"                     | "DE"       | true             | true  // not valid on mobil but on fixedline
+        // using 19222 als NDC after NAC is checked by "online services 019xx"
+        "0203 19222"                | "DE"       | true             | false
+        "0203 19222555"             | "DE"       | false            | true  // must not be longer
+        "+4919222"                  | "DE"       | false            | false
+        // using 19222 from DE als NDC after CC is checked by "online services 019xx"
+        "+49203 19222"              | "DE"       | true             | false
+        "+49203 19222555"           | "DE"       | false            | true  // must not be longer
+        // using 19222 from FR als NDC after CC is checked by "online services 019xx"
+        "+49203 19222"              | "FR"       | true             | false
+        "+49203 19222555"           | "FR"       | false            | true  // must not be longer
+        // end of 19222
+    }
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
