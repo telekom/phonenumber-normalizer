@@ -106,7 +106,7 @@ class IsValidNumberTest extends Specification {
 
         number                      | regionCode  | expectedResult  | expectingFail
         // short code for emergency (112) is not dial-able internationally nor does it has additional numbers
-        "112"                       | "DE"       | true             | true  // // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "112"                       | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
         "0112"                      | "DE"       | false            | false
         "0112 556677"               | "DE"       | false            | false
         "0203 112"                  | "DE"       | false            | true
@@ -122,6 +122,40 @@ class IsValidNumberTest extends Specification {
         // end of 112
     }
 
+    def "check if original lib fixed isValid for German Government short codes in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when: "get number isValid: $number"
+
+        def result = phoneUtil.isValidNumber(phoneNumber)
+
+        then: "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                      | regionCode  | expectedResult  | expectingFail
+        // 155 is Public Service Number for German administration, it is internationally reachable only from foreign countries
+        "115"                       | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "0115"                      | "DE"       | false            | false // not valid by BnetzA definition from within Germany
+        "+49115"                    | "DE"       | false            | false // see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1 at chapter 2.3
+        "+49115"                    | "FR"       | true             | true  // see https://www.115.de/SharedDocs/Nachrichten/DE/2018/115_aus_dem_ausland_erreichbar.html
+        // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
+        "0203115"                   | "DE"       | true             | false
+        "+49203115"                 | "DE"       | true             | false
+        "+49203115"                 | "FR"       | true             | false
+        // 155 does not have additional digits
+        "115555"                    | "DE"       | false            | false
+        "0115 556677"               | "DE"       | false            | false
+        "0203 115555"               | "DE"       | false            | true
+        "+49115 556677"             | "DE"       | false            | false
+        "+49115 556677"             | "FR"       | false            | false
+        "+49203 115555"             | "DE"       | false            | true
+        "+49203 115555"             | "FR"       | false            | true
+        // end of 115
+    }
 
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
