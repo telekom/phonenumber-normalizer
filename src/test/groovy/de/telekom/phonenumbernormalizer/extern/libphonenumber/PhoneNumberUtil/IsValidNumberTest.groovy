@@ -224,6 +224,115 @@ class IsValidNumberTest extends Specification {
         // end of 116
     }
 
+    def "check if original lib fixed isValid for German Call Assistant short codes in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when: "get number isValid: $number"
+
+        def result = phoneUtil.isValidNumber(phoneNumber)
+
+        then: "is number expected: $expectedResult"
+
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                      | regionCode  | expectedResult  | expectingFail
+        // https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/118xy/118xyNummernplan.pdf?__blob=publicationFile&v=1
+        // it is mentioned, that those numbers are nationally reachable - which excludes them from locally, so no local number should work this way because without NDC it could not be seperated from the national number
+        // implicitly it could also mean that those numbers are not routed from outside germany
+
+        // 118 is starting part and in general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "118"                       | "DE"       | false            | false
+        "1180"                      | "DE"       | false            | false
+        "11800"                     | "DE"       | false            | false
+        "118000"                    | "DE"       | true             | true
+        "1180000"                   | "DE"       | false            | false
+        "1181"                      | "DE"       | false            | false
+        "11810"                     | "DE"       | true             | true
+        // Call Assistant of Deutsche Telekom
+        "11833"                     | "DE"       | true             | true
+        "118100"                    | "DE"       | false            | false
+        "1189"                      | "DE"       | false            | false
+        "11899"                     | "DE"       | true             | true
+        "118999"                    | "DE"       | false            | false
+
+        // Tested on 26.12.2023 - 11833 works on TMD, but neither 011833 nor +4911833 is working on T-Mobile Germany
+        // NAC + 118(y)xx belongs to the number reserve of NAC + 11
+
+        "0118"                      | "DE"       | false            | false
+        "01180"                     | "DE"       | false            | false
+        "011800"                    | "DE"       | false            | false
+        "0118000"                   | "DE"       | false            | false
+        "01180000"                  | "DE"       | false            | false
+        "01181"                     | "DE"       | false            | false
+        "011810"                    | "DE"       | false            | false
+        "011833"                    | "DE"       | false            | false
+        "0118100"                   | "DE"       | false            | false
+        "01189"                     | "DE"       | false            | false
+        "011899"                    | "DE"       | false            | false
+        "0118999"                   | "DE"       | false            | false
+
+        // NAC + NDC (e.g. for Duisburg) + 118(y)xx
+        "0203118"                   | "DE"       | false            | true
+        "02031180"                  | "DE"       | false            | true
+        "020311800"                 | "DE"       | false            | true
+        "0203118000"                | "DE"       | false            | true
+        "02031180000"               | "DE"       | false            | true
+        "02031181"                  | "DE"       | false            | true
+        "020311810"                 | "DE"       | false            | true
+        "020311833"                 | "DE"       | false            | true
+        "0203118100"                | "DE"       | false            | true
+        "02031189"                  | "DE"       | false            | true
+        "020311899"                 | "DE"       | false            | true
+        "0203118999"                | "DE"       | false            | true
+
+        // CC + 118(y)xx
+        "+49118"                    | "DE"       | false            | false
+        "+491180"                   | "DE"       | false            | false
+        "+4911800"                  | "DE"       | false            | false
+        "+49118000"                 | "DE"       | false            | false
+        "+491180000"                | "DE"       | false            | false
+        "+491181"                   | "DE"       | false            | false
+        "+4911810"                  | "DE"       | false            | false
+        "+4911833"                  | "DE"       | false            | false
+        "+49118100"                 | "DE"       | false            | false
+        "+491189"                   | "DE"       | false            | false
+        "+4911899"                  | "DE"       | false            | false
+        "+49118999"                 | "DE"       | false            | false
+
+        // CC + NDC (e.g. for Duisburg) + 118(y)xx
+        "+49203118"                 | "DE"       | false            | true
+        "+492031180"                | "DE"       | false            | true
+        "+4920311800"               | "DE"       | false            | true
+        "+49203118000"              | "DE"       | false            | true
+        "+492031180000"             | "DE"       | false            | true
+        "+492031181"                | "DE"       | false            | true
+        "+4920311810"               | "DE"       | false            | true
+        "+4920311833"               | "DE"       | false            | true
+        "+49203118100"              | "DE"       | false            | true
+        "+492031189"                | "DE"       | false            | true
+        "+4920311899"               | "DE"       | false            | true
+        "+49203118999"              | "DE"       | false            | true
+
+        // CC + 118(y)xx from outside Germany
+        "+49118"                    | "FR"       | false            | false
+        "+491180"                   | "FR"       | false            | false
+        "+4911800"                  | "FR"       | false            | false
+        "+49118000"                 | "FR"       | false            | false
+        "+491180000"                | "FR"       | false            | false
+        "+491181"                   | "FR"       | false            | false
+        "+4911810"                  | "FR"       | false            | false
+        "+4911833"                  | "FR"       | false            | false
+        "+49118100"                 | "FR"       | false            | false
+        "+491189"                   | "FR"       | false            | false
+        "+4911899"                  | "FR"       | false            | false
+        "+49118999"                 | "FR"       | false            | false
+
+        // end of 118
+    }
 
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
