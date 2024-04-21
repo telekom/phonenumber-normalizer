@@ -157,6 +157,74 @@ class IsValidNumberTest extends Specification {
         // end of 115
     }
 
+    def "check if original lib fixed isValid for EU social short codes in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when: "get number isValid: $number"
+
+        def result = phoneUtil.isValidNumber(phoneNumber)
+
+        then: "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                      | regionCode | expectedResult   | expectingFail
+        // 116 is mentioned in number plan as 1160 and 1161 but in special ruling a full 6 digit number block: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/116xyz/StrukturAusgestNrBereich_Id11155pdf.pdf?__blob=publicationFile&v=4
+        // 116xyz is nationally and internationally reachable - special check 116000 as initial number, 116116 as assigned number and 116999 as max legal number
+        "116"                       | "DE"       | false            | false
+        "116000"                    | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "116116"                    | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "116999"                    | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "116 5566"                  | "DE"       | false            | false
+        "116 55"                    | "DE"       | false            | false
+        // https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/116xyz/116116.html
+        // NAC + 116xxx
+        // see no. 7: national 0116116 is not a valid number, but may be replaced by 116116 by the operator - caller could reach target. ( T-Mobile is doing so currently 03.11.2023 - no guarantee for the future nor for any other operator. Best practice, assuming call will not reach target=.
+        "0116"                      | "DE"       | false            | false
+        "0116000"                   | "DE"       | false            | false  // not valid by BnetzA definition just using NAC
+        "0116116"                   | "DE"       | false            | false  // not valid by BnetzA definition just using NAC
+        "0116999"                   | "DE"       | false            | false  // not valid by BnetzA definition just using NAC
+        "0116 5566"                 | "DE"       | false            | false
+        "0116 55"                   | "DE"       | false            | false
+
+        // NAC + NDC (e.g. for Duisburg) + 116xxx
+        "0203116"                   | "DE"       | false            | true
+        "0203116000"                | "DE"       | false            | true
+        "0203116116"                | "DE"       | false            | true
+        "0203116999"                | "DE"       | false            | true
+        "0203116 5566"              | "DE"       | false            | true
+        "0203116 55"                | "DE"       | false            | true
+
+        // CC + 116xxx
+        "+49116"                    | "DE"       | false            | false
+        "+49116000"                 | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "+49116116"                 | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "+49116999"                 | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "+49116 5566"               | "DE"       | false            | false
+        "+49116 55"                 | "DE"       | false            | false
+
+        // CC + NDC (e.g. for Duisburg) + 116xxx
+        "+49203116"                 | "DE"       | false            | true
+        "+49203116000"              | "DE"       | false            | true
+        "+49203116116"              | "DE"       | false            | true
+        "+49203116999"              | "DE"       | false            | true
+        "+49203116 5566"            | "DE"       | false            | true
+        "+49203116 55"              | "DE"       | false            | true
+
+        // CC + 116xxx from outside Germany
+        "+49116"                    | "FR"       | false            | false
+        "+49116000"                 | "FR"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "+49116116"                 | "FR"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "+49116999"                 | "FR"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "+49116 5566"               | "FR"       | false            | false
+        "+49116 55"                 | "FR"       | false            | false
+        // end of 116
+    }
+
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
