@@ -90,6 +90,37 @@ class IsValidNumberTest extends Specification {
         // end of 110
     }
 
+    def "check if original lib fixed isValid for Emergency short code 112 in combination as NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when: "get number isValid: $number"
+
+        def result = phoneUtil.isValidNumber(phoneNumber)
+
+        then: "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                      | regionCode  | expectedResult  | expectingFail
+        // short code for emergency (112) is not dial-able internationally nor does it has additional numbers
+        "112"                       | "DE"       | true             | true  // // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "0112"                      | "DE"       | false            | false
+        "0112 556677"               | "DE"       | false            | false
+        "0203 112"                  | "DE"       | false            | true
+        "0203 112555"               | "DE"       | false            | true
+        "+49112"                    | "DE"       | false            | false
+        "+49112 556677"             | "DE"       | false            | false
+        "+49203 112"                | "DE"       | false            | true
+        "+49203 112555"             | "DE"       | false            | true
+        "+49112"                    | "FR"       | false            | false
+        "+49112 556677"             | "FR"       | false            | false
+        "+49203 112"                | "FR"       | false            | true
+        "+49203 112555"             | "FR"       | false            | true
+        // end of 112
+    }
 
 
 
