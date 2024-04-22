@@ -427,6 +427,950 @@ class IsValidNumberTest extends Specification {
 
     }
 
+    def "check if original lib fixed isValid for German Mobile 15 range"(String numberUntilInfix, regionCode, boolean[] expectingFails) {
+        given:
+        String[]  numbersToTest
+
+        if (numberUntilInfix.length() == 5) {
+            numbersToTest = [numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "00000000",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999",
+                             numberUntilInfix + "99999999"]
+        }
+        if (numberUntilInfix.length() == 6) {
+            numbersToTest = [numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999"]
+        }
+        if (numberUntilInfix.length() == 7) {
+            numbersToTest = [numberUntilInfix + "0000",
+                             numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "9999",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999"]
+        }
+        Boolean[] expectedResults = [false, true, false, false, true, false]
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i<results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        numberUntilInfix | regionCode | expectingFails
+        // see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/start.html
+        // especially https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // 015xxyyyyyyy xx = block code, yyyyyyy fixed length number in 2 digit block, so together 9 digit is the overall length
+        // 015zzzaaaaaa zzz = newer block zzz, aaaaaa fixes length number in 3 digit block, so together 9 digit is the overall length
+
+        //
+        // 0150
+        //
+        // 015000 is reserved for voicemail - see tests below
+        "015001"         | "DE"      | [false, false, false, false, false, false]
+        "015002"         | "DE"      | [false, false, false, false, false, false]
+        "015003"         | "DE"      | [false, false, false, false, false, false]
+        "015004"         | "DE"      | [false, false, false, false, false, false]
+        "015005"         | "DE"      | [false, false, false, false, false, false]
+        "015006"         | "DE"      | [false, false, false, false, false, false]
+        "015007"         | "DE"      | [false, false, false, false, false, false]
+        "015008"         | "DE"      | [false, false, false, false, false, false]
+        "015009"         | "DE"      | [false, false, false, false, false, false]
+        "01501"          | "DE"      | [false, false, false, false, false, false]
+        "01502"          | "DE"      | [false, false, false, false, false, false]
+        "01503"          | "DE"      | [false, false, false, false, false, false]
+        "01504"          | "DE"      | [false, false, false, false, false, false]
+        "01505"          | "DE"      | [false, false, false, false, false, false]
+        "01506"          | "DE"      | [false, false, false, false, false, false]
+        "01507"          | "DE"      | [false, false, false, false, false, false]
+        "01508"          | "DE"      | [false, false, false, false, false, false]
+        "01509"          | "DE"      | [false, false, false, false, false, false]
+
+        //
+        // 0151
+        //
+        "01510"          | "DE"      | [false, false, false, false, false, false]
+        "015110"         | "DE"      | [false, false, false, false, false, false]
+        "015111"         | "DE"      | [false, false, false, false, false, false]
+        "015112"         | "DE"      | [false, false, false, false, false, false]
+        // 015113 is reserved for voicemail - see tests below
+        "015114"         | "DE"      | [false, false, false, false, false, false]
+        "015115"         | "DE"      | [false, false, false, false, false, false]
+        "015116"         | "DE"      | [false, false, false, false, false, false]
+        "015117"         | "DE"      | [false, false, false, false, false, false]
+        "015118"         | "DE"      | [false, false, false, false, false, false]
+        "015119"         | "DE"      | [false, false, false, false, false, false]
+        "01512"          | "DE"      | [false, false, false, false, false, false]
+        "01513"          | "DE"      | [false, false, false, false, false, false]
+        "01514"          | "DE"      | [false, false, false, false, false, false]
+        "01515"          | "DE"      | [false, false, false, false, false, false]
+        "01516"          | "DE"      | [false, false, false, false, false, false]
+        "01517"          | "DE"      | [false, false, false, false, false, false]
+        "01518"          | "DE"      | [false, false, false, false, false, false]
+        "01519"          | "DE"      | [false, false, false, false, false, false]
+
+        //
+        // 0152
+        //
+        "015200"         | "DE"      | [false, false, false, false, false, false]
+        "015201"         | "DE"      | [false, false, false, false, false, false]
+        "015202"         | "DE"      | [false, false, false, false, false, false]
+        "015203"         | "DE"      | [false, false, false, false, false, false]
+        "015204"         | "DE"      | [false, false, false, false, false, false]
+        // 0152050 is reserved for voicemail - see tests below
+        "0152051"        | "DE"      | [false, false, false, false, false, false]
+        "0152052"        | "DE"      | [false, false, false, false, false, false]
+        "0152053"        | "DE"      | [false, false, false, false, false, false]
+        "0152054"        | "DE"      | [false, false, false, false, false, false]
+        // 0152055 is reserved for voicemail - see tests below
+        "0152056"        | "DE"      | [false, false, false, false, false, false]
+        "0152057"        | "DE"      | [false, false, false, false, false, false]
+        "0152058"        | "DE"      | [false, false, false, false, false, false]
+        "0152059"        | "DE"      | [false, false, false, false, false, false]
+        "015206"         | "DE"      | [false, false, false, false, false, false]
+        "015207"         | "DE"      | [false, false, false, false, false, false]
+        "015208"         | "DE"      | [false, false, false, false, false, false]
+        "015209"         | "DE"      | [false, false, false, false, false, false]
+
+        "015210"         | "DE"      | [false, false, false, false, false, false]
+        "015211"         | "DE"      | [false, false, false, false, false, false]
+        "015212"         | "DE"      | [false, false, false, false, false, false]
+        "015213"         | "DE"      | [false, false, false, false, false, false]
+        "015214"         | "DE"      | [false, false, false, false, false, false]
+        // 0152150 is reserved for voicemail - see tests below
+        "0152151"        | "DE"      | [false, false, false, false, false, false]
+        "0152152"        | "DE"      | [false, false, false, false, false, false]
+        "0152153"        | "DE"      | [false, false, false, false, false, false]
+        "0152154"        | "DE"      | [false, false, false, false, false, false]
+        // 0152155 is reserved for voicemail - see tests below
+        "0152156"        | "DE"      | [false, false, false, false, false, false]
+        "0152157"        | "DE"      | [false, false, false, false, false, false]
+        "0152158"        | "DE"      | [false, false, false, false, false, false]
+        "0152159"        | "DE"      | [false, false, false, false, false, false]
+        "015216"         | "DE"      | [false, false, false, false, false, false]
+        "015217"         | "DE"      | [false, false, false, false, false, false]
+        "015218"         | "DE"      | [false, false, false, false, false, false]
+        "015219"         | "DE"      | [false, false, false, false, false, false]
+
+        "015220"         | "DE"      | [false, false, false, false, false, false]
+        "015221"         | "DE"      | [false, false, false, false, false, false]
+        "015222"         | "DE"      | [false, false, false, false, false, false]
+        "015223"         | "DE"      | [false, false, false, false, false, false]
+        "015224"         | "DE"      | [false, false, false, false, false, false]
+        // 0152250 is reserved for voicemail - see tests below
+        "0152251"        | "DE"      | [false, false, false, false, false, false]
+        "0152252"        | "DE"      | [false, false, false, false, false, false]
+        "0152253"        | "DE"      | [false, false, false, false, false, false]
+        "0152254"        | "DE"      | [false, false, false, false, false, false]
+        // 0152255 is reserved for voicemail - see tests below
+        "0152256"        | "DE"      | [false, false, false, false, false, false]
+        "0152257"        | "DE"      | [false, false, false, false, false, false]
+        "0152258"        | "DE"      | [false, false, false, false, false, false]
+        "0152259"        | "DE"      | [false, false, false, false, false, false]
+        "015226"         | "DE"      | [false, false, false, false, false, false]
+        "015227"         | "DE"      | [false, false, false, false, false, false]
+        "015228"         | "DE"      | [false, false, false, false, false, false]
+        "015229"         | "DE"      | [false, false, false, false, false, false]
+
+        "015230"         | "DE"      | [false, false, false, false, false, false]
+        "015231"         | "DE"      | [false, false, false, false, false, false]
+        "015232"         | "DE"      | [false, false, false, false, false, false]
+        "015233"         | "DE"      | [false, false, false, false, false, false]
+        "015234"         | "DE"      | [false, false, false, false, false, false]
+        // 0152350 is reserved for voicemail - see tests below
+        "0152351"        | "DE"      | [false, false, false, false, false, false]
+        "0152352"        | "DE"      | [false, false, false, false, false, false]
+        "0152353"        | "DE"      | [false, false, false, false, false, false]
+        "0152354"        | "DE"      | [false, false, false, false, false, false]
+        // 0152355 is reserved for voicemail - see tests below
+        "0152356"        | "DE"      | [false, false, false, false, false, false]
+        "0152357"        | "DE"      | [false, false, false, false, false, false]
+        "0152358"        | "DE"      | [false, false, false, false, false, false]
+        "0152359"        | "DE"      | [false, false, false, false, false, false]
+        "015236"         | "DE"      | [false, false, false, false, false, false]
+        "015237"         | "DE"      | [false, false, false, false, false, false]
+        "015238"         | "DE"      | [false, false, false, false, false, false]
+        "015239"         | "DE"      | [false, false, false, false, false, false]
+
+        "015240"         | "DE"      | [false, false, false, false, false, false]
+        "015241"         | "DE"      | [false, false, false, false, false, false]
+        "015242"         | "DE"      | [false, false, false, false, false, false]
+        "015243"         | "DE"      | [false, false, false, false, false, false]
+        "015244"         | "DE"      | [false, false, false, false, false, false]
+        // 0152450 is reserved for voicemail - see tests below
+        "0152451"        | "DE"      | [false, false, false, false, false, false]
+        "0152452"        | "DE"      | [false, false, false, false, false, false]
+        "0152453"        | "DE"      | [false, false, false, false, false, false]
+        "0152454"        | "DE"      | [false, false, false, false, false, false]
+        // 0152455 is reserved for voicemail - see tests below
+        "0152456"        | "DE"      | [false, false, false, false, false, false]
+        "0152457"        | "DE"      | [false, false, false, false, false, false]
+        "0152458"        | "DE"      | [false, false, false, false, false, false]
+        "0152459"        | "DE"      | [false, false, false, false, false, false]
+        "015246"         | "DE"      | [false, false, false, false, false, false]
+        "015247"         | "DE"      | [false, false, false, false, false, false]
+        "015248"         | "DE"      | [false, false, false, false, false, false]
+        "015249"         | "DE"      | [false, false, false, false, false, false]
+
+        "015250"         | "DE"      | [false, false, false, false, false, false]
+        "015251"         | "DE"      | [false, false, false, false, false, false]
+        "015252"         | "DE"      | [false, false, false, false, false, false]
+        "015253"         | "DE"      | [false, false, false, false, false, false]
+        "015254"         | "DE"      | [false, false, false, false, false, false]
+        // 0152550 is reserved for voicemail - see tests below
+        "0152551"        | "DE"      | [false, false, false, false, false, false]
+        "0152552"        | "DE"      | [false, false, false, false, false, false]
+        "0152553"        | "DE"      | [false, false, false, false, false, false]
+        "0152554"        | "DE"      | [false, false, false, false, false, false]
+        // 0152555 is reserved for voicemail - see tests below
+        "0152556"        | "DE"      | [false, false, false, false, false, false]
+        "0152557"        | "DE"      | [false, false, false, false, false, false]
+        "0152558"        | "DE"      | [false, false, false, false, false, false]
+        "0152559"        | "DE"      | [false, false, false, false, false, false]
+        "015256"         | "DE"      | [false, false, false, false, false, false]
+        "015257"         | "DE"      | [false, false, false, false, false, false]
+        "015258"         | "DE"      | [false, false, false, false, false, false]
+        "015259"         | "DE"      | [false, false, false, false, false, false]
+
+        "015260"         | "DE"      | [false, false, false, false, false, false]
+        "015261"         | "DE"      | [false, false, false, false, false, false]
+        "015262"         | "DE"      | [false, false, false, false, false, false]
+        "015263"         | "DE"      | [false, false, false, false, false, false]
+        "015264"         | "DE"      | [false, false, false, false, false, false]
+        // 0152650 is reserved for voicemail - see tests below
+        "0152651"        | "DE"      | [false, false, false, false, false, false]
+        "0152652"        | "DE"      | [false, false, false, false, false, false]
+        "0152653"        | "DE"      | [false, false, false, false, false, false]
+        "0152654"        | "DE"      | [false, false, false, false, false, false]
+        // 0152655 is reserved for voicemail - see tests below
+        "0152656"        | "DE"      | [false, false, false, false, false, false]
+        "0152657"        | "DE"      | [false, false, false, false, false, false]
+        "0152658"        | "DE"      | [false, false, false, false, false, false]
+        "0152659"        | "DE"      | [false, false, false, false, false, false]
+        "015266"         | "DE"      | [false, false, false, false, false, false]
+        "015267"         | "DE"      | [false, false, false, false, false, false]
+        "015268"         | "DE"      | [false, false, false, false, false, false]
+        "015269"         | "DE"      | [false, false, false, false, false, false]
+
+        "015270"         | "DE"      | [false, false, false, false, false, false]
+        "015271"         | "DE"      | [false, false, false, false, false, false]
+        "015272"         | "DE"      | [false, false, false, false, false, false]
+        "015273"         | "DE"      | [false, false, false, false, false, false]
+        "015274"         | "DE"      | [false, false, false, false, false, false]
+        // 0152750 is reserved for voicemail - see tests below
+        "0152751"        | "DE"      | [false, false, false, false, false, false]
+        "0152752"        | "DE"      | [false, false, false, false, false, false]
+        "0152753"        | "DE"      | [false, false, false, false, false, false]
+        "0152754"        | "DE"      | [false, false, false, false, false, false]
+        // 0152755 is reserved for voicemail - see tests below
+        "0152756"        | "DE"      | [false, false, false, false, false, false]
+        "0152757"        | "DE"      | [false, false, false, false, false, false]
+        "0152758"        | "DE"      | [false, false, false, false, false, false]
+        "0152759"        | "DE"      | [false, false, false, false, false, false]
+        "015276"         | "DE"      | [false, false, false, false, false, false]
+        "015277"         | "DE"      | [false, false, false, false, false, false]
+        "015278"         | "DE"      | [false, false, false, false, false, false]
+        "015279"         | "DE"      | [false, false, false, false, false, false]
+
+        "015280"         | "DE"      | [false, false, false, false, false, false]
+        "015281"         | "DE"      | [false, false, false, false, false, false]
+        "015282"         | "DE"      | [false, false, false, false, false, false]
+        "015283"         | "DE"      | [false, false, false, false, false, false]
+        "015284"         | "DE"      | [false, false, false, false, false, false]
+        // 0152850 is reserved for voicemail - see tests below
+        "0152851"        | "DE"      | [false, false, false, false, false, false]
+        "0152852"        | "DE"      | [false, false, false, false, false, false]
+        "0152853"        | "DE"      | [false, false, false, false, false, false]
+        "0152854"        | "DE"      | [false, false, false, false, false, false]
+        // 0152855 is reserved for voicemail - see tests below
+        "0152856"        | "DE"      | [false, false, false, false, false, false]
+        "0152857"        | "DE"      | [false, false, false, false, false, false]
+        "0152858"        | "DE"      | [false, false, false, false, false, false]
+        "0152859"        | "DE"      | [false, false, false, false, false, false]
+        "015286"         | "DE"      | [false, false, false, false, false, false]
+        "015287"         | "DE"      | [false, false, false, false, false, false]
+        "015288"         | "DE"      | [false, false, false, false, false, false]
+        "015289"         | "DE"      | [false, false, false, false, false, false]
+
+        "015290"         | "DE"      | [false, false, false, false, false, false]
+        "015291"         | "DE"      | [false, false, false, false, false, false]
+        "015292"         | "DE"      | [false, false, false, false, false, false]
+        "015293"         | "DE"      | [false, false, false, false, false, false]
+        "015294"         | "DE"      | [false, false, false, false, false, false]
+        // 0152950 is reserved for voicemail - see tests below
+        "0152951"        | "DE"      | [false, false, false, false, false, false]
+        "0152952"        | "DE"      | [false, false, false, false, false, false]
+        "0152953"        | "DE"      | [false, false, false, false, false, false]
+        "0152954"        | "DE"      | [false, false, false, false, false, false]
+        // 0152955 is reserved for voicemail - see tests below
+        "0152956"        | "DE"      | [false, false, false, false, false, false]
+        "0152957"        | "DE"      | [false, false, false, false, false, false]
+        "0152958"        | "DE"      | [false, false, false, false, false, false]
+        "0152959"        | "DE"      | [false, false, false, false, false, false]
+        "015296"         | "DE"      | [false, false, false, false, false, false]
+        "015297"         | "DE"      | [false, false, false, false, false, false]
+        "015298"         | "DE"      | [false, false, false, false, false, false]
+        "015299"         | "DE"      | [false, false, false, false, false, false]
+
+        //
+        // 0153
+        //
+        // 015300 is reserved for voicemail - see tests below
+        "015301"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015302"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015303"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015304"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015305"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015306"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015307"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015308"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015309"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "01531"          | "DE"      | [false, false, false, false, true, false]    // <--
+        "01532"          | "DE"      | [false, true, false, false, true, false]     // <--
+        "01533"          | "DE"      | [false, true, false, false, true, false]     // <--
+        "01534"          | "DE"      | [false, true, false, false, true, false]     // <--
+        "01535"          | "DE"      | [false, true, false, false, true, false]     // <--
+        "01536"          | "DE"      | [false, true, false, false, true, false]     // <--
+        "01537"          | "DE"      | [false, true, false, false, true, false]     // <--
+        "01538"          | "DE"      | [false, true, false, false, true, false]     // <--
+        "01539"          | "DE"      | [false, true, false, false, true, false]     // <--
+
+        //
+        // 0154
+        //
+        // 015400 is reserved for voicemail - see tests below
+        "015401"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015402"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015403"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015404"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015405"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015406"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015407"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015408"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "015409"         | "DE"      | [false, true, false, false, true, false]     // <--
+        "01541"          | "DE"      | [false, true, false, false, true, false]     // <--
+        "01542"          | "DE"      | [false, true, false, false, true, false]     // <--
+        "01543"          | "DE"      | [false, true, false, false, true, false]     // <--
+        "0154"           | "DE"      | [false, true, false, false, true, false]     // <--
+        "01545"          | "DE"      | [false, true, false, false, true, false]     // <--
+        "01546"          | "DE"      | [false, true, false, false, true, false]     // <--
+        "01547"          | "DE"      | [false, true, false, false, true, false]     // <--
+        "01548"          | "DE"      | [false, true, false, false, true, false]     // <--
+        "01549"          | "DE"      | [false, true, false, false, true, false]     // <--
+
+        //
+        // 0155
+        //
+        // 015500 is reserved for voicemail - see tests below
+        "015501"         | "DE"      | [false, false, false, false, false, false]
+        "015502"         | "DE"      | [false, false, false, false, false, false]
+        "015503"         | "DE"      | [false, false, false, false, false, false]
+        "015504"         | "DE"      | [false, false, false, false, false, false]
+        "015505"         | "DE"      | [false, false, false, false, false, false]
+        "015506"         | "DE"      | [false, false, false, false, false, false]
+        "015507"         | "DE"      | [false, false, false, false, false, false]
+        "015508"         | "DE"      | [false, false, false, false, false, false]
+        "015509"         | "DE"      | [false, false, false, false, false, false]
+        "01551"          | "DE"      | [false, false, false, false, false, false]
+        "01552"          | "DE"      | [false, false, false, false, false, false]
+        "01553"          | "DE"      | [false, false, false, false, false, false]
+        "01554"          | "DE"      | [false, false, false, false, false, false]
+        "01555"          | "DE"      | [false, false, false, false, false, false]
+        "01556"          | "DE"      | [false, false, false, false, false, false]
+        "01557"          | "DE"      | [false, false, false, false, false, false]
+        "01558"          | "DE"      | [false, false, false, false, false, false]
+        "01559"          | "DE"      | [false, false, false, false, false, false]
+
+        //
+        // 0156
+        //
+        // 015600 is reserved for voicemail - see tests below
+        "015601"         | "DE"      | [false, false, false, false, false, false]
+        "015602"         | "DE"      | [false, false, false, false, false, false]
+        "015603"         | "DE"      | [false, false, false, false, false, false]
+        "015604"         | "DE"      | [false, false, false, false, false, false]
+        "015605"         | "DE"      | [false, false, false, false, false, false]
+        "015606"         | "DE"      | [false, false, false, false, false, false]
+        "015607"         | "DE"      | [false, false, false, false, false, false]
+        "015608"         | "DE"      | [false, false, false, false, false, false]
+        "015609"         | "DE"      | [false, false, false, false, false, false]
+        "01561"          | "DE"      | [false, false, false, false, false, false]
+        "01562"          | "DE"      | [false, false, false, false, false, false]
+        "01563"          | "DE"      | [false, false, false, false, false, false]
+        "01564"          | "DE"      | [false, false, false, false, false, false]
+        "01565"          | "DE"      | [false, false, false, false, false, false]
+        "01566"          | "DE"      | [false, false, false, false, false, false]
+        "01567"          | "DE"      | [false, false, false, false, false, false]
+        "01568"          | "DE"      | [false, false, false, false, false, false]
+        "01569"          | "DE"      | [false, false, false, false, false, false]
+
+        //
+        // 0157
+        //
+        "015700"         | "DE"      | [false, false, false, false, false, false]
+        "015701"         | "DE"      | [false, false, false, false, false, false]
+        "015702"         | "DE"      | [false, false, false, false, false, false]
+        "015703"         | "DE"      | [false, false, false, false, false, false]
+        "015704"         | "DE"      | [false, false, false, false, false, false]
+        "015705"         | "DE"      | [false, false, false, false, false, false]
+        "015706"         | "DE"      | [false, false, false, false, false, false]
+        "015707"         | "DE"      | [false, false, false, false, false, false]
+        "015708"         | "DE"      | [false, false, false, false, false, false]
+        "0157090"        | "DE"      | [false, false, false, false, false, false]
+        "0157091"        | "DE"      | [false, false, false, false, false, false]
+        "0157092"        | "DE"      | [false, false, false, false, false, false]
+        "0157093"        | "DE"      | [false, false, false, false, false, false]
+        "0157094"        | "DE"      | [false, false, false, false, false, false]
+        "0157095"        | "DE"      | [false, false, false, false, false, false]
+        "0157096"        | "DE"      | [false, false, false, false, false, false]
+        "0157097"        | "DE"      | [false, false, false, false, false, false]
+        "0157098"        | "DE"      | [false, false, false, false, false, false]
+        // 0157099 is reserved for voicemail - see tests below
+
+        "015710"         | "DE"      | [false, false, false, false, false, false]
+        "015711"         | "DE"      | [false, false, false, false, false, false]
+        "015712"         | "DE"      | [false, false, false, false, false, false]
+        "015713"         | "DE"      | [false, false, false, false, false, false]
+        "015714"         | "DE"      | [false, false, false, false, false, false]
+        "015715"         | "DE"      | [false, false, false, false, false, false]
+        "015716"         | "DE"      | [false, false, false, false, false, false]
+        "015717"         | "DE"      | [false, false, false, false, false, false]
+        "015718"         | "DE"      | [false, false, false, false, false, false]
+        "0157190"        | "DE"      | [false, false, false, false, false, false]
+        "0157191"        | "DE"      | [false, false, false, false, false, false]
+        "0157192"        | "DE"      | [false, false, false, false, false, false]
+        "0157193"        | "DE"      | [false, false, false, false, false, false]
+        "0157194"        | "DE"      | [false, false, false, false, false, false]
+        "0157195"        | "DE"      | [false, false, false, false, false, false]
+        "0157196"        | "DE"      | [false, false, false, false, false, false]
+        "0157197"        | "DE"      | [false, false, false, false, false, false]
+        "0157198"        | "DE"      | [false, false, false, false, false, false]
+        // 0157199 is reserved for voicemail - see tests below
+
+        "015720"         | "DE"      | [false, false, false, false, false, false]
+        "015721"         | "DE"      | [false, false, false, false, false, false]
+        "015722"         | "DE"      | [false, false, false, false, false, false]
+        "015723"         | "DE"      | [false, false, false, false, false, false]
+        "015724"         | "DE"      | [false, false, false, false, false, false]
+        "015725"         | "DE"      | [false, false, false, false, false, false]
+        "015726"         | "DE"      | [false, false, false, false, false, false]
+        "015727"         | "DE"      | [false, false, false, false, false, false]
+        "015728"         | "DE"      | [false, false, false, false, false, false]
+        "0157290"        | "DE"      | [false, false, false, false, false, false]
+        "0157291"        | "DE"      | [false, false, false, false, false, false]
+        "0157292"        | "DE"      | [false, false, false, false, false, false]
+        "0157293"        | "DE"      | [false, false, false, false, false, false]
+        "0157294"        | "DE"      | [false, false, false, false, false, false]
+        "0157295"        | "DE"      | [false, false, false, false, false, false]
+        "0157296"        | "DE"      | [false, false, false, false, false, false]
+        "0157297"        | "DE"      | [false, false, false, false, false, false]
+        "0157298"        | "DE"      | [false, false, false, false, false, false]
+        // 0157299 is reserved for voicemail - see tests below
+
+        "015730"         | "DE"      | [false, false, false, false, false, false]
+        "015731"         | "DE"      | [false, false, false, false, false, false]
+        "015732"         | "DE"      | [false, false, false, false, false, false]
+        "015733"         | "DE"      | [false, false, false, false, false, false]
+        "015734"         | "DE"      | [false, false, false, false, false, false]
+        "015735"         | "DE"      | [false, false, false, false, false, false]
+        "015736"         | "DE"      | [false, false, false, false, false, false]
+        "015737"         | "DE"      | [false, false, false, false, false, false]
+        "015738"         | "DE"      | [false, false, false, false, false, false]
+        "0157390"        | "DE"      | [false, false, false, false, false, false]
+        "0157391"        | "DE"      | [false, false, false, false, false, false]
+        "0157392"        | "DE"      | [false, false, false, false, false, false]
+        "0157393"        | "DE"      | [false, false, false, false, false, false]
+        "0157394"        | "DE"      | [false, false, false, false, false, false]
+        "0157395"        | "DE"      | [false, false, false, false, false, false]
+        "0157396"        | "DE"      | [false, false, false, false, false, false]
+        "0157397"        | "DE"      | [false, false, false, false, false, false]
+        "0157398"        | "DE"      | [false, false, false, false, false, false]
+        // 0157399 is reserved for voicemail - see tests below
+
+        "015740"         | "DE"      | [false, false, false, false, false, false]
+        "015741"         | "DE"      | [false, false, false, false, false, false]
+        "015742"         | "DE"      | [false, false, false, false, false, false]
+        "015743"         | "DE"      | [false, false, false, false, false, false]
+        "015744"         | "DE"      | [false, false, false, false, false, false]
+        "015745"         | "DE"      | [false, false, false, false, false, false]
+        "015746"         | "DE"      | [false, false, false, false, false, false]
+        "015747"         | "DE"      | [false, false, false, false, false, false]
+        "015748"         | "DE"      | [false, false, false, false, false, false]
+        "0157490"        | "DE"      | [false, false, false, false, false, false]
+        "0157491"        | "DE"      | [false, false, false, false, false, false]
+        "0157492"        | "DE"      | [false, false, false, false, false, false]
+        "0157493"        | "DE"      | [false, false, false, false, false, false]
+        "0157494"        | "DE"      | [false, false, false, false, false, false]
+        "0157495"        | "DE"      | [false, false, false, false, false, false]
+        "0157496"        | "DE"      | [false, false, false, false, false, false]
+        "0157497"        | "DE"      | [false, false, false, false, false, false]
+        "0157498"        | "DE"      | [false, false, false, false, false, false]
+        // 0157499 is reserved for voicemail - see tests below
+
+        "015750"         | "DE"      | [false, false, false, false, false, false]
+        "015751"         | "DE"      | [false, false, false, false, false, false]
+        "015752"         | "DE"      | [false, false, false, false, false, false]
+        "015753"         | "DE"      | [false, false, false, false, false, false]
+        "015754"         | "DE"      | [false, false, false, false, false, false]
+        "015755"         | "DE"      | [false, false, false, false, false, false]
+        "015756"         | "DE"      | [false, false, false, false, false, false]
+        "015757"         | "DE"      | [false, false, false, false, false, false]
+        "015758"         | "DE"      | [false, false, false, false, false, false]
+        "0157590"        | "DE"      | [false, false, false, false, false, false]
+        "0157591"        | "DE"      | [false, false, false, false, false, false]
+        "0157592"        | "DE"      | [false, false, false, false, false, false]
+        "0157593"        | "DE"      | [false, false, false, false, false, false]
+        "0157594"        | "DE"      | [false, false, false, false, false, false]
+        "0157595"        | "DE"      | [false, false, false, false, false, false]
+        "0157596"        | "DE"      | [false, false, false, false, false, false]
+        "0157597"        | "DE"      | [false, false, false, false, false, false]
+        "0157598"        | "DE"      | [false, false, false, false, false, false]
+        // 0157599 is reserved for voicemail - see tests below
+
+        "015760"         | "DE"      | [false, false, false, false, false, false]
+        "015761"         | "DE"      | [false, false, false, false, false, false]
+        "015762"         | "DE"      | [false, false, false, false, false, false]
+        "015763"         | "DE"      | [false, false, false, false, false, false]
+        "015764"         | "DE"      | [false, false, false, false, false, false]
+        "015765"         | "DE"      | [false, false, false, false, false, false]
+        "015766"         | "DE"      | [false, false, false, false, false, false]
+        "015767"         | "DE"      | [false, false, false, false, false, false]
+        "015768"         | "DE"      | [false, false, false, false, false, false]
+        "0157690"        | "DE"      | [false, false, false, false, false, false]
+        "0157691"        | "DE"      | [false, false, false, false, false, false]
+        "0157692"        | "DE"      | [false, false, false, false, false, false]
+        "0157693"        | "DE"      | [false, false, false, false, false, false]
+        "0157694"        | "DE"      | [false, false, false, false, false, false]
+        "0157695"        | "DE"      | [false, false, false, false, false, false]
+        "0157696"        | "DE"      | [false, false, false, false, false, false]
+        "0157697"        | "DE"      | [false, false, false, false, false, false]
+        "0157698"        | "DE"      | [false, false, false, false, false, false]
+        // 0157699 is reserved for voicemail - see tests below
+
+        "015770"         | "DE"      | [false, false, false, false, false, false]
+        "015771"         | "DE"      | [false, false, false, false, false, false]
+        "015772"         | "DE"      | [false, false, false, false, false, false]
+        "015773"         | "DE"      | [false, false, false, false, false, false]
+        "015774"         | "DE"      | [false, false, false, false, false, false]
+        "015775"         | "DE"      | [false, false, false, false, false, false]
+        "015776"         | "DE"      | [false, false, false, false, false, false]
+        "015777"         | "DE"      | [false, false, false, false, false, false]
+        "015778"         | "DE"      | [false, false, false, false, false, false]
+        "0157790"        | "DE"      | [false, false, false, false, false, false]
+        "0157791"        | "DE"      | [false, false, false, false, false, false]
+        "0157792"        | "DE"      | [false, false, false, false, false, false]
+        "0157793"        | "DE"      | [false, false, false, false, false, false]
+        "0157794"        | "DE"      | [false, false, false, false, false, false]
+        "0157795"        | "DE"      | [false, false, false, false, false, false]
+        "0157796"        | "DE"      | [false, false, false, false, false, false]
+        "0157797"        | "DE"      | [false, false, false, false, false, false]
+        "0157798"        | "DE"      | [false, false, false, false, false, false]
+        // 0157799 is reserved for voicemail - see tests below
+
+        "015780"         | "DE"      | [false, false, false, false, false, false]
+        "015781"         | "DE"      | [false, false, false, false, false, false]
+        "015782"         | "DE"      | [false, false, false, false, false, false]
+        "015783"         | "DE"      | [false, false, false, false, false, false]
+        "015784"         | "DE"      | [false, false, false, false, false, false]
+        "015785"         | "DE"      | [false, false, false, false, false, false]
+        "015786"         | "DE"      | [false, false, false, false, false, false]
+        "015787"         | "DE"      | [false, false, false, false, false, false]
+        "015788"         | "DE"      | [false, false, false, false, false, false]
+        "0157890"        | "DE"      | [false, false, false, false, false, false]
+        "0157891"        | "DE"      | [false, false, false, false, false, false]
+        "0157892"        | "DE"      | [false, false, false, false, false, false]
+        "0157893"        | "DE"      | [false, false, false, false, false, false]
+        "0157894"        | "DE"      | [false, false, false, false, false, false]
+        "0157895"        | "DE"      | [false, false, false, false, false, false]
+        "0157896"        | "DE"      | [false, false, false, false, false, false]
+        "0157897"        | "DE"      | [false, false, false, false, false, false]
+        "0157898"        | "DE"      | [false, false, false, false, false, false]
+        // 0157899 is reserved for voicemail - see tests below
+
+        "015790"         | "DE"      | [false, false, false, false, false, false]
+        "015791"         | "DE"      | [false, false, false, false, false, false]
+        "015792"         | "DE"      | [false, false, false, false, false, false]
+        "015793"         | "DE"      | [false, false, false, false, false, false]
+        "015794"         | "DE"      | [false, false, false, false, false, false]
+        "015795"         | "DE"      | [false, false, false, false, false, false]
+        "015796"         | "DE"      | [false, false, false, false, false, false]
+        "015797"         | "DE"      | [false, false, false, false, false, false]
+        "015798"         | "DE"      | [false, false, false, false, false, false]
+        "0157990"        | "DE"      | [false, false, false, false, false, false]
+        "0157991"        | "DE"      | [false, false, false, false, false, false]
+        "0157992"        | "DE"      | [false, false, false, false, false, false]
+        "0157993"        | "DE"      | [false, false, false, false, false, false]
+        "0157994"        | "DE"      | [false, false, false, false, false, false]
+        "0157995"        | "DE"      | [false, false, false, false, false, false]
+        "0157996"        | "DE"      | [false, false, false, false, false, false]
+        "0157997"        | "DE"      | [false, false, false, false, false, false]
+        "0157998"        | "DE"      | [false, false, false, false, false, false]
+        // 0157999 is reserved for voicemail - see tests below
+
+        //
+        // 0158
+        //
+        // 015800 is reserved for voicemail - see tests below
+        "015801"         | "DE"      | [false, false, false, false, false, false]
+        "015802"         | "DE"      | [false, false, false, false, false, false]
+        "015803"         | "DE"      | [false, false, false, false, false, false]
+        "015804"         | "DE"      | [false, false, false, false, false, false]
+        "015805"         | "DE"      | [false, false, false, false, false, false]
+        "015806"         | "DE"      | [false, false, false, false, false, false]
+        "015807"         | "DE"      | [false, false, false, false, false, false]
+        "015808"         | "DE"      | [false, false, false, false, false, false]
+        "015809"         | "DE"      | [false, false, false, false, false, false]
+        "01581"          | "DE"      | [false, false, false, false, false, false]
+        "01582"          | "DE"      | [false, false, false, false, false, false]
+        "01583"          | "DE"      | [false, false, false, false, false, false]
+        "01584"          | "DE"      | [false, false, false, false, false, false]
+        "01585"          | "DE"      | [false, false, false, false, false, false]
+        "01586"          | "DE"      | [false, false, false, false, false, false]
+        "01587"          | "DE"      | [false, false, false, false, false, false]
+        "01588"          | "DE"      | [false, false, false, false, false, false]
+        "01589"          | "DE"      | [false, false, false, false, false, false]
+
+        //
+        // 0159
+        //
+        "015900"         | "DE"      | [false, false, false, false, false, false]
+        "015901"         | "DE"      | [false, false, false, false, false, false]
+        "015902"         | "DE"      | [false, false, false, false, false, false]
+        "0159030"        | "DE"      | [false, false, false, false, false, false]
+        "0159031"        | "DE"      | [false, false, false, false, false, false]
+        "0159032"        | "DE"      | [false, false, false, false, false, false]
+        // 0159033 is reserved for voicemail - see tests below
+        "0159034"        | "DE"      | [false, false, false, false, false, false]
+        "0159035"        | "DE"      | [false, false, false, false, false, false]
+        "0159036"        | "DE"      | [false, false, false, false, false, false]
+        "0159037"        | "DE"      | [false, false, false, false, false, false]
+        "0159038"        | "DE"      | [false, false, false, false, false, false]
+        "0159039"        | "DE"      | [false, false, false, false, false, false]
+        "015904"         | "DE"      | [false, false, false, false, false, false]
+        "015905"         | "DE"      | [false, false, false, false, false, false]
+        "015906"         | "DE"      | [false, false, false, false, false, false]
+        "015907"         | "DE"      | [false, false, false, false, false, false]
+        "015908"         | "DE"      | [false, false, false, false, false, false]
+        "015909"         | "DE"      | [false, false, false, false, false, false]
+
+        "015910"         | "DE"      | [false, false, false, false, false, false]
+        "015911"         | "DE"      | [false, false, false, false, false, false]
+        "015912"         | "DE"      | [false, false, false, false, false, false]
+        "0159130"        | "DE"      | [false, false, false, false, false, false]
+        "0159131"        | "DE"      | [false, false, false, false, false, false]
+        "0159132"        | "DE"      | [false, false, false, false, false, false]
+        // 0159133 is reserved for voicemail - see tests below
+        "0159134"        | "DE"      | [false, false, false, false, false, false]
+        "0159135"        | "DE"      | [false, false, false, false, false, false]
+        "0159136"        | "DE"      | [false, false, false, false, false, false]
+        "0159137"        | "DE"      | [false, false, false, false, false, false]
+        "0159138"        | "DE"      | [false, false, false, false, false, false]
+        "0159139"        | "DE"      | [false, false, false, false, false, false]
+        "015914"         | "DE"      | [false, false, false, false, false, false]
+        "015915"         | "DE"      | [false, false, false, false, false, false]
+        "015916"         | "DE"      | [false, false, false, false, false, false]
+        "015917"         | "DE"      | [false, false, false, false, false, false]
+        "015918"         | "DE"      | [false, false, false, false, false, false]
+        "015919"         | "DE"      | [false, false, false, false, false, false]
+
+        "015920"         | "DE"      | [false, false, false, false, false, false]
+        "015921"         | "DE"      | [false, false, false, false, false, false]
+        "015922"         | "DE"      | [false, false, false, false, false, false]
+        "0159230"        | "DE"      | [false, false, false, false, false, false]
+        "0159231"        | "DE"      | [false, false, false, false, false, false]
+        "0159232"        | "DE"      | [false, false, false, false, false, false]
+        // 0159233 is reserved for voicemail - see tests below
+        "0159234"        | "DE"      | [false, false, false, false, false, false]
+        "0159235"        | "DE"      | [false, false, false, false, false, false]
+        "0159236"        | "DE"      | [false, false, false, false, false, false]
+        "0159237"        | "DE"      | [false, false, false, false, false, false]
+        "0159238"        | "DE"      | [false, false, false, false, false, false]
+        "0159239"        | "DE"      | [false, false, false, false, false, false]
+        "015924"         | "DE"      | [false, false, false, false, false, false]
+        "015925"         | "DE"      | [false, false, false, false, false, false]
+        "015926"         | "DE"      | [false, false, false, false, false, false]
+        "015927"         | "DE"      | [false, false, false, false, false, false]
+        "015928"         | "DE"      | [false, false, false, false, false, false]
+        "015929"         | "DE"      | [false, false, false, false, false, false]
+
+        "015930"         | "DE"      | [false, false, false, false, false, false]
+        "015931"         | "DE"      | [false, false, false, false, false, false]
+        "015932"         | "DE"      | [false, false, false, false, false, false]
+        "0159330"        | "DE"      | [false, false, false, false, false, false]
+        "0159331"        | "DE"      | [false, false, false, false, false, false]
+        "0159332"        | "DE"      | [false, false, false, false, false, false]
+        // 0159333 is reserved for voicemail - see tests below
+        "0159334"        | "DE"      | [false, false, false, false, false, false]
+        "0159335"        | "DE"      | [false, false, false, false, false, false]
+        "0159336"        | "DE"      | [false, false, false, false, false, false]
+        "0159337"        | "DE"      | [false, false, false, false, false, false]
+        "0159338"        | "DE"      | [false, false, false, false, false, false]
+        "0159339"        | "DE"      | [false, false, false, false, false, false]
+        "015934"         | "DE"      | [false, false, false, false, false, false]
+        "015935"         | "DE"      | [false, false, false, false, false, false]
+        "015936"         | "DE"      | [false, false, false, false, false, false]
+        "015937"         | "DE"      | [false, false, false, false, false, false]
+        "015938"         | "DE"      | [false, false, false, false, false, false]
+        "015939"         | "DE"      | [false, false, false, false, false, false]
+
+        "015940"         | "DE"      | [false, false, false, false, false, false]
+        "015941"         | "DE"      | [false, false, false, false, false, false]
+        "015942"         | "DE"      | [false, false, false, false, false, false]
+        "0159430"        | "DE"      | [false, false, false, false, false, false]
+        "0159431"        | "DE"      | [false, false, false, false, false, false]
+        "0159432"        | "DE"      | [false, false, false, false, false, false]
+        // 0159433 is reserved for voicemail - see tests below
+        "0159434"        | "DE"      | [false, false, false, false, false, false]
+        "0159435"        | "DE"      | [false, false, false, false, false, false]
+        "0159436"        | "DE"      | [false, false, false, false, false, false]
+        "0159437"        | "DE"      | [false, false, false, false, false, false]
+        "0159438"        | "DE"      | [false, false, false, false, false, false]
+        "0159439"        | "DE"      | [false, false, false, false, false, false]
+        "015944"         | "DE"      | [false, false, false, false, false, false]
+        "015945"         | "DE"      | [false, false, false, false, false, false]
+        "015946"         | "DE"      | [false, false, false, false, false, false]
+        "015947"         | "DE"      | [false, false, false, false, false, false]
+        "015948"         | "DE"      | [false, false, false, false, false, false]
+        "015949"         | "DE"      | [false, false, false, false, false, false]
+
+        "015950"         | "DE"      | [false, false, false, false, false, false]
+        "015951"         | "DE"      | [false, false, false, false, false, false]
+        "015952"         | "DE"      | [false, false, false, false, false, false]
+        "0159530"        | "DE"      | [false, false, false, false, false, false]
+        "0159531"        | "DE"      | [false, false, false, false, false, false]
+        "0159532"        | "DE"      | [false, false, false, false, false, false]
+        // 0159533 is reserved for voicemail - see tests below
+        "0159534"        | "DE"      | [false, false, false, false, false, false]
+        "0159535"        | "DE"      | [false, false, false, false, false, false]
+        "0159536"        | "DE"      | [false, false, false, false, false, false]
+        "0159537"        | "DE"      | [false, false, false, false, false, false]
+        "0159538"        | "DE"      | [false, false, false, false, false, false]
+        "0159539"        | "DE"      | [false, false, false, false, false, false]
+        "015954"         | "DE"      | [false, false, false, false, false, false]
+        "015955"         | "DE"      | [false, false, false, false, false, false]
+        "015956"         | "DE"      | [false, false, false, false, false, false]
+        "015957"         | "DE"      | [false, false, false, false, false, false]
+        "015958"         | "DE"      | [false, false, false, false, false, false]
+        "015959"         | "DE"      | [false, false, false, false, false, false]
+
+        "015960"         | "DE"      | [false, false, false, false, false, false]
+        "015961"         | "DE"      | [false, false, false, false, false, false]
+        "015962"         | "DE"      | [false, false, false, false, false, false]
+        "0159630"        | "DE"      | [false, false, false, false, false, false]
+        "0159631"        | "DE"      | [false, false, false, false, false, false]
+        "0159632"        | "DE"      | [false, false, false, false, false, false]
+        // 0159633 is reserved for voicemail - see tests below
+        "0159634"        | "DE"      | [false, false, false, false, false, false]
+        "0159635"        | "DE"      | [false, false, false, false, false, false]
+        "0159636"        | "DE"      | [false, false, false, false, false, false]
+        "0159637"        | "DE"      | [false, false, false, false, false, false]
+        "0159638"        | "DE"      | [false, false, false, false, false, false]
+        "0159639"        | "DE"      | [false, false, false, false, false, false]
+        "015964"         | "DE"      | [false, false, false, false, false, false]
+        "015965"         | "DE"      | [false, false, false, false, false, false]
+        "015966"         | "DE"      | [false, false, false, false, false, false]
+        "015967"         | "DE"      | [false, false, false, false, false, false]
+        "015968"         | "DE"      | [false, false, false, false, false, false]
+        "015969"         | "DE"      | [false, false, false, false, false, false]
+
+        "015970"         | "DE"      | [false, false, false, false, false, false]
+        "015971"         | "DE"      | [false, false, false, false, false, false]
+        "015972"         | "DE"      | [false, false, false, false, false, false]
+        "0159730"        | "DE"      | [false, false, false, false, false, false]
+        "0159731"        | "DE"      | [false, false, false, false, false, false]
+        "0159732"        | "DE"      | [false, false, false, false, false, false]
+        // 0159733 is reserved for voicemail - see tests below
+        "0159734"        | "DE"      | [false, false, false, false, false, false]
+        "0159735"        | "DE"      | [false, false, false, false, false, false]
+        "0159736"        | "DE"      | [false, false, false, false, false, false]
+        "0159737"        | "DE"      | [false, false, false, false, false, false]
+        "0159738"        | "DE"      | [false, false, false, false, false, false]
+        "0159739"        | "DE"      | [false, false, false, false, false, false]
+        "015974"         | "DE"      | [false, false, false, false, false, false]
+        "015975"         | "DE"      | [false, false, false, false, false, false]
+        "015976"         | "DE"      | [false, false, false, false, false, false]
+        "015977"         | "DE"      | [false, false, false, false, false, false]
+        "015978"         | "DE"      | [false, false, false, false, false, false]
+        "015979"         | "DE"      | [false, false, false, false, false, false]
+
+        "015980"         | "DE"      | [false, false, false, false, false, false]
+        "015981"         | "DE"      | [false, false, false, false, false, false]
+        "015982"         | "DE"      | [false, false, false, false, false, false]
+        "0159830"        | "DE"      | [false, false, false, false, false, false]
+        "0159831"        | "DE"      | [false, false, false, false, false, false]
+        "0159832"        | "DE"      | [false, false, false, false, false, false]
+        // 0159833 is reserved for voicemail - see tests below
+        "0159834"        | "DE"      | [false, false, false, false, false, false]
+        "0159835"        | "DE"      | [false, false, false, false, false, false]
+        "0159836"        | "DE"      | [false, false, false, false, false, false]
+        "0159837"        | "DE"      | [false, false, false, false, false, false]
+        "0159838"        | "DE"      | [false, false, false, false, false, false]
+        "0159839"        | "DE"      | [false, false, false, false, false, false]
+        "015984"         | "DE"      | [false, false, false, false, false, false]
+        "015985"         | "DE"      | [false, false, false, false, false, false]
+        "015986"         | "DE"      | [false, false, false, false, false, false]
+        "015987"         | "DE"      | [false, false, false, false, false, false]
+        "015988"         | "DE"      | [false, false, false, false, false, false]
+        "015989"         | "DE"      | [false, false, false, false, false, false]
+
+        "015990"         | "DE"      | [false, false, false, false, false, false]
+        "015991"         | "DE"      | [false, false, false, false, false, false]
+        "015992"         | "DE"      | [false, false, false, false, false, false]
+        "0159930"        | "DE"      | [false, false, false, false, false, false]
+        "0159931"        | "DE"      | [false, false, false, false, false, false]
+        "0159932"        | "DE"      | [false, false, false, false, false, false]
+        // 0159933 is reserved for voicemail - see tests below
+        "0159934"        | "DE"      | [false, false, false, false, false, false]
+        "0159935"        | "DE"      | [false, false, false, false, false, false]
+        "0159936"        | "DE"      | [false, false, false, false, false, false]
+        "0159937"        | "DE"      | [false, false, false, false, false, false]
+        "0159938"        | "DE"      | [false, false, false, false, false, false]
+        "0159939"        | "DE"      | [false, false, false, false, false, false]
+        "015994"         | "DE"      | [false, false, false, false, false, false]
+        "015995"         | "DE"      | [false, false, false, false, false, false]
+        "015996"         | "DE"      | [false, false, false, false, false, false]
+        "015997"         | "DE"      | [false, false, false, false, false, false]
+        "015998"         | "DE"      | [false, false, false, false, false, false]
+        "015999"         | "DE"      | [false, false, false, false, false, false]
+
+        // end of 015xx
+    }
+
+    def "check if original lib fixed isValid for German Mobile 15 range with voicemail infix"(String numberUntilInfix, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest
+        if (numberUntilInfix.length() == 6) {
+            numbersToTest = [numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "00000000",
+                             numberUntilInfix + "000000000",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999",
+                             numberUntilInfix + "99999999",
+                             numberUntilInfix + "9999999999"]
+        }
+        if (numberUntilInfix.length() == 7) {
+            numbersToTest = [numberUntilInfix + "0000",
+                             numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "00000000",
+                             numberUntilInfix + "9999",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999",
+                             numberUntilInfix + "999999999"]
+        }
+        Boolean[] expectedResults = [false, false, false, true, false,
+                                     false, false, false, true, false]
+
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+
+        for (int i = 0; i<results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+
+        numberUntilInfix | regionCode | expectingFails
+        // There infixes of two digits used to address the voicemail of a line
+        // see 2.5 in https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // This makes the number two digits longer, but on the other hand a short version with the infix does not exists, that is the reason, why above range started at 15001, since 15000 would be an infix
+
+        // 15-0-INFIX:OO-xx 3-Block: 0xx
+        "015000"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+
+        // 15-1-INFIX:13-x(x) 2-Block: 1x and 3-Block: 1xx
+        "015113"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+
+        // 15-2x-INFIX:50-(x) 2-Block: 2x and 3-Block: 2xx  First Infix: 50
+        "0152050"        | "DE"      | [false, true, false, true, false, false, true, false, true, false]
+        "0152150"        | "DE"      | [false, true, false, true, false, false, true, false, true, false]
+        "0152250"        | "DE"      | [false, true, false, true, false, false, true, false, true, false]
+        "0152350"        | "DE"      | [false, true, false, true, false, false, true, false, true, false]
+        "0152450"        | "DE"      | [false, true, false, true, false, false, true, false, true, false]
+        "0152550"        | "DE"      | [false, true, false, true, false, false, true, false, true, false]
+        "0152650"        | "DE"      | [false, true, false, true, false, false, true, false, true, false]
+        "0152750"        | "DE"      | [false, true, false, true, false, false, true, false, true, false]
+        "0152850"        | "DE"      | [false, true, false, true, false, false, true, false, true, false]
+        "0152950"        | "DE"      | [false, true, false, true, false, false, true, false, true, false]
+        // 15-2x-INFI:55-(x) 2-Block: 2x and 3-Block: 2xx  Second Infix: 55
+        "0152055"        | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0152155"        | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0152255"        | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0152355"        | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0152455"        | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0152555"        | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0152655"        | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0152755"        | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0152855"        | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0152955"        | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+
+        // 15-3-INFIX:OO-xx 3-Block: 3xx
+        "015300"         | "DE"      | [false, false, false, false, false, false, false, false, false, false]
+
+        // 15-4-INFIX:OO-xx 3-Block: 4xx
+        "015400"         | "DE"      | [false, false, false, false, false, false, false, false, false, false]
+
+        // 15-5-INFIX:OO-xx 3-Block: 5xx
+        "015500"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+
+        // 15-6-INFIX:OO-xx 3-Block: 6xx
+        "015600"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+
+        // 15-7x-INFIX:99-(x) 2-Block: 7x and 3-Block: 7xx
+        "0157099"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0157199"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0157299"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0157399"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0157499"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0157599"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0157699"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0157799"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0157899"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0157999"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+
+        // 15-8-INFIX:OO-xx 3-Block: 8xx
+        "015800"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+
+        // 15-9x-INFIX:33-(x) 2-Block: 9x and 3-Block: 9xx
+        "0159033"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0159133"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0159233"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0159333"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0159433"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0159533"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0159633"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0159733"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0159833"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+        "0159933"         | "DE"      | [false, true, false, false, false, false, true, false, false, false]
+
+        // end of 015xx for voicemail
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:

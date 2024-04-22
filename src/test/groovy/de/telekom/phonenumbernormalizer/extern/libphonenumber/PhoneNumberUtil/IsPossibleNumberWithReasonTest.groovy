@@ -1360,7 +1360,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0157299"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
         "0157399"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
         "0157499"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
-        "0152599"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
+        "0157599"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
         "0157699"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
         "0157799"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
         "0157899"         | "DE"      | [true, true, true, false, true, true, true, true, false, true]
