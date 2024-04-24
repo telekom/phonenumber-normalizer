@@ -2326,7 +2326,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.TOO_SHORT,
                                                               PhoneNumberUtil.ValidationResult.TOO_SHORT,
                                                               PhoneNumberUtil.ValidationResult.TOO_SHORT,
-                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
                                                               PhoneNumberUtil.ValidationResult.IS_POSSIBLE,  // is reachable from normal telephony network
                                                               PhoneNumberUtil.ValidationResult.TOO_LONG,
                                                               PhoneNumberUtil.ValidationResult.TOO_LONG,

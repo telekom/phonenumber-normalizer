@@ -2190,6 +2190,42 @@ class IsValidNumberTest extends Specification {
 
     }
 
+    def "check if original lib fixed isValid for German VPN 018 59995 xxxx is reachable"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344"]
+
+        Boolean[] expectedResults = [false, false, false, false, true, false, false]
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  018 is VPN: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/018/018_Node.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/018/Nummernplan.pdf?__blob=publicationFile&v=1
+        //  Historical Reorder: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/018/TWiderruf.pdf?__blob=publicationFile&v=1
+        //  nation number with 11 digits
+        "018 59995"      | "DE" | [false, false, false, false, false, false, false]
+        "+4918 59995"    | "FR" | [false, false, false, false, false, false, false]
+    }
+
+
+
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
