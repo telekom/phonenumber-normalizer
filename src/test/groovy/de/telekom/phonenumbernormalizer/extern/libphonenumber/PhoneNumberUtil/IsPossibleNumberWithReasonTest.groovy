@@ -2216,7 +2216,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
                                                               PhoneNumberUtil.ValidationResult.TOO_SHORT,
                                                               PhoneNumberUtil.ValidationResult.TOO_SHORT,
                                                               PhoneNumberUtil.ValidationResult.TOO_SHORT,
-                                                              PhoneNumberUtil.ValidationResult.TOO_LONG,
+                                                              PhoneNumberUtil.ValidationResult.TOO_SHORT,
                                                               PhoneNumberUtil.ValidationResult.IS_POSSIBLE,  // TODO: Maybe IS Possible_Local_Only is better value, since VPN numbers are not public accessible, but only from numbers of same VPN
                                                                                                              // that would mean at least first 4 to 9 digits after NAC have to be same, depending on the VPN size.
                                                                                                              // if such a check is added, 18 59995 would be an exception which a public accessible exception for historical reason.

@@ -2099,6 +2099,51 @@ class IsValidNumberTest extends Specification {
         "+49181"         | "FR" | [true, true, true, false, false, false, false, false, false, false, false, true]
     }
 
+    def "check if original lib fixed isValid for German VPN 18(2-9) range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566",
+                                  reserve + "22334455667"]
+
+        Boolean[] expectedResults = [false, false, false, false, false, false, false, false, true, false, false, false]
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  018 is VPN: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/018/018_Node.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/018/Nummernplan.pdf?__blob=publicationFile&v=1
+        //  Historical Reorder: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/018/TWiderruf.pdf?__blob=publicationFile&v=1
+        //  nation number with 11 digits
+        "0182"           | "DE" | [false, false, false, false, false, false, false, false, false, false, false, false]
+        "0183"           | "DE" | [false, false, false, false, false, false, false, false, false, false, false, false]
+        "0184"           | "DE" | [false, false, false, false, false, false, false, false, false, false, false, false]
+        "0185"           | "DE" | [false, false, false, false, false, false, false, false, false, false, false, false]
+        "0186"           | "DE" | [false, false, false, false, false, false, false, false, false, false, false, false]
+        "0187"           | "DE" | [false, false, false, false, false, false, false, false, false, false, false, false]
+        "0188"           | "DE" | [false, false, false, false, false, false, false, false, false, false, false, false]
+        "0189"           | "DE" | [false, false, false, false, false, false, false, false, false, false, false, false]
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
