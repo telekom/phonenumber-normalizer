@@ -2060,6 +2060,45 @@ class IsValidNumberTest extends Specification {
 
     }
 
+    def "check if original lib fixed isValid for German international VPN 181 range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566",
+                                  reserve + "22334455667"]
+
+        Boolean[] expectedResults = [false, false, false,
+                                     true, true, true, true, true, true, true, true, false]
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  0181 is VPN: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0181/181_node.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0181/Nummernplan_IVPN.pdf?__blob=publicationFile&v=1
+        //  nation number with 14 digits
+        "0181"           | "DE" | [true, true, true, false, false, false, false, false, false, false, false, true]
+        "+49181"         | "FR" | [true, true, true, false, false, false, false, false, false, false, false, true]
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
