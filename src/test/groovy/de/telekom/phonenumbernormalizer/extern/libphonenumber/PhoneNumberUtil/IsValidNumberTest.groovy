@@ -1575,6 +1575,46 @@ class IsValidNumberTest extends Specification {
 
     }
 
+    def "check if original lib fixed isValid for German 'Funkruf' 16(8/9) range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566",
+                                  reserve + "22334455667",
+                                  reserve + "223344556677"]
+
+        Boolean[] expectedResults = [false, false, false, false, false, false, false, false, false, false, false, true, false]
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        // see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1
+        // 0168, 169 are using a 14 digit national number (0164 is not further defined).
+        // TODO: could 0164 needs to be covered
+        "0168"           | "DE" | [false, true, true, true, true, true, true, true, true, true, true, false, false]
+        "0169"           | "DE" | [false, true, true, true, true, true, true, true, true, true, true, false, false]
+
+    }
+
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
