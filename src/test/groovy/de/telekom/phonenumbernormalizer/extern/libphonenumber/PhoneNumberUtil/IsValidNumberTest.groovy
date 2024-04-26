@@ -2346,6 +2346,118 @@ class IsValidNumberTest extends Specification {
         "+491981"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false, false, false]
     }
 
+    def "check if original lib fixed isValid for German traffic routing 01981xx of mobile Emergency calls"(String reserve, operator,regionCode, boolean[] expectingFails) {
+        given:
+        // 2233 is are code of Hürth
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        Boolean[] expectedResults
+        if ((operator) && (regionCode == "DE")) {
+            expectedResults = [false, false, false, false, false, false,
+                               true,  // not callable public, but for national operators
+                               true,  // not callable public, but for national operators
+                               true,  // not callable public, but for national operators
+                               true,  // not callable public, but for national operators
+                               false]
+        } else {
+            expectedResults = [false, false, false, false, false, false,
+                               false,  // not callable public, but for national operators
+                               false,  // not callable public, but for national operators
+                               false,  // not callable public, but for national operators
+                               false,  // not callable public, but for national operators
+                               false]
+        }
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve     | operator | regionCode | expectingFails
+        //  0198 is trafic control: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Verkehrslenkungsnummern/start.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Verkehrslenkungsnr/NummernplanVerkehrslenkungsnrn.pdf?__blob=publicationFile&v=1
+        //  01981 is used for emergency call routing from national mobile operators and are not callable by normal public telephony network users nor by international operators
+        //  01981-AB-(NDC 2-5 digits)-CC-XY
+        //  additionally it is checked if A is 2..5 and B is 1..3 - just for DE, for other countries it is INVALID Length which is tested by first 01981 test
+        //  additionally only valid NDCs see below could also be checked but that would be more a IsValid check
+        //  for traditional libphone it makes no difference if number is used by public user or operator, so one of it will always fail until it could distinguish it
+
+        // Telekom Deutschland GmbH
+        "0198121"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "0198121"     | true     | "DE" | [false, false, false, false, false, false, true, true, true, true, false]
+        "0198122"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "0198122"     | true     | "DE" | [false, false, false, false, false, false, true, true, true, true, false]
+        "0198123"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "0198123"     | true     | "DE" | [false, false, false, false, false, false, true, true, true, true, false]
+        // Vodafone GmbH
+        "0198131"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "0198131"     | true     | "DE" | [false, false, false, false, false, false, true, true, true, true, false]
+        "0198132"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "0198132"     | true     | "DE" | [false, false, false, false, false, false, true, true, true, true, false]
+        "0198133"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "0198133"     | true     | "DE" | [false, false, false, false, false, false, true, true, true, true, false]
+        // Telefónica Germany GmbH & Co. OHG
+        "0198141"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "0198141"     | true     | "DE" | [false, false, false, false, false, false, true, true, true, true, false]
+        "0198142"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "0198142"     | true     | "DE" | [false, false, false, false, false, false, true, true, true, true, false]
+        "0198143"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "0198143"     | true     | "DE" | [false, false, false, false, false, false, true, true, true, true, false]
+        // Telefónica Germany GmbH & Co. OHG
+        "0198151"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "0198151"     | true     | "DE" | [false, false, false, false, false, false, true, true, true, true, false]
+        "0198152"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "0198152"     | true     | "DE" | [false, false, false, false, false, false, true, true, true, true, false]
+        "0198153"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "0198153"     | true     | "DE" | [false, false, false, false, false, false, true, true, true, true, false]
+
+        "+49198121"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198121"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198122"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198122"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198123"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198123"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+
+        "+49198131"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198131"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198132"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198132"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198133"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198133"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+
+        "+49198141"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198141"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198142"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198142"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198143"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198143"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+
+        "+49198151"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198151"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198152"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198152"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198153"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49198153"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
