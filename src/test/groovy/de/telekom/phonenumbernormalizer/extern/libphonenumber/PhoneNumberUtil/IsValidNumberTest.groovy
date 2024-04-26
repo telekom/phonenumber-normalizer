@@ -2224,6 +2224,66 @@ class IsValidNumberTest extends Specification {
         "+4918 59995"    | "FR" | [false, false, false, false, false, false, false]
     }
 
+    def "check if original lib fixed isValid for German Online Services 019(1-4) inc. historic"(String reserve, historic,regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334"]
+
+        Boolean[] expectedResults
+        if (historic) {
+            expectedResults = [false,
+                               true,  // BnetzA mentioned historic numbers are 4 digits long
+                               true,  // TODO: BnetzA only mentioned historic 4 digit numbers, but since we found 6 digit in use, we asume the gab with 5 digits should be possible
+                               true,  // At TDG (Deutsche Telekom Germany) we are using historic 0191 range with a 6 digit number
+                               false,
+                               false]
+        } else {
+            expectedResults = [false,
+                               false,
+                               false,
+                               true,  // BnetzA specified just 6 digits for current numbers
+                               false,
+                               false]
+        }
+
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve     | historic | regionCode | expectingFails
+        //  019(1-4) is Online Services: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/019xyz/019xyz_node.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/019xyz/019_Nummernplan.pdf?__blob=publicationFile&v=1
+        //  while currently only 019(2-4) is used, there are historically 019(1-3) allocations with other structure.
+        //  are those services dead? https://www.teltarif.de/internet/by-call/
+        //  Deutsche Telekom still offers 0191011 see https://www.telekom.de/hilfe/festnetz-internet-tv/anschluss-verfuegbarkeit/anschlussvarianten/festnetz-internet/einwahlnummern-internetzugang-aus-dem-ausland?samChecked=true
+        //  that is historically a 0191 range, but not limit to 4 digits but using 6!
+        //  Vodafone Germany is offering 0192070 see https://www.vodafone.de/media/downloads/pdf/090512_Preisliste_Vodafone_Festnetz.pdf
+        //  Historical: 4 to 6
+        "0191"      | true     | "DE" | [false, true, true, true, false, false]
+        "0192"      | true     | "DE" | [false, true, true, true, false, false]
+        "0193"      | true     | "DE" | [false, true, true, true, false, false]
+        "+49191"    | true     | "FR" | [false, true, true, true, false, false]
+        "+49192"    | true     | "FR" | [false, true, true, true, false, false]
+        "+49193"    | true     | "FR" | [false, true, true, true, false, false]
+        //  current: 6 digits
+        "0194"      | false    | "DE" | [false, false, false, true, false, false]
+        "+49194"    | false    | "FR" | [false, false, false, true, false, false]
+
+    }
 
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
