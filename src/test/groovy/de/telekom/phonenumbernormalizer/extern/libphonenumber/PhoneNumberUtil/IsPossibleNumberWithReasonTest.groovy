@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023 Deutsche Telekom AG (opensource@telekom.de)
+ * Copyright © 2024 Deutsche Telekom AG (opensource@telekom.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,9 +32,9 @@ class IsPossibleNumberWithReasonTest extends Specification {
 
     PhoneNumberUtil phoneUtil
 
-    Logger logger = Logger.getLogger("")
+    Logger logger = Logger.getLogger(IsPossibleNumberWithReasonTest.class)
 
-    boolean LOGONLYUNEXPECTED = true
+    static final boolean LOGONLYUNEXPECTED = true
 
     def "setup"() {
         this.phoneUtil = PhoneNumberUtil.getInstance()

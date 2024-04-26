@@ -28,7 +28,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
 
     Logger logger = Logger.getLogger(PhoneNumberOfflineGeocoderTest.class.toString())
 
-    boolean LOGONLYUNEXPECTED = true
+    static final boolean LOGONLYUNEXPECTED = true
 
     def "setup"() {
         this.phoneUtil = PhoneNumberUtil.getInstance()
