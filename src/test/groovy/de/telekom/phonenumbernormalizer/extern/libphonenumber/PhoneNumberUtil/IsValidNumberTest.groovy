@@ -18,7 +18,8 @@ package de.telekom.phonenumbernormalizer.extern.libphonenumber.PhoneNumberUtil
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import spock.lang.Specification
 
-import java.util.logging.Logger
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 
 // Plain Number Format: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/NP_Nummernraum.pdf?__blob=publicationFile&v=6
@@ -32,9 +33,9 @@ class IsValidNumberTest extends Specification {
 
     PhoneNumberUtil phoneUtil
 
-    Logger logger = Logger.getLogger("")
+    Logger logger = LoggerFactory.getLogger(IsValidNumberTest.class)
 
-    boolean LOGONLYUNEXPECTED = true
+    static final boolean LOGONLYUNEXPECTED = true
 
     def "setup"() {
         this.phoneUtil = PhoneNumberUtil.getInstance()

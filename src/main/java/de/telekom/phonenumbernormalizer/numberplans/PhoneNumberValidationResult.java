@@ -1,3 +1,18 @@
+/*
+ * Copyright © 2024 Deutsche Telekom AG (opensource@telekom.de)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.telekom.phonenumbernormalizer.numberplans;
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil.ValidationResult;
@@ -7,24 +22,31 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil.ValidationResult;
  * <p>
  * When the PhoneLib is validating a phone number it returns a value of the enum {@link ValidationResult}.
  * </p><p>
- * It differentiates two possible positive and five possible negative results. The value {@link ValidationResult#INVALID_LENGTH} is for any negative case, which is not explicitly covered by any of the other four values.
- * While most of the values for negative cases are focused on the number length, the value {@link ValidationResult#INVALID_COUNTRY_CODE} explicitly focuses on a specific number part - the Country Code.
+ * It differentiates two possible positive and five possible negative results. The value
+ * {@link ValidationResult#INVALID_LENGTH} is for any negative case, which is not explicitly covered by any of the other
+ * four values.
+ * While most of the values for negative cases are focused on the number length, the value
+ * {@link ValidationResult#INVALID_COUNTRY_CODE} explicitly focuses on a specific number part - the Country Code.
  * </p><p>
- *  This wrapper introduces explicit INVALID_ reason codes for currently undifferentiated number parts IDP, NAC and NDC. Lastly there is also {@link PhoneNumberValidationResult#INVALID_DRAMA_NUMBER} reason code for the whole number if it is reserved as a fictional number in arts.
+ *  This wrapper introduces explicit INVALID_ reason codes for currently undifferentiated number parts IDP, NAC and NDC.
+ *  Lastly there is also {@link PhoneNumberValidationResult#INVALID_DRAMA_NUMBER} reason code for the whole number if it
+ *  is reserved as a fictional number in arts.
  *  </p><p>
- *  Furthermore it introduces additional IS_POSSIBLE_ values, to hint for more specific calling restrictions of the validated number besides {@link PhoneNumberValidationResult#IS_POSSIBLE_LOCAL_ONLY}.
+ *  Furthermore it introduces additional IS_POSSIBLE_ values, to hint for more specific calling restrictions of the
+ *  validated number besides {@link PhoneNumberValidationResult#IS_POSSIBLE_LOCAL_ONLY}.
  * </p>
  * @see ValidationResult
  */
 
 public enum PhoneNumberValidationResult {
 
-    /** The number length matches that of valid numbers for this region or used NDC without any identified calling restrictions. */
+    /** The number length matches that of valid numbers for this region or used NDC without any identified calling
+     * restrictions. */
     IS_POSSIBLE(ValidationResult.IS_POSSIBLE),
     /**
      * The number length/pattern matches that of local numbers for this region only (i.e. numbers that may
-     * be able to be dialled within an area, but does not have all the information e.g. NDC or is not allowed to be dialled from
-     * anywhere inside or outside the country).
+     * be able to be dialled within an area, but does not have all the information e.g. NDC or is not allowed to be
+     * dialled from anywhere inside or outside the country).
      */
     IS_POSSIBLE_LOCAL_ONLY(ValidationResult.IS_POSSIBLE_LOCAL_ONLY),
     /**
@@ -34,24 +56,30 @@ public enum PhoneNumberValidationResult {
      */
     IS_POSSIBLE_NATIONAL_ONLY(ValidationResult.IS_POSSIBLE_LOCAL_ONLY),
     /**
-     * The number length/pattern matches that of international number for this region only (i.e. number is not allowed to be call from within the region,
-     * even if CC of the regions is used).
+     * The number length/pattern matches that of international number for this region only (i.e. number is not allowed
+     * to be call from within the region, even if CC of the regions is used).
      */
     IS_POSSIBLE_INTERNATIONAL_ONLY(ValidationResult.IS_POSSIBLE),
     /**
-     * The number length/pattern matches that of national VPN number for this region only (i.e. number is only allowed to be call from other numbers of same VPN within this region and not by users of the public telephony network).
+     * The number length/pattern matches that of national VPN number for this region only (i.e. number is only allowed
+     * to be call from other numbers of same VPN within this region and not by users of the public telephony network).
      */
     IS_POSSIBLE_NATIONAL_VPN_ONLY(ValidationResult.IS_POSSIBLE_LOCAL_ONLY),
     /**
-     * The number length/pattern matches that of VPN number for this region only (i.e. number is only allowed to be call from other numbers of same VPN even internationally but not by users of the public telephony network).
+     * The number length/pattern matches that of VPN number for this region only (i.e. number is only allowed to be call
+     * from other numbers of same VPN even internationally but not by users of the public telephony network).
      */
     IS_POSSIBLE_VPN_ONLY(ValidationResult.IS_POSSIBLE),
     /**
-     * The number length/pattern matches that of national operator traffic control numbers for this region only (i.e. number is only allowed to be call between national operators for call routing and not directly by users of the public telephony network).
+     * The number length/pattern matches that of national operator traffic control numbers for this region only
+     * (i.e. number is only allowed to be call between national operators for call routing and not directly by users of
+     * the public telephony network).
      */
     IS_POSSIBLE_NATIONAL_OPERATOR_ONLY(ValidationResult.IS_POSSIBLE_LOCAL_ONLY),
     /**
-     * The number length/pattern matches that of operator traffic control numbers for this region only (i.e. number is only allowed to be call between operators for call routing and not directly by users of the public telephony network).
+     * The number length/pattern matches that of operator traffic control numbers for this region only (i.e. number is
+     * only allowed to be call between operators for call routing and not directly by users of the public telephony
+     * network).
      */
     IS_POSSIBLE_OPERATOR_ONLY(ValidationResult.IS_POSSIBLE),
     /** The number has an invalid international dialing prefix (aka IDP) for this region. */
@@ -74,7 +102,8 @@ public enum PhoneNumberValidationResult {
     INVALID_LENGTH(ValidationResult.INVALID_LENGTH),
     /** The number is longer than all valid numbers for this region, or for the used NDC. */
     TOO_LONG(ValidationResult.TOO_LONG),
-    /** The number is matching a drama number range, which simulates valid number for this region only used in movies or other fictional story telling. */
+    /** The number is matching a drama number range, which simulates valid number for this region only used in movies or
+     *  other fictional story telling. */
     INVALID_DRAMA_NUMBER(ValidationResult.INVALID_LENGTH);
 
     /**
@@ -91,7 +120,8 @@ public enum PhoneNumberValidationResult {
     }
 
     /**
-     * Returns best matching corresponding {@link ValidationResult} enum value for an instance of a {@link PhoneNumberValidationResult} enum value
+     * Returns best matching corresponding {@link ValidationResult} enum value for an instance of a
+     * {@link PhoneNumberValidationResult} enum value
      * @return corresponding {@link ValidationResult} enum value
      */
     public ValidationResult getPhoneLibValidationResult() {
@@ -103,8 +133,11 @@ public enum PhoneNumberValidationResult {
      * @return boolean true for any IS_POSSIBLE(_xxx) enum value
      */
     public boolean isSomeHowValid() {
-        return ((this == IS_POSSIBLE) || (this == IS_POSSIBLE_LOCAL_ONLY)
-                || (this == IS_POSSIBLE_NATIONAL_ONLY) || (this == IS_POSSIBLE_NATIONAL_VPN_ONLY) || (this == IS_POSSIBLE_NATIONAL_OPERATOR_ONLY)
+        return (   (this == IS_POSSIBLE)
+                || (this == IS_POSSIBLE_LOCAL_ONLY)
+                || (this == IS_POSSIBLE_NATIONAL_ONLY)
+                || (this == IS_POSSIBLE_NATIONAL_VPN_ONLY)
+                || (this == IS_POSSIBLE_NATIONAL_OPERATOR_ONLY)
                 || (this == IS_POSSIBLE_INTERNATIONAL_ONLY)
                 || (this == IS_POSSIBLE_VPN_ONLY)
                 || (this == IS_POSSIBLE_OPERATOR_ONLY));

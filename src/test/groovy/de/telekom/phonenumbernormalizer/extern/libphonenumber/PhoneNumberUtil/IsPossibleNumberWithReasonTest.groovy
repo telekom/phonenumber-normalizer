@@ -18,7 +18,8 @@ package de.telekom.phonenumbernormalizer.extern.libphonenumber.PhoneNumberUtil
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import spock.lang.Specification
 
-import java.util.logging.Logger
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 
 // Plain Number Format: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/NP_Nummernraum.pdf?__blob=publicationFile&v=6
@@ -32,7 +33,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
 
     PhoneNumberUtil phoneUtil
 
-    Logger logger = Logger.getLogger(IsPossibleNumberWithReasonTest.class)
+    Logger logger = LoggerFactory.getLogger(IsPossibleNumberWithReasonTest.class)
 
     static final boolean LOGONLYUNEXPECTED = true
 
