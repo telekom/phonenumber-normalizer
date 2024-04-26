@@ -7,8 +7,8 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil.ValidationResult;
  * <p>
  * When the PhoneLib is validating a phone number it returns a value of the enum {@link ValidationResult}.
  * </p><p>
- * It differentiate two possible positive and five possible negative results. The value {@link ValidationResult#INVALID_LENGTH} for any negative case, which is not explicitly covered by any of the other four values.
- * While most of the values for negative cases are focused on the number length, the value {@link ValidationResult#INVALID_COUNTRY_CODE} explicitly focus on a specific number part - the Country Code.
+ * It differentiates two possible positive and five possible negative results. The value {@link ValidationResult#INVALID_LENGTH} is for any negative case, which is not explicitly covered by any of the other four values.
+ * While most of the values for negative cases are focused on the number length, the value {@link ValidationResult#INVALID_COUNTRY_CODE} explicitly focuses on a specific number part - the Country Code.
  * </p><p>
  *  This wrapper introduces explicit INVALID_ reason codes for currently undifferentiated number parts IDP, NAC and NDC. Lastly there is also {@link PhoneNumberValidationResult#INVALID_DRAMA_NUMBER} reason code for the whole number if it is reserved as a fictional number in arts.
  *  </p><p>
