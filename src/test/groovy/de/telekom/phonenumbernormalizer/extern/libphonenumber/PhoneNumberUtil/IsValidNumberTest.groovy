@@ -2458,6 +2458,157 @@ class IsValidNumberTest extends Specification {
         "+49198153"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
     }
 
+    def "check if original lib fixed isPossibleNumberWithReason for German invalid traffic routing 01981xx of mobile Emergency calls"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        // 2233 is are code of Hürth
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        PhoneNumberUtil.ValidationResult[] expectedResults = [PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH,
+                                                              PhoneNumberUtil.ValidationResult.INVALID_LENGTH]
+
+        when:
+        PhoneNumberUtil.ValidationResult[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve      | regionCode | expectingFails
+        //  0198 is trafic control: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Verkehrslenkungsnummern/start.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Verkehrslenkungsnr/NummernplanVerkehrslenkungsnrn.pdf?__blob=publicationFile&v=1
+        //  01981 is used for emergency call routing from national mobile operators and are not callable by normal public telephony network users nor by international operators
+        //  01981-AB-(NDC 2-5 digits)-CC-XY
+        //  additionally it is checked for non A is 2..5 and B is 1..3 - just for DE, for other countries it is INVALID Length which is tested by first 01981 test
+        //  no distinguishing of user and operator needed because those ranges are INVALID for both.
+
+        "0198100"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198101"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198102"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198103"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198104"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198105"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198106"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198107"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198108"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198109"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0198110"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198111"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198112"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198113"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198114"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198115"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198116"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198117"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198118"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198119"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0198120"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        // 1..3 are valid
+        "0198124"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198125"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198126"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198127"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198128"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198129"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0198130"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        // 1..3 are valid
+        "0198134"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198135"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198136"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198137"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198138"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198139"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0198140"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        // 1..3 are valid
+        "0198144"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198145"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198146"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198147"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198148"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198149"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0198150"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        // 1..3 are valid
+        "0198154"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198155"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198156"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198157"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198158"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198159"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0198160"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198161"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198162"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198163"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198164"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198165"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198166"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198167"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198168"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198169"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0198170"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198171"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198172"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198173"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198174"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198175"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198176"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198177"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198178"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198179"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0198180"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198181"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198182"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198183"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198184"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198185"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198186"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198187"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198188"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198189"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+
+        "0198190"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198191"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198192"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198193"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198194"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198195"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198196"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198197"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198198"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+        "0198199"    | "DE"       | [true, true, true, true, true, true, true, true, true, true, true]
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
