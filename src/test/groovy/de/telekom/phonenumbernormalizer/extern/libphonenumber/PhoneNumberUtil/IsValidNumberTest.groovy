@@ -2660,6 +2660,63 @@ class IsValidNumberTest extends Specification {
         "+491982"   | true     | "FR" | [false, false, false, true, true, true, true, true, false, false, false]
     }
 
+    def "check if original lib fixed isValid for German traffic routing 01986 of public service calls"(String reserve, operator,regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "1",
+                                  reserve + "11",
+                                  reserve + "115",
+                                  reserve + "1151",
+                                  reserve + "11511",
+                                  reserve + "115111",
+                                  reserve + "222",
+                                  reserve + "333",
+                                  reserve + "444",
+                                  reserve + "555",
+                                  reserve + "666",
+                                  reserve + "777",
+                                  reserve + "888",
+                                  reserve + "999",
+                                  reserve + "000"]
+
+        Boolean[] expectedResults
+        if ((operator)) {
+            expectedResults = [false, false, false,
+                               true, // not callable public, but for operators
+                               false, false, false,
+                               false, false, false, false, false, false, false, false, false]
+        } else {
+            expectedResults = [false, false, false,
+                               false, // not callable public, but for operators
+                               false, false, false,
+                               false, false, false, false, false, false, false, false, false]
+        }
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve     | operator | regionCode | expectingFails
+        //  0198 is trafic control: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Verkehrslenkungsnummern/start.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Verkehrslenkungsnr/NummernplanVerkehrslenkungsnrn.pdf?__blob=publicationFile&v=1
+        //  01986 is used for public service call routing from operators and are not callable by normal public telephony network users (TODO: verfiy it is callable by international operators, which is assumed, because +49 is usable (unlike at 01981)
+        //  01986-115
+        //  for traditional libphone it makes no difference if number is used by public user or operator, so one of it will always fail until it could distinguish it
+        "01986"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+        "01986"     | true     | "DE" | [false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false]
+        "+491986"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+        "+491986"   | true     | "FR" | [false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false]
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
