@@ -50,7 +50,7 @@ class IsValidNumberTest extends Specification {
                     logger.info("isValidNumber is still not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
                 }
             } else {
-                logger.warning("isValidNumber is suddenly not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
+                logger.warn("isValidNumber is suddenly not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
             }
         } else {
             if (expectingFail) {
@@ -2598,6 +2598,66 @@ class IsValidNumberTest extends Specification {
         "0198197"    | "DE"       | [false, false, false, false, false, false, false, false, false, false, false]
         "0198198"    | "DE"       | [false, false, false, false, false, false, false, false, false, false, false]
         "0198199"    | "DE"       | [false, false, false, false, false, false, false, false, false, false, false]
+    }
+
+    def "check if original lib fixed isValid for German traffic routing 01982 of Emergency calls"(String reserve, operator,regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        Boolean[] expectedResults
+        if ((operator)) {
+            expectedResults = [false, false, false,
+                               true, // not callable public, but for operators
+                               true, // not callable public, but for operators
+                               true, // not callable public, but for operators
+                               true, // not callable public, but for operators
+                               true, // not callable public, but for operators
+                               false, false, false]
+        } else {
+            expectedResults = [false, false, false,
+                               false,  // not callable public, but for operators
+                               false,  // not callable public, but for operators
+                               false,  // not callable public, but for operators
+                               false,  // not callable public, but for operators
+                               false,  // not callable public, but for operators
+                               false, false, false]
+        }
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve     | operator | regionCode | expectingFails
+        //  0198 is trafic control: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Verkehrslenkungsnummern/start.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Verkehrslenkungsnr/NummernplanVerkehrslenkungsnrn.pdf?__blob=publicationFile&v=1
+        //  01982 is used for emergency call routing from operators and are not callable by normal public telephony network users (TODO: verfiy it is callable by international operators, which is assumed, because +49 is usable (unlike at 01981)
+        //  01981-AB-(NDC 2-5 digits)-CC-XY
+        //  additionally it could be checked if A is 2..5 and B is 1..3 (see own test below)
+        //  additionally only valid NDCs see below could also be checked but that would be more a IsValid check
+        //  for traditional libphone it makes no difference if number is used by public user or operator, so one of it will always fail until it could distinguish it
+        "01982"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "01982"     | true     | "DE" | [false, false, false, true, true, true, true, true, false, false, false]
+        "+491982"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+491982"   | true     | "FR" | [false, false, false, true, true, true, true, true, false, false, false]
     }
 
 

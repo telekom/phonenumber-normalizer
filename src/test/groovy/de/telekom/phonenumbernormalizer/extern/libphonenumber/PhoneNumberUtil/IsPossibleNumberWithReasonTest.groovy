@@ -50,7 +50,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
                     logger.info("isPossibleNumberWithReason is still not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
                 }
             } else {
-                logger.warning("isPossibleNumberWithReason is suddenly not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
+                logger.warn("isPossibleNumberWithReason is suddenly not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
             }
         } else {
             if (expectingFail) {
