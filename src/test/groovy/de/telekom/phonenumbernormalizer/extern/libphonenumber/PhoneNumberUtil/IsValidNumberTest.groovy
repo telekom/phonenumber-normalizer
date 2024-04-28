@@ -3616,6 +3616,58 @@ class IsValidNumberTest extends Specification {
         "+49176 040690"   | "FR"       | true
     }
 
+    def "check if original lib fixed isValid for German 3 digit drama number range"(String testnumber, regionCode, boolean expectingFail) {
+        given:
+        ArrayList<String> numbersToTest = []
+
+        for (int i1=0; i1<10; i1++) {
+            for (int i2=0; i2<10; i2++) {
+                for (int i3=0; i3<10; i3++) {
+                    String s = testnumber + String.valueOf(i1) + String.valueOf(i2) + String.valueOf(i3)
+                    numbersToTest.add(s)
+                }
+            }
+        }
+
+        Boolean expectedResult = false
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResult, expectingFail, numbersToTest[i], regionCode)
+        }
+
+        where:
+        testnumber          | regionCode | expectingFail
+        //  there are some drama number ranges defined in https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/mittlg148_2021.pdf?__blob=publicationFile&v=1
+
+        "030 23125"     | "DE"       | true
+        "+4930 23125"   | "DE"       | true
+        "+4930 23125"   | "FR"       | true
+
+        "069 90009"     | "DE"       | true
+        "+4969 90009"   | "DE"       | true
+        "+4969 90009"   | "FR"       | true
+
+        "040 66969"     | "DE"       | true
+        "+4940 66969"   | "DE"       | true
+        "+4940 66969"   | "FR"       | true
+
+        "0221 4710"     | "DE"       | true
+        "+49221 4710"   | "DE"       | true
+        "+49221 4710"   | "FR"       | true
+
+        "089 99998"     | "DE"       | true
+        "+4989 99998"   | "DE"       | true
+        "+4989 99998"   | "FR"       | true
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
