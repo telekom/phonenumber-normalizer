@@ -3885,7 +3885,6 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+49329"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true]
     }
 
-
     def "check if original lib fixed isPossibleNumberWithReason for German explicit drama numbers"(String testnumber, regionCode, boolean expectingFail) {
         given:
         String[] numbersToTest = [testnumber]

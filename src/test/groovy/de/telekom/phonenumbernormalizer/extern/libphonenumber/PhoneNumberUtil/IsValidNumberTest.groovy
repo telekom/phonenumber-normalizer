@@ -3516,6 +3516,68 @@ class IsValidNumberTest extends Specification {
         "+49329"         | "FR" | [false, false, false, false, false, false, false, false, true, true, true]
     }
 
+    def "check if original lib fixed isValid for German explicit drama numbers"(String testnumber, regionCode, boolean expectingFail) {
+        given:
+        String[] numbersToTest = [testnumber]
+        Boolean expectedResult = false
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResult, expectingFail, numbersToTest[i], regionCode)
+        }
+
+        where:
+        testnumber          | regionCode | expectingFail
+        //  there are some drama numbers definded in https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/mittlg148_2021.pdf?__blob=publicationFile&v=1
+
+        "0152 28817386"     | "DE"       | true
+        "+49152 28817386"   | "DE"       | true
+        "+49152 28817386"   | "FR"       | true
+
+        "0152 28895456"     | "DE"       | true
+        "+49152 28895456"   | "DE"       | true
+        "+49152 28895456"   | "FR"       | true
+
+        "0152 54599371"     | "DE"       | true
+        "+49152 54599371"   | "DE"       | true
+        "+49152 54599371"   | "FR"       | true
+
+        "0172 9925904"     | "DE"       | true
+        "+49172 9925904"   | "DE"       | true
+        "+49172 9925904"   | "FR"       | true
+
+        "0172 9968532"     | "DE"       | true
+        "+49172 9968532"   | "DE"       | true
+        "+49172 9968532"   | "FR"       | true
+
+        "0172 9973185"     | "DE"       | true
+        "+49172 9973185"   | "DE"       | true
+        "+49172 9973185"   | "FR"       | true
+
+        "0172 9973186"     | "DE"       | true
+        "+49172 9973186"   | "DE"       | true
+        "+49172 9973186"   | "FR"       | true
+
+        "0172 9980752"     | "DE"       | true
+        "+49172 9980752"   | "DE"       | true
+        "+49172 9980752"   | "FR"       | true
+
+        "0174 9091317"     | "DE"       | true
+        "+49174 9091317"   | "DE"       | true
+        "+49174 9091317"   | "FR"       | true
+
+        "0174 9464308"     | "DE"       | true
+        "+49174 9464308"   | "DE"       | true
+        "+49174 9464308"   | "FR"       | true
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
