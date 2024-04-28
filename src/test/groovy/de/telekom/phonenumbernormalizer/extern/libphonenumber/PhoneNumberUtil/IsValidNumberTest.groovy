@@ -2943,6 +2943,68 @@ class IsValidNumberTest extends Specification {
         "+491989999" | false       | "FR"     | false                | false
     }
 
+    def "check if original lib fixed isPossibleNumberWithReason for German traffic routing 0199 for internal traffic routing"(String reserve, operator,regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "0",
+                                  reserve + "00",
+                                  reserve + "000",
+                                  reserve + "0000",
+                                  reserve + "00000",
+                                  reserve + "000000",
+                                  reserve + "0000000",
+                                  reserve + "00000000",
+                                  reserve + "000000000",
+                                  reserve + "0000000000",
+                                  reserve + "00000000000",
+                                  reserve + "000000000000",
+                                  reserve + "9",
+                                  reserve + "99",
+                                  reserve + "999",
+                                  reserve + "9999",
+                                  reserve + "99999",
+                                  reserve + "999999",
+                                  reserve + "9999999",
+                                  reserve + "99999999",
+                                  reserve + "999999999",
+                                  reserve + "9999999999",
+                                  reserve + "99999999999",
+                                  reserve + "999999999999"]
+
+        Boolean[] expectedResults
+        // TODO: Assumed 0199 is only valid within a German Operator network
+        if ((operator) && regionCode == "DE") {
+            expectedResults = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true,
+                               true, true, true, true, true, true, true, true, true, true]
+        } else {
+            expectedResults = [false, false, false, false, false, false, false, false, false, false, false, false,
+                               false, false, false, false, false, false, false, false, false, false, false, false,
+                               false]
+        }
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve    | operator | regionCode | expectingFails
+        //  0199 is trafic control: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Verkehrslenkungsnummern/start.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Verkehrslenkungsnr/NummernplanVerkehrslenkungsnrn.pdf?__blob=publicationFile&v=1
+        //  0199 is not further ruled, so assuming ITU rule of max length 15 with no lower limit, but operator only use
+        "0199"     | false    | "DE" | [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+        "0199"     | true     | "DE" | [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
+        "+49199"   | false    | "FR" | [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+        "+49199"   | true     | "FR" | [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:

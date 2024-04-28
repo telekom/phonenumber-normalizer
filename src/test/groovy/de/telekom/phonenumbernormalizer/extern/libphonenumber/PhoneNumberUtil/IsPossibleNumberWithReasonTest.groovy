@@ -3168,7 +3168,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+491989999" | false       | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true
     }
 
-    def "check if original lib fixed isPossibleNumberWithReason for German traffic routing 0199 for internal traffic routin"(String reserve, operator,regionCode, boolean[] expectingFails) {
+    def "check if original lib fixed isPossibleNumberWithReason for German traffic routing 0199 for internal traffic routing"(String reserve, operator,regionCode, boolean[] expectingFails) {
         given:
         String[] numbersToTest = [reserve + "",
                                   reserve + "0",
