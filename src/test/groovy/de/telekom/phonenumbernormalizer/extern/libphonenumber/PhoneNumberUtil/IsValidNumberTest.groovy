@@ -3087,6 +3087,57 @@ class IsValidNumberTest extends Specification {
         "+49800"         | "FR" | [false, false, false, false, false, false, false, false, true, true, true]
     }
 
+    def "check if original lib fixed isValid for German free call 900 range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        Boolean[] expectedResults = [false, false, false, false, false, false, true, false, false, false, false]
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  0900x is premium number range: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0900/start.html
+        //  it has 6-digit long numbers TODO: unclear if those numbers may only be called within Germany (no country code example)
+        //  see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0900/0900_NummernplanMit.pdf?__blob=publicationFile&v=1
+        //  but general numberplan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1
+        //  indicates it is callable from outside Germany
+
+        // TODO start: by Dec 1st of 2024 the ranges 9000 till 09008 will be possible for premium service
+        // Information
+        "09001"           | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+499001"         | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+499001"         | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        // Entertaining
+        "09003"           | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+499003"         | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+499003"         | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+        // everything else
+        "09005"           | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+499005"         | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+499005"         | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
