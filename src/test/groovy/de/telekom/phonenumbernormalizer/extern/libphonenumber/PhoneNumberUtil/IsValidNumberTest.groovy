@@ -3045,6 +3045,48 @@ class IsValidNumberTest extends Specification {
         "+49700"         | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
     }
 
+    def "check if original lib fixed isValid for German free call 800 range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        Boolean[] expectedResults = [false, false, false, false, false, false, false, true, false, false, false]
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  0800 is personal number range: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0800/0800_node.html
+        //  it has 7-digit long numbers TODO: unclear if those numbers may only be called within Germany (no country code example)
+        //  but general numberplan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1
+        //  indicates it is callable from outside Germany
+        //  numbers could be extended, but that it up to carrier support and might not be supported see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0800/0800_Nummernplan.pdf?__blob=publicationFile&v=1
+        //  TODO: Need to check if extended numbers should be marked somehow-possible
+
+        "0800"           | "DE" | [false, false, false, false, false, false, false, false, true, true, true]
+        "+49800"         | "DE" | [false, false, false, false, false, false, false, false, true, true, true]
+        "+49800"         | "FR" | [false, false, false, false, false, false, false, false, true, true, true]
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
