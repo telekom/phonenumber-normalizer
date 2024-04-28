@@ -2833,6 +2833,116 @@ class IsValidNumberTest extends Specification {
         "+491988"   | true     | "FR" | [true, true, false, true, true, true, true, true, false, true, true, true, true]
     }
 
+    def "check if original lib fixed isValid for German traffic routing 01989 for Call Assistant"(String number, boolean Operator, regionCode, expectedResult, expectingFail) {
+        given:
+        // Operator is currently not usable in original methods (just a preparation)
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when: "get number isPossibleNumberWithReason: $number"
+
+        def result = phoneUtil.isValidNumber(phoneNumber)
+
+        then: "is number expected: $expectedResult"
+
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number     | Operator    | regionCode | expectedResult       | expectingFail
+        // traffic routing is described in https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Verkehrslenkungsnr/NummernplanVerkehrslenkungsnrn.pdf?__blob=publicationFile&v=1
+        // https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/118xy/118xyNummernplan.pdf?__blob=publicationFile&v=1
+
+        // prefix 118 is replaced by 01989 and the rest of the general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "01989"    | true        | "DE"       | false                | false
+        "019890"   | true        | "DE"       | false                | false
+        "0198900"  | true        | "DE"       | false                | false
+        "01989000" | true        | "DE"       | true                 | true  // not callable public, but for operators
+        "019890000"| true        | "DE"       | false                | false
+        "019891"   | true        | "DE"       | false                | false
+        "0198910"  | true        | "DE"       | true                 | true  // not callable public, but for operators
+        // Call Assistant of Deutsche Telekom
+        "0198933"  | true        | "DE"       | true                 | true  // not callable public, but for operators
+        "01989100" | true        | "DE"       | false                | false
+        "019899"   | true        | "DE"       | false                | false
+        "0198999"  | true        | "DE"       | true                 | true  // not callable public, but for operators
+        "01989999" | true        | "DE"       | false                | false
+
+        // prefix 118 is replaced by 01989 and the rest of the general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "01989"    | false       | "DE"       | false                | false
+        "019890"   | false       | "DE"       | false                | false
+        "0198900"  | false       | "DE"       | false                | false
+        "01989000" | false       | "DE"       | false                | false  // not callable public, but for operators
+        "019890000"| false       | "DE"       | false                | false
+        "019891"   | false       | "DE"       | false                | false
+        "0198910"  | false       | "DE"       | false                | false  // not callable public, but for operators
+        // Call Assistant of Deutsche Telekom
+        "0198933"  | false       | "DE"       | false                | false  // not callable public, but for operators
+        "01989100" | false       | "DE"       | false                | false
+        "019899"   | false       | "DE"       | false                | false
+        "0198999"  | false       | "DE"       | false                | false  // not callable public, but for operators
+        "01989999" | false       | "DE"       | false                | false
+
+        // prefix 118 is replaced by 01989 and the rest of the general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "01989"    | true        | "DE"       | false                | false
+        "019890"   | true        | "DE"       | false                | false
+        "0198900"  | true        | "DE"       | false                | false
+        "01989000" | true        | "DE"       | true                 | true  // not callable public, but for operators
+        "019890000"| true        | "DE"       | false                | false
+        "019891"   | true        | "DE"       | false                | false
+        "0198910"  | true        | "DE"       | true                 | true  // not callable public, but for operators
+        // Call Assistant of Deutsche Telekom
+        "0198933"  | true        | "DE"       | true                 | true  // not callable public, but for operators
+        "01989100" | true        | "DE"       | false                | false
+        "019899"   | true        | "DE"       | false                | false
+        "0198999"  | true        | "DE"       | true                 | true  // not callable public, but for operators
+        "01989999" | true        | "DE"       | false                | false
+
+        // prefix 118 is replaced by 01989 and the rest of the general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "01989"    | false       | "DE"       | false                | false
+        "019890"   | false       | "DE"       | false                | false
+        "0198900"  | false       | "DE"       | false                | false
+        "01989000" | false       | "DE"       | false                | false  // not callable public, but for operators
+        "019890000"| false       | "DE"       | false                | false
+        "019891"   | false       | "DE"       | false                | false
+        "0198910"  | false       | "DE"       | false                | false  // not callable public, but for operators
+        // Call Assistant of Deutsche Telekom
+        "0198933"  | false       | "DE"       | false                | false  // not callable public, but for operators
+        "01989100" | false       | "DE"       | false                | false
+        "019899"   | false       | "DE"       | false                | false
+        "0198999"  | false       | "DE"       | false                | false  // not callable public, but for operators
+        "01989999" | false       | "DE"       | false                | false
+
+        // prefix 118 is replaced by 01989 and the rest of the general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "+491989"    | true        | "FR"     | false                | false
+        "+4919890"   | true        | "FR"     | false                | false
+        "+49198900"  | true        | "FR"     | false                | false
+        "+491989000" | true        | "FR"     | false                | false
+        "+4919890000"| true        | "FR"     | false                | false
+        "+4919891"   | true        | "FR"     | false                | false
+        "+49198910"  | true        | "FR"     | false                | false
+        // Call Assistant of Deutsche Telekom
+        "+49198933"  | true        | "FR"     | false                | false
+        "+491989100" | true        | "FR"     | false                | false
+        "+4919899"   | true        | "FR"     | false                | false
+        "+49198999"  | true        | "FR"     | false                | false
+        "+491989999" | true        | "FR"     | false                | false
+
+        // prefix 118 is replaced by 01989 and the rest of the general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "+491989"    | false       | "FR"     | false                | false
+        "+4919890"   | false       | "FR"     | false                | false
+        "+49198900"  | false       | "FR"     | false                | false
+        "+491989000" | false       | "FR"     | false                | false
+        "+4919890000"| false       | "FR"     | false                | false
+        "+4919891"   | false       | "FR"     | false                | false
+        "+49198910"  | false       | "FR"     | false                | false
+        // Call Assistant of Deutsche Telekom
+        "+49198933"  | false       | "FR"     | false                | false
+        "+491989100" | false       | "FR"     | false                | false
+        "+4919899"   | false       | "FR"     | false                | false
+        "+49198999"  | false       | "FR"     | false                | false
+        "+491989999" | false       | "FR"     | false                | false
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
