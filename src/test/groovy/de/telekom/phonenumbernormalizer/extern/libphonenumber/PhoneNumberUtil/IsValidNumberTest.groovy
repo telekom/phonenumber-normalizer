@@ -3578,6 +3578,44 @@ class IsValidNumberTest extends Specification {
         "+49174 9464308"   | "FR"       | true
     }
 
+    def "check if original lib fixed isValid for German 2 digit drama number range"(String testnumber, regionCode, boolean expectingFail) {
+        given:
+        ArrayList<String> numbersToTest = []
+
+        for (int i1=0; i1<10; i1++) {
+            for (int i2=0; i2<10; i2++) {
+                String s = testnumber + String.valueOf(i1) + String.valueOf(i2)
+                numbersToTest.add(s)
+            }
+        }
+
+        Boolean expectedResult = false
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResult, expectingFail, numbersToTest[i], regionCode)
+        }
+
+        where:
+        testnumber          | regionCode | expectingFail
+        //  there are some drama number ranges defined in https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/mittlg148_2021.pdf?__blob=publicationFile&v=1
+
+        "0171 39200"     | "DE"       | true
+        "+49171 39200"   | "DE"       | true
+        "+49171 39200"   | "FR"       | true
+
+        "0176 040690"     | "DE"       | true
+        "+49176 040690"   | "DE"       | true
+        "+49176 040690"   | "FR"       | true
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
