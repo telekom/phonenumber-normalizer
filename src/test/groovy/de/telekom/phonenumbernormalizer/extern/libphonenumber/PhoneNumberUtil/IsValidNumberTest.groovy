@@ -3333,6 +3333,48 @@ class IsValidNumberTest extends Specification {
         "+4932229"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
     }
 
+    def "check if original lib fixed isValid for German personal numbers 032 range - low level reserve"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        Boolean[] expectedResults = [false, false, false, false, false, false, false, false, false, false, false]
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  032 is personal number range:https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/032/032_node.html
+        //  only a view blocks are currently in use https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/032/Zuteilungsregeln032NationaleTeilnehmerrufnummern.pdf?__blob=publicationFile&v=1
+
+        "032210"           | "DE" | [false, false, false, false, true, false, true, true, true, false, false]
+        "+4932210"         | "DE" | [false, false, false, false, true, false, true, true, true, false, false]
+        "+4932210"         | "FR" | [false, false, false, false, true, false, true, true, true, false, false]
+
+        "032220"           | "DE" | [false, false, false, false, true, false, true, true, true, false, false]
+        "+4932220"         | "DE" | [false, false, false, false, true, false, true, true, true, false, false]
+        "+4932220"         | "FR" | [false, false, false, false, true, false, true, true, true, false, false]
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
