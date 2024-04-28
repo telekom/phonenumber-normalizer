@@ -3138,6 +3138,91 @@ class IsValidNumberTest extends Specification {
         "+499005"         | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
     }
 
+    def "check if original lib fixed isValid for German test numbers 031x range"(String reserve, regionCode, boolean[] expectingFails, boolean reserverange) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        Boolean[] expectedResults
+        if ((reserverange) || (regionCode != "DE")) {
+            expectedResults = [false, false, false, false, false, false, false, false, false, false, false]
+        } else {
+            // if +49 is even not an option inside germany, then this would be IS_POSSIBLE_LOCAL_ONLY
+            // bit currently it seems it is part of general numberplan with +49  https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1
+            expectedResults = [true, false, false, false, false, false, false, false, false, false, false]
+        }
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | reserverange | regionCode | expectingFails
+        //  031 is personal number range: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/031/031_node.html
+        //  it has onl one digit (0 or 1)
+        //  https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/031/Zutregel.pdf?__blob=publicationFile&v=1
+        //  not callable from outside germany
+        //  TODO: check if inside Germany it is reachable via +49
+        //  TODO: Check if those test numbers are dropped when no preselection (010x) is possible anymore
+
+        "0310"           | false | "DE" | [true, false, false, false, false, false, false, false, false, false, false]
+        "+49310"         | false | "DE" | [true, false, false, false, false, false, false, false, false, false, false]
+        "+49310"         | false | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+
+        "0311"           | false | "DE" | [true, false, false, false, false, false, false, false, false, false, false]
+        "+49311"         | false | "DE" | [true, false, false, false, false, false, false, false, false, false, false]
+        "+49311"         | false | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+
+        "0312"           | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49312"         | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49312"         | true | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+
+        "0313"           | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49313"         | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49313"         | true | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+
+        "0314"           | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49314"         | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49314"         | true | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+
+        "0315"           | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49315"         | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49315"         | true | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+
+        "0316"           | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49316"         | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49316"         | true | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+
+        "0317"           | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49317"         | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49317"         | true | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+
+        "0318"           | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49318"         | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49318"         | true | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+
+        "0319"           | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49319"         | true | "DE" | [false, false, false, false, false, false, false, false, false, false, false]
+        "+49319"         | true | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
