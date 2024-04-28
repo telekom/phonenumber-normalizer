@@ -3223,6 +3223,116 @@ class IsValidNumberTest extends Specification {
         "+49319"         | true | "FR" | [false, false, false, false, false, false, false, false, false, false, false]
     }
 
+    def "check if original lib fixed isValid for German personal numbers 032 range"(String reserve, regionCode, boolean[] expectingFails) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        Boolean[] expectedResults = [false, false, false, false, false, false, true, false, false, false, false]
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            def phoneNumber = phoneUtil.parse(number, regionCode)
+            results += phoneUtil.isValidNumber(phoneNumber)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            this.logResult(results[i], expectedResults[i], expectingFails[i], numbersToTest[i], regionCode)
+        }
+
+        where:
+        reserve          | regionCode | expectingFails
+        //  032 is personal number range:https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/032/032_node.html
+        //  only a view blocks are currently in use https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/032/Zuteilungsregeln032NationaleTeilnehmerrufnummern.pdf?__blob=publicationFile&v=1
+
+        // (0)32210 is not usable for now
+
+        "032211"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932211"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932211"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032212"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932212"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932212"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032213"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932213"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932213"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032214"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932214"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932214"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032215"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932215"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932215"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032216"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932216"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932216"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032217"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932217"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932217"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032218"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932218"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932218"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032219"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932219"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932219"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        // (0)32220 is not usable for now
+
+        "032221"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932221"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932221"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032222"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932222"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932222"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032223"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932223"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932223"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032224"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932224"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932224"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032225"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932225"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932225"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032226"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932226"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932226"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032227"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932227"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932227"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032228"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932228"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932228"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+
+        "032229"           | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932229"         | "DE" | [false, false, false, false, true, false, false, true, true, false, false]
+        "+4932229"         | "FR" | [false, false, false, false, true, false, false, true, true, false, false]
+    }
+
 
     def "check if original lib fixed isValidNumber for invalid German NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
