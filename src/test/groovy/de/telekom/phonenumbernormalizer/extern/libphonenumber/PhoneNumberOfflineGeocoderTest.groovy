@@ -28,6 +28,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
 
     Logger logger = Logger.getLogger(PhoneNumberOfflineGeocoderTest.class.toString())
 
+    static final boolean LOGONLYUNEXPECTED = true
 
     def "setup"() {
         this.phoneUtil = PhoneNumberUtil.getInstance()
@@ -48,7 +49,9 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         then: "is number expected: $expectedResult"
         if ((result != expectedResult) && (result2 != expectedResult)){
             if (expectingFail) {
-                logger.info("PhoneLib is still not correctly labeling $areacode to $expectedResult by giving $result")
+                if (!LOGONLYUNEXPECTED) {
+                    logger.info("PhoneLib is still not correctly labeling $areacode to $expectedResult by giving $result")
+                }
             } else {
                 logger.warning("PhoneLib is suddenly not correctly labeling $areacode to $expectedResult by giving $result")
             }
@@ -379,7 +382,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "2623"   | "Ransbach Baumbach"                      | false
         "2624"   | "Höhr Grenzhausen"                       | false
         "2625"   | "Ochtendung"                             | false
-        "2626"   | "Selters Westferwald"                    | false
+        "2626"   | "Selters Westerwald"                     | false
         "2627"   | "Braubach"                               | false
         "2628"   | "Rhens"                                  | false
         "2630"   | "Mülheim Kärlich"                        | false

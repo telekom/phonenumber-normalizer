@@ -19,6 +19,8 @@ import de.telekom.phonenumbernormalizer.dto.DeviceContext
 import de.telekom.phonenumbernormalizer.dto.DeviceContextDto
 import de.telekom.phonenumbernormalizer.dto.DeviceContextLineType
 import de.telekom.phonenumbernormalizer.numberplans.PhoneLibWrapper
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import spock.lang.Specification
 
 
@@ -87,6 +89,10 @@ class PhoneNumberNormalizerImplTest extends Specification {
         "0176 3 0 6 9 6544"       | "DE"        | "+4917630696544"
         "0203556677"              | "DE"        | "+49203556677"
         "203556677"               | "DE"        | "203556677"
+        "55"                      | "DE"        | "55"
+        "556"                     | "DE"        | "556"
+        "5566"                    | "DE"        | "5566"
+        "55667"                   | "DE"        | "55667"
         "556677"                  | "DE"        | "556677"
         "5566778"                 | "DE"        | "5566778"
         "55667789"                | "DE"        | "55667789"
@@ -201,6 +207,7 @@ class PhoneNumberNormalizerImplTest extends Specification {
         "116000"                  | "49"        | "203"    | "116000"
         "1160001"                 | "49"        | "203"    | "+492031160001"
         //New Logic, inside german fixed-line non short numbers
+        "55"                      | "49"        | "203"    | "+4920355"
         "556"                     | "49"        | "203"    | "+49203556"
         "5566"                    | "49"        | "203"    | "+492035566"
         "55667"                   | "49"        | "203"    | "+4920355667"
