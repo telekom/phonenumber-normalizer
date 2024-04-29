@@ -16,8 +16,9 @@
 package de.telekom.phonenumbernormalizer.extern.libphonenumber.PhoneNumberUtil
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+
+import java.util.logging.Logger
+
 import spock.lang.Specification
 
 
@@ -26,7 +27,7 @@ class NormalizationTest extends Specification {
 
     PhoneNumberUtil phoneUtil
 
-    Logger logger = LoggerFactory.getLogger(NormalizationTest.class)
+    Logger logger = Logger.getLogger(NormalizationTest.class.toString())
 
     static final boolean LOGONLYUNEXPECTED = true
 

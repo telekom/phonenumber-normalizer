@@ -18,9 +18,7 @@ package de.telekom.phonenumbernormalizer.extern.libphonenumber.PhoneNumberUtil
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import spock.lang.Specification
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-
+import java.util.logging.Logger
 
 // Plain Number Format: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/NP_Nummernraum.pdf?__blob=publicationFile&v=6
 // NDC with labels: https://www.itu.int/dms_pub/itu-t/oth/02/02/T02020000510006PDFE.pdf
@@ -33,7 +31,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
 
     PhoneNumberUtil phoneUtil
 
-    Logger logger = LoggerFactory.getLogger(IsPossibleNumberWithReasonTest.class)
+    Logger logger = Logger.getLogger(IsPossibleNumberWithReasonTest.class.toString())
 
     static final boolean LOGONLYUNEXPECTED = true
 
@@ -50,7 +48,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
                     logger.info("isPossibleNumberWithReason is still not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
                 }
             } else {
-                logger.warn("isPossibleNumberWithReason is suddenly not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
+                logger.warning("isPossibleNumberWithReason is suddenly not correctly validating $number to $expectedResult for region $regionCode, by giving $result")
             }
         } else {
             if (expectingFail) {
