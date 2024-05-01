@@ -29,84 +29,84 @@ class PhoneLibWrapperTest extends Specification {
 
     def "national number and leading zeros"( number,  regionCode, expectedResult) {
         given:
-            def result = ""
-            def pn = null
-            try {
-                pn = phoneUtil.parse(number, regionCode)
-            } catch (NumberParseException e) {
-                result = e.errorType.toString()
-            }
+        def result = ""
+        def pn = null
+        try {
+            pn = phoneUtil.parse(number, regionCode)
+        } catch (NumberParseException e) {
+            result = e.errorType.toString()
+        }
         when:
-            if (pn != null) {
-                result = PhoneLibWrapper.nationalPhoneNumberWithoutNationalPrefix(pn)
-            }
+        if (pn != null) {
+            result = PhoneLibWrapper.nationalPhoneNumberWithoutNationalPrefix(pn)
+        }
         then:
-            result == expectedResult
+        result == expectedResult
 
         where:
-            number          | regionCode | expectedResult
-            "+49203556677"  | "DE"       | "203556677"
-            "0203556677"    | "DE"       | "203556677"
-            "203556677"     | "DE"       | "203556677"
-            "556677"        | "DE"       | "556677"
+        number          | regionCode | expectedResult
+        "+49203556677"  | "DE"       | "203556677"
+        "0203556677"    | "DE"       | "203556677"
+        "203556677"     | "DE"       | "203556677"
+        "556677"        | "DE"       | "556677"
 
-            "3784000"       | "US"       | "3784000"
-            "14253784000"   | "US"       | "4253784000"
-            "+14253784000"  | "US"       | "4253784000"
-            "01114253784000"| "US"       | "4253784000"
+        "3784000"       | "US"       | "3784000"
+        "14253784000"   | "US"       | "4253784000"
+        "+14253784000"  | "US"       | "4253784000"
+        "01114253784000"| "US"       | "4253784000"
 
-            //special Short Code only valid in Australia, but retain in parsing for the others
-            "000"           | "AU"       | "000"
-            "000"           | "DE"       | "000"
-            "000"           | "US"       | "000"
-            "000"           | "IT"       | "000"
-            // shorter zero check
-            "00"            | "AU"       | "00"
-            "00"            | "DE"       | "TOO_SHORT_AFTER_IDD" // because IDC in Germany is 00
-            "00"            | "US"       | "00"
-            "00"            | "IT"       | "TOO_SHORT_AFTER_IDD" // because IDC in Italy is 00
-            //shorter zero check - just current PhoneLib behavior
-            "0"            | "AU"       | "NOT_A_NUMBER" // because its to short
-            "0"            | "DE"       | "NOT_A_NUMBER" // because its to short
-            "0"            | "US"       | "NOT_A_NUMBER" // because its to short
-            "0"            | "IT"       | "NOT_A_NUMBER" // because its to short
-            //shorter 1 check - just current PhoneLib behavior
-            "1"            | "AU"       | "NOT_A_NUMBER" // because its to short
-            "1"            | "DE"       | "NOT_A_NUMBER" // because its to short
-            "1"            | "US"       | "NOT_A_NUMBER" // because its to short
-            "1"            | "IT"       | "NOT_A_NUMBER" // because its to short
-            //shorter zero check - just current PhoneLib behavior
-            "01"           | "AU"       | "01"
-            "01"           | "DE"       | "01"
-            "01"           | "US"       | "01"
-            "01"           | "IT"       | "01"
+        //special Short Code only valid in Australia, but retain in parsing for the others
+        "000"           | "AU"       | "000"
+        "000"           | "DE"       | "000"
+        "000"           | "US"       | "000"
+        "000"           | "IT"       | "000"
+        // shorter zero check
+        "00"            | "AU"       | "00"
+        "00"            | "DE"       | "TOO_SHORT_AFTER_IDD" // because IDC in Germany is 00
+        "00"            | "US"       | "00"
+        "00"            | "IT"       | "TOO_SHORT_AFTER_IDD" // because IDC in Italy is 00
+        //shorter zero check - just current PhoneLib behavior
+        "0"            | "AU"       | "NOT_A_NUMBER" // because its to short
+        "0"            | "DE"       | "NOT_A_NUMBER" // because its to short
+        "0"            | "US"       | "NOT_A_NUMBER" // because its to short
+        "0"            | "IT"       | "NOT_A_NUMBER" // because its to short
+        //shorter 1 check - just current PhoneLib behavior
+        "1"            | "AU"       | "NOT_A_NUMBER" // because its to short
+        "1"            | "DE"       | "NOT_A_NUMBER" // because its to short
+        "1"            | "US"       | "NOT_A_NUMBER" // because its to short
+        "1"            | "IT"       | "NOT_A_NUMBER" // because its to short
+        //shorter zero check - just current PhoneLib behavior
+        "01"           | "AU"       | "01"
+        "01"           | "DE"       | "01"
+        "01"           | "US"       | "01"
+        "01"           | "IT"       | "01"
 
-            //Special Italian leading Zero within national number (and not)
-            "012345678"     | "IT"       | "012345678"
-            "+39012345678"  | "IT"       | "012345678"
-            "0039012345678" | "IT"       | "012345678"
-            "+39012345678"  | "DE"       | "012345678"  //Italy called from Germany
-            "0039012345678" | "DE"       | "012345678"  //Italy called from Germany
-            "+39012345678"  | "US"       | "012345678"  //Italy called from North America
-            "01139012345678"| "US"       | "012345678"  //Italy called from North America
-            "312345678"     | "IT"       | "312345678"
-            "+39312345678"  | "IT"       | "312345678"
-            "0039312345678" | "IT"       | "312345678"
-            "+39312345678"  | "DE"       | "312345678"  //Italy called from Germany
-            "0039312345678" | "DE"       | "312345678"  //Italy called from Germany
-            "+39312345678"  | "US"       | "312345678"  //Italy called from North America
-            "01139312345678"| "US"       | "312345678"  //Italy called from North America
+        //Special Italian leading Zero within national number (and not)
+        "012345678"     | "IT"       | "012345678"
+        "+39012345678"  | "IT"       | "012345678"
+        "0039012345678" | "IT"       | "012345678"
+        "+39012345678"  | "DE"       | "012345678"  //Italy called from Germany
+        "0039012345678" | "DE"       | "012345678"  //Italy called from Germany
+        "+39012345678"  | "US"       | "012345678"  //Italy called from North America
+        "01139012345678"| "US"       | "012345678"  //Italy called from North America
+        "312345678"     | "IT"       | "312345678"
+        "+39312345678"  | "IT"       | "312345678"
+        "0039312345678" | "IT"       | "312345678"
+        "+39312345678"  | "DE"       | "312345678"  //Italy called from Germany
+        "0039312345678" | "DE"       | "312345678"  //Italy called from Germany
+        "+39312345678"  | "US"       | "312345678"  //Italy called from North America
+        "01139312345678"| "US"       | "312345678"  //Italy called from North America
     }
 
     def "isNormalizingTried"( number,  regionCode, expectedResult) {
         given:
-            target = new PhoneLibWrapper(number, regionCode)
+        target = new PhoneLibWrapper(number, regionCode)
 
         when: "isNormalizingTried: $number and $regionCode"
-            def result = target.isNormalizingTried()
+        def result = target.isNormalizingTried()
 
         then: "it should be: $expectedResult"
-            result == expectedResult
+        result == expectedResult
 
         where:
         number          | regionCode | expectedResult
@@ -246,42 +246,42 @@ class PhoneLibWrapperTest extends Specification {
 
     def "private extendNumberByDefaultAreaCodeAndCountryCode null"() {
         given:
-            target = new PhoneLibWrapper(null, "DE")
+        target = new PhoneLibWrapper(null, "DE")
 
         when:
-            def result = target.extendNumberByDefaultAreaCodeAndCountryCode(null, null)
+        def result = target.extendNumberByDefaultAreaCodeAndCountryCode(null, null)
 
         then:
-            assert result == null
+        assert result == null
     }
 
     def "parseNumber"( number,  regionCode, expectedResult) {
         given:
-            target = new PhoneLibWrapper(number, regionCode)
+        target = new PhoneLibWrapper(number, regionCode)
 
         when: "parseNumber: $number and $regionCode"
-            def result = target.parseNumber(number, regionCode)
+        def result = target.parseNumber(number, regionCode)
 
         then: "it should normalize the number to: $expectedResult"
-            result == expectedResult
+        result == expectedResult
 
         where:
-            number | regionCode | expectedResult
-            null   | null       | null
-            ""     | ""         | null
+        number | regionCode | expectedResult
+        null   | null       | null
+        ""     | ""         | null
     }
 
     def "exception check for getMetadataForRegion: phoneUtil == null"(){
         given:
-            //overriding read only attribute by .metaClass. access
-            target = new PhoneLibWrapper(null, "49")
-            target.metaClass.phoneUtil = null
+        //overriding read only attribute by .metaClass. access
+        target = new PhoneLibWrapper(null, "49")
+        target.metaClass.phoneUtil = null
 
         when:
-            def result = target.getMetadataForRegion()
+        def result = target.getMetadataForRegion()
 
         then:
-            assert result == null
+        assert result == null
     }
 
     def "getRegionCodeForCountryCode"(countryCode, expectedResult) {
@@ -299,7 +299,25 @@ class PhoneLibWrapperTest extends Specification {
         ""          | PhoneLibWrapper.UNKNOWN_REGIONCODE
         "invalid"   | PhoneLibWrapper.UNKNOWN_REGIONCODE
         "49"        | "DE"
+    }
 
+    def "test parsing within validate"(String number, String regionCode, expectedResult) {
+        given:
+        target = new PhoneLibWrapper(number, regionCode)
+
+        when:
+        def result = target.isPossibleWithReason()
+
+        then:
+        result == expectedResult
+
+        where:
+        number                  | regionCode | expectedResult
+        "XXX"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH          // NOT_A_NUMBER
+        "+99123456"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_COUNTRY_CODE    // INVALID_COUNTRY_CODE
+        "+491"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT               // TOO_SHORT_NSN
+        "0049"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT               // TOO_SHORT_AFTER_IDD
+        "+492031234567891011"   | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                // TOO_LONG
     }
 
 }
