@@ -143,6 +143,24 @@ public enum PhoneNumberValidationResult {
         return phoneLibResult;
     }
 
+    public static PhoneNumberValidationResult byPhoneLibValidationResult(ValidationResult result) {
+        switch(result){
+            case IS_POSSIBLE:
+                return PhoneNumberValidationResult.IS_POSSIBLE;
+            case IS_POSSIBLE_LOCAL_ONLY:
+                return PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY;
+            case INVALID_LENGTH:
+                return PhoneNumberValidationResult.INVALID_LENGTH;
+            case INVALID_COUNTRY_CODE:
+                return PhoneNumberValidationResult.INVALID_COUNTRY_CODE;
+            case TOO_SHORT:
+                return PhoneNumberValidationResult.TOO_SHORT;
+            case TOO_LONG:
+                return PhoneNumberValidationResult.TOO_LONG;
+        }
+        return null;
+    }
+
     /**
      * Returns if the validation result identifies a possible number regardless of calling limitations
      * @return boolean true for any IS_POSSIBLE(_xxx) enum value

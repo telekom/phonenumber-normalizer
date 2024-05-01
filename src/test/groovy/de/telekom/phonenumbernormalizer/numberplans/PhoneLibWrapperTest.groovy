@@ -298,7 +298,25 @@ class PhoneLibWrapperTest extends Specification {
         ""          | PhoneLibWrapper.UNKNOWN_REGIONCODE
         "invalid"   | PhoneLibWrapper.UNKNOWN_REGIONCODE
         "49"        | "DE"
+    }
 
+    def "test parsing within validate"(String number, String regionCode, expectedResult) {
+        given:
+        target = new PhoneLibWrapper(number, regionCode)
+
+        when:
+        def result = target.isPossibleWithReason()
+
+        then:
+        result == expectedResult
+
+        where:
+        number                  | regionCode | expectedResult
+        "XXX"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH          // NOT_A_NUMBER
+        "+99123456"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_COUNTRY_CODE    // INVALID_COUNTRY_CODE
+        "+491"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT               // TOO_SHORT_NSN
+        "0049"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT               // TOO_SHORT_AFTER_IDD
+        "+492031234567891011"   | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                // TOO_LONG
     }
 
 }
