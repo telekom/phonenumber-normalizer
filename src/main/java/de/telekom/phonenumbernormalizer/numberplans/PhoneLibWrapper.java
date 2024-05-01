@@ -349,4 +349,57 @@ public class PhoneLibWrapper {
         }
     }
 
+
+    /**
+     * Using PhoneLib to check the number by isPossibleWithReason code. If number has been parsed during initialization
+     * this is a straight invocation, so no compensation of some inaccuracy is done here. Otherwise, parsing is done
+     * locally and exceptions are directly mapped to a result.
+     * </p>
+     * @return PhoneNumberUtil.ValidationResult which is PhoneLib isPossible Reason code
+     *
+     * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
+     */
+    private PhoneNumberUtil.ValidationResult isPossibleWithReason() {
+        if (semiNormalizedNumber == null) {
+            try {
+                Phonenumber.PhoneNumber tempNumber = phoneUtil.parse(dialableNumber, regionCode);
+                return phoneUtil.isPossibleNumberWithReason(tempNumber);
+                // international prefix is added by the lib even if it's not valid in the number plan.
+            } catch (NumberParseException e) {
+                LOGGER.info("could not parse normalize number: {}", dialableNumber);
+                LOGGER.debug("{}", e.getMessage());
+
+                switch (e.getErrorType()) {
+                    case INVALID_COUNTRY_CODE:
+                        return PhoneNumberUtil.ValidationResult.INVALID_COUNTRY_CODE;
+                    case TOO_SHORT_NSN:
+                        return PhoneNumberUtil.ValidationResult.TOO_SHORT;
+                    case TOO_SHORT_AFTER_IDD:
+                        return PhoneNumberUtil.ValidationResult.TOO_SHORT;
+                    case TOO_LONG:
+                        return PhoneNumberUtil.ValidationResult.TOO_LONG;
+                    default:
+                        // NOT_A_NUMBER
+                        return PhoneNumberUtil.ValidationResult.INVALID_LENGTH;
+                }
+           }
+        }
+        return phoneUtil.isPossibleNumberWithReason(semiNormalizedNumber);
+    }
+
+
+    /**
+     * Using PhoneLib to check the number by isPossibleWithReason code by internal wrapper method isPossibleWithReason
+     * and map the result to PhoneNumberValidationResult type
+     *
+     * @return PhoneNumberValidationResult
+     *
+     * @see PhoneLibWrapper#isPossibleWithReason()
+     * @see PhoneNumberValidationResult
+     */
+    public PhoneNumberValidationResult validate() {
+        return PhoneNumberValidationResult.byPhoneLibValidationResult(isPossibleWithReason());
+    }
+
+
 }
