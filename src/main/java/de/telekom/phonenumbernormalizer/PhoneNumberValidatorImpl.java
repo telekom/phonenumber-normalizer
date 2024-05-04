@@ -254,7 +254,7 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
         // TODO: PhoneNumberValidationResult.INVALID_INTERNATIONAL_DIALING_PREFIX
         // TODO: PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
 
-         return wrapper.validate();
+        return wrapper.validate();
     }
 
 }
