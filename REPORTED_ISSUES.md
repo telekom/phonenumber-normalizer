@@ -41,3 +41,9 @@ However, we have provided a [test case to verify if the labels are corrected](ht
 Although the Smart Speaker has been retired, we identified other projects that could benefit from the wrapper and open-sourced it on May 3rd, 2023.
 While we are currently maintaining the basic implementation, the previous discussion is catching up to question if we should extend the knowledge of the German Number plan to other functions as validating.
 When we have further insights, we will report them as issues, re-engage with Google, and list the new issues in this file.
+
+### 2024-05-04 - [GeoCoder labels German shared NDC 212(9) correctly but not 621(x)(y)](https://issuetracker.google.com/issues/338710341)
+
+BnetzA [described special case for NDC 212 and 621](https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/ONVerzeichnisse/ONBVerzeichnis/Sonderregelungen0212_0621.pdf?__blob=publicationFile&v=1) the first one is correctly recognized by geocoder and the two cities are correctly labeled. But the second case is not recognized and only the city Mannheim is used for labeling and not Ludwigshafen.
+
+We have provided Ludwighafen in our labeling data.

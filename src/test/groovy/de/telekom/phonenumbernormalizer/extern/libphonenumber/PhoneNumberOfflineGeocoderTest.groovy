@@ -3307,7 +3307,13 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "6206"   | "Lampertheim"                            | false
         "6207"   | "Wald Michelbach"                        | false
         "6209"   | "Mörlenbach"                             | false
-        "621"    | "Mannheim"                               | false
+        "621"    | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        // note of BnetzA, that starting number is sperating both cities: see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/ONVerzeichnisse/ONBVerzeichnis/Sonderregelungen0212_0621.pdf?__blob=publicationFile&v=1
+        "6215"   | "Ludwigshafen"                           | true  // see https://issuetracker.google.com/issues/338710341
+        "6216"   | "Ludwigshafen"                           | true  // see https://issuetracker.google.com/issues/338710341
+        "62195"  | "Ludwigshafen"                           | true  // see https://issuetracker.google.com/issues/338710341
+        "62196"  | "Ludwigshafen"                           | true  // see https://issuetracker.google.com/issues/338710341
+        "62199"  | "Ludwigshafen"                           | true  // see https://issuetracker.google.com/issues/338710341
         "6220"   | "Wilhelmsfeld"                           | false
         "6221"   | "Heidelberg"                             | false
         "6222"   | "Wiesloch"                               | false
