@@ -36,13 +36,36 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
     @Override
     public PhoneNumberValidationResult isPhoneNumberPossibleWithReason(String number, String regionCode) {
 
+        if (number == null || number.length()==0) {
+            return PhoneNumberValidationResult.INVALID_LENGTH;
+        }
+
         PhoneLibWrapper wrapper = new PhoneLibWrapper(number, regionCode);
+
+        if (wrapper.startsWithIDP()) {     // Country Exit Code is part
+            // IDP indicates CC is used
+            return wrapper.validate();
+            //return PhoneNumberValidationResult.IS_POSSIBLE;
+        } else {
+            // No Country Exit Code has been used, so no CC is following.
+            if (wrapper.getNationalAccessCode()=="") {
+                // no NAC is used in region
+                return PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY;
+            } else {
+                // NAC can be used in region
+                if (wrapper.startsWithNAC()) {
+                    return PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY;
+                } else {
+                    return PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY;
+                }
+            }
+        }
 
         // boolean hasNoCCAndNoNAC = wrapper.hasNoCountryCodeNorNationalAccessCode();
 
         // return PhoneNumberValidationResult.INVALID_DRAMA_NUMBER;
 
-        return wrapper.validate();
+        // return wrapper.validate();
     }
 
 }
