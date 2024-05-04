@@ -28,7 +28,8 @@ import java.util.Objects;
 /**
  * Wrapper around Google's LibPhoneNumber library
  * <p>
- * Using reflection to access internal information to know if a region has a nation prefix &amp; which one it is.
+ * Using reflection to access internal information to know if a region has a nation prefix &amp; which one it is or
+ * which IDP is used.
  * </p><p>
  * Providing own NumberPlans logic as an alternative to Google's LibPhoneNumber ShortNumber.
  * </p>
@@ -97,7 +98,7 @@ public class PhoneLibWrapper {
      */
     public PhoneLibWrapper(String number, String regionCode) {
         this.regionCode = regionCode;
-        this.metadata = getMetadataForRegion();
+        this.metadata = getMetadataForRegion(this.regionCode);
 
         if (number != null) {
             this.dialableNumber = PhoneNumberUtil.normalizeDiallableCharsOnly(number);
@@ -232,6 +233,71 @@ public class PhoneLibWrapper {
     }
 
     /**
+     * Checks if a given number starts with the given IDP (or the international IDP short form '+')
+     * @param value the number to be checked
+     * @param idp the IDP to be used searched for
+     * @return if either given IDP or '+' is the beginning of the value
+     */
+    private static boolean isIDPUsed(String value, String idp) {
+        if (idp == null || idp.length()==0) {
+            return ("+".equals(value.substring(0, 1)));
+        }
+
+        return (("+".equals(value.substring(0, 1))) || (value.startsWith(idp)));
+    }
+
+    /**
+     * Checks if a given number starts with the IDP (or the international IDP short form '+') of the given region
+     * @param value the number to be checked
+     * @param regionCode ISO2 code for the regions number plan used for checking IDP
+     * @return if either regions IDP or '+' is the beginning of the value
+     */
+    public static boolean startsWithIDP(String value, String regionCode) {
+        if (value == null || value.length()==0) {
+            return false;
+        }
+
+        String idp = getInternationalDialingPrefix(regionCode);
+
+        return isIDPUsed(value, idp);
+    }
+
+    /**
+     * Checks if the number starts with the IDP (or the international IDP short form '+') of the initializing region
+     * @return if either regions IDP or '+' is the beginning of the value
+     */
+    public boolean startsWithIDP() {
+        if (this.dialableNumber == null || this.dialableNumber.length()==0) {
+            return false;
+        }
+
+        String idp = this.getInternationalDialingPrefix();
+
+        return isIDPUsed(this.dialableNumber, idp);
+    }
+
+    /**
+     * Checks if the number starts with the NAC of the initializing region
+     * Be aware, that some regions have IDP of 00 and NAC of 0 - so overlaping is also checked.
+     */
+    public boolean startsWithNAC() {
+        if (this.dialableNumber == null || this.dialableNumber.length()==0) {
+            return false;
+        }
+
+        String idp = this.getInternationalDialingPrefix();
+        String nac = this.getNationalAccessCode();
+
+        if (idp.startsWith(nac) && dialableNumber.startsWith(idp)) {
+            return false;
+
+        }
+
+        return dialableNumber.startsWith(nac);
+
+    }
+
+    /**
      * Use PhoneLib to parse a number for a regions code. If any exception occurs, they are logged and null is returned.
      * @param number the phone number to be parsed
      * @param regionCode ISO2 code for the regions number plan used for parsing the number
@@ -248,15 +314,56 @@ public class PhoneLibWrapper {
         }
     }
 
+
+    private static String internationalDialingPrefix(Phonemetadata.PhoneMetadata metadata) {
+        if (metadata == null) {
+            return null;
+        }
+        return metadata.getInternationalPrefix();
+    }
+
+    /**
+     * The International Dialing Prefix used in the given region from PhoneLib
+     * @return IDP of given {@link PhoneLibWrapper#regionCode}
+     */
+    public String getInternationalDialingPrefix() {
+        return internationalDialingPrefix(this.metadata);
+    }
+
+    /**
+     * The International Dialing Prefix used in the given region from PhoneLib
+     *
+     * @param regionCode the Region which NAC is requested.
+     * @return IDP of given regionCode
+     */
+    static public String getInternationalDialingPrefix(String regionCode) {
+        return internationalDialingPrefix(getMetadataForRegion(regionCode));
+    }
+
+
+    private static String nationalAccessCode(Phonemetadata.PhoneMetadata metadata) {
+        if (metadata == null) {
+            return null;
+        }
+        return metadata.getNationalPrefix();
+    }
+
     /**
      * The National Access Code used before the National Destination Code in the given region from PhoneLib
      * @return NAC of given {@link PhoneLibWrapper#regionCode}
      */
     public String getNationalAccessCode() {
-        if (metadata == null) {
-            return null;
-        }
-        return metadata.getNationalPrefix();
+        return nationalAccessCode(this.metadata);
+    }
+
+    /**
+     * The National Access Code used before the National Destination Code in the given region from PhoneLib
+     *
+     * @param regionCode the Region which NAC is requested.
+     * @return NAC of given regionCode
+     */
+    static public String getNationalAccessCode(String regionCode) {
+        return nationalAccessCode(getMetadataForRegion(regionCode));
     }
 
     /**
@@ -273,7 +380,7 @@ public class PhoneLibWrapper {
      * and Google rejected suggestion to make it public, because they did not see our need in correcting normalization.
      * @return {@link Phonemetadata.PhoneMetadata} of {@link PhoneLibWrapper#regionCode}
      */
-    private Phonemetadata.PhoneMetadata getMetadataForRegion() {
+    static private Phonemetadata.PhoneMetadata getMetadataForRegion(String regionCode) {
         try {
             Method m = phoneUtil.getClass().getDeclaredMethod("getMetadataForRegion", String.class);
             // violating encupsulation is intended by this method, so no need for SONAR code smell warning here
