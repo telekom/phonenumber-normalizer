@@ -1286,6 +1286,71 @@ public class PhoneLibWrapper {
     }
 
     /**
+     * Checks if a given number starts with the given IDP (or the international IDP short form '+')
+     * @param value the number to be checked
+     * @param idp the IDP to be used searched for
+     * @return if either given IDP or '+' is the beginning of the value
+     */
+    private static boolean isIDPUsed(String value, String idp) {
+        if (idp == null || idp.length()==0) {
+            return ("+".equals(value.substring(0, 1)));
+        }
+
+        return (("+".equals(value.substring(0, 1))) || (value.startsWith(idp)));
+    }
+
+    /**
+     * Checks if a given number starts with the IDP (or the international IDP short form '+') of the given region
+     * @param value the number to be checked
+     * @param regionCode ISO2 code for the regions number plan used for checking IDP
+     * @return if either regions IDP or '+' is the beginning of the value
+     */
+    public static boolean startsWithIDP(String value, String regionCode) {
+        if (value == null || value.length()==0) {
+            return false;
+        }
+
+        String idp = getInternationalDialingPrefix(regionCode);
+
+        return isIDPUsed(value, idp);
+    }
+
+    /**
+     * Checks if the number starts with the IDP (or the international IDP short form '+') of the initializing region
+     * @return if either regions IDP or '+' is the beginning of the value
+     */
+    public boolean startsWithIDP() {
+        if (this.dialableNumber == null || this.dialableNumber.length()==0) {
+            return false;
+        }
+
+        String idp = this.getInternationalDialingPrefix();
+
+        return isIDPUsed(this.dialableNumber, idp);
+    }
+
+    /**
+     * Checks if the number starts with the NAC of the initializing region
+     * Be aware, that some regions have IDP of 00 and NAC of 0 - so overlaping is also checked.
+     */
+    public boolean startsWithNAC() {
+        if (this.dialableNumber == null || this.dialableNumber.length()==0) {
+            return false;
+        }
+
+        String idp = this.getInternationalDialingPrefix();
+        String nac = this.getNationalAccessCode();
+
+        if (idp.startsWith(nac) && dialableNumber.startsWith(idp)) {
+            return false;
+
+        }
+
+        return dialableNumber.startsWith(nac);
+
+    }
+
+    /**
      * Use PhoneLib to parse a number for a regions code. If any exception occurs, they are logged and null is returned.
      * @param number the phone number to be parsed
      * @param regionCode ISO2 code for the regions number plan used for parsing the number
