@@ -138,9 +138,6 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
 
         PhoneLibWrapper wrapper = new PhoneLibWrapper(number, regionCode);
 
-        // TODO: change parameter regionCode to deviceContext
-        NumberPlan numberplan = NumberPlanFactory.INSTANCE.getNumberPlan(DeviceContextLineType.UNKNOWN, String.valueOf(PhoneLibWrapper.getCountryCodeForRegion(regionCode)));
-
         if (wrapper.startsWithIDP()) {     // Country Exit Code is part
             // IDP indicates CC is used
 
