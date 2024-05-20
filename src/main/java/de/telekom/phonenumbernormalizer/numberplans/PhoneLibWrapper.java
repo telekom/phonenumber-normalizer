@@ -1259,30 +1259,10 @@ public class PhoneLibWrapper {
             return false;
         }
 
+        // TODO: AU => 001[14-689]|14(?:1[14]|34|4[17]|[56]6|7[47]|88)0011 ... must be a list and "+"
         String idp = this.getInternationalDialingPrefix();
 
         return isIDPUsed(this.dialableNumber, idp);
-    }
-
-    /**
-     * Checks if the number starts with the NAC of the initializing region
-     * Be aware, that some regions have IDP of 00 and NAC of 0 - so overlaping is also checked.
-     */
-    public boolean startsWithNAC() {
-        if (this.dialableNumber == null || this.dialableNumber.length()==0) {
-            return false;
-        }
-
-        String idp = this.getInternationalDialingPrefix();
-        String nac = this.getNationalAccessCode();
-
-        if (idp.startsWith(nac) && dialableNumber.startsWith(idp)) {
-            return false;
-
-        }
-
-        return dialableNumber.startsWith(nac);
-
     }
 
     /**
