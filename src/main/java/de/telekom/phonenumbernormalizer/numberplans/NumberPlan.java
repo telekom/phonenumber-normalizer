@@ -68,6 +68,82 @@ public abstract class NumberPlan {
     }
 
     /**
+     * A subclass can provide National Destination Code of the rules - not used inside this class, but
+     * re-usable when adding the subclass to the factory.
+     *
+     * @param nsn - National Significant Number (without IDP + CC or NAC as prefix)
+     * @return National Destination Code without leading National Access Code
+     *
+     * @see NumberPlanFactory
+     */
+    public String getNationalDestinationCodeFromNationalSignificantNumber(String nsn) {
+        return "";
+    }
+
+    public boolean isUsableWithIDPandCCfromOutside(String number) {
+        return false;
+    }
+
+    public boolean isUsableWithIDPandCCandNDCfromOutside(String number) {
+        return false;
+    }
+
+    public boolean isUsableWithIDPandCCfromInside(String number) {
+        return false;
+    }
+
+    public boolean isUsableWithIDPandCCandNDCfromInside(String number) {
+        return false;
+    }
+
+    public boolean isUsableWithNAC(String number) {
+        return false;
+    }
+    public boolean isUsableWithNACandNDC(String number) {
+        return false;
+    }
+
+    public boolean isUsableDirectly(String number) {
+        return isMatchingShortNumber(number);
+    }
+
+
+    /**
+     * Finds the longest prefix of a short number rule of the current number plan, at the beginning of a number.
+     *
+     * @param number - number that should be checked against the number plan
+     * @return String - if number matches starts with a short number rule prefix, this is the longest one - otherwise it is an empty string.
+     */
+    public String startingWithShortNumberKey(String number) {
+        // first check if we have rules at all
+        if (this.getShortNumberCodes() == null) {
+            LOGGER.debug("no short number code rules available");
+            return "";
+        }
+
+        // check if the number is starting with a prefix defined in the rule
+        int minShortNumberKeyLength = this.getMinShortNumberKeyLength();
+        int maxShortNumberKeyLength = this.getMaxShortNumberKeyLength();
+
+        // starting prefix check with the longest prefix, so overlapping prefixes could be realized
+        // e.g. 1180 is in Germany a starting prefix for a 6 digit short number while 1181 - 1189 is in Germany a starting
+        // prefix for a 5 digits number and could be summed up by 118 and only 1180 is overriding this prefix part.
+        for (int i = maxShortNumberKeyLength; i >= minShortNumberKeyLength; i--) {
+            if (number.length() >= i) {
+                String shortNumber = number.substring(0, i);
+                if (this.getShortNumberCodes().containsKey(shortNumber)) {
+                    return shortNumber;
+                }
+            }
+        }
+        return "";
+    }
+
+    public int getShortCodeLength(String shortNumberKey) {
+        return getShortNumberCodes().get(shortNumberKey);
+    }
+
+    /**
      * Checks if a number is matching any a short number rule of the current number plan.
      *
      * @param number - number that should be checked against the number plan
@@ -95,24 +171,10 @@ public abstract class NumberPlan {
             return false;
         }
 
-
-        // check if the number is starting with a prefix defined in the rule
-        int minShortNumberKeyLength = this.getMinShortNumberKeyLength();
-        int maxShortNumberKeyLength = this.getMaxShortNumberKeyLength();
-
-        Integer validShortNumberLength;
-
-        // starting prefix check with the longest prefix, so overlapping prefixes could be realized
-        // e.g. 1180 is in Germany a starting prefix for a 6 digit short number while 1181 - 1189 is in Germany a starting
-        // prefix for a 5 digits number and could be summed up by 118 and only 1180 is overriding this prefix part.
-        for (int i = maxShortNumberKeyLength; i >= minShortNumberKeyLength; i--) {
-            if (number.length() >= i) {
-                String shortNumber = number.substring(0, i);
-                if (this.getShortNumberCodes().containsKey(shortNumber)) {
-                    validShortNumberLength = this.getShortNumberCodes().get(shortNumber);
-                    return number.length() == validShortNumberLength;
-                }
-            }
+        // check if the number length exactly matches the defined length of the prefix
+        String shortNumberKey = startingWithShortNumberKey(number);
+        if (shortNumberKey.length()>0) {
+            return number.length() == getShortCodeLength(shortNumberKey);
         }
 
         LOGGER.debug("no short number, to code found for number: {}", number);
