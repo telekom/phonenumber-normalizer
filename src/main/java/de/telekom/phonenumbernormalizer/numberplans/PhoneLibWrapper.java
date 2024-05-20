@@ -1369,9 +1369,82 @@ public class PhoneLibWrapper {
             return false;
         }
 
+        // TODO: AU => 001[14-689]|14(?:1[14]|34|4[17]|[56]6|7[47]|88)0011 ... must be a list and "+"
         String idp = this.getInternationalDialingPrefix();
 
         return isIDPUsed(this.dialableNumber, idp);
+    }
+
+    private int parseCountryCode(boolean alsoFromRegionCode) {
+        Phonenumber.PhoneNumber tempNumber = parseNumber(this.dialableNumber, this.regionCode);
+
+        // Using PhoneLib to extract Country Code from Number
+        if (tempNumber!=null) {
+            int result = tempNumber.getCountryCode();
+            if (tempNumber.getCountryCodeSource() == Phonenumber.PhoneNumber.CountryCodeSource.FROM_DEFAULT_COUNTRY) {
+                if (alsoFromRegionCode) {
+                    return result;
+                } else {
+                    return 0;
+                }
+            }
+            if ((tempNumber.getCountryCodeSource() == Phonenumber.PhoneNumber.CountryCodeSource.FROM_NUMBER_WITH_IDD) ||
+                    (tempNumber.getCountryCodeSource() == Phonenumber.PhoneNumber.CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN) ||
+                    (tempNumber.getCountryCodeSource() == Phonenumber.PhoneNumber.CountryCodeSource.FROM_NUMBER_WITHOUT_PLUS_SIGN)) {
+                return result;
+            }
+        }
+        return 0;
+    }
+
+    public String getCountryCode(boolean alsoFromRegionCode) {
+        int parsedCountryCode = parseCountryCode(alsoFromRegionCode);
+        if (parsedCountryCode>0) {
+            return String.valueOf(parsedCountryCode);
+        }
+
+        // FallBack Extraction:
+        String numberWithoutIDP = removeIDP();
+        String countryCode = CountryCodeExtractor.fromNumber(numberWithoutIDP);
+
+        if (countryCode.length()>0) {
+            return countryCode;
+        }
+
+        if (alsoFromRegionCode) {
+            int regionCountryCode = getCountryCodeForRegion(this.regionCode);
+            if (regionCountryCode>0) {
+                return String.valueOf(regionCountryCode);
+            }
+        }
+
+        return "";
+    }
+
+    public String removeNAC() {
+        if (dialableNumber == null) {
+            return "";
+        }
+        if (startsWithNAC()) {
+            return dialableNumber.substring(getNationalAccessCode().length());
+        } else {
+            return "";
+        }
+    }
+
+    public String removeIDP() {
+        if (dialableNumber == null) {
+            return "";
+        }
+        if (dialableNumber.startsWith("+")) {
+            return dialableNumber.substring(1);
+        }
+
+        if (dialableNumber.startsWith(getInternationalDialingPrefix())) {
+            return dialableNumber.substring(getInternationalDialingPrefix().length());
+        }
+
+        return "";
     }
 
     /**
@@ -1388,11 +1461,9 @@ public class PhoneLibWrapper {
 
         if (idp.startsWith(nac) && dialableNumber.startsWith(idp)) {
             return false;
-
         }
 
         return dialableNumber.startsWith(nac);
-
     }
 
     /**
