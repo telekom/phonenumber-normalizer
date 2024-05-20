@@ -476,6 +476,10 @@ class IsValidNumberTest extends Specification {
         // 015xxyyyyyyy xx = block code, yyyyyyy fixed length number in 2 digit block, so together 9 digit is the overall length
         // 015zzzaaaaaa zzz = newer block zzz, aaaaaa fixes length number in 3 digit block, so together 9 digit is the overall length
 
+        // >>> https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/zugeteilte%20RNB/start.html is a list of used blocks
+        // >>> https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/freie%20RNB/start.html
+        // >>> markes testcases from isPosible, which are not valid right now.
+
         //
         // 0150
         //
