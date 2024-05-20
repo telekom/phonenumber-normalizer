@@ -25,6 +25,857 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
+
+class CountryCodeExtractor {
+    // https://www.itu.int/dms_pub/itu-t/opb/sp/T-SP-E.164D-11-2011-PDF-E.pdf
+    public static String fromNumber(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "1":
+                return "1";  // NANP
+            case "2":
+                return fromNumber2(number.substring(1));
+            case "3":
+                return fromNumber3(number.substring(1));
+            case "4":
+                return fromNumber4(number.substring(1));
+            case "5":
+                return fromNumber5(number.substring(1));
+            case "6":
+                return fromNumber6(number.substring(1));
+            case "7":
+                return "7";  // Russian Federation AND Kazakhstan (Republic of)
+            case "8":
+                return fromNumber8(number.substring(1));
+            case "9":
+                return fromNumber9(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber2(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "20";  // Egypt (Arab Republic of)
+            case "1":
+                return fromNumber21(number.substring(1));
+            case "2":
+                return fromNumber22(number.substring(1));
+            case "3":
+                return fromNumber23(number.substring(1));
+            case "4":
+                return fromNumber24(number.substring(1));
+            case "5":
+                return fromNumber25(number.substring(1));
+            case "6":
+                return fromNumber26(number.substring(1));
+            case "7":
+                return "27";  // South Africa (Republic of)
+            case "9":
+                return fromNumber29(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber21(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "1":
+                return "211";  // South Sudan (Republic of)
+            case "2":
+                return "212";  // Morocco (Kingdom of)
+            case "3":
+                return "213";  // Algeria (People's Democratic Republic of)
+            case "6":
+                return "216";  // Tunisia
+            case "8":
+                return "218";  // Libya (Socialist People's Libyan Arab Jamahiriya)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber22(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "220";  // Gambia (Republic of the)
+            case "1":
+                return "221";  // Senegal (Republic of)
+            case "2":
+                return "222";  // Mauritania (Islamic Republic of)
+            case "3":
+                return "223";  // Mali (Republic of)
+            case "4":
+                return "224";  // Guinea (Republic of)
+            case "5":
+                return "225";  // Côte d'Ivoire (Republic of)
+            case "6":
+                return "226";  // Burkina Faso
+            case "7":
+                return "227";  // Niger (Republic of the)
+            case "8":
+                return "228";  // Togolese Republic
+            case "9":
+                return "229";  // Benin (Republic of)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber23(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "230";  // Mauritius (Republic of)
+            case "1":
+                return "231";  // Liberia (Republic of)
+            case "2":
+                return "232";  // Sierra Leone
+            case "3":
+                return "233";  // Ghana
+            case "4":
+                return "234";  // Nigeria (Federal Republic of)
+            case "5":
+                return "235";  // Chad (Republic of)
+            case "6":
+                return "236";  // Central African Republic
+            case "7":
+                return "237";  // Cameroon (Republic of)
+            case "8":
+                return "238";  // Cape Verde (Republic of)
+            case "9":
+                return "239";  // Sao Tome and Principe (Democratic Republic of)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber24(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "240";  // Equatorial Guinea (Republic of)
+            case "1":
+                return "241";  // Gabonese Republic
+            case "2":
+                return "242";  // Congo (Republic of the)
+            case "3":
+                return "243";  // Democratic Republic of the Congo
+            case "4":
+                return "244";  // Angola (Republic of)
+            case "5":
+                return "245";  // Guinea-Bissau (Republic of)
+            case "6":
+                return "246";  // Diego Garcia
+            case "7":
+                return "247";  // {Saint Helena,} Ascension {and Tristan da Cunha}
+            case "8":
+                return "248";  // Seychelles (Republic of)
+            case "9":
+                return "249";  // Sudan (Republic of the)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber25(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "250";  // Rwanda (Republic of)
+            case "1":
+                return "251";  // Ethiopia (Federal Democratic Republic of)
+            case "2":
+                return "252";  // Somali Democratic Republic
+            case "3":
+                return "253";  // Djibouti (Republic of)
+            case "4":
+                return "254";  // Kenya (Republic of)
+            case "5":
+                return "255";  // Tanzania (United Republic of)
+            case "6":
+                return "256";  // Uganda (Republic of)
+            case "7":
+                return "257";  // Burundi (Republic of)
+            case "8":
+                return "258";  // Mozambique (Republic of)
+            default:
+                return "";
+        }
+    }
+    public static String fromNumber26(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "260";  // Zambia (Republic of)
+            case "1":
+                return "261";  // Madagascar (Republic of)
+            case "2":
+                return "262";  // French Departments and Territories in the Indian Ocean
+            case "3":
+                return "263";  // Zimbabwe (Republic of)
+            case "4":
+                return "264";  // Namibia (Republic of)
+            case "5":
+                return "265";  // Malawi
+            case "6":
+                return "266";  // Lesotho (Kingdom of)
+            case "7":
+                return "267";  // Botswana (Republic of)
+            case "8":
+                return "268";  // Swaziland (Kingdom of)
+            case "9":
+                return "269";  // Comoros (Union of the)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber29(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "290";  // Saint Helena{, Ascension} and Tristan da Cunha
+            case "1":
+                return "291";  // Eritrea
+            case "7":
+                return "297";  // Aruba
+            case "8":
+                return "298";  // Faroe Islands
+            case "9":
+                return "299";  // Greenland (Denmark)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber3(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "30";  // Greece
+            case "1":
+                return "31";  // Netherlands (Kingdom of the)
+            case "2":
+                return "32";  // Belgium
+            case "3":
+                return "33";  // France
+            case "4":
+                return "34";  // Spain
+            case "5":
+                return fromNumber35(number.substring(1));
+            case "6":
+                return "36";  // Hungary (Republic of)
+            case "7":
+                return fromNumber37(number.substring(1));
+            case "8":
+                return fromNumber38(number.substring(1));
+            case "9":
+                return "39";  //  Italy AND Vatican City State
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber35(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "350";  // Gibraltar
+            case "1":
+                return "351";  // Portugal
+            case "2":
+                return "352";  // Luxembourg
+            case "3":
+                return "353";  // Ireland
+            case "4":
+                return "354";  // Iceland
+            case "5":
+                return "355";  // Albania (Republic of)
+            case "6":
+                return "356";  // Malta
+            case "7":
+                return "357";  // Cyprus (Republic of)
+            case "8":
+                return "358";  // Finland
+            case "9":
+                return "359";  // Bulgaria (Republic of)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber37(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "370";  // Lithuania (Republic of)
+            case "1":
+                return "371";  // Latvia (Republic of)
+            case "2":
+                return "372";  // Estonia (Republic of)
+            case "3":
+                return "373";  // Moldova (Republic of)
+            case "4":
+                return "374";  // Armenia (Republic of)
+            case "5":
+                return "375";  // Belarus (Republic of)
+            case "6":
+                return "376";  // Andorra (Principality of)
+            case "7":
+                return "377";  // Monaco (Principality of)
+            case "8":
+                return "378";  // San Marino (Republic of)
+            case "9":
+                return "379";  // Vatican City State
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber38(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "380";  // Ukraine
+            case "1":
+                return "381";  // Serbia (Republic of)
+            case "2":
+                return "382";  // Montenegro (Republic of)
+            case "5":
+                return "385";  // Croatia (Republic of)
+            case "6":
+                return "386";  // Slovenia (Republic of)
+            case "7":
+                return "387";  // Bosnia and Herzegovina
+            case "8":
+                return "388";  // Group of countries, shared code TODO: is it still valid? not on ITU number plan overview page
+            case "9":
+                return "389";  // The Former Yugoslav Republic of Macedonia - North Macedonia (ITU number plan overview page)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber4(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "40";  // Romania
+            case "1":
+                return "41";  // Switzerland (Confederation of)
+            case "2":
+                return fromNumber42(number.substring(1));
+            case "3":
+                return "43";  // Austria
+            case "4":
+                return "44";  // United Kingdom of Great Britain and Northern Ireland
+            case "5":
+                return "45";  // Denmark
+            case "6":
+                return "46";  // Sweden
+            case "7":
+                return "47";  // Norway
+            case "8":
+                return "48";  // Poland (Republic of)
+            case "9":
+                return "49";  // Germany (Federal Republic of)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber42(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "420";  // Czech Republic
+            case "1":
+                return "421";  // Slovak Republic
+            case "3":
+                return "423";  // Liechtenstein (Principality of)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber5(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return fromNumber50(number.substring(1));
+            case "1":
+                return "51";  // Peru
+            case "2":
+                return "52";  // Mexico
+            case "3":
+                return "53";  // Cuba
+            case "4":
+                return "54";  // Argentine Republic
+            case "5":
+                return "55";  // Brazil (Federative Republic of)
+            case "6":
+                return "56";  // Chile
+            case "7":
+                return "57";  // Colombia (Republic of)
+            case "8":
+                return "58";  // Venezuela (Bolivarian Republic of)
+            case "9":
+                return fromNumber59(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber50(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "500";  // Falkland Islands (Malvinas)
+            case "1":
+                return "501";  // Belize
+            case "2":
+                return "502";  // Guatemala (Republic of)
+            case "3":
+                return "503";  // El Salvador (Republic of)
+            case "4":
+                return "504";  // Honduras (Republic of)
+            case "5":
+                return "505";  // Nicaragua
+            case "6":
+                return "506";  // Costa Rica
+            case "7":
+                return "507";  // Panama (Republic of)
+            case "8":
+                return "508";  // Saint Pierre and Miquelon (Collectivité territoriale de la République française)
+            case "9":
+                return "509";  // Haiti (Republic of)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber59(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "590";  // Guadeloupe (French Department of)
+            case "1":
+                return "591";  // Bolivia (Plurinational State of)
+            case "2":
+                return "592";  // Guyana
+            case "3":
+                return "593";  // Ecuador
+            case "4":
+                return "594";  // French Guiana (French Department of)
+            case "5":
+                return "595";  // Paraguay (Republic of)
+            case "6":
+                return "596";  // Martinique (French Department of)
+            case "7":
+                return "597";  // Suriname (Republic of)
+            case "8":
+                return "598";  // Uruguay (Eastern Republic of)
+            case "9":
+                return "599";  // Bonaire, Saint Eustatius and Saba AND Curaçao
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber6(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "60";  // Malaysia
+            case "1":
+                return "61";  // Australia
+            case "2":
+                return "62";  // Indonesia (Republic of)
+            case "3":
+                return "63";  // Philippines (Republic of the)
+            case "4":
+                return "64";  // New Zealand
+            case "5":
+                return "65";  // Singapore (Republic of)
+            case "6":
+                return "66";  // Thailand
+            case "7":
+                return fromNumber67(number.substring(1));
+            case "8":
+                return fromNumber68(number.substring(1));
+            case "9":
+                return fromNumber69(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber67(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "670";  // Democratic Republic of Timor-Leste
+            case "2":
+                return "672";  // Australian External Territories
+            case "3":
+                return "673";  //Brunei Darussalam
+            case "4":
+                return "674";  // Nauru (Republic of)
+            case "5":
+                return "675";  // Papua New Guinea
+            case "6":
+                return "676";  // Tonga (Kingdom of)
+            case "7":
+                return "677";  // Solomon Islands
+            case "8":
+                return "678";  // Vanuatu (Republic of)
+            case "9":
+                return "679";  // Fiji (Republic of)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber68(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "680";  // Palau (Republic of)
+            case "1":
+                return "681";  // Wallis and Futuna (Territoire français d'outre-mer)
+            case "2":
+                return "682";  // Cook Islands
+            case "3":
+                return "683";  // Niue
+            case "5":
+                return "685";  // Samoa (Independent State of)
+            case "6":
+                return "686";  // Kiribati (Republic of)
+            case "7":
+                return "687";  // New Caledonia (Territoire français d'outre-mer)
+            case "8":
+                return "688";  // Tuvalu
+            case "9":
+                return "689";  // French Polynesia (Territoire français d'outre-mer)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber69(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "690";  // Tokelau
+            case "1":
+                return "691";  // Micronesia (Federated States of)
+            case "2":
+                return "692";  // Marshall Islands (Republic of the)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber8(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return fromNumber80(number.substring(1));
+            case "1":
+                return "81";  // Japan
+            case "2":
+                return "82";  // Korea (Republic of)
+            case "4":
+                return "84";  // Viet Nam (Socialist Republic of)
+            case "5":
+                return fromNumber85(number.substring(1));
+            case "6":
+                return "86";  // China (People's Republic of)
+            case "7":
+                return fromNumber87(number.substring(1));
+            case "8":
+                return fromNumber88(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber80(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "800";  // International Freephone Service
+            case "8":
+                return "808";  // International Shared Cost Service (ISCS)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber85(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "850";  // Democratic People's Republic of Korea
+            case "2":
+                return "852";  // Hong Kong, China
+            case "3":
+                return "853";  // Macao, China
+            case "5":
+                return "855";  // Cambodia (Kingdom of)
+            case "6":
+                return "856";  // Lao People's Democratic Republic
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber87(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "870";  // Inmarsat SNAC
+            case "5":
+                return "875";  // Reserved - Maritime Mobile Service Applications
+            case "6":
+                return "876";  // Reserved - Maritime Mobile Service Applications
+            case "7":
+                return "877";  // Reserved - Maritime Mobile Service Applications
+            case "8":
+                return "878";  // Universal Personal Telecommunication Service (UPT)
+            case "9":
+                return "879";  // Reserved for national non-commercial purposes
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber88(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "880";  // Bangladesh (People's Republic of)
+            case "1":
+                return "881";  // Global Mobile Satellite System (GMSS), shared code
+            case "2":
+                return "882";  // International Networks, shared code
+            case "3":
+                return "883";  // International Networks, shared code
+            case "6":
+                return "886";  // Taiwan, China
+            case "8":
+                return "888";  // Telecommunications for Disaster Relief (TDR)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber9(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "90";  // Turkey
+            case "1":
+                return "91";  // India (Republic of)
+            case "2":
+                return "92";  // Pakistan (Islamic Republic of)
+            case "3":
+                return "93";  //Afghanistan
+            case "4":
+                return "94";  //Sri Lanka (Democratic Socialist Republic of)
+            case "5":
+                return "95";  // Myanmar (the Republic of the Union of)
+            case "6":
+                return fromNumber96(number.substring(1));
+            case "7":
+                return fromNumber97(number.substring(1));
+            case "8":
+                return "98";  // Iran (Islamic Republic of)
+            case "9":
+                return fromNumber99(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber96(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "960";  // Maldives (Republic of)
+            case "1":
+                return "961";  // Lebanon
+            case "2":
+                return "962";  // Jordan (Hashemite Kingdom of)
+            case "3":
+                return "963";  // Syrian Arab Republic
+            case "4":
+                return "964";  // Iraq (Republic of)
+            case "5":
+                return "965";  // Kuwait (State of)
+            case "6":
+                return "966";  // Saudi Arabia (Kingdom of)
+            case "7":
+                return "967";  // Yemen (Republic of)
+            case "8":
+                return "968";  // Oman (Sultanate of)
+            case "9":
+                return "969";  // Reserved - reservation currently under investigation
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber97(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "0":
+                return "970";  // Reserved
+            case "1":
+                return "971";  // United Arab Emirates
+            case "2":
+                return "972";  // Israel (State of)
+            case "3":
+                return "973";  // Bahrain (Kingdom of)
+            case "4":
+                return "974";  // Qatar (State of)
+            case "5":
+                return "975";  // Bhutan (Kingdom of)
+            case "6":
+                return "976";  // Mongolia
+            case "7":
+                return "977";  // Nepal (Federal Democratic Republic of)
+            case "9":
+                return "979";  // International Premium Rate Service (IPRS)
+            default:
+                return "";
+        }
+    }
+
+    public static String fromNumber99(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.substring(0, 1)) {
+            case "1":
+                return "991";  // Trial of a proposed new international telecommunication public correspondence service, shared code
+            case "2":
+                return "992";  // Tajikistan (Republic of)
+            case "3":
+                return "993";  // Turkmenistan
+            case "4":
+                return "994";  // Azerbaijani Republic
+            case "5":
+                return "995";  // Georgia
+            case "6":
+                return "996";  // Kyrgyz Republic
+            case "8":
+                return "998";  // Uzbekistan (Republic of)
+            case "9":
+                return "999";  // Reserved for future global service
+            default:
+                return "";
+        }
+    }
+}
+
+
 /**
  * Wrapper around the PhoneLib library from Google
  * <p>
@@ -229,7 +1080,8 @@ public class PhoneLibWrapper {
         if (value == null || value.length()==0) {
             return false;
         }
-        return ("+".equals(value.substring(0, 1))) || ("*".equals(value.substring(0, 1)));
+        String firstChar = value.substring(0, 1);
+        return ("+".equals(firstChar)) || ("*".equals(firstChar));
     }
 
     /**
@@ -271,9 +1123,82 @@ public class PhoneLibWrapper {
             return false;
         }
 
+        // TODO: AU => 001[14-689]|14(?:1[14]|34|4[17]|[56]6|7[47]|88)0011 ... must be a list and "+"
         String idp = this.getInternationalDialingPrefix();
 
         return isIDPUsed(this.dialableNumber, idp);
+    }
+
+    private int parseCountryCode(boolean alsoFromRegionCode) {
+        Phonenumber.PhoneNumber tempNumber = parseNumber(this.dialableNumber, this.regionCode);
+
+        // Using PhoneLib to extract Country Code from Number
+        if (tempNumber!=null) {
+            int result = tempNumber.getCountryCode();
+            if (tempNumber.getCountryCodeSource() == Phonenumber.PhoneNumber.CountryCodeSource.FROM_DEFAULT_COUNTRY) {
+                if (alsoFromRegionCode) {
+                    return result;
+                } else {
+                    return 0;
+                }
+            }
+            if ((tempNumber.getCountryCodeSource() == Phonenumber.PhoneNumber.CountryCodeSource.FROM_NUMBER_WITH_IDD) ||
+                    (tempNumber.getCountryCodeSource() == Phonenumber.PhoneNumber.CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN) ||
+                    (tempNumber.getCountryCodeSource() == Phonenumber.PhoneNumber.CountryCodeSource.FROM_NUMBER_WITHOUT_PLUS_SIGN)) {
+                return result;
+            }
+        }
+        return 0;
+    }
+
+    public String getCountryCode(boolean alsoFromRegionCode) {
+        int parsedCountryCode = parseCountryCode(alsoFromRegionCode);
+        if (parsedCountryCode>0) {
+            return String.valueOf(parsedCountryCode);
+        }
+
+        // FallBack Extraction:
+        String numberWithoutIDP = removeIDP();
+        String countryCode = CountryCodeExtractor.fromNumber(numberWithoutIDP);
+
+        if (countryCode.length()>0) {
+            return countryCode;
+        }
+
+        if (alsoFromRegionCode) {
+            int regionCountryCode = getCountryCodeForRegion(this.regionCode);
+            if (regionCountryCode>0) {
+                return String.valueOf(regionCountryCode);
+            }
+        }
+
+        return "";
+    }
+
+    public String removeNAC() {
+        if (dialableNumber == null) {
+            return "";
+        }
+        if (startsWithNAC()) {
+            return dialableNumber.substring(getNationalAccessCode().length());
+        } else {
+            return "";
+        }
+    }
+
+    public String removeIDP() {
+        if (dialableNumber == null) {
+            return "";
+        }
+        if (dialableNumber.startsWith("+")) {
+            return dialableNumber.substring(1);
+        }
+
+        if (dialableNumber.startsWith(getInternationalDialingPrefix())) {
+            return dialableNumber.substring(getInternationalDialingPrefix().length());
+        }
+
+        return "";
     }
 
     /**
@@ -290,11 +1215,9 @@ public class PhoneLibWrapper {
 
         if (idp.startsWith(nac) && dialableNumber.startsWith(idp)) {
             return false;
-
         }
 
         return dialableNumber.startsWith(nac);
-
     }
 
     /**
