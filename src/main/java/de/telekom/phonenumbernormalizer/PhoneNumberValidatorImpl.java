@@ -16,7 +16,11 @@
 package de.telekom.phonenumbernormalizer;
 
 import de.telekom.phonenumbernormalizer.dto.DeviceContextLineType;
-import de.telekom.phonenumbernormalizer.numberplans.*;
+import de.telekom.phonenumbernormalizer.numberplans.NumberPlan;
+import de.telekom.phonenumbernormalizer.numberplans.NumberPlanFactory;
+import de.telekom.phonenumbernormalizer.numberplans.PhoneNumberValidationResult;
+import de.telekom.phonenumbernormalizer.numberplans.PhoneLibWrapper;
+import de.telekom.phonenumbernormalizer.numberplans.ShortCodeUseable;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
