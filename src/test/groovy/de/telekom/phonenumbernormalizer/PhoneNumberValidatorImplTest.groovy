@@ -15,9 +15,6 @@
  */
 package de.telekom.phonenumbernormalizer
 
-import de.telekom.phonenumbernormalizer.dto.DeviceContext
-import de.telekom.phonenumbernormalizer.dto.DeviceContextDto
-import de.telekom.phonenumbernormalizer.dto.DeviceContextLineType
 import de.telekom.phonenumbernormalizer.numberplans.PhoneNumberValidationResult
 import spock.lang.Specification
 
@@ -65,5 +62,44 @@ class PhoneNumberValidatorImplTest extends Specification {
         "+39312345678"            | "IT"        | PhoneNumberValidationResult.IS_POSSIBLE
         "312345678"               | "IT"        | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
     }
+
+    def "validate police short code 110 in combination as NDC"(String number, regionCode, expectedResult) {
+        given:
+
+        when: "validate number: $number for country: $regionCode"
+
+        PhoneNumberValidationResult result = target.isPhoneNumberPossibleWithReason(number, regionCode)
+
+        then: "it should validate to: $expectedResult"
+        result == expectedResult
+
+        where:
+
+        number                      | regionCode  | expectedResult
+        // short code for Police (110) is not dial-able internationally nor does it has additional numbers
+        "110"                       | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
+        "110556677"                 | "DE"       | PhoneNumberValidationResult.INVALID_LENGTH
+        "0110"                      | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE
+        "0110 556677"               | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE
+        "0175 110"                  | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "0175 110555"               | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "0203 110"                  | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "0203 110555"               | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49110"                    | "DE"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
+        "+49110 556677"             | "DE"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
+        "+49175 110"                | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49175 110555"             | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49203 110"                | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49203 110555"             | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49110"                    | "FR"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
+        "+49110 556677"             | "FR"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
+        "+49175 110"                | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49175 110555"             | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49203 110"                | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49203 110555"             | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        // end of 110
+    }
+
+
 
 }

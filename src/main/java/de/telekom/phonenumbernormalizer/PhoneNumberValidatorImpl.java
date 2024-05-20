@@ -15,12 +15,17 @@
  */
 package de.telekom.phonenumbernormalizer;
 
+import de.telekom.phonenumbernormalizer.dto.DeviceContextLineType;
+import de.telekom.phonenumbernormalizer.numberplans.NumberPlan;
+import de.telekom.phonenumbernormalizer.numberplans.NumberPlanFactory;
 import de.telekom.phonenumbernormalizer.numberplans.PhoneNumberValidationResult;
 import de.telekom.phonenumbernormalizer.numberplans.PhoneLibWrapper;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 
 /**
@@ -42,20 +47,166 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
 
         PhoneLibWrapper wrapper = new PhoneLibWrapper(number, regionCode);
 
+        // TODO: change parameter regionCode to deviceContext
+        NumberPlan numberplan = NumberPlanFactory.INSTANCE.getNumberPlan(DeviceContextLineType.UNKNOWN, String.valueOf(PhoneLibWrapper.getCountryCodeForRegion(regionCode)));
+
         if (wrapper.startsWithIDP()) {     // Country Exit Code is part
             // IDP indicates CC is used
-            return wrapper.validate();
-            //return PhoneNumberValidationResult.IS_POSSIBLE;
+
+            String numberCountryCode = wrapper.getCountryCode(false);
+
+            String regionCountryCode = String.valueOf(PhoneLibWrapper.getCountryCodeForRegion(regionCode));
+            if (regionCountryCode.equals("0")) {
+                regionCountryCode = "";
+            }
+
+            String numberWithoutCountryCode = wrapper.removeIDP().substring(numberCountryCode.length());
+
+            if (regionCountryCode.equals(numberCountryCode)) {
+                // Calling within the country
+
+
+                if (numberplan!=null) {
+
+                    // Check for ShortNumber directly after CC
+                    String shortNumberKey = numberplan.startingWithShortNumberKey(numberWithoutCountryCode);
+                    if (shortNumberKey.length() > 0) {
+                        if (!numberplan.isUsableWithIDPandCCfromInside(shortNumberKey)) {
+                            return PhoneNumberValidationResult.INVALID_COUNTRY_CODE;
+                        } else {
+                            return PhoneNumberValidationResult.IS_POSSIBLE; // TODO: check if only international
+                        }
+                    }
+
+                    // Check for NDC after CC:
+                    String nac = numberplan.getNationalDestinationCodeFromNationalSignificantNumber(numberWithoutCountryCode);
+
+                    if (Objects.equals(nac, "")) {
+                        return PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE;  // TODO: What about a Numberplan without NDCs?
+                    }
+
+                    String numberWithoutNationDestinationCode = numberWithoutCountryCode.substring(nac.length());
+                    // Check for Shortnumber after NDC
+                    shortNumberKey = numberplan.startingWithShortNumberKey(numberWithoutNationDestinationCode);
+                    if (shortNumberKey.length() > 0) {
+                        if (!numberplan.isUsableWithIDPandCCandNDCfromInside(shortNumberKey)) {
+                            return PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE;
+                        } else {
+                            return PhoneNumberValidationResult.IS_POSSIBLE; // TODO: check if only international
+                        }
+                    }
+                }
+
+            } else {
+
+                numberplan = NumberPlanFactory.INSTANCE.getNumberPlan(DeviceContextLineType.UNKNOWN, numberCountryCode);
+                // calling from outside the country
+                if (numberplan!=null) {
+
+                    // Check for ShortNumber directly after CC
+                    String shortNumberKey = numberplan.startingWithShortNumberKey(numberWithoutCountryCode);
+                    if (shortNumberKey.length() > 0) {
+                        if (!numberplan.isUsableWithIDPandCCfromOutside(shortNumberKey)) {
+                            return PhoneNumberValidationResult.INVALID_COUNTRY_CODE;
+                        } else {
+                            return PhoneNumberValidationResult.IS_POSSIBLE; // TODO: check if only international
+                        }
+                    }
+
+                    // Check for NDC after CC:
+                    String nac = numberplan.getNationalDestinationCodeFromNationalSignificantNumber(numberWithoutCountryCode);
+
+                    if (Objects.equals(nac, "")) {
+                        return PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE;  // TODO: What about a Numberplan without NDCs?
+                    }
+
+                    String numberWithoutNationDestinationCode = numberWithoutCountryCode.substring(nac.length());
+                    // Check for Shortnumber after NDC
+                    shortNumberKey = numberplan.startingWithShortNumberKey(numberWithoutNationDestinationCode);
+                    if (shortNumberKey.length() > 0) {
+                        if (!numberplan.isUsableWithIDPandCCandNDCfromOutside(shortNumberKey)) {
+                            return PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE;
+                        } else {
+                            return PhoneNumberValidationResult.IS_POSSIBLE; // TODO: check if only international
+                        }
+                    }
+
+                }
+
+            }
+
+            // return wrapper.validate();
         } else {
             // No Country Exit Code has been used, so no CC is following.
-            if (wrapper.getNationalAccessCode()=="") {
+            if (Objects.equals(wrapper.getNationalAccessCode(), "")) {
                 // no NAC is used in region
                 return PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY;
             } else {
                 // NAC can be used in region
                 if (wrapper.startsWithNAC()) {
-                    return PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY;
+                    String numberWithOutNac = wrapper.removeNAC();
+
+                    if (numberplan!=null) {
+                        // check if a shortnumber is used directly after NAC and if that is allowed
+                        String shortNumberKey = numberplan.startingWithShortNumberKey(numberWithOutNac);
+                        if (shortNumberKey.length() > 0) {
+                            if (!numberplan.isUsableWithNAC(shortNumberKey)) {
+                                return PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE;
+                            } else {
+                                return PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY;
+                            }
+                        }
+
+                        // Check for NDC after Nac:
+                        String nac = numberplan.getNationalDestinationCodeFromNationalSignificantNumber(numberWithOutNac);
+
+                        if (Objects.equals(nac, "")) {
+                            return PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE;  // TODO: What about a Numberplan without NDCs?
+                        }
+
+                        String numberWithoutNationDestinationCode = numberWithOutNac.substring(nac.length());
+                        // Check for Shortnumber after NDC
+                        shortNumberKey = numberplan.startingWithShortNumberKey(numberWithoutNationDestinationCode);
+                        if (shortNumberKey.length() > 0) {
+                            if (!numberplan.isUsableWithNACandNDC(shortNumberKey)) {
+                                return PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE;
+                            } else {
+                                return PhoneNumberValidationResult.IS_POSSIBLE; // TODO: check if only international
+                            }
+                        }
+                    }
+                    // Todo: Own Length test
+
+                    // As fallback check by libPhone
+                    PhoneNumberValidationResult fallBackResult = wrapper.validate();
+
+                    if ( (fallBackResult == PhoneNumberValidationResult.IS_POSSIBLE) ||
+                         (fallBackResult == PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY) ||
+                         // short number check e.g. AU 000 is short code which starts with NAC but is not treated as one:
+                        ((fallBackResult == PhoneNumberValidationResult.TOO_SHORT) && (wrapper.isShortNumber()))
+                       ) {
+                        return PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY;
+                    }
                 } else {
+                    // NAC can be used in region, but is not.
+                    if (numberplan==null) {
+                        // ToDo: Is there a test with PhoneLib?
+                        return PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY;
+                    }
+
+                    String shortNumberKey = numberplan.startingWithShortNumberKey(wrapper.getDialableNumber());
+                    if (shortNumberKey.length()>0) {
+                        if (!numberplan.isUsableDirectly(shortNumberKey)) {
+                            return PhoneNumberValidationResult.INVALID_LENGTH;
+                        } else {
+                            if (wrapper.getDialableNumber().length() == numberplan.getShortCodeLength(shortNumberKey)) {
+                                return PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY;
+                            } else {
+                                return PhoneNumberValidationResult.INVALID_LENGTH;
+                            }
+                        }
+                    }
+
                     return PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY;
                 }
             }
@@ -65,7 +216,7 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
 
         // return PhoneNumberValidationResult.INVALID_DRAMA_NUMBER;
 
-        // return wrapper.validate();
+         return wrapper.validate();
     }
 
 }
