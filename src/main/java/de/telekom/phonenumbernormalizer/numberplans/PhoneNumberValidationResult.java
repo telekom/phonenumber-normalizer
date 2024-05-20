@@ -93,13 +93,13 @@ public enum PhoneNumberValidationResult {
     /** The number has an invalid international dialing prefix (aka IDP) for this region. */
     INVALID_INTERNATIONAL_DIALING_PREFIX(ValidationResult.INVALID_LENGTH),
 
-    /** The number has an invalid country calling code (aka CC). */
+    /** The number has an invalid country calling code (aka CC) or the specific number must not be used with used CC.*/
     INVALID_COUNTRY_CODE(ValidationResult.INVALID_COUNTRY_CODE),
 
-    /** The number has an invalid national access code (aka NAC). */
+    /** The number has an invalid national access code (aka NAC) or the specific number must not be used with used NAC.*/
     INVALID_NATIONAL_ACCESS_CODE(ValidationResult.INVALID_LENGTH),
 
-    /** The number has an invalid national destination code (aka NDC) for this region. */
+    /** The number has an invalid national destination code (aka NDC) for this region or the specific number must not be used with used NDC. */
     INVALID_NATIONAL_DESTINATION_CODE(ValidationResult.INVALID_LENGTH),
 
     /** The number is shorter than all valid numbers for this region or used NDC. */
