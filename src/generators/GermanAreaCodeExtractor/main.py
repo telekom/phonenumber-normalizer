@@ -15,21 +15,15 @@ def print_function(leaf, prefix):
         java_visibility = 'public'
     else:
         java_visibility = 'private'
-
     print('  '+java_visibility+' static String fromNumber'+ prefix +'(String number) {')
     print('    if ((number == null) || (number.length()<1)) {')
     print('      return "";')
     print('    }')
     print('')
-    print('    switch (number.substring(0, 1)) {')
-
-    if prefix == "":
-        # main function - need explicit reference to service and mobile function for starting numbers with 1
-        print('      case "1":')
-        print('        return fromNumber1(number.substring(1));')
+    print('    switch (number.charAt(0)) {')
 
     for k in leaf:
-        print('      case "'+k+'":')
+        print("      case '"+k+"':")
 
         if isinstance(leaf[k], dict):
             print('        return fromNumber'+prefix+k+'(number.substring(1));')
@@ -72,6 +66,47 @@ with open('NVONB.INTERNET.20220727.ONB.csv', newline='') as csvfile:
         if row == ['\x1a']:
             continue
         add(onkz, row[0], row[1])
+
+# Website for used mobile NDCs: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/zugeteilte%20RNB/start.html
+with open('mobile_ndcs.html', newline='') as f:
+    data = f.read().replace('\n', '')
+    data = data.split("<caption>Liste der zugeteilten Rufnummernblöcke / Mobile Dienste</caption>")[1]
+    data = data.split("<tbody>")[1]
+    data = data.split("</tbody>")[0]
+    data = data.split("</th>")[2]
+
+    data = data.replace('                                            <tr class="odd">', "")
+    data = data.replace('                                            <tr class="even">', "")
+    data = data.replace('                                            </tr>', "")
+    data = data.replace('                                            </tr>', "")
+    data = data.replace('                                                ', "")
+    data = data.replace('<abbr title="Gesellschaft mit beschränkter Haftung">', "")
+    data = data.replace('<abbr title="Offene Handelsgesellschaft">', "")
+    data = data.replace('<abbr title="Gesellschaft mit beschränkter Haftung &amp; Compagnie">', "")
+    data = data.replace('<abbr title="mit beschränkter Haftung">', "")
+    data = data.replace('<abbr title="mit beschränkter Haftung">', "")
+    data = data.replace('</abbr>', "")
+    data = data.replace('<td colspan="1" rowspan="1">(0)', "")
+    data = data.replace('<td class="xl24" colspan="1" rowspan="1">(0)', "")
+    data = data.replace('<td class="xl27" colspan="1" rowspan="1">(0)', "")
+    data = data.replace('</td><td class="xl24" colspan="1" rowspan="1">', ",")
+    data = data.replace('</td><td class="xl28" colspan="1" rowspan="1">', ",")
+    data = data.replace('</td>', "{+}")
+    data = data.replace('&amp;', "&")
+    data = data.replace('  ', " ")
+    data = data.replace('  ', " ")
+    data = data.replace(', ', ",")
+    data = data.replace(',', "{:}")
+
+    data = data.replace('15-', "15")
+    mf_ndcs = data.split('{+}')
+
+    for mf_ndc in mf_ndcs:
+        ndc = mf_ndc.split('{:}')
+        if len(ndc) == 2:
+            add(onkz, ndc[0], ndc[1])
+
+onkz = dict(sorted(onkz.items()))
 
 # print code from three
 print_function(onkz, "")
