@@ -47,3 +47,5 @@ When we have further insights, we will report them as issues, re-engage with Goo
 BnetzA [described special case for NDC 212 and 621](https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/ONVerzeichnisse/ONBVerzeichnis/Sonderregelungen0212_0621.pdf?__blob=publicationFile&v=1) the first one is correctly recognized by geocoder and the two cities are correctly labeled. But the second case is not recognized and only the city Mannheim is used for labeling and not Ludwigshafen.
 
 We have provided Ludwighafen in our labeling data.
+
+Google [fixed](https://github.com/google/libphonenumber/pull/3473/files#diff-db8e5b3fb2cb4a7ed9856289ea12d54947bfaa10549e6c1058fec7f3a1359dbbR3260) ít with [8.13.37](https://github.com/google/libphonenumber/pull/3473) on  15.05.2024.
