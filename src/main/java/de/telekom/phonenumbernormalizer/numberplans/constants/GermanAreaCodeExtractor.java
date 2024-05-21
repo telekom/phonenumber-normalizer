@@ -7,23 +7,53 @@ public class GermanAreaCodeExtractor {
     it is using a csv of all German fixed line Area Codes. If that gets updated, you can use the script to generate new
     code and past it between the comments below.
 
-    It only generates the code for geographical NDC starting with 2..9 for service and mobile numbers, starting one is
-    hard coded (reference is added into script automatically.
-
+    TODO: special NDC need to be added to the script (mobile is done)
      */
+
+
+    /*
+        Start of generated code
+     */
+    public static String fromNumber(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '1':
+                return fromNumber1(number.substring(1));
+            case '2':
+                return fromNumber2(number.substring(1));
+            case '3':
+                return fromNumber3(number.substring(1));
+            case '4':
+                return fromNumber4(number.substring(1));
+            case '5':
+                return fromNumber5(number.substring(1));
+            case '6':
+                return fromNumber6(number.substring(1));
+            case '7':
+                return fromNumber7(number.substring(1));
+            case '8':
+                return fromNumber8(number.substring(1));
+            case '9':
+                return fromNumber9(number.substring(1));
+            default:
+                return "";
+        }
+    }
 
     private static String fromNumber1(String number) {
         if ((number == null) || (number.length()<1)) {
             return "";
         }
 
-        // used mobile number blocks see: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/zugeteilte%20RNB/start.html
-        switch (number.substring(0, 1)) {
-            case "5":
+        switch (number.charAt(0)) {
+            case '5':
                 return fromNumber15(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber16(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber17(number.substring(1));
             default:
                 return "";
@@ -35,24 +65,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber150(number.substring(1));
-            case "1":
+            case '1':
                 return fromNumber151(number.substring(1));
-            case "2":
-                return fromNumber152(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber153(number.substring(1));
-            case "5":
+            case '2':
+                return fromNumber152(number.substring(1));
+            case '5':
                 return fromNumber155(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber156(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber157(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber158(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber159(number.substring(1));
             default:
                 return "";
@@ -64,10 +94,10 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return fromNumber1501(number.substring(1));
-            case "2":
+            case '2':
                 return fromNumber1502(number.substring(1));
             default:
                 return "";
@@ -79,11 +109,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        // TODO: Replace all substring(0, 1) with chartAt(0)
-        if (number.charAt(0) == '9') {
-            return "15019"; // Tismi BV
+        switch (number.charAt(0)) {
+            case '9':
+                return "15019"; // Tismi BV
+            default:
+                return "";
         }
-        return "";
     }
 
     private static String fromNumber1502(String number) {
@@ -91,10 +122,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        if (number.charAt(0) == '0') {
-            return "15020"; // Legos - Local Exchange Global Operation Services
+        switch (number.charAt(0)) {
+            case '0':
+                return "15020"; // Legos - Local Exchange Global Operation Services
+            default:
+                return "";
         }
-        return "";
     }
 
     private static String fromNumber151(String number) {
@@ -102,20 +135,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "1511"; // Telekom Deutschland GmbH
-            case "2":
+            case '2':
                 return "1512"; // Telekom Deutschland GmbH
-            case "4":
+            case '4':
                 return "1514"; // Telekom Deutschland GmbH
-            case "5":
+            case '5':
                 return "1515"; // Telekom Deutschland GmbH
-            case "6":
+            case '6':
                 return "1516"; // Telekom Deutschland GmbH
-            case "7":
+            case '7':
                 return "1517"; // Telekom Deutschland GmbH
-            case "8":
+            case '8':
                 return fromNumber1518(number.substring(1));
             default:
                 return "";
@@ -127,40 +160,15 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "15180"; // Telekom Deutschland GmbH
-            case "1":
+            case '1':
                 return "15181"; // Telekom Deutschland GmbH
-            case "2":
+            case '2':
                 return "15182"; // Telekom Deutschland GmbH
-            case "3":
+            case '3':
                 return "15183"; // Telekom Deutschland GmbH
-            default:
-                return "";
-        }
-    }
-
-    private static String fromNumber152(String number) {
-        if ((number == null) || (number.length()<1)) {
-            return "";
-        }
-
-        switch (number.substring(0, 1)) {
-            case "0":
-                return "1520"; // Vodafone GmbH
-            case "1":
-                return "1521"; // Lycamobile Europe Ltd.
-            case "2":
-                return "1522"; // Vodafone GmbH
-            case "3":
-                return "1523"; // Vodafone GmbH
-            case "5":
-                return "1525"; // Vodafone GmbH
-            case "6":
-                return "1526"; // Vodafone GmbH
-            case "9":
-                return "1529"; // Vodafone GmbH (Netznutzungsvereinbarung mit Fa. TP Germany Operations GmbH ehemals Fa. Truphone GmbH)
             default:
                 return "";
         }
@@ -171,10 +179,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        if (number.charAt(0) == '1') {
-            return fromNumber1531(number.substring(1));
+        switch (number.charAt(0)) {
+            case '1':
+                return fromNumber1531(number.substring(1));
+            default:
+                return "";
         }
-        return "";
     }
 
     private static String fromNumber1531(String number) {
@@ -182,10 +192,37 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        if (number.charAt(0) == '0') {
-            return "15310"; // MTEL Deutschland GmbH
+        switch (number.charAt(0)) {
+            case '0':
+                return "15310"; // MTEL Deutschland GmbH
+            default:
+                return "";
         }
-        return "";
+    }
+
+    private static String fromNumber152(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '0':
+                return "1520"; // Vodafone GmbH
+            case '1':
+                return "1521"; // Lycamobile Europe Ltd.
+            case '2':
+                return "1522"; // Vodafone GmbH
+            case '3':
+                return "1523"; // Vodafone GmbH
+            case '5':
+                return "1525"; // Vodafone GmbH
+            case '6':
+                return "1526"; // Vodafone GmbH
+            case '9':
+                return "1529"; // Vodafone GmbH  (Netznutzungsvereinbarung mit Fa. TP Germany Operations GmbH  ehemals Fa. Truphone GmbH )
+            default:
+                return "";
+        }
     }
 
     private static String fromNumber155(String number) {
@@ -193,10 +230,10 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return fromNumber1551(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber1556(number.substring(1));
             default:
                 return "";
@@ -208,10 +245,10 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "15510"; // Lebara Limited
-            case "1":
+            case '1':
                 return "15511"; // Lebara Limited
             default:
                 return "";
@@ -223,26 +260,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "15560"; // 1&1 Mobilfunk GmbH
-            case "1":
+            case '1':
                 return "15561"; // 1&1 Mobilfunk GmbH
-            case "2":
+            case '2':
                 return "15562"; // 1&1 Mobilfunk GmbH
-            case "3":
+            case '3':
                 return "15563"; // 1&1 Mobilfunk GmbH
-            case "4":
+            case '4':
                 return "15564"; // 1&1 Mobilfunk GmbH
-            case "5":
+            case '5':
                 return "15565"; // 1&1 Mobilfunk GmbH
-            case "6":
+            case '6':
                 return "15566"; // 1&1 Mobilfunk GmbH
-            case "7":
+            case '7':
                 return "15567"; // 1&1 Mobilfunk GmbH
-            case "8":
+            case '8':
                 return "15568"; // 1&1 Mobilfunk GmbH
-            case "9":
+            case '9':
                 return "15569"; // 1&1 Mobilfunk GmbH
             default:
                 return "";
@@ -254,10 +291,10 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "3":
+        switch (number.charAt(0)) {
+            case '3':
                 return fromNumber1563(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber1567(number.substring(1));
             default:
                 return "";
@@ -269,10 +306,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        if (number.charAt(0) == '0') {
-            return "15630"; // multiConnect GmbH
+        switch (number.charAt(0)) {
+            case '0':
+                return "15630"; // multiConnect GmbH
+            default:
+                return "";
         }
-        return "";
     }
 
     private static String fromNumber1567(String number) {
@@ -280,10 +319,10 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "8":
+        switch (number.charAt(0)) {
+            case '8':
                 return "15678"; // Argon Networks UG
-            case "9":
+            case '9':
                 return "15679"; // Argon Networks UG
             default:
                 return "";
@@ -295,19 +334,17 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber1570(number.substring(1));
-            case "3":
-                return "1573"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
-            case "5":
-                return "1575"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
-            case "7":
-                return "1577"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
-            case "8":
-                return "1578"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
-            case "9":
-                return "1579"; // Telefónica Germany GmbH & Co. OHG (Netznutzungsvereinbarung mit Fa. Sipgate Wireless GmbH zuvor Fa. Vintage Wireless Networks Gesellschaft für Telekommunikation mbH), (ehem. E-Plus-Mobilfunk GmbH)
+            case '3':
+                return "1573"; // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
+            case '5':
+                return "1575"; // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
+            case '7':
+                return "1577"; // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
+            case '8':
+                return "1578"; // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
             default:
                 return "";
         }
@@ -318,20 +355,19 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "15700"; // Telefónica Germany GmbH & Co. OHG
-            case "1":
+            case '1':
                 return "15701"; // Telefónica Germany GmbH & Co. OHG
-            case "2":
+            case '2':
                 return "15702"; // Telefónica Germany GmbH & Co. OHG
-            case "3":
+            case '3':
                 return "15703"; // Telefónica Germany GmbH & Co. OHG
-            case "4":
+            case '4':
                 return "15704"; // Telefónica Germany GmbH & Co. OHG
-            case "6":
+            case '6':
                 return "15706"; // Telefónica Germany GmbH & Co. OHG
-
             default:
                 return "";
         }
@@ -342,10 +378,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        if (number.charAt(0) == '8') {
-            return fromNumber1588(number.substring(1));
+        switch (number.charAt(0)) {
+            case '8':
+                return fromNumber1588(number.substring(1));
+            default:
+                return "";
         }
-        return "";
     }
 
     private static String fromNumber1588(String number) {
@@ -353,10 +391,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        if (number.charAt(0) == '8') {
-            return "15888";  // TelcoVillage GmbH
+        switch (number.charAt(0)) {
+            case '8':
+                return "15888"; // TelcoVillage GmbH
+            default:
+                return "";
         }
-        return "";
     }
 
     private static String fromNumber159(String number) {
@@ -364,10 +404,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        if (number.charAt(0) == '0') {
-            return "1590"; // Telefónica Germany GmbH & Co. OHG
+        switch (number.charAt(0)) {
+            case '0':
+                return "1590"; // Telefónica Germany GmbH & Co. OHG
+            default:
+                return "";
         }
-        return "";
     }
 
     private static String fromNumber16(String number) {
@@ -375,13 +417,13 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "160"; // Telekom Deutschland GmbH
-            case "2":
+            case '2':
                 return "162"; // Vodafone GmbH
-            case "3":
-                return "163"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
+            case '3':
+                return "163"; // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
             default:
                 return "";
         }
@@ -392,59 +434,27 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "170"; // Telekom Deutschland GmbH
-            case "1":
+            case '1':
                 return "171"; // Telekom Deutschland GmbH
-            case "2":
+            case '2':
                 return "172"; // Vodafone GmbH
-            case "3":
+            case '3':
                 return "173"; // Vodafone GmbH
-            case "4":
+            case '4':
                 return "174"; // Vodafone GmbH
-            case "5":
+            case '5':
                 return "175"; // Telekom Deutschland GmbH
-            case "6":
+            case '6':
                 return "176"; // Telefónica Germany GmbH & Co. OHG
-            case "7":
-                return "177"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
-            case "8":
-                return "178"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
-            case "9":
+            case '7':
+                return "177"; // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
+            case '8':
+                return "178"; // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
+            case '9':
                 return "179"; // Telefónica Germany GmbH & Co. OHG
-            default:
-                return "";
-        }
-    }
-
-    /*
-        Start of generated code
-     */
-    public static String fromNumber(String number) {
-        if ((number == null) || (number.length()<1)) {
-            return "";
-        }
-
-        switch (number.substring(0, 1)) {
-            case "1":
-                return fromNumber1(number.substring(1));
-            case "2":
-                return fromNumber2(number.substring(1));
-            case "3":
-                return fromNumber3(number.substring(1));
-            case "4":
-                return fromNumber4(number.substring(1));
-            case "5":
-                return fromNumber5(number.substring(1));
-            case "6":
-                return fromNumber6(number.substring(1));
-            case "7":
-                return fromNumber7(number.substring(1));
-            case "8":
-                return fromNumber8(number.substring(1));
-            case "9":
-                return fromNumber9(number.substring(1));
             default:
                 return "";
         }
@@ -455,26 +465,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber20(number.substring(1));
-            case "1":
+            case '1':
                 return fromNumber21(number.substring(1));
-            case "2":
+            case '2':
                 return fromNumber22(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber23(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber24(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber25(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber26(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber27(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber28(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber29(number.substring(1));
             default:
                 return "";
@@ -486,22 +496,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "201"; // Essen
-            case "2":
+            case '2':
                 return "202"; // Wuppertal
-            case "3":
+            case '3':
                 return "203"; // Duisburg
-            case "4":
+            case '4':
                 return fromNumber204(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber205(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber206(number.substring(1));
-            case "8":
+            case '8':
                 return "208"; // Oberhausen Rheinl
-            case "9":
+            case '9':
                 return "209"; // Gelsenkirchen
             default:
                 return "";
@@ -513,12 +523,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2041"; // Bottrop
-            case "3":
+            case '3':
                 return "2043"; // Gladbeck
-            case "5":
+            case '5':
                 return "2045"; // Bottrop-Kirchhellen
             default:
                 return "";
@@ -530,18 +540,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2051"; // Velbert
-            case "2":
+            case '2':
                 return "2052"; // Velbert-Langenberg
-            case "3":
+            case '3':
                 return "2053"; // Velbert-Neviges
-            case "4":
+            case '4':
                 return "2054"; // Essen-Kettwig
-            case "6":
+            case '6':
                 return "2056"; // Heiligenhaus
-            case "8":
+            case '8':
                 return "2058"; // Wülfrath
             default:
                 return "";
@@ -553,12 +563,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "4":
+        switch (number.charAt(0)) {
+            case '4':
                 return "2064"; // Dinslaken
-            case "5":
+            case '5':
                 return "2065"; // Duisburg-Rheinhausen
-            case "6":
+            case '6':
                 return "2066"; // Duisburg-Homberg
             default:
                 return "";
@@ -570,30 +580,30 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber210(number.substring(1));
-            case "1":
+            case '1':
                 return "211"; // Düsseldorf
-            case "2":
+            case '2':
                 // special edge case, see: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/ONVerzeichnisse/ONBVerzeichnis/Sonderregelungen0212_0621.pdf?__blob=publicationFile&v=1
                 if ((number.length() > 1) && (number.substring(1, 2).equals("9"))) {
                     return "2129"; // Haan Rheinland
                 }
                 return "212"; // Solingen
-            case "3":
+            case '3':
                 return fromNumber213(number.substring(1));
-            case "4":
+            case '4':
                 return "214"; // Leverkusen
-            case "5":
+            case '5':
                 return fromNumber215(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber216(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber217(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber218(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber219(number.substring(1));
             default:
                 return "";
@@ -605,12 +615,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "2102"; // Ratingen
-            case "3":
+            case '3':
                 return "2103"; // Hilden
-            case "4":
+            case '4':
                 return "2104"; // Mettmann
             default:
                 return "";
@@ -622,14 +632,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2131"; // Neuss
-            case "2":
+            case '2':
                 return "2132"; // Meerbusch-Büderich
-            case "3":
+            case '3':
                 return "2133"; // Dormagen
-            case "7":
+            case '7':
                 return "2137"; // Neuss-Norf
             default:
                 return "";
@@ -641,24 +651,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "2150"; // Meerbusch-Lank
-            case "1":
+            case '1':
                 return "2151"; // Krefeld
-            case "2":
+            case '2':
                 return "2152"; // Kempen
-            case "3":
+            case '3':
                 return "2153"; // Nettetal-Lobberich
-            case "4":
+            case '4':
                 return "2154"; // Willich
-            case "6":
+            case '6':
                 return "2156"; // Willich-Anrath
-            case "7":
+            case '7':
                 return "2157"; // Nettetal-Kaldenkirchen
-            case "8":
+            case '8':
                 return "2158"; // Grefrath b Krefeld
-            case "9":
+            case '9':
                 return "2159"; // Meerbusch-Osterath
             default:
                 return "";
@@ -670,18 +680,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2161"; // Mönchengladbach
-            case "2":
+            case '2':
                 return "2162"; // Viersen
-            case "3":
+            case '3':
                 return "2163"; // Schwalmtal Niederrhein
-            case "4":
+            case '4':
                 return "2164"; // Jüchen-Otzenrath
-            case "5":
+            case '5':
                 return "2165"; // Jüchen
-            case "6":
+            case '6':
                 return "2166"; // Mönchengladbach-Rheydt
             default:
                 return "";
@@ -693,14 +703,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2171"; // Leverkusen-Opladen
-            case "3":
+            case '3':
                 return "2173"; // Langenfeld Rheinland
-            case "4":
+            case '4':
                 return "2174"; // Burscheid Rheinl
-            case "5":
+            case '5':
                 return "2175"; // Leichlingen Rheinland
             default:
                 return "";
@@ -712,12 +722,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2181"; // Grevenbroich
-            case "2":
+            case '2':
                 return "2182"; // Grevenbroich-Kapellen
-            case "3":
+            case '3':
                 return "2183"; // Rommerskirchen
             default:
                 return "";
@@ -729,16 +739,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2191"; // Remscheid
-            case "2":
+            case '2':
                 return "2192"; // Hückeswagen
-            case "3":
+            case '3':
                 return "2193"; // Dabringhausen
-            case "5":
+            case '5':
                 return "2195"; // Radevormwald
-            case "6":
+            case '6':
                 return "2196"; // Wermelskirchen
             default:
                 return "";
@@ -750,26 +760,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber220(number.substring(1));
-            case "1":
+            case '1':
                 return "221"; // Köln
-            case "2":
+            case '2':
                 return fromNumber222(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber223(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber224(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber225(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber226(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber227(number.substring(1));
-            case "8":
+            case '8':
                 return "228"; // Bonn
-            case "9":
+            case '9':
                 return fromNumber229(number.substring(1));
             default:
                 return "";
@@ -781,20 +791,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "2202"; // Bergisch Gladbach
-            case "3":
+            case '3':
                 return "2203"; // Köln-Porz
-            case "4":
+            case '4':
                 return "2204"; // Bensberg
-            case "5":
+            case '5':
                 return "2205"; // Rösrath
-            case "6":
+            case '6':
                 return "2206"; // Overath
-            case "7":
+            case '7':
                 return "2207"; // Kürten-Dürscheid
-            case "8":
+            case '8':
                 return "2208"; // Niederkassel
             default:
                 return "";
@@ -806,20 +816,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "2222"; // Bornheim Rheinl
-            case "3":
+            case '3':
                 return "2223"; // Königswinter
-            case "4":
+            case '4':
                 return "2224"; // Bad Honnef
-            case "5":
+            case '5':
                 return "2225"; // Meckenheim Rheinl
-            case "6":
+            case '6':
                 return "2226"; // Rheinbach
-            case "7":
+            case '7':
                 return "2227"; // Bornheim-Merten
-            case "8":
+            case '8':
                 return "2228"; // Remagen-Rolandseck
             default:
                 return "";
@@ -831,20 +841,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "2232"; // Brühl Rheinl
-            case "3":
+            case '3':
                 return "2233"; // Hürth Rheinl
-            case "4":
+            case '4':
                 return "2234"; // Frechen
-            case "5":
+            case '5':
                 return "2235"; // Erftstadt
-            case "6":
+            case '6':
                 return "2236"; // Wesseling Rheinl
-            case "7":
+            case '7':
                 return "2237"; // Kerpen Rheinl-Türnich
-            case "8":
+            case '8':
                 return "2238"; // Pulheim
             default:
                 return "";
@@ -856,22 +866,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2241"; // Siegburg
-            case "2":
+            case '2':
                 return "2242"; // Hennef Sieg
-            case "3":
+            case '3':
                 return "2243"; // Eitorf
-            case "4":
+            case '4':
                 return "2244"; // Königswinter-Oberpleis
-            case "5":
+            case '5':
                 return "2245"; // Much
-            case "6":
+            case '6':
                 return "2246"; // Lohmar Rheinland
-            case "7":
+            case '7':
                 return "2247"; // Neunkirchen-Seelscheid
-            case "8":
+            case '8':
                 return "2248"; // Hennef-Uckerath
             default:
                 return "";
@@ -883,20 +893,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2251"; // Euskirchen
-            case "2":
+            case '2':
                 return "2252"; // Zülpich
-            case "3":
+            case '3':
                 return "2253"; // Bad Münstereifel
-            case "4":
+            case '4':
                 return "2254"; // Weilerswist
-            case "5":
+            case '5':
                 return "2255"; // Euskirchen-Flamersheim
-            case "6":
+            case '6':
                 return "2256"; // Mechernich-Satzvey
-            case "7":
+            case '7':
                 return "2257"; // Reckerscheid
             default:
                 return "";
@@ -908,24 +918,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2261"; // Gummersbach
-            case "2":
+            case '2':
                 return "2262"; // Wiehl
-            case "3":
+            case '3':
                 return "2263"; // Engelskirchen
-            case "4":
+            case '4':
                 return "2264"; // Marienheide
-            case "5":
+            case '5':
                 return "2265"; // Reichshof-Eckenhagen
-            case "6":
+            case '6':
                 return "2266"; // Lindlar
-            case "7":
+            case '7':
                 return "2267"; // Wipperfürth
-            case "8":
+            case '8':
                 return "2268"; // Kürten
-            case "9":
+            case '9':
                 return "2269"; // Kierspe-Rönsahl
             default:
                 return "";
@@ -937,16 +947,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2271"; // Bergheim Erft
-            case "2":
+            case '2':
                 return "2272"; // Bedburg Erft
-            case "3":
+            case '3':
                 return "2273"; // Kerpen-Horrem
-            case "4":
+            case '4':
                 return "2274"; // Elsdorf Rheinl
-            case "5":
+            case '5':
                 return "2275"; // Kerpen-Buir
             default:
                 return "";
@@ -958,20 +968,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2291"; // Waldbröl
-            case "2":
+            case '2':
                 return "2292"; // Windeck Sieg
-            case "3":
+            case '3':
                 return "2293"; // Nümbrecht
-            case "4":
+            case '4':
                 return "2294"; // Morsbach Sieg
-            case "5":
+            case '5':
                 return "2295"; // Ruppichteroth
-            case "6":
+            case '6':
                 return "2296"; // Reichshof-Brüchermühle
-            case "7":
+            case '7':
                 return "2297"; // Wildbergerhütte
             default:
                 return "";
@@ -983,26 +993,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber230(number.substring(1));
-            case "1":
+            case '1':
                 return "231"; // Dortmund
-            case "2":
+            case '2':
                 return fromNumber232(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber233(number.substring(1));
-            case "4":
+            case '4':
                 return "234"; // Bochum
-            case "5":
+            case '5':
                 return fromNumber235(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber236(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber237(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber238(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber239(number.substring(1));
             default:
                 return "";
@@ -1014,24 +1024,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2301"; // Holzwickede
-            case "2":
+            case '2':
                 return "2302"; // Witten
-            case "3":
+            case '3':
                 return "2303"; // Unna
-            case "4":
+            case '4':
                 return "2304"; // Schwerte
-            case "5":
+            case '5':
                 return "2305"; // Castrop-Rauxel
-            case "6":
+            case '6':
                 return "2306"; // Lünen
-            case "7":
+            case '7':
                 return "2307"; // Kamen
-            case "8":
+            case '8':
                 return "2308"; // Unna-Hemmerde
-            case "9":
+            case '9':
                 return "2309"; // Waltrop
             default:
                 return "";
@@ -1043,14 +1053,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "3":
+        switch (number.charAt(0)) {
+            case '3':
                 return "2323"; // Herne
-            case "4":
+            case '4':
                 return "2324"; // Hattingen Ruhr
-            case "5":
+            case '5':
                 return "2325"; // Wanne-Eickel
-            case "7":
+            case '7':
                 return "2327"; // Bochum-Wattenscheid
             default:
                 return "";
@@ -1062,26 +1072,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "2330"; // Herdecke
-            case "1":
+            case '1':
                 return "2331"; // Hagen Westf
-            case "2":
+            case '2':
                 return "2332"; // Gevelsberg
-            case "3":
+            case '3':
                 return "2333"; // Ennepetal
-            case "4":
+            case '4':
                 return "2334"; // Hagen-Hohenlimburg
-            case "5":
+            case '5':
                 return "2335"; // Wetter Ruhr
-            case "6":
+            case '6':
                 return "2336"; // Schwelm
-            case "7":
+            case '7':
                 return "2337"; // Hagen-Dahl
-            case "8":
+            case '8':
                 return "2338"; // Breckerfeld
-            case "9":
+            case '9':
                 return "2339"; // Sprockhövel-Haßlinghausen
             default:
                 return "";
@@ -1093,22 +1103,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2351"; // Lüdenscheid
-            case "2":
+            case '2':
                 return "2352"; // Altena Westf
-            case "3":
+            case '3':
                 return "2353"; // Halver
-            case "4":
+            case '4':
                 return "2354"; // Meinerzhagen
-            case "5":
+            case '5':
                 return "2355"; // Schalksmühle
-            case "7":
+            case '7':
                 return "2357"; // Herscheid Westf
-            case "8":
+            case '8':
                 return "2358"; // Meinerzhagen-Valbert
-            case "9":
+            case '9':
                 return "2359"; // Kierspe
             default:
                 return "";
@@ -1120,26 +1130,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "2360"; // Haltern-Lippramsdorf
-            case "1":
+            case '1':
                 return "2361"; // Recklinghausen
-            case "2":
+            case '2':
                 return "2362"; // Dorsten
-            case "3":
+            case '3':
                 return "2363"; // Datteln
-            case "4":
+            case '4':
                 return "2364"; // Haltern Westf
-            case "5":
+            case '5':
                 return "2365"; // Marl
-            case "6":
+            case '6':
                 return "2366"; // Herten Westf
-            case "7":
+            case '7':
                 return "2367"; // Henrichenburg
-            case "8":
+            case '8':
                 return "2368"; // Oer-Erkenschwick
-            case "9":
+            case '9':
                 return "2369"; // Dorsten-Wulfen
             default:
                 return "";
@@ -1151,22 +1161,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2371"; // Iserlohn
-            case "2":
+            case '2':
                 return "2372"; // Hemer
-            case "3":
+            case '3':
                 return "2373"; // Menden Sauerland
-            case "4":
+            case '4':
                 return "2374"; // Iserlohn-Letmathe
-            case "5":
+            case '5':
                 return "2375"; // Balve
-            case "7":
+            case '7':
                 return "2377"; // Wickede Ruhr
-            case "8":
+            case '8':
                 return "2378"; // Fröndenberg-Langschede
-            case "9":
+            case '9':
                 return "2379"; // Menden-Asbeck
             default:
                 return "";
@@ -1178,22 +1188,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2381"; // Hamm Westf
-            case "2":
+            case '2':
                 return "2382"; // Ahlen Westf
-            case "3":
+            case '3':
                 return "2383"; // Bönen
-            case "4":
+            case '4':
                 return "2384"; // Welver
-            case "5":
+            case '5':
                 return "2385"; // Hamm-Rhynern
-            case "7":
+            case '7':
                 return "2387"; // Drensteinfurt-Walstedde
-            case "8":
+            case '8':
                 return "2388"; // Hamm-Uentrop
-            case "9":
+            case '9':
                 return "2389"; // Werne
             default:
                 return "";
@@ -1205,16 +1215,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2391"; // Plettenberg
-            case "2":
+            case '2':
                 return "2392"; // Werdohl
-            case "3":
+            case '3':
                 return "2393"; // Sundern-Allendorf
-            case "4":
+            case '4':
                 return "2394"; // Neuenrade-Affeln
-            case "5":
+            case '5':
                 return "2395"; // Finnentrop-Rönkhausen
             default:
                 return "";
@@ -1226,24 +1236,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber240(number.substring(1));
-            case "1":
+            case '1':
                 return "241"; // Aachen
-            case "2":
+            case '2':
                 return fromNumber242(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber243(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber244(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber245(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber246(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber247(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber248(number.substring(1));
             default:
                 return "";
@@ -1255,24 +1265,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2401"; // Baesweiler
-            case "2":
+            case '2':
                 return "2402"; // Stolberg Rheinl
-            case "3":
+            case '3':
                 return "2403"; // Eschweiler Rheinl
-            case "4":
+            case '4':
                 return "2404"; // Alsdorf Rheinl
-            case "5":
+            case '5':
                 return "2405"; // Würselen
-            case "6":
+            case '6':
                 return "2406"; // Herzogenrath
-            case "7":
+            case '7':
                 return "2407"; // Herzogenrath-Kohlscheid
-            case "8":
+            case '8':
                 return "2408"; // Aachen-Kornelimünster
-            case "9":
+            case '9':
                 return "2409"; // Stolberg-Gressenich
             default:
                 return "";
@@ -1284,24 +1294,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2421"; // Düren
-            case "2":
+            case '2':
                 return "2422"; // Kreuzau
-            case "3":
+            case '3':
                 return "2423"; // Langerwehe
-            case "4":
+            case '4':
                 return "2424"; // Vettweiss
-            case "5":
+            case '5':
                 return "2425"; // Nideggen-Embken
-            case "6":
+            case '6':
                 return "2426"; // Nörvenich
-            case "7":
+            case '7':
                 return "2427"; // Nideggen
-            case "8":
+            case '8':
                 return "2428"; // Niederzier
-            case "9":
+            case '9':
                 return "2429"; // Hürtgenwald
             default:
                 return "";
@@ -1313,18 +1323,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2431"; // Erkelenz
-            case "2":
+            case '2':
                 return "2432"; // Wassenberg
-            case "3":
+            case '3':
                 return "2433"; // Hückelhoven
-            case "4":
+            case '4':
                 return "2434"; // Wegberg
-            case "5":
+            case '5':
                 return "2435"; // Erkelenz-Lövenich
-            case "6":
+            case '6':
                 return "2436"; // Wegberg-Rödgen
             default:
                 return "";
@@ -1336,24 +1346,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "2440"; // Nettersheim-Tondorf
-            case "1":
+            case '1':
                 return "2441"; // Kall
-            case "3":
+            case '3':
                 return "2443"; // Mechernich
-            case "4":
+            case '4':
                 return "2444"; // Schleiden-Gemünd
-            case "5":
+            case '5':
                 return "2445"; // Schleiden Eifel
-            case "6":
+            case '6':
                 return "2446"; // Heimbach Eifel
-            case "7":
+            case '7':
                 return "2447"; // Dahlem b Kall
-            case "8":
+            case '8':
                 return "2448"; // Hellenthal-Rescheid
-            case "9":
+            case '9':
                 return "2449"; // Blankenheim Ahr
             default:
                 return "";
@@ -1365,18 +1375,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2451"; // Geilenkirchen
-            case "2":
+            case '2':
                 return "2452"; // Heinsberg Rheinl
-            case "3":
+            case '3':
                 return "2453"; // Heinsberg-Randerath
-            case "4":
+            case '4':
                 return "2454"; // Gangelt
-            case "5":
+            case '5':
                 return "2455"; // Waldfeucht
-            case "6":
+            case '6':
                 return "2456"; // Selfkant
             default:
                 return "";
@@ -1388,16 +1398,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2461"; // Jülich
-            case "2":
+            case '2':
                 return "2462"; // Linnich
-            case "3":
+            case '3':
                 return "2463"; // Titz
-            case "4":
+            case '4':
                 return "2464"; // Aldenhoven b Jülich
-            case "5":
+            case '5':
                 return "2465"; // Inden
             default:
                 return "";
@@ -1409,14 +1419,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2471"; // Roetgen Eifel
-            case "2":
+            case '2':
                 return "2472"; // Monschau
-            case "3":
+            case '3':
                 return "2473"; // Simmerath
-            case "4":
+            case '4':
                 return "2474"; // Nideggen-Schmidt
             default:
                 return "";
@@ -1428,14 +1438,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "2482"; // Hellenthal
-            case "4":
+            case '4':
                 return "2484"; // Mechernich-Eiserfey
-            case "5":
+            case '5':
                 return "2485"; // Schleiden-Dreiborn
-            case "6":
+            case '6':
                 return "2486"; // Nettersheim
             default:
                 return "";
@@ -1447,26 +1457,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber250(number.substring(1));
-            case "1":
+            case '1':
                 return "251"; // Münster
-            case "2":
+            case '2':
                 return fromNumber252(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber253(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber254(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber255(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber256(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber257(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber258(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber259(number.substring(1));
             default:
                 return "";
@@ -1478,22 +1488,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2501"; // Münster-Hiltrup
-            case "2":
+            case '2':
                 return "2502"; // Nottuln
-            case "4":
+            case '4':
                 return "2504"; // Telgte
-            case "5":
+            case '5':
                 return "2505"; // Altenberge Westf
-            case "6":
+            case '6':
                 return "2506"; // Münster-Wolbeck
-            case "7":
+            case '7':
                 return "2507"; // Havixbeck
-            case "8":
+            case '8':
                 return "2508"; // Drensteinfurt
-            case "9":
+            case '9':
                 return "2509"; // Nottuln-Appelhülsen
             default:
                 return "";
@@ -1505,26 +1515,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "2520"; // Wadersloh-Diestedde
-            case "1":
+            case '1':
                 return "2521"; // Beckum
-            case "2":
+            case '2':
                 return "2522"; // Oelde
-            case "3":
+            case '3':
                 return "2523"; // Wadersloh
-            case "4":
+            case '4':
                 return "2524"; // Ennigerloh
-            case "5":
+            case '5':
                 return "2525"; // Beckum-Neubeckum
-            case "6":
+            case '6':
                 return "2526"; // Sendenhorst
-            case "7":
+            case '7':
                 return "2527"; // Lippetal-Lippborg
-            case "8":
+            case '8':
                 return "2528"; // Ennigerloh-Enniger
-            case "9":
+            case '9':
                 return "2529"; // Oelde-Stromberg
             default:
                 return "";
@@ -1536,18 +1546,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "2532"; // Ostbevern
-            case "3":
+            case '3':
                 return "2533"; // Münster-Nienberge
-            case "4":
+            case '4':
                 return "2534"; // Münster-Roxel
-            case "5":
+            case '5':
                 return "2535"; // Sendenhorst-Albersloh
-            case "6":
+            case '6':
                 return "2536"; // Münster-Albachten
-            case "8":
+            case '8':
                 return "2538"; // Drensteinfurt-Rinkerode
             default:
                 return "";
@@ -1559,20 +1569,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2541"; // Coesfeld
-            case "2":
+            case '2':
                 return "2542"; // Gescher
-            case "3":
+            case '3':
                 return "2543"; // Billerbeck Westf
-            case "5":
+            case '5':
                 return "2545"; // Rosendahl-Darfeld
-            case "6":
+            case '6':
                 return "2546"; // Coesfeld-Lette
-            case "7":
+            case '7':
                 return "2547"; // Rosendahl-Osterwick
-            case "8":
+            case '8':
                 return "2548"; // Dülmen-Rorup
             default:
                 return "";
@@ -1584,22 +1594,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2551"; // Steinfurt-Burgsteinfurt
-            case "2":
+            case '2':
                 return "2552"; // Steinfurt-Borghorst
-            case "3":
+            case '3':
                 return "2553"; // Ochtrup
-            case "4":
+            case '4':
                 return "2554"; // Laer Kr Steinfurt
-            case "5":
+            case '5':
                 return "2555"; // Schöppingen
-            case "6":
+            case '6':
                 return "2556"; // Metelen
-            case "7":
+            case '7':
                 return "2557"; // Wettringen Kr Steinfurt
-            case "8":
+            case '8':
                 return "2558"; // Horstmar
             default:
                 return "";
@@ -1611,22 +1621,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2561"; // Ahaus
-            case "2":
+            case '2':
                 return "2562"; // Gronau Westfalen
-            case "3":
+            case '3':
                 return "2563"; // Stadtlohn
-            case "4":
+            case '4':
                 return "2564"; // Vreden
-            case "5":
+            case '5':
                 return "2565"; // Gronau-Epe
-            case "6":
+            case '6':
                 return "2566"; // Legden
-            case "7":
+            case '7':
                 return "2567"; // Ahaus-Alstätte
-            case "8":
+            case '8':
                 return "2568"; // Heek
             default:
                 return "";
@@ -1638,16 +1648,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2571"; // Greven Westf
-            case "2":
+            case '2':
                 return "2572"; // Emsdetten
-            case "3":
+            case '3':
                 return "2573"; // Nordwalde
-            case "4":
+            case '4':
                 return "2574"; // Saerbeck
-            case "5":
+            case '5':
                 return "2575"; // Greven-Reckenfeld
             default:
                 return "";
@@ -1659,22 +1669,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2581"; // Warendorf
-            case "2":
+            case '2':
                 return "2582"; // Everswinkel
-            case "3":
+            case '3':
                 return "2583"; // Sassenberg
-            case "4":
+            case '4':
                 return "2584"; // Warendorf-Milte
-            case "5":
+            case '5':
                 return "2585"; // Warendorf-Hoetmar
-            case "6":
+            case '6':
                 return "2586"; // Beelen
-            case "7":
+            case '7':
                 return "2587"; // Ennigerloh-Westkirchen
-            case "8":
+            case '8':
                 return "2588"; // Harsewinkel-Greffen
             default:
                 return "";
@@ -1686,26 +1696,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "2590"; // Dülmen-Buldern
-            case "1":
+            case '1':
                 return "2591"; // Lüdinghausen
-            case "2":
+            case '2':
                 return "2592"; // Selm
-            case "3":
+            case '3':
                 return "2593"; // Ascheberg Westf
-            case "4":
+            case '4':
                 return "2594"; // Dülmen
-            case "5":
+            case '5':
                 return "2595"; // Olfen
-            case "6":
+            case '6':
                 return "2596"; // Nordkirchen
-            case "7":
+            case '7':
                 return "2597"; // Senden Westf
-            case "8":
+            case '8':
                 return "2598"; // Senden-Ottmarsbocholt
-            case "9":
+            case '9':
                 return "2599"; // Ascheberg-Herbern
             default:
                 return "";
@@ -1717,26 +1727,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber260(number.substring(1));
-            case "1":
+            case '1':
                 return "261"; // Koblenz a Rhein
-            case "2":
+            case '2':
                 return fromNumber262(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber263(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber264(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber265(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber266(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber267(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber268(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber269(number.substring(1));
             default:
                 return "";
@@ -1748,22 +1758,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2601"; // Nauort
-            case "2":
+            case '2':
                 return "2602"; // Montabaur
-            case "3":
+            case '3':
                 return "2603"; // Bad Ems
-            case "4":
+            case '4':
                 return "2604"; // Nassau Lahn
-            case "5":
+            case '5':
                 return "2605"; // Löf
-            case "6":
+            case '6':
                 return "2606"; // Winningen Mosel
-            case "7":
+            case '7':
                 return "2607"; // Kobern-Gondorf
-            case "8":
+            case '8':
                 return "2608"; // Welschneudorf
             default:
                 return "";
@@ -1775,24 +1785,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "2620"; // Neuhäusel Westerw
-            case "1":
+            case '1':
                 return "2621"; // Lahnstein
-            case "2":
+            case '2':
                 return "2622"; // Bendorf Rhein
-            case "3":
+            case '3':
                 return "2623"; // Ransbach-Baumbach
-            case "4":
+            case '4':
                 return "2624"; // Höhr-Grenzhausen
-            case "5":
+            case '5':
                 return "2625"; // Ochtendung
-            case "6":
+            case '6':
                 return "2626"; // Selters Westferwald
-            case "7":
+            case '7':
                 return "2627"; // Braubach
-            case "8":
+            case '8':
                 return "2628"; // Rhens
             default:
                 return "";
@@ -1804,26 +1814,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "2630"; // Mülheim-Kärlich
-            case "1":
+            case '1':
                 return "2631"; // Neuwied
-            case "2":
+            case '2':
                 return "2632"; // Andernach
-            case "3":
+            case '3':
                 return "2633"; // Brohl-Lützing
-            case "4":
+            case '4':
                 return "2634"; // Rengsdorf
-            case "5":
+            case '5':
                 return "2635"; // Rheinbrohl
-            case "6":
+            case '6':
                 return "2636"; // Burgbrohl
-            case "7":
+            case '7':
                 return "2637"; // Weissenthurm
-            case "8":
+            case '8':
                 return "2638"; // Waldbreitbach
-            case "9":
+            case '9':
                 return "2639"; // Anhausen Kr Neuwied
             default:
                 return "";
@@ -1835,20 +1845,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2641"; // Bad Neuenahr-Ahrweiler
-            case "2":
+            case '2':
                 return "2642"; // Remagen
-            case "3":
+            case '3':
                 return "2643"; // Altenahr
-            case "4":
+            case '4':
                 return "2644"; // Linz am Rhein
-            case "5":
+            case '5':
                 return "2645"; // Vettelschoss
-            case "6":
+            case '6':
                 return "2646"; // Königsfeld Eifel
-            case "7":
+            case '7':
                 return "2647"; // Kesseling
             default:
                 return "";
@@ -1860,20 +1870,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2651"; // Mayen
-            case "2":
+            case '2':
                 return "2652"; // Mendig
-            case "3":
+            case '3':
                 return "2653"; // Kaisersesch
-            case "4":
+            case '4':
                 return "2654"; // Polch
-            case "5":
+            case '5':
                 return "2655"; // Weibern
-            case "6":
+            case '6':
                 return "2656"; // Virneburg
-            case "7":
+            case '7':
                 return "2657"; // Uersfeld
             default:
                 return "";
@@ -1885,18 +1895,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2661"; // Bad Marienberg Westerwald
-            case "2":
+            case '2':
                 return "2662"; // Hachenburg
-            case "3":
+            case '3':
                 return "2663"; // Westerburg Westerw
-            case "4":
+            case '4':
                 return "2664"; // Rennerod
-            case "6":
+            case '6':
                 return "2666"; // Freilingen Westerw
-            case "7":
+            case '7':
                 return "2667"; // Stein-Neukirch
             default:
                 return "";
@@ -1908,22 +1918,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2671"; // Cochem
-            case "2":
+            case '2':
                 return "2672"; // Treis-Karden
-            case "3":
+            case '3':
                 return "2673"; // Ellenz-Poltersdorf
-            case "4":
+            case '4':
                 return "2674"; // Bad Bertrich
-            case "5":
+            case '5':
                 return "2675"; // Ediger-Eller
-            case "6":
+            case '6':
                 return "2676"; // Ulmen
-            case "7":
+            case '7':
                 return "2677"; // Lutzerath
-            case "8":
+            case '8':
                 return "2678"; // Büchel b Cochem
             default:
                 return "";
@@ -1935,26 +1945,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "2680"; // Mündersbach
-            case "1":
+            case '1':
                 return "2681"; // Altenkirchen Westerwald
-            case "2":
+            case '2':
                 return "2682"; // Hamm Sieg
-            case "3":
+            case '3':
                 return "2683"; // Asbach Westerw
-            case "4":
+            case '4':
                 return "2684"; // Puderbach Westerw
-            case "5":
+            case '5':
                 return "2685"; // Flammersfeld
-            case "6":
+            case '6':
                 return "2686"; // Weyerbusch
-            case "7":
+            case '7':
                 return "2687"; // Horhausen Westerwald
-            case "8":
+            case '8':
                 return "2688"; // Kroppach
-            case "9":
+            case '9':
                 return "2689"; // Dierdorf
             default:
                 return "";
@@ -1966,20 +1976,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2691"; // Adenau
-            case "2":
+            case '2':
                 return "2692"; // Kelberg
-            case "3":
+            case '3':
                 return "2693"; // Antweiler
-            case "4":
+            case '4':
                 return "2694"; // Wershofen
-            case "5":
+            case '5':
                 return "2695"; // Insul
-            case "6":
+            case '6':
                 return "2696"; // Nohn Eifel
-            case "7":
+            case '7':
                 return "2697"; // Blankenheim-Ahrhütte
             default:
                 return "";
@@ -1991,20 +2001,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "271"; // Siegen
-            case "2":
+            case '2':
                 return fromNumber272(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber273(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber274(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber275(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber276(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber277(number.substring(1));
             default:
                 return "";
@@ -2016,16 +2026,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2721"; // Lennestadt
-            case "2":
+            case '2':
                 return "2722"; // Attendorn
-            case "3":
+            case '3':
                 return "2723"; // Kirchhundem
-            case "4":
+            case '4':
                 return "2724"; // Finnentrop-Serkenrode
-            case "5":
+            case '5':
                 return "2725"; // Lennestadt-Oedingen
             default:
                 return "";
@@ -2037,22 +2047,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "2732"; // Kreuztal
-            case "3":
+            case '3':
                 return "2733"; // Hilchenbach
-            case "4":
+            case '4':
                 return "2734"; // Freudenberg Westf
-            case "5":
+            case '5':
                 return "2735"; // Neunkirchen Siegerl
-            case "6":
+            case '6':
                 return "2736"; // Burbach Siegerl
-            case "7":
+            case '7':
                 return "2737"; // Netphen-Deuz
-            case "8":
+            case '8':
                 return "2738"; // Netphen
-            case "9":
+            case '9':
                 return "2739"; // Wilnsdorf
             default:
                 return "";
@@ -2064,18 +2074,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2741"; // Betzdorf
-            case "2":
+            case '2':
                 return "2742"; // Wissen
-            case "3":
+            case '3':
                 return "2743"; // Daaden
-            case "4":
+            case '4':
                 return "2744"; // Herdorf
-            case "5":
+            case '5':
                 return "2745"; // Brachbach Sieg
-            case "7":
+            case '7':
                 return "2747"; // Molzhain
             default:
                 return "";
@@ -2087,22 +2097,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "2750"; // Diedenshausen
-            case "1":
+            case '1':
                 return "2751"; // Bad Berleburg
-            case "2":
+            case '2':
                 return "2752"; // Bad Laasphe
-            case "3":
+            case '3':
                 return "2753"; // Erndtebrück
-            case "4":
+            case '4':
                 return "2754"; // Bad Laasphe-Feudingen
-            case "5":
+            case '5':
                 return "2755"; // Bad Berleburg-Schwarzenau
-            case "8":
+            case '8':
                 return "2758"; // Bad Berleburg-Girkhausen
-            case "9":
+            case '9':
                 return "2759"; // Bad Berleburg-Aue
             default:
                 return "";
@@ -2114,14 +2124,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2761"; // Olpe Biggesee
-            case "2":
+            case '2':
                 return "2762"; // Wenden Südsauerland
-            case "3":
+            case '3':
                 return "2763"; // Drolshagen-Bleche
-            case "4":
+            case '4':
                 return "2764"; // Welschen Ennest
             default:
                 return "";
@@ -2133,26 +2143,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "2770"; // Eschenburg
-            case "1":
+            case '1':
                 return "2771"; // Dillenburg
-            case "2":
+            case '2':
                 return "2772"; // Herborn Hess
-            case "3":
+            case '3':
                 return "2773"; // Haiger
-            case "4":
+            case '4':
                 return "2774"; // Dietzhölztal
-            case "5":
+            case '5':
                 return "2775"; // Driedorf
-            case "6":
+            case '6':
                 return "2776"; // Bad Endbach-Hartenrod
-            case "7":
+            case '7':
                 return "2777"; // Breitscheid Hess
-            case "8":
+            case '8':
                 return "2778"; // Siegbach
-            case "9":
+            case '9':
                 return "2779"; // Greifenstein-Beilstein
             default:
                 return "";
@@ -2164,22 +2174,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber280(number.substring(1));
-            case "1":
+            case '1':
                 return "281"; // Wesel
-            case "2":
+            case '2':
                 return fromNumber282(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber283(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber284(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber285(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber286(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber287(number.substring(1));
             default:
                 return "";
@@ -2191,14 +2201,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2801"; // Xanten
-            case "2":
+            case '2':
                 return "2802"; // Alpen
-            case "3":
+            case '3':
                 return "2803"; // Wesel-Büderich
-            case "4":
+            case '4':
                 return "2804"; // Xanten-Marienbaum
             default:
                 return "";
@@ -2210,22 +2220,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2821"; // Kleve Niederrhein
-            case "2":
+            case '2':
                 return "2822"; // Emmerich
-            case "3":
+            case '3':
                 return "2823"; // Goch
-            case "4":
+            case '4':
                 return "2824"; // Kalkar
-            case "5":
+            case '5':
                 return "2825"; // Uedem
-            case "6":
+            case '6':
                 return "2826"; // Kranenburg Niederrhein
-            case "7":
+            case '7':
                 return "2827"; // Goch-Hassum
-            case "8":
+            case '8':
                 return "2828"; // Emmerich-Elten
             default:
                 return "";
@@ -2237,24 +2247,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2831"; // Geldern
-            case "2":
+            case '2':
                 return "2832"; // Kevelaer
-            case "3":
+            case '3':
                 return "2833"; // Kerken
-            case "4":
+            case '4':
                 return "2834"; // Straelen
-            case "5":
+            case '5':
                 return "2835"; // Issum
-            case "6":
+            case '6':
                 return "2836"; // Wachtendonk
-            case "7":
+            case '7':
                 return "2837"; // Weeze
-            case "8":
+            case '8':
                 return "2838"; // Sonsbeck
-            case "9":
+            case '9':
                 return "2839"; // Straelen-Herongen
             default:
                 return "";
@@ -2266,16 +2276,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2841"; // Moers
-            case "2":
+            case '2':
                 return "2842"; // Kamp-Lintfort
-            case "3":
+            case '3':
                 return "2843"; // Rheinberg
-            case "4":
+            case '4':
                 return "2844"; // Rheinberg-Orsoy
-            case "5":
+            case '5':
                 return "2845"; // Neukirchen-Vluyn
             default:
                 return "";
@@ -2287,24 +2297,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "2850"; // Rees-Haldern
-            case "1":
+            case '1':
                 return "2851"; // Rees
-            case "2":
+            case '2':
                 return "2852"; // Hamminkeln
-            case "3":
+            case '3':
                 return "2853"; // Schermbeck
-            case "5":
+            case '5':
                 return "2855"; // Voerde Niederrhein
-            case "6":
+            case '6':
                 return "2856"; // Hamminkeln-Brünen
-            case "7":
+            case '7':
                 return "2857"; // Rees-Mehr
-            case "8":
+            case '8':
                 return "2858"; // Hünxe
-            case "9":
+            case '9':
                 return "2859"; // Wesel-Bislich
             default:
                 return "";
@@ -2316,20 +2326,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2861"; // Borken Westf
-            case "2":
+            case '2':
                 return "2862"; // Südlohn
-            case "3":
+            case '3':
                 return "2863"; // Velen
-            case "4":
+            case '4':
                 return "2864"; // Reken
-            case "5":
+            case '5':
                 return "2865"; // Raesfeld
-            case "6":
+            case '6':
                 return "2866"; // Dorsten-Rhade
-            case "7":
+            case '7':
                 return "2867"; // Heiden Kr Borken
             default:
                 return "";
@@ -2341,14 +2351,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2871"; // Bocholt
-            case "2":
+            case '2':
                 return "2872"; // Rhede Westf
-            case "3":
+            case '3':
                 return "2873"; // Isselburg-Werth
-            case "4":
+            case '4':
                 return "2874"; // Isselburg
             default:
                 return "";
@@ -2360,26 +2370,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber290(number.substring(1));
-            case "1":
+            case '1':
                 return "291"; // Meschede
-            case "2":
+            case '2':
                 return fromNumber292(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber293(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber294(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber295(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber296(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber297(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber298(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber299(number.substring(1));
             default:
                 return "";
@@ -2391,14 +2401,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "2902"; // Warstein
-            case "3":
+            case '3':
                 return "2903"; // Meschede-Freienohl
-            case "4":
+            case '4':
                 return "2904"; // Bestwig
-            case "5":
+            case '5':
                 return "2905"; // Bestwig-Ramsbeck
             default:
                 return "";
@@ -2410,20 +2420,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2921"; // Soest
-            case "2":
+            case '2':
                 return "2922"; // Werl
-            case "3":
+            case '3':
                 return "2923"; // Lippetal-Herzfeld
-            case "4":
+            case '4':
                 return "2924"; // Möhnesee
-            case "5":
+            case '5':
                 return "2925"; // Warstein-Allagen
-            case "7":
+            case '7':
                 return "2927"; // Neuengeseke
-            case "8":
+            case '8':
                 return "2928"; // Soest-Ostönnen
             default:
                 return "";
@@ -2435,20 +2445,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2931"; // Arnsberg
-            case "2":
+            case '2':
                 return "2932"; // Neheim-Hüsten
-            case "3":
+            case '3':
                 return "2933"; // Sundern Sauerland
-            case "4":
+            case '4':
                 return "2934"; // Sundern-Altenhellefeld
-            case "5":
+            case '5':
                 return "2935"; // Sundern-Hachen
-            case "7":
+            case '7':
                 return "2937"; // Arnsberg-Oeventrop
-            case "8":
+            case '8':
                 return "2938"; // Ense
             default:
                 return "";
@@ -2460,20 +2470,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2941"; // Lippstadt
-            case "2":
+            case '2':
                 return "2942"; // Geseke
-            case "3":
+            case '3':
                 return "2943"; // Erwitte
-            case "4":
+            case '4':
                 return "2944"; // Rietberg-Mastholte
-            case "5":
+            case '5':
                 return "2945"; // Lippstadt-Benninghausen
-            case "7":
+            case '7':
                 return "2947"; // Anröchte
-            case "8":
+            case '8':
                 return "2948"; // Lippstadt-Rebbeke
             default:
                 return "";
@@ -2485,20 +2495,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2951"; // Büren
-            case "2":
+            case '2':
                 return "2952"; // Rüthen
-            case "3":
+            case '3':
                 return "2953"; // Wünnenberg
-            case "4":
+            case '4':
                 return "2954"; // Rüthen-Oestereiden
-            case "5":
+            case '5':
                 return "2955"; // Büren-Wewelsburg
-            case "7":
+            case '7':
                 return "2957"; // Wünnenberg-Haaren
-            case "8":
+            case '8':
                 return "2958"; // Büren-Harth
             default:
                 return "";
@@ -2510,14 +2520,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2961"; // Brilon
-            case "2":
+            case '2':
                 return "2962"; // Olsberg
-            case "3":
+            case '3':
                 return "2963"; // Brilon-Messinghausen
-            case "4":
+            case '4':
                 return "2964"; // Brilon-Alme
             default:
                 return "";
@@ -2529,18 +2539,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2971"; // Schmallenberg-Dorlar
-            case "2":
+            case '2':
                 return "2972"; // Schmallenberg
-            case "3":
+            case '3':
                 return "2973"; // Eslohe Sauerland
-            case "4":
+            case '4':
                 return "2974"; // Schmallenberg-Fredeburg
-            case "5":
+            case '5':
                 return "2975"; // Schmallenberg-Oberkirchen
-            case "7":
+            case '7':
                 return "2977"; // Schmallenberg-Bödefeld
             default:
                 return "";
@@ -2552,16 +2562,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2981"; // Winterberg Westf
-            case "2":
+            case '2':
                 return "2982"; // Medebach
-            case "3":
+            case '3':
                 return "2983"; // Winterberg-Siedlinghausen
-            case "4":
+            case '4':
                 return "2984"; // Hallenberg
-            case "5":
+            case '5':
                 return "2985"; // Winterberg-Niedersfeld
             default:
                 return "";
@@ -2573,14 +2583,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "2991"; // Marsberg-Bredelar
-            case "2":
+            case '2':
                 return "2992"; // Marsberg
-            case "3":
+            case '3':
                 return "2993"; // Marsberg-Canstein
-            case "4":
+            case '4':
                 return "2994"; // Marsberg-Westheim
             default:
                 return "";
@@ -2592,22 +2602,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "30"; // Berlin
-            case "3":
+            case '3':
                 return fromNumber33(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber34(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber35(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber36(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber37(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber38(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber39(number.substring(1));
             default:
                 return "";
@@ -2619,26 +2629,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber330(number.substring(1));
-            case "1":
+            case '1':
                 return "331"; // Potsdam
-            case "2":
+            case '2':
                 return fromNumber332(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber333(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber334(number.substring(1));
-            case "5":
+            case '5':
                 return "335"; // Frankfurt (Oder)
-            case "6":
+            case '6':
                 return fromNumber336(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber337(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber338(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber339(number.substring(1));
             default:
                 return "";
@@ -2650,24 +2660,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3301"; // Oranienburg
-            case "2":
+            case '2':
                 return "3302"; // Hennigsdorf
-            case "3":
+            case '3':
                 return "3303"; // Birkenwerder
-            case "4":
+            case '4':
                 return "3304"; // Velten
-            case "5":
+            case '5':
                 return fromNumber3305(number.substring(1));
-            case "6":
+            case '6':
                 return "3306"; // Gransee
-            case "7":
+            case '7':
                 return "3307"; // Zehdenick
-            case "8":
+            case '8':
                 return fromNumber3308(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber3309(number.substring(1));
             default:
                 return "";
@@ -2679,18 +2689,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "33051"; // Nassenheide
-            case "2":
+            case '2':
                 return "33052"; // Leegebruch
-            case "3":
+            case '3':
                 return "33053"; // Zehlendorf Kr Oberhavel
-            case "4":
+            case '4':
                 return "33054"; // Liebenwalde
-            case "5":
+            case '5':
                 return "33055"; // Kremmen
-            case "6":
+            case '6':
                 return "33056"; // Mühlenbeck Kr Oberhavel
             default:
                 return "";
@@ -2702,24 +2712,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "33080"; // Marienthal Kr Oberhavel
-            case "2":
+            case '2':
                 return "33082"; // Menz Kr Oberhavel
-            case "3":
+            case '3':
                 return "33083"; // Schulzendorf Kr Oberhavel
-            case "4":
+            case '4':
                 return "33084"; // Gutengermendorf
-            case "5":
+            case '5':
                 return "33085"; // Seilershof
-            case "6":
+            case '6':
                 return "33086"; // Grieben Kr Oberhavel
-            case "7":
+            case '7':
                 return "33087"; // Bredereiche
-            case "8":
+            case '8':
                 return "33088"; // Falkenthal
-            case "9":
+            case '9':
                 return "33089"; // Himmelpfort
             default:
                 return "";
@@ -2731,10 +2741,10 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "3":
+        switch (number.charAt(0)) {
+            case '3':
                 return "33093"; // Fürstenberg Havel
-            case "4":
+            case '4':
                 return "33094"; // Löwenberg
             default:
                 return "";
@@ -2746,20 +2756,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3320(number.substring(1));
-            case "1":
+            case '1':
                 return "3321"; // Nauen Brandenb
-            case "2":
+            case '2':
                 return "3322"; // Falkensee
-            case "3":
+            case '3':
                 return fromNumber3323(number.substring(1));
-            case "7":
+            case '7':
                 return "3327"; // Werder Havel
-            case "8":
+            case '8':
                 return "3328"; // Teltow
-            case "9":
+            case '9':
                 return "3329"; // Stahnsdorf
             default:
                 return "";
@@ -2771,26 +2781,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "33200"; // Bergholz-Rehbrücke
-            case "1":
+            case '1':
                 return "33201"; // Gross Glienicke
-            case "2":
+            case '2':
                 return "33202"; // Töplitz
-            case "3":
+            case '3':
                 return "33203"; // Kleinmachnow
-            case "4":
+            case '4':
                 return "33204"; // Beelitz Mark
-            case "5":
+            case '5':
                 return "33205"; // Michendorf
-            case "6":
+            case '6':
                 return "33206"; // Fichtenwalde
-            case "7":
+            case '7':
                 return "33207"; // Gross Kreutz
-            case "8":
+            case '8':
                 return "33208"; // Fahrland
-            case "9":
+            case '9':
                 return "33209"; // Caputh
             default:
                 return "";
@@ -2802,24 +2812,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "33230"; // Börnicke Kr Havelland
-            case "1":
+            case '1':
                 return "33231"; // Pausin
-            case "2":
+            case '2':
                 return "33232"; // Brieselang
-            case "3":
+            case '3':
                 return "33233"; // Ketzin
-            case "4":
+            case '4':
                 return "33234"; // Wustermark
-            case "5":
+            case '5':
                 return "33235"; // Friesack
-            case "7":
+            case '7':
                 return "33237"; // Paulinenaue
-            case "8":
+            case '8':
                 return "33238"; // Senzke
-            case "9":
+            case '9':
                 return "33239"; // Gross Behnitz
             default:
                 return "";
@@ -2831,24 +2841,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3331"; // Angermünde
-            case "2":
+            case '2':
                 return "3332"; // Schwedt/Oder
-            case "3":
+            case '3':
                 return fromNumber3333(number.substring(1));
-            case "4":
+            case '4':
                 return "3334"; // Eberswalde
-            case "5":
+            case '5':
                 return "3335"; // Finowfurt
-            case "6":
+            case '6':
                 return fromNumber3336(number.substring(1));
-            case "7":
+            case '7':
                 return "3337"; // Biesenthal Brandenb
-            case "8":
+            case '8':
                 return "3338"; // Bernau Brandenb
-            case "9":
+            case '9':
                 return fromNumber3339(number.substring(1));
             default:
                 return "";
@@ -2860,22 +2870,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "33331"; // Casekow
-            case "2":
+            case '2':
                 return "33332"; // Gartz Oder
-            case "3":
+            case '3':
                 return "33333"; // Tantow
-            case "4":
+            case '4':
                 return "33334"; // Greiffenberg
-            case "5":
+            case '5':
                 return "33335"; // Pinnow Kr Uckermark
-            case "6":
+            case '6':
                 return "33336"; // Passow Kr Uckermark
-            case "7":
+            case '7':
                 return "33337"; // Altkünkendorf
-            case "8":
+            case '8':
                 return "33338"; // Stolpe/Oder
             default:
                 return "";
@@ -2887,24 +2897,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "33361"; // Joachimsthal
-            case "2":
+            case '2':
                 return "33362"; // Liepe Kr Barnim
-            case "3":
+            case '3':
                 return "33363"; // Altenhof Kr Barnim
-            case "4":
+            case '4':
                 return "33364"; // Gross Ziethen Kr Barnim
-            case "5":
+            case '5':
                 return "33365"; // Lüdersdorf Kr Barnim
-            case "6":
+            case '6':
                 return "33366"; // Chorin
-            case "7":
+            case '7':
                 return "33367"; // Friedrichswalde Brandenb
-            case "8":
+            case '8':
                 return "33368"; // Hohensaaten
-            case "9":
+            case '9':
                 return "33369"; // Oderberg
             default:
                 return "";
@@ -2916,18 +2926,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "3":
+        switch (number.charAt(0)) {
+            case '3':
                 return "33393"; // Gross Schönebeck Kr Barnim
-            case "4":
+            case '4':
                 return "33394"; // Blumberg Kr Barnim
-            case "5":
+            case '5':
                 return "33395"; // Zerpenschleuse
-            case "6":
+            case '6':
                 return "33396"; // Klosterfelde
-            case "7":
+            case '7':
                 return "33397"; // Wandlitz
-            case "8":
+            case '8':
                 return "33398"; // Werneuchen
             default:
                 return "";
@@ -2939,20 +2949,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3341"; // Strausberg
-            case "2":
+            case '2':
                 return "3342"; // Neuenhagen b Berlin
-            case "3":
+            case '3':
                 return fromNumber3343(number.substring(1));
-            case "4":
+            case '4':
                 return "3344"; // Bad Freienwalde
-            case "5":
+            case '5':
                 return fromNumber3345(number.substring(1));
-            case "6":
+            case '6':
                 return "3346"; // Seelow
-            case "7":
+            case '7':
                 return fromNumber3347(number.substring(1));
             default:
                 return "";
@@ -2964,22 +2974,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "33432"; // Müncheberg
-            case "3":
+            case '3':
                 return "33433"; // Buckow Märk Schweiz
-            case "4":
+            case '4':
                 return "33434"; // Herzfelde b Strausberg
-            case "5":
+            case '5':
                 return "33435"; // Rehfelde
-            case "6":
+            case '6':
                 return "33436"; // Prötzel
-            case "7":
+            case '7':
                 return "33437"; // Reichenberg b Strausberg
-            case "8":
+            case '8':
                 return "33438"; // Altlandsberg
-            case "9":
+            case '9':
                 return "33439"; // Fredersdorf-Vogelsdorf
             default:
                 return "";
@@ -2991,18 +3001,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "33451"; // Heckelberg
-            case "2":
+            case '2':
                 return "33452"; // Neulewin
-            case "4":
+            case '4':
                 return "33454"; // Wölsickendorf/Wollenberg
-            case "6":
+            case '6':
                 return "33456"; // Wriezen
-            case "7":
+            case '7':
                 return "33457"; // Altreetz
-            case "8":
+            case '8':
                 return "33458"; // Falkenberg Mark
             default:
                 return "";
@@ -3014,24 +3024,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "33470"; // Lietzen
-            case "2":
+            case '2':
                 return "33472"; // Golzow b Seelow
-            case "3":
+            case '3':
                 return "33473"; // Zechin
-            case "4":
+            case '4':
                 return "33474"; // Neutrebbin
-            case "5":
+            case '5':
                 return "33475"; // Letschin
-            case "6":
+            case '6':
                 return "33476"; // Neuhardenberg
-            case "7":
+            case '7':
                 return "33477"; // Trebnitz b Müncheberg
-            case "8":
+            case '8':
                 return "33478"; // Gross Neuendorf
-            case "9":
+            case '9':
                 return "33479"; // Küstrin-Kietz
             default:
                 return "";
@@ -3043,22 +3053,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3360(number.substring(1));
-            case "1":
+            case '1':
                 return "3361"; // Fürstenwalde Spree
-            case "2":
+            case '2':
                 return "3362"; // Erkner
-            case "3":
+            case '3':
                 return fromNumber3363(number.substring(1));
-            case "4":
+            case '4':
                 return "3364"; // Eisenhüttenstadt
-            case "5":
+            case '5':
                 return fromNumber3365(number.substring(1));
-            case "6":
+            case '6':
                 return "3366"; // Beeskow
-            case "7":
+            case '7':
                 return fromNumber3367(number.substring(1));
             default:
                 return "";
@@ -3070,24 +3080,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "33601"; // Podelzig
-            case "2":
+            case '2':
                 return "33602"; // Alt Zeschdorf
-            case "3":
+            case '3':
                 return "33603"; // Falkenhagen b Seelow
-            case "4":
+            case '4':
                 return "33604"; // Lebus
-            case "5":
+            case '5':
                 return "33605"; // Boossen
-            case "6":
+            case '6':
                 return "33606"; // Müllrose
-            case "7":
+            case '7':
                 return "33607"; // Briesen Mark
-            case "8":
+            case '8':
                 return "33608"; // Jacobsdorf Mark
-            case "9":
+            case '9':
                 return "33609"; // Brieskow-Finkenheerd
             default:
                 return "";
@@ -3099,22 +3109,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "33631"; // Bad Saarow-Pieskow
-            case "2":
+            case '2':
                 return "33632"; // Hangelsberg
-            case "3":
+            case '3':
                 return "33633"; // Spreenhagen
-            case "4":
+            case '4':
                 return "33634"; // Berkenbrück Kr Oder-Spree
-            case "5":
+            case '5':
                 return "33635"; // Arensdorf Kr Oder-Spree
-            case "6":
+            case '6':
                 return "33636"; // Steinhöfel Kr Oder-Spree
-            case "7":
+            case '7':
                 return "33637"; // Beerfelde
-            case "8":
+            case '8':
                 return "33638"; // Rüdersdorf b Berlin
             default:
                 return "";
@@ -3126,18 +3136,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "33652"; // Neuzelle
-            case "3":
+            case '3':
                 return "33653"; // Ziltendorf
-            case "4":
+            case '4':
                 return "33654"; // Fünfeichen
-            case "5":
+            case '5':
                 return "33655"; // Grunow Kr Oder-Spree
-            case "6":
+            case '6':
                 return "33656"; // Bahro
-            case "7":
+            case '7':
                 return "33657"; // Steinsdorf Brandenb
             default:
                 return "";
@@ -3149,24 +3159,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "33671"; // Lieberose
-            case "2":
+            case '2':
                 return "33672"; // Pfaffendorfb Beeskow
-            case "3":
+            case '3':
                 return "33673"; // Weichensdorf
-            case "4":
+            case '4':
                 return "33674"; // Trebatsch
-            case "5":
+            case '5':
                 return "33675"; // Tauche
-            case "6":
+            case '6':
                 return "33676"; // Friedland b Beeskow
-            case "7":
+            case '7':
                 return "33677"; // Glienicke b Beeskow
-            case "8":
+            case '8':
                 return "33678"; // Storkow Mark
-            case "9":
+            case '9':
                 return "33679"; // Wendisch Rietz
             default:
                 return "";
@@ -3178,26 +3188,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3370(number.substring(1));
-            case "1":
+            case '1':
                 return "3371"; // Luckenwalde
-            case "2":
+            case '2':
                 return "3372"; // Jüterbog
-            case "3":
+            case '3':
                 return fromNumber3373(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber3374(number.substring(1));
-            case "5":
+            case '5':
                 return "3375"; // Königs Wusterhausen
-            case "6":
+            case '6':
                 return fromNumber3376(number.substring(1));
-            case "7":
+            case '7':
                 return "3377"; // Zossen Brandenb
-            case "8":
+            case '8':
                 return "3378"; // Ludwigsfelde
-            case "9":
+            case '9':
                 return "3379"; // Mahlow
             default:
                 return "";
@@ -3209,16 +3219,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "33701"; // Grossbeeren
-            case "2":
+            case '2':
                 return "33702"; // Wünsdorf
-            case "3":
+            case '3':
                 return "33703"; // Sperenberg
-            case "4":
+            case '4':
                 return "33704"; // Baruth Mark
-            case "8":
+            case '8':
                 return "33708"; // Rangsdorf
             default:
                 return "";
@@ -3230,14 +3240,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "33731"; // Trebbin
-            case "2":
+            case '2':
                 return "33732"; // Hennickendorf b Luckenwalde
-            case "3":
+            case '3':
                 return "33733"; // Stülpe
-            case "4":
+            case '4':
                 return "33734"; // Felgentreu
             default:
                 return "";
@@ -3249,22 +3259,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "33741"; // Niedergörsdorf
-            case "2":
+            case '2':
                 return "33742"; // Oehna Brandenb
-            case "3":
+            case '3':
                 return "33743"; // Blönsdorf
-            case "4":
+            case '4':
                 return "33744"; // Hohenseefeld
-            case "5":
+            case '5':
                 return "33745"; // Petkus
-            case "6":
+            case '6':
                 return "33746"; // Werbig b Jüterbog
-            case "7":
+            case '7':
                 return "33747"; // Marzahna
-            case "8":
+            case '8':
                 return "33748"; // Treuenbrietzen
             default:
                 return "";
@@ -3276,24 +3286,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "33760"; // Münchehofe Kr Dahme-Spreewald
-            case "2":
+            case '2':
                 return "33762"; // Zeuthen
-            case "3":
+            case '3':
                 return "33763"; // Bestensee
-            case "4":
+            case '4':
                 return "33764"; // Mittenwalde Mark
-            case "5":
+            case '5':
                 return "33765"; // Märkisch Buchholz
-            case "6":
+            case '6':
                 return "33766"; // Teupitz
-            case "7":
+            case '7':
                 return "33767"; // Friedersdorf b Berlin
-            case "8":
+            case '8':
                 return "33768"; // Prieros
-            case "9":
+            case '9':
                 return "33769"; // Töpchin
             default:
                 return "";
@@ -3305,20 +3315,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3381"; // Brandenburg an der Havel
-            case "2":
+            case '2':
                 return "3382"; // Lehnin
-            case "3":
+            case '3':
                 return fromNumber3383(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber3384(number.substring(1));
-            case "5":
+            case '5':
                 return "3385"; // Rathenow
-            case "6":
+            case '6':
                 return "3386"; // Premnitz
-            case "7":
+            case '7':
                 return fromNumber3387(number.substring(1));
             default:
                 return "";
@@ -3330,26 +3340,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "33830"; // Ziesar
-            case "1":
+            case '1':
                 return "33831"; // Weseram
-            case "2":
+            case '2':
                 return "33832"; // Rogäsen
-            case "3":
+            case '3':
                 return "33833"; // Wollin b Brandenburg
-            case "4":
+            case '4':
                 return "33834"; // Pritzerbe
-            case "5":
+            case '5':
                 return "33835"; // Golzow b Brandenburg
-            case "6":
+            case '6':
                 return "33836"; // Butzow b Brandenburg
-            case "7":
+            case '7':
                 return "33837"; // Brielow
-            case "8":
+            case '8':
                 return "33838"; // Päwesin
-            case "9":
+            case '9':
                 return "33839"; // Wusterwitz
             default:
                 return "";
@@ -3361,22 +3371,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "33841"; // Belzig
-            case "3":
+            case '3':
                 return "33843"; // Niemegk
-            case "4":
+            case '4':
                 return "33844"; // Brück Brandenb
-            case "5":
+            case '5':
                 return "33845"; // Borkheide
-            case "6":
+            case '6':
                 return "33846"; // Dippmannsdorf
-            case "7":
+            case '7':
                 return "33847"; // Görzke
-            case "8":
+            case '8':
                 return "33848"; // Raben
-            case "9":
+            case '9':
                 return "33849"; // Wiesenburg Mark
             default:
                 return "";
@@ -3388,22 +3398,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "33870"; // Zollchow b Rathenow
-            case "2":
+            case '2':
                 return "33872"; // Hohennauen
-            case "3":
+            case '3':
                 return "33873"; // Grosswudicke
-            case "4":
+            case '4':
                 return "33874"; // Stechow Brandenb
-            case "5":
+            case '5':
                 return "33875"; // Rhinow
-            case "6":
+            case '6':
                 return "33876"; // Buschow
-            case "7":
+            case '7':
                 return "33877"; // Nitzahn
-            case "8":
+            case '8':
                 return "33878"; // Nennhausen
             default:
                 return "";
@@ -3415,22 +3425,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3391"; // Neuruppin
-            case "2":
+            case '2':
                 return fromNumber3392(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber3393(number.substring(1));
-            case "4":
+            case '4':
                 return "3394"; // Wittstock Dosse
-            case "5":
+            case '5':
                 return "3395"; // Pritzwalk
-            case "6":
+            case '6':
                 return fromNumber3396(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber3397(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber3398(number.substring(1));
             default:
                 return "";
@@ -3442,26 +3452,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "33920"; // Walsleben b Neuruppin
-            case "1":
+            case '1':
                 return "33921"; // Zechlinerhütte
-            case "2":
+            case '2':
                 return "33922"; // Karwesee
-            case "3":
+            case '3':
                 return "33923"; // Flecken Zechlin
-            case "4":
+            case '4':
                 return "33924"; // Rägelin
-            case "5":
+            case '5':
                 return "33925"; // Wustrau-Altfriesack
-            case "6":
+            case '6':
                 return "33926"; // Herzberg Mark
-            case "7":
+            case '7':
                 return "33927"; // Linum
-            case "8":
+            case '8':
                 return "33928"; // Wildberg Brandenb
-            case "9":
+            case '9':
                 return "33929"; // Gühlen-Glienicke
             default:
                 return "";
@@ -3473,12 +3483,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "33931"; // Rheinsberg Mark
-            case "2":
+            case '2':
                 return "33932"; // Fehrbellin
-            case "3":
+            case '3':
                 return "33933"; // Lindow Mark
             default:
                 return "";
@@ -3490,22 +3500,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "33962"; // Heiligengrabe
-            case "3":
+            case '3':
                 return "33963"; // Wulfersdorf b Wittstock
-            case "4":
+            case '4':
                 return "33964"; // Fretzdorf
-            case "5":
+            case '5':
                 return "33965"; // Herzsprung b Wittstock
-            case "6":
+            case '6':
                 return "33966"; // Dranse
-            case "7":
+            case '7':
                 return "33967"; // Freyenstein
-            case "8":
+            case '8':
                 return "33968"; // Meyenburg Kr Prignitz
-            case "9":
+            case '9':
                 return "33969"; // Stepenitz
             default:
                 return "";
@@ -3517,26 +3527,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "33970"; // Neustadt Dosse
-            case "1":
+            case '1':
                 return "33971"; // Kyritz Brandenb
-            case "2":
+            case '2':
                 return "33972"; // Breddin
-            case "3":
+            case '3':
                 return "33973"; // Zernitz b Neustadt Dosse
-            case "4":
+            case '4':
                 return "33974"; // Dessow
-            case "5":
+            case '5':
                 return "33975"; // Dannenwalde Kr Prignitz
-            case "6":
+            case '6':
                 return "33976"; // Wutike
-            case "7":
+            case '7':
                 return "33977"; // Gumtow
-            case "8":
+            case '8':
                 return "33978"; // Segeletz
-            case "9":
+            case '9':
                 return "33979"; // Wusterhausen Dosse
             default:
                 return "";
@@ -3548,18 +3558,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "33981"; // Putlitz
-            case "2":
+            case '2':
                 return "33982"; // Hoppenrade Kr Prignitz
-            case "3":
+            case '3':
                 return "33983"; // Gross Pankow Kr Prignitz
-            case "4":
+            case '4':
                 return "33984"; // Blumenthal b Pritzwalk
-            case "6":
+            case '6':
                 return "33986"; // Falkenhagen Kr Prignitz
-            case "9":
+            case '9':
                 return "33989"; // Sadenbeck
             default:
                 return "";
@@ -3571,24 +3581,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "340"; // Dessau Anh
-            case "1":
+            case '1':
                 return "341"; // Leipzig
-            case "2":
+            case '2':
                 return fromNumber342(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber343(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber344(number.substring(1));
-            case "5":
+            case '5':
                 return "345"; // Halle Saale
-            case "6":
+            case '6':
                 return fromNumber346(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber347(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber349(number.substring(1));
             default:
                 return "";
@@ -3600,22 +3610,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3420(number.substring(1));
-            case "1":
+            case '1':
                 return "3421"; // Torgau
-            case "2":
+            case '2':
                 return fromNumber3422(number.substring(1));
-            case "3":
+            case '3':
                 return "3423"; // Eilenburg
-            case "4":
+            case '4':
                 return fromNumber3424(number.substring(1));
-            case "5":
+            case '5':
                 return "3425"; // Wurzen
-            case "6":
+            case '6':
                 return fromNumber3426(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber3429(number.substring(1));
             default:
                 return "";
@@ -3627,20 +3637,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "34202"; // Delitzsch
-            case "3":
+            case '3':
                 return "34203"; // Zwenkau
-            case "4":
+            case '4':
                 return "34204"; // Schkeuditz
-            case "5":
+            case '5':
                 return "34205"; // Markranstädt
-            case "6":
+            case '6':
                 return "34206"; // Rötha
-            case "7":
+            case '7':
                 return "34207"; // Zwochau
-            case "8":
+            case '8':
                 return "34208"; // Löbnitz B Delitzsch
             default:
                 return "";
@@ -3652,14 +3662,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34221"; // Schildau Gneisenaustadt
-            case "2":
+            case '2':
                 return "34222"; // Arzberg b Torgau
-            case "3":
+            case '3':
                 return "34223"; // Dommitzsch
-            case "4":
+            case '4':
                 return "34224"; // Belgern Sachs
             default:
                 return "";
@@ -3671,14 +3681,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34241"; // Jesewitz
-            case "2":
+            case '2':
                 return "34242"; // Hohenpriessnitz
-            case "3":
+            case '3':
                 return "34243"; // Bad Düben
-            case "4":
+            case '4':
                 return "34244"; // Mockrehna
             default:
                 return "";
@@ -3690,12 +3700,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34261"; // Kühren b Wurzen
-            case "2":
+            case '2':
                 return "34262"; // Falkenhain b Wurzen
-            case "3":
+            case '3':
                 return "34263"; // Hohburg
             default:
                 return "";
@@ -3707,24 +3717,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34291"; // Borsdorf
-            case "2":
+            case '2':
                 return "34292"; // Brandis b Wurzen
-            case "3":
+            case '3':
                 return "34293"; // Naunhof b Grimma
-            case "4":
+            case '4':
                 return "34294"; // Rackwitz
-            case "5":
+            case '5':
                 return "34295"; // Krensitz
-            case "6":
+            case '6':
                 return "34296"; // Groitzsch b Pegau
-            case "7":
+            case '7':
                 return "34297"; // Liebertwolkwitz
-            case "8":
+            case '8':
                 return "34298"; // Taucha b Leipzig
-            case "9":
+            case '9':
                 return "34299"; // Gaschwitz
             default:
                 return "";
@@ -3736,22 +3746,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3431"; // Döbeln
-            case "2":
+            case '2':
                 return fromNumber3432(number.substring(1));
-            case "3":
+            case '3':
                 return "3433"; // Borna Stadt
-            case "4":
+            case '4':
                 return fromNumber3434(number.substring(1));
-            case "5":
+            case '5':
                 return "3435"; // Oschatz
-            case "6":
+            case '6':
                 return fromNumber3436(number.substring(1));
-            case "7":
+            case '7':
                 return "3437"; // Grimma
-            case "8":
+            case '8':
                 return fromNumber3438(number.substring(1));
             default:
                 return "";
@@ -3763,18 +3773,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34321"; // Leisnig
-            case "2":
+            case '2':
                 return "34322"; // Rosswein
-            case "4":
+            case '4':
                 return "34324"; // Ostrau Sachs
-            case "5":
+            case '5':
                 return "34325"; // Mochau-Lüttewitz
-            case "7":
+            case '7':
                 return "34327"; // Waldheim Sachs
-            case "8":
+            case '8':
                 return "34328"; // Hartha b Döbeln
             default:
                 return "";
@@ -3786,22 +3796,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34341"; // Geithain
-            case "2":
+            case '2':
                 return "34342"; // Neukieritzsch
-            case "3":
+            case '3':
                 return "34343"; // Regis-Breitingen
-            case "4":
+            case '4':
                 return "34344"; // Kohren-Sahlis
-            case "5":
+            case '5':
                 return "34345"; // Bad Lausick
-            case "6":
+            case '6':
                 return "34346"; // Narsdorf
-            case "7":
+            case '7':
                 return "34347"; // Oelzschau b Borna
-            case "8":
+            case '8':
                 return "34348"; // Frohburg
             default:
                 return "";
@@ -3813,14 +3823,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34361"; // Dahlen Sachs
-            case "2":
+            case '2':
                 return "34362"; // Mügeln b Oschatz
-            case "3":
+            case '3':
                 return "34363"; // Cavertitz
-            case "4":
+            case '4':
                 return "34364"; // Wermsdorf
             default:
                 return "";
@@ -3832,18 +3842,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34381"; // Colditz
-            case "2":
+            case '2':
                 return "34382"; // Nerchau
-            case "3":
+            case '3':
                 return "34383"; // Trebsen Mulde
-            case "4":
+            case '4':
                 return "34384"; // Grossbothen
-            case "5":
+            case '5':
                 return "34385"; // Mutzschen
-            case "6":
+            case '6':
                 return "34386"; // Dürrweitzschen B Grimma
             default:
                 return "";
@@ -3855,24 +3865,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3441"; // Zeitz
-            case "2":
+            case '2':
                 return fromNumber3442(number.substring(1));
-            case "3":
+            case '3':
                 return "3443"; // Weissenfels Sachs-Anh
-            case "4":
+            case '4':
                 return fromNumber3444(number.substring(1));
-            case "5":
+            case '5':
                 return "3445"; // Naumburg Saale
-            case "6":
+            case '6':
                 return fromNumber3446(number.substring(1));
-            case "7":
+            case '7':
                 return "3447"; // Altenburg Thür
-            case "8":
+            case '8':
                 return "3448"; // Meuselwitz Thür
-            case "9":
+            case '9':
                 return fromNumber3449(number.substring(1));
             default:
                 return "";
@@ -3884,16 +3894,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "34422"; // Osterfeld
-            case "3":
+            case '3':
                 return "34423"; // Heuckewalde
-            case "4":
+            case '4':
                 return "34424"; // Reuden b Zeitz
-            case "5":
+            case '5':
                 return "34425"; // Droyssig
-            case "6":
+            case '6':
                 return "34426"; // Kayna
             default:
                 return "";
@@ -3905,16 +3915,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34441"; // Hohenmölsen
-            case "3":
+            case '3':
                 return "34443"; // Teuchern
-            case "4":
+            case '4':
                 return "34444"; // Lützen
-            case "5":
+            case '5':
                 return "34445"; // Stößen
-            case "6":
+            case '6':
                 return "34446"; // Grosskorbetha
             default:
                 return "";
@@ -3926,20 +3936,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34461"; // Nebra Unstrut
-            case "2":
+            case '2':
                 return "34462"; // Laucha Unstrut
-            case "3":
+            case '3':
                 return "34463"; // Bad Kösen
-            case "4":
+            case '4':
                 return "34464"; // Freyburg Unstrut
-            case "5":
+            case '5':
                 return "34465"; // Bad Bibra
-            case "6":
+            case '6':
                 return "34466"; // Janisroda
-            case "7":
+            case '7':
                 return "34467"; // Eckartsberga
             default:
                 return "";
@@ -3951,22 +3961,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34491"; // Schmölln Thür
-            case "2":
+            case '2':
                 return "34492"; // Lucka
-            case "3":
+            case '3':
                 return "34493"; // Gößnitz Thür
-            case "4":
+            case '4':
                 return "34494"; // Ehrenhain
-            case "5":
+            case '5':
                 return "34495"; // Dobitschen
-            case "6":
+            case '6':
                 return "34496"; // Nöbdenitz
-            case "7":
+            case '7':
                 return "34497"; // Langenleuba-Niederhain
-            case "8":
+            case '8':
                 return "34498"; // Rositz
             default:
                 return "";
@@ -3978,24 +3988,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3460(number.substring(1));
-            case "1":
+            case '1':
                 return "3461"; // Merseburg Saale
-            case "2":
+            case '2':
                 return "3462"; // Bad Dürrenberg
-            case "3":
+            case '3':
                 return fromNumber3463(number.substring(1));
-            case "4":
+            case '4':
                 return "3464"; // Sangerhausen
-            case "5":
+            case '5':
                 return fromNumber3465(number.substring(1));
-            case "6":
+            case '6':
                 return "3466"; // Artern Unstrut
-            case "7":
+            case '7':
                 return fromNumber3467(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber3469(number.substring(1));
             default:
                 return "";
@@ -4007,24 +4017,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "34600"; // Ostrau Saalkreis
-            case "1":
+            case '1':
                 return "34601"; // Teutschenthal
-            case "2":
+            case '2':
                 return "34602"; // Landsberg Sachs-Anh
-            case "3":
+            case '3':
                 return "34603"; // Nauendorf Sachs-Anh
-            case "4":
+            case '4':
                 return "34604"; // Niemberg
-            case "5":
+            case '5':
                 return "34605"; // Gröbers
-            case "6":
+            case '6':
                 return "34606"; // Teicha Sachs-Anh
-            case "7":
+            case '7':
                 return "34607"; // Wettin
-            case "9":
+            case '9':
                 return "34609"; // Salzmünde
             default:
                 return "";
@@ -4036,20 +4046,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "34632"; // Mücheln Geiseltal
-            case "3":
+            case '3':
                 return "34633"; // Braunsbedra
-            case "5":
+            case '5':
                 return "34635"; // Bad Lauchstädt
-            case "6":
+            case '6':
                 return "34636"; // Schafstädt
-            case "7":
+            case '7':
                 return "34637"; // Frankleben
-            case "8":
+            case '8':
                 return "34638"; // Zöschen
-            case "9":
+            case '9':
                 return "34639"; // Wallendorf Luppe
             default:
                 return "";
@@ -4061,20 +4071,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34651"; // Rossla
-            case "2":
+            case '2':
                 return "34652"; // Allstedt
-            case "3":
+            case '3':
                 return "34653"; // Rottleberode
-            case "4":
+            case '4':
                 return "34654"; // Stolberg Harz
-            case "6":
+            case '6':
                 return "34656"; // Wallhausen Sachs-Anh
-            case "8":
+            case '8':
                 return "34658"; // Hayn Harz
-            case "9":
+            case '9':
                 return "34659"; // Blankenheim b Sangerhausen
             default:
                 return "";
@@ -4086,12 +4096,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34671"; // Bad Frankenhausen Kyffhäuser
-            case "2":
+            case '2':
                 return "34672"; // Rossleben
-            case "3":
+            case '3':
                 return "34673"; // Heldrungen
             default:
                 return "";
@@ -4103,10 +4113,10 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34691"; // Könnern
-            case "2":
+            case '2':
                 return "34692"; // Alsleben Saale
             default:
                 return "";
@@ -4118,22 +4128,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3471"; // Bernburg Saale
-            case "2":
+            case '2':
                 return fromNumber3472(number.substring(1));
-            case "3":
+            case '3':
                 return "3473"; // Aschersleben Sachs-Anh
-            case "4":
+            case '4':
                 return fromNumber3474(number.substring(1));
-            case "5":
+            case '5':
                 return "3475"; // Lutherstadt Eisleben
-            case "6":
+            case '6':
                 return "3476"; // Hettstedt Sachs-Anh
-            case "7":
+            case '7':
                 return fromNumber3477(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber3478(number.substring(1));
             default:
                 return "";
@@ -4145,10 +4155,10 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34721"; // Nienburg Saale
-            case "2":
+            case '2':
                 return "34722"; // Preusslitz
             default:
                 return "";
@@ -4160,16 +4170,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34741"; // Frose
-            case "2":
+            case '2':
                 return "34742"; // Sylda
-            case "3":
+            case '3':
                 return "34743"; // Ermsleben
-            case "5":
+            case '5':
                 return "34745"; // Winningen Sachs-Anh
-            case "6":
+            case '6':
                 return "34746"; // Giersleben
             default:
                 return "";
@@ -4181,20 +4191,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34771"; // Querfurt
-            case "2":
+            case '2':
                 return "34772"; // Helbra
-            case "3":
+            case '3':
                 return "34773"; // Schwittersdorf
-            case "4":
+            case '4':
                 return "34774"; // Röblingen am See
-            case "5":
+            case '5':
                 return "34775"; // Wippra
-            case "6":
+            case '6':
                 return "34776"; // Rothenschirmbach
-            case "9":
+            case '9':
                 return "34779"; // Abberode
             default:
                 return "";
@@ -4206,14 +4216,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34781"; // Greifenhagen
-            case "2":
+            case '2':
                 return "34782"; // Mansfeld Südharz
-            case "3":
+            case '3':
                 return "34783"; // Gerbstedt
-            case "5":
+            case '5':
                 return "34785"; // Sandersleben
             default:
                 return "";
@@ -4225,22 +4235,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3490(number.substring(1));
-            case "1":
+            case '1':
                 return "3491"; // Lutherstadt Wittenberg
-            case "2":
+            case '2':
                 return fromNumber3492(number.substring(1));
-            case "3":
+            case '3':
                 return "3493"; // Bitterfeld
-            case "4":
+            case '4':
                 return "3494"; // Wolfen
-            case "5":
+            case '5':
                 return fromNumber3495(number.substring(1));
-            case "6":
+            case '6':
                 return "3496"; // Köthen Anhalt
-            case "7":
+            case '7':
                 return fromNumber3497(number.substring(1));
             default:
                 return "";
@@ -4252,20 +4262,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "34901"; // Roßlau Elbe
-            case "3":
+            case '3':
                 return "34903"; // Coswig Anhalt
-            case "4":
+            case '4':
                 return "34904"; // Oranienbaum
-            case "5":
+            case '5':
                 return "34905"; // Wörlitz
-            case "6":
+            case '6':
                 return "34906"; // Raguhn
-            case "7":
+            case '7':
                 return "34907"; // Jeber-Bergfrieden
-            case "9":
+            case '9':
                 return "34909"; // Aken Elbe
             default:
                 return "";
@@ -4277,26 +4287,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "34920"; // Kropstädt
-            case "1":
+            case '1':
                 return "34921"; // Kemberg
-            case "2":
+            case '2':
                 return "34922"; // Mühlanger
-            case "3":
+            case '3':
                 return "34923"; // Cobbelsdorf
-            case "4":
+            case '4':
                 return "34924"; // Zahna
-            case "5":
+            case '5':
                 return "34925"; // Bad Schmiedeberg
-            case "6":
+            case '6':
                 return "34926"; // Pretzsch Elbe
-            case "7":
+            case '7':
                 return "34927"; // Globig-Bleddin
-            case "8":
+            case '8':
                 return "34928"; // Seegrehna
-            case "9":
+            case '9':
                 return "34929"; // Straach
             default:
                 return "";
@@ -4308,14 +4318,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "3":
+        switch (number.charAt(0)) {
+            case '3':
                 return "34953"; // Gräfenhainichen
-            case "4":
+            case '4':
                 return "34954"; // Roitzsch b Bitterfeld
-            case "5":
+            case '5':
                 return "34955"; // Gossa
-            case "6":
+            case '6':
                 return "34956"; // Zörbig
             default:
                 return "";
@@ -4327,18 +4337,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "3":
+        switch (number.charAt(0)) {
+            case '3':
                 return "34973"; // Osternienburg
-            case "5":
+            case '5':
                 return "34975"; // Görzig Kr Köthen
-            case "6":
+            case '6':
                 return "34976"; // Gröbzig
-            case "7":
+            case '7':
                 return "34977"; // Quellendorf
-            case "8":
+            case '8':
                 return "34978"; // Radegast Kr Köthen
-            case "9":
+            case '9':
                 return "34979"; // Wulfen Sachs-Anh
             default:
                 return "";
@@ -4350,26 +4360,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber350(number.substring(1));
-            case "1":
+            case '1':
                 return "351"; // Dresden
-            case "2":
+            case '2':
                 return fromNumber352(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber353(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber354(number.substring(1));
-            case "5":
+            case '5':
                 return "355"; // Cottbus
-            case "6":
+            case '6':
                 return fromNumber356(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber357(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber358(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber359(number.substring(1));
             default:
                 return "";
@@ -4381,16 +4391,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3501"; // Pirna
-            case "2":
+            case '2':
                 return fromNumber3502(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber3503(number.substring(1));
-            case "4":
+            case '4':
                 return "3504"; // Dippoldiswalde
-            case "5":
+            case '5':
                 return fromNumber3505(number.substring(1));
             default:
                 return "";
@@ -4402,24 +4412,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "35020"; // Struppen
-            case "1":
+            case '1':
                 return "35021"; // Königstein Sächs Schweiz
-            case "2":
+            case '2':
                 return "35022"; // Bad Schandau
-            case "3":
+            case '3':
                 return "35023"; // Bad Gottleuba
-            case "4":
+            case '4':
                 return "35024"; // Stadt Wehlen
-            case "5":
+            case '5':
                 return "35025"; // Liebstadt
-            case "6":
+            case '6':
                 return "35026"; // Dürrröhrsdorf-Dittersbach
-            case "7":
+            case '7':
                 return "35027"; // Weesenstein
-            case "8":
+            case '8':
                 return "35028"; // Krippen
             default:
                 return "";
@@ -4431,10 +4441,10 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "35032"; // Langenhennersdorf
-            case "3":
+            case '3':
                 return "35033"; // Rosenthal Sächs Schweiz
             default:
                 return "";
@@ -4446,20 +4456,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "35052"; // Kipsdorf Kurort
-            case "3":
+            case '3':
                 return "35053"; // Glashütte Sachs
-            case "4":
+            case '4':
                 return "35054"; // Lauenstein Sachs
-            case "5":
+            case '5':
                 return "35055"; // Höckendorf b Dippoldiswalde
-            case "6":
+            case '6':
                 return "35056"; // Altenberg Sachs
-            case "7":
+            case '7':
                 return "35057"; // Hermsdorf Erzgeb
-            case "8":
+            case '8':
                 return "35058"; // Pretzschendorf
             default:
                 return "";
@@ -4471,24 +4481,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3520(number.substring(1));
-            case "1":
+            case '1':
                 return "3521"; // Meissen
-            case "2":
+            case '2':
                 return "3522"; // Grossenhain Sachs
-            case "3":
+            case '3':
                 return "3523"; // Coswig b Dresden
-            case "4":
+            case '4':
                 return fromNumber3524(number.substring(1));
-            case "5":
+            case '5':
                 return "3525"; // Riesa
-            case "6":
+            case '6':
                 return fromNumber3526(number.substring(1));
-            case "8":
+            case '8':
                 return "3528"; // Radeberg
-            case "9":
+            case '9':
                 return "3529"; // Heidenau Sachs
             default:
                 return "";
@@ -4500,26 +4510,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "35200"; // Arnsdorf b Dresden
-            case "1":
+            case '1':
                 return "35201"; // Langebrück
-            case "2":
+            case '2':
                 return "35202"; // Klingenberg Sachs
-            case "3":
+            case '3':
                 return "35203"; // Tharandt
-            case "4":
+            case '4':
                 return "35204"; // Wilsdruff
-            case "5":
+            case '5':
                 return "35205"; // Ottendorf-Okrilla
-            case "6":
+            case '6':
                 return "35206"; // Kreischa b Dresden
-            case "7":
+            case '7':
                 return "35207"; // Moritzburg
-            case "8":
+            case '8':
                 return "35208"; // Radeburg
-            case "9":
+            case '9':
                 return "35209"; // Mohorn
             default:
                 return "";
@@ -4531,26 +4541,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "35240"; // Tauscha b Großenhain
-            case "1":
+            case '1':
                 return "35241"; // Lommatzsch
-            case "2":
+            case '2':
                 return "35242"; // Nossen
-            case "3":
+            case '3':
                 return "35243"; // Weinböhla
-            case "4":
+            case '4':
                 return "35244"; // Krögis
-            case "5":
+            case '5':
                 return "35245"; // Burkhardswalde-Munzig
-            case "6":
+            case '6':
                 return "35246"; // Ziegenhain Sachs
-            case "7":
+            case '7':
                 return "35247"; // Zehren Sachs
-            case "8":
+            case '8':
                 return "35248"; // Schönfeld b Großenhain
-            case "9":
+            case '9':
                 return "35249"; // Basslitz
             default:
                 return "";
@@ -4562,18 +4572,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "3":
+        switch (number.charAt(0)) {
+            case '3':
                 return "35263"; // Gröditz b Riesa
-            case "4":
+            case '4':
                 return "35264"; // Strehla
-            case "5":
+            case '5':
                 return "35265"; // Glaubitz
-            case "6":
+            case '6':
                 return "35266"; // Heyda b Riesa
-            case "7":
+            case '7':
                 return "35267"; // Diesbar-Seusslitz
-            case "8":
+            case '8':
                 return "35268"; // Stauchitz
             default:
                 return "";
@@ -4585,22 +4595,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3531"; // Finsterwalde
-            case "2":
+            case '2':
                 return fromNumber3532(number.substring(1));
-            case "3":
+            case '3':
                 return "3533"; // Elsterwerda
-            case "4":
+            case '4':
                 return fromNumber3534(number.substring(1));
-            case "5":
+            case '5':
                 return "3535"; // Herzberg Elster
-            case "6":
+            case '6':
                 return fromNumber3536(number.substring(1));
-            case "7":
+            case '7':
                 return "3537"; // Jessen Elster
-            case "8":
+            case '8':
                 return fromNumber3538(number.substring(1));
             default:
                 return "";
@@ -4612,20 +4622,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "35322"; // Doberlug-Kirchhain
-            case "3":
+            case '3':
                 return "35323"; // Sonnewalde
-            case "4":
+            case '4':
                 return "35324"; // Crinitz
-            case "5":
+            case '5':
                 return "35325"; // Rückersdorf b Finsterwalde
-            case "6":
+            case '6':
                 return "35326"; // Schönborn Kr Elbe-Elster
-            case "7":
+            case '7':
                 return "35327"; // Priessen
-            case "9":
+            case '9':
                 return "35329"; // Dollenchen
             default:
                 return "";
@@ -4637,12 +4647,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "35341"; // Bad Liebenwerda
-            case "2":
+            case '2':
                 return "35342"; // Mühlberg Elbe
-            case "3":
+            case '3':
                 return "35343"; // Hirschfeld b Elsterwerda
             default:
                 return "";
@@ -4654,16 +4664,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "35361"; // Schlieben
-            case "2":
+            case '2':
                 return "35362"; // Schönewalde b Herzberg
-            case "3":
+            case '3':
                 return "35363"; // Fermerswalde
-            case "4":
+            case '4':
                 return "35364"; // Lebusa
-            case "5":
+            case '5':
                 return "35365"; // Falkenberg Elster
             default:
                 return "";
@@ -4675,20 +4685,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "3":
+        switch (number.charAt(0)) {
+            case '3':
                 return "35383"; // Elster Elbe
-            case "4":
+            case '4':
                 return "35384"; // Steinsdorf b Jessen
-            case "5":
+            case '5':
                 return "35385"; // Annaburg
-            case "6":
+            case '6':
                 return "35386"; // Prettin
-            case "7":
+            case '7':
                 return "35387"; // Seyda
-            case "8":
+            case '8':
                 return "35388"; // Klöden
-            case "9":
+            case '9':
                 return "35389"; // Holzdorf Elster
             default:
                 return "";
@@ -4700,20 +4710,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3541"; // Calau
-            case "2":
+            case '2':
                 return "3542"; // Lübbenau Spreewald
-            case "3":
+            case '3':
                 return fromNumber3543(number.substring(1));
-            case "4":
+            case '4':
                 return "3544"; // Luckau Brandenb
-            case "5":
+            case '5':
                 return fromNumber3545(number.substring(1));
-            case "6":
+            case '6':
                 return "3546"; // Lübben Spreewald
-            case "7":
+            case '7':
                 return fromNumber3547(number.substring(1));
             default:
                 return "";
@@ -4725,16 +4735,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "3":
+        switch (number.charAt(0)) {
+            case '3':
                 return "35433"; // Vetschau
-            case "4":
+            case '4':
                 return "35434"; // Altdöbern
-            case "5":
+            case '5':
                 return "35435"; // Gollmitz b Calau
-            case "6":
+            case '6':
                 return "35436"; // Laasow b Calau
-            case "9":
+            case '9':
                 return "35439"; // Zinnitz
             default:
                 return "";
@@ -4746,18 +4756,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "35451"; // Dahme Brandenb
-            case "2":
+            case '2':
                 return "35452"; // Golssen
-            case "3":
+            case '3':
                 return "35453"; // Drahnsdorf
-            case "4":
+            case '4':
                 return "35454"; // Uckro
-            case "5":
+            case '5':
                 return "35455"; // Walddrehna
-            case "6":
+            case '6':
                 return "35456"; // Terpt
             default:
                 return "";
@@ -4769,22 +4779,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "35471"; // Birkenhainchen
-            case "2":
+            case '2':
                 return "35472"; // Schlepzig
-            case "3":
+            case '3':
                 return "35473"; // Neu Lübbenau
-            case "4":
+            case '4':
                 return "35474"; // Schönwalde b Lübben
-            case "5":
+            case '5':
                 return "35475"; // Straupitz
-            case "6":
+            case '6':
                 return "35476"; // Wittmannsdorf-Bückchen
-            case "7":
+            case '7':
                 return "35477"; // Rietzneuendorf-Friedrichshof
-            case "8":
+            case '8':
                 return "35478"; // Goyatz
             default:
                 return "";
@@ -4796,18 +4806,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3560(number.substring(1));
-            case "1":
+            case '1':
                 return "3561"; // Guben
-            case "2":
+            case '2':
                 return "3562"; // Forst Lausitz
-            case "3":
+            case '3':
                 return "3563"; // Spremberg
-            case "4":
+            case '4':
                 return "3564"; // Schwarze Pumpe
-            case "9":
+            case '9':
                 return fromNumber3569(number.substring(1));
             default:
                 return "";
@@ -4819,26 +4829,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "35600"; // Döbern NL
-            case "1":
+            case '1':
                 return "35601"; // Peitz
-            case "2":
+            case '2':
                 return "35602"; // Drebkau
-            case "3":
+            case '3':
                 return "35603"; // Burg Spreewald
-            case "4":
+            case '4':
                 return "35604"; // Krieschow
-            case "5":
+            case '5':
                 return "35605"; // Komptendorf
-            case "6":
+            case '6':
                 return "35606"; // Briesen b Cottbus
-            case "7":
+            case '7':
                 return "35607"; // Jänschwalde
-            case "8":
+            case '8':
                 return "35608"; // Gross Ossnig
-            case "9":
+            case '9':
                 return "35609"; // Drachhausen
             default:
                 return "";
@@ -4850,22 +4860,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "35691"; // Bärenklau NL
-            case "2":
+            case '2':
                 return "35692"; // Kerkwitz
-            case "3":
+            case '3':
                 return "35693"; // Lauschütz
-            case "4":
+            case '4':
                 return "35694"; // Gosda b Klinge
-            case "5":
+            case '5':
                 return "35695"; // Simmersdorf
-            case "6":
+            case '6':
                 return "35696"; // Briesnig
-            case "7":
+            case '7':
                 return "35697"; // Bagenz
-            case "8":
+            case '8':
                 return "35698"; // Hornow
             default:
                 return "";
@@ -4877,24 +4887,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3571"; // Hoyerswerda
-            case "2":
+            case '2':
                 return fromNumber3572(number.substring(1));
-            case "3":
+            case '3':
                 return "3573"; // Senftenberg
-            case "4":
+            case '4':
                 return "3574"; // Lauchhammer
-            case "5":
+            case '5':
                 return fromNumber3575(number.substring(1));
-            case "6":
+            case '6':
                 return "3576"; // Weisswasser
-            case "7":
+            case '7':
                 return fromNumber3577(number.substring(1));
-            case "8":
+            case '8':
                 return "3578"; // Kamenz
-            case "9":
+            case '9':
                 return fromNumber3579(number.substring(1));
             default:
                 return "";
@@ -4906,20 +4916,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "35722"; // Lauta b Hoyerswerda
-            case "3":
+            case '3':
                 return "35723"; // Bernsdorf OL
-            case "4":
+            case '4':
                 return "35724"; // Lohsa
-            case "5":
+            case '5':
                 return "35725"; // Wittichenau
-            case "6":
+            case '6':
                 return "35726"; // Groß Särchen
-            case "7":
+            case '7':
                 return "35727"; // Burghammer
-            case "8":
+            case '8':
                 return "35728"; // Uhyst Spree
             default:
                 return "";
@@ -4931,18 +4941,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "35751"; // Welzow
-            case "2":
+            case '2':
                 return "35752"; // Ruhland
-            case "3":
+            case '3':
                 return "35753"; // Großräschen
-            case "4":
+            case '4':
                 return "35754"; // Klettwitz
-            case "5":
+            case '5':
                 return "35755"; // Ortrand
-            case "6":
+            case '6':
                 return "35756"; // Hosena
             default:
                 return "";
@@ -4954,16 +4964,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "35771"; // Bad Muskau
-            case "2":
+            case '2':
                 return "35772"; // Rietschen
-            case "3":
+            case '3':
                 return "35773"; // Schleife
-            case "4":
+            case '4':
                 return "35774"; // Boxberg Sachs
-            case "5":
+            case '5':
                 return "35775"; // Pechern
             default:
                 return "";
@@ -4975,16 +4985,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "35792"; // Ossling
-            case "3":
+            case '3':
                 return "35793"; // Elstra
-            case "5":
+            case '5':
                 return "35795"; // Königsbrück
-            case "6":
+            case '6':
                 return "35796"; // Panschwitz-Kuckau
-            case "7":
+            case '7':
                 return "35797"; // Schwepnitz
             default:
                 return "";
@@ -4996,24 +5006,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3581"; // Görlitz
-            case "2":
+            case '2':
                 return fromNumber3582(number.substring(1));
-            case "3":
+            case '3':
                 return "3583"; // Zittau
-            case "4":
+            case '4':
                 return fromNumber3584(number.substring(1));
-            case "5":
+            case '5':
                 return "3585"; // Löbau
-            case "6":
+            case '6':
                 return "3586"; // Neugersdorf Sachs
-            case "7":
+            case '7':
                 return fromNumber3587(number.substring(1));
-            case "8":
+            case '8':
                 return "3588"; // Niesky
-            case "9":
+            case '9':
                 return fromNumber3589(number.substring(1));
             default:
                 return "";
@@ -5025,22 +5035,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "35820"; // Zodel
-            case "2":
+            case '2':
                 return "35822"; // Hagenwerder
-            case "3":
+            case '3':
                 return "35823"; // Ostritz
-            case "5":
+            case '5':
                 return "35825"; // Kodersdorf
-            case "6":
+            case '6':
                 return "35826"; // Königshain b Görlitz
-            case "7":
+            case '7':
                 return "35827"; // Nieder-Seifersdorf
-            case "8":
+            case '8':
                 return "35828"; // Reichenbach OL
-            case "9":
+            case '9':
                 return "35829"; // Gersdorf b Görlitz
             default:
                 return "";
@@ -5052,14 +5062,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "35841"; // Großschönau Sachs
-            case "2":
+            case '2':
                 return "35842"; // Oderwitz
-            case "3":
+            case '3':
                 return "35843"; // Hirschfelde b Zittau
-            case "4":
+            case '4':
                 return "35844"; // Oybin Kurort
             default:
                 return "";
@@ -5071,18 +5081,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "35872"; // Neusalza-Spremberg
-            case "3":
+            case '3':
                 return "35873"; // Herrnhut
-            case "4":
+            case '4':
                 return "35874"; // Bernstadt a d Eigen
-            case "5":
+            case '5':
                 return "35875"; // Obercunnersdorf b Löbau
-            case "6":
+            case '6':
                 return "35876"; // Weissenberg Sachs
-            case "7":
+            case '7':
                 return "35877"; // Cunewalde
             default:
                 return "";
@@ -5094,16 +5104,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "35891"; // Rothenburg OL
-            case "2":
+            case '2':
                 return "35892"; // Horka OL
-            case "3":
+            case '3':
                 return "35893"; // Mücka
-            case "4":
+            case '4':
                 return "35894"; // Hähnichen
-            case "5":
+            case '5':
                 return "35895"; // Klitten
             default:
                 return "";
@@ -5115,20 +5125,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3591"; // Bautzen
-            case "2":
+            case '2':
                 return "3592"; // Kirschau
-            case "3":
+            case '3':
                 return fromNumber3593(number.substring(1));
-            case "4":
+            case '4':
                 return "3594"; // Bischofswerda
-            case "5":
+            case '5':
                 return fromNumber3595(number.substring(1));
-            case "6":
+            case '6':
                 return "3596"; // Neustadt i Sa
-            case "7":
+            case '7':
                 return fromNumber3597(number.substring(1));
             default:
                 return "";
@@ -5140,26 +5150,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "35930"; // Seitschen
-            case "1":
+            case '1':
                 return "35931"; // Königswartha
-            case "2":
+            case '2':
                 return "35932"; // Guttau
-            case "3":
+            case '3':
                 return "35933"; // Neschwitz
-            case "4":
+            case '4':
                 return "35934"; // Grossdubrau
-            case "5":
+            case '5':
                 return "35935"; // Kleinwelka
-            case "6":
+            case '6':
                 return "35936"; // Sohland Spree
-            case "7":
+            case '7':
                 return "35937"; // Prischwitz
-            case "8":
+            case '8':
                 return "35938"; // Großpostwitz OL
-            case "9":
+            case '9':
                 return "35939"; // Hochkirch
             default:
                 return "";
@@ -5171,16 +5181,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "35951"; // Neukirch Lausitz
-            case "2":
+            case '2':
                 return "35952"; // Großröhrsdorf OL
-            case "3":
+            case '3':
                 return "35953"; // Burkau
-            case "4":
+            case '4':
                 return "35954"; // Grossharthau
-            case "5":
+            case '5':
                 return "35955"; // Pulsnitz
             default:
                 return "";
@@ -5192,14 +5202,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "35971"; // Sebnitz
-            case "3":
+            case '3':
                 return "35973"; // Stolpen
-            case "4":
+            case '4':
                 return "35974"; // Hinterhermsdorf
-            case "5":
+            case '5':
                 return "35975"; // Hohnstein
             default:
                 return "";
@@ -5211,26 +5221,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber360(number.substring(1));
-            case "1":
+            case '1':
                 return "361"; // Erfurt
-            case "2":
+            case '2':
                 return fromNumber362(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber363(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber364(number.substring(1));
-            case "5":
+            case '5':
                 return "365"; // Gera
-            case "6":
+            case '6':
                 return fromNumber366(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber367(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber368(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber369(number.substring(1));
             default:
                 return "";
@@ -5242,22 +5252,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3601"; // Mühlhausen Thür
-            case "2":
+            case '2':
                 return fromNumber3602(number.substring(1));
-            case "3":
+            case '3':
                 return "3603"; // Bad Langensalza
-            case "4":
+            case '4':
                 return fromNumber3604(number.substring(1));
-            case "5":
+            case '5':
                 return "3605"; // Leinefelde
-            case "6":
+            case '6':
                 return "3606"; // Heiligenstadt Heilbad
-            case "7":
+            case '7':
                 return fromNumber3607(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber3608(number.substring(1));
             default:
                 return "";
@@ -5269,26 +5279,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "36020"; // Ebeleben
-            case "1":
+            case '1':
                 return "36021"; // Schlotheim
-            case "2":
+            case '2':
                 return "36022"; // Grossengottern
-            case "3":
+            case '3':
                 return "36023"; // Horsmar
-            case "4":
+            case '4':
                 return "36024"; // Diedorf b Mühlhausen Thür
-            case "5":
+            case '5':
                 return "36025"; // Körner
-            case "6":
+            case '6':
                 return "36026"; // Struth b Mühlhausen Thür
-            case "7":
+            case '7':
                 return "36027"; // Lengenfeld Unterm Stein
-            case "8":
+            case '8':
                 return "36028"; // Kammerforst Thür
-            case "9":
+            case '9':
                 return "36029"; // Menteroda
             default:
                 return "";
@@ -5300,12 +5310,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36041"; // Bad Tennstedt
-            case "2":
+            case '2':
                 return "36042"; // Tonna
-            case "3":
+            case '3':
                 return "36043"; // Kirchheilingen
             default:
                 return "";
@@ -5317,18 +5327,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36071"; // Teistungen
-            case "2":
+            case '2':
                 return "36072"; // Weißenborn-Lüderode
-            case "4":
+            case '4':
                 return "36074"; // Worbis
-            case "5":
+            case '5':
                 return "36075"; // Dingelstädt Eichsfeld
-            case "6":
+            case '6':
                 return "36076"; // Niederorschel
-            case "7":
+            case '7':
                 return "36077"; // Grossbodungen
             default:
                 return "";
@@ -5340,18 +5350,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36081"; // Arenshausen
-            case "2":
+            case '2':
                 return "36082"; // Ershausen
-            case "3":
+            case '3':
                 return "36083"; // Uder
-            case "4":
+            case '4':
                 return "36084"; // Heuthen
-            case "5":
+            case '5':
                 return "36085"; // Reinholterode
-            case "7":
+            case '7':
                 return "36087"; // Wüstheuterode
             default:
                 return "";
@@ -5363,22 +5373,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3620(number.substring(1));
-            case "1":
+            case '1':
                 return "3621"; // Gotha Thür
-            case "2":
+            case '2':
                 return "3622"; // Waltershausen Thür
-            case "3":
+            case '3':
                 return "3623"; // Friedrichroda
-            case "4":
+            case '4':
                 return "3624"; // Ohrdruf
-            case "5":
+            case '5':
                 return fromNumber3625(number.substring(1));
-            case "8":
+            case '8':
                 return "3628"; // Arnstadt
-            case "9":
+            case '9':
                 return "3629"; // Stadtilm
             default:
                 return "";
@@ -5390,26 +5400,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "36200"; // Elxleben b Arnstadt
-            case "1":
+            case '1':
                 return "36201"; // Walschleben
-            case "2":
+            case '2':
                 return "36202"; // Neudietendorf
-            case "3":
+            case '3':
                 return "36203"; // Vieselbach
-            case "4":
+            case '4':
                 return "36204"; // Stotternheim
-            case "5":
+            case '5':
                 return "36205"; // Gräfenroda
-            case "6":
+            case '6':
                 return "36206"; // Grossfahner
-            case "7":
+            case '7':
                 return "36207"; // Plaue Thür
-            case "8":
+            case '8':
                 return "36208"; // Ermstedt
-            case "9":
+            case '9':
                 return "36209"; // Klettbach
             default:
                 return "";
@@ -5421,22 +5431,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "36252"; // Tambach-Dietharz Thür Wald
-            case "3":
+            case '3':
                 return "36253"; // Georgenthal Thür Wald
-            case "4":
+            case '4':
                 return "36254"; // Friedrichswerth
-            case "5":
+            case '5':
                 return "36255"; // Goldbach b Gotha
-            case "6":
+            case '6':
                 return "36256"; // Wechmar
-            case "7":
+            case '7':
                 return "36257"; // Luisenthal Thür
-            case "8":
+            case '8':
                 return "36258"; // Friemar
-            case "9":
+            case '9':
                 return "36259"; // Tabarz Thür Wald
             default:
                 return "";
@@ -5448,20 +5458,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3631"; // Nordhausen Thür
-            case "2":
+            case '2':
                 return "3632"; // Sondershausen
-            case "3":
+            case '3':
                 return fromNumber3633(number.substring(1));
-            case "4":
+            case '4':
                 return "3634"; // Sömmerda
-            case "5":
+            case '5':
                 return "3635"; // Kölleda
-            case "6":
+            case '6':
                 return "3636"; // Greussen
-            case "7":
+            case '7':
                 return fromNumber3637(number.substring(1));
             default:
                 return "";
@@ -5473,24 +5483,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "36330"; // Grossberndten
-            case "1":
+            case '1':
                 return "36331"; // Ilfeld
-            case "2":
+            case '2':
                 return "36332"; // Ellrich
-            case "3":
+            case '3':
                 return "36333"; // Heringen Helme
-            case "4":
+            case '4':
                 return "36334"; // Wolkramshausen
-            case "5":
+            case '5':
                 return "36335"; // Grosswechsungen
-            case "6":
+            case '6':
                 return "36336"; // Klettenberg
-            case "7":
+            case '7':
                 return "36337"; // Schiedungen
-            case "8":
+            case '8':
                 return "36338"; // Bleicherode
             default:
                 return "";
@@ -5502,26 +5512,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "36370"; // Grossenehrich
-            case "1":
+            case '1':
                 return "36371"; // Schlossvippach
-            case "2":
+            case '2':
                 return "36372"; // Kleinneuhausen
-            case "3":
+            case '3':
                 return "36373"; // Buttstädt
-            case "4":
+            case '4':
                 return "36374"; // Weissensee
-            case "5":
+            case '5':
                 return "36375"; // Kindelbrück
-            case "6":
+            case '6':
                 return "36376"; // Straussfurt
-            case "7":
+            case '7':
                 return "36377"; // Rastenberg
-            case "8":
+            case '8':
                 return "36378"; // Ostramondra
-            case "9":
+            case '9':
                 return "36379"; // Holzengel
             default:
                 return "";
@@ -5533,22 +5543,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3641"; // Jena
-            case "2":
+            case '2':
                 return fromNumber3642(number.substring(1));
-            case "3":
+            case '3':
                 return "3643"; // Weimar Thür
-            case "4":
+            case '4':
                 return "3644"; // Apolda
-            case "5":
+            case '5':
                 return fromNumber3645(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber3646(number.substring(1));
-            case "7":
+            case '7':
                 return "3647"; // Pößneck
-            case "8":
+            case '8':
                 return fromNumber3648(number.substring(1));
             default:
                 return "";
@@ -5560,22 +5570,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36421"; // Camburg
-            case "2":
+            case '2':
                 return "36422"; // Reinstädt Thür
-            case "3":
+            case '3':
                 return "36423"; // Orlamünde
-            case "4":
+            case '4':
                 return "36424"; // Kahla Thür
-            case "5":
+            case '5':
                 return "36425"; // Isserstedt
-            case "6":
+            case '6':
                 return "36426"; // Ottendorf b Stadtroda
-            case "7":
+            case '7':
                 return "36427"; // Dornburg Saale
-            case "8":
+            case '8':
                 return "36428"; // Stadtroda
             default:
                 return "";
@@ -5587,20 +5597,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "36450"; // Kranichfeld
-            case "1":
+            case '1':
                 return "36451"; // Buttelstedt
-            case "2":
+            case '2':
                 return "36452"; // Berlstedt
-            case "3":
+            case '3':
                 return "36453"; // Mellingen
-            case "4":
+            case '4':
                 return "36454"; // Magdala
-            case "8":
+            case '8':
                 return "36458"; // Bad Berka
-            case "9":
+            case '9':
                 return "36459"; // Blankenhain Thür
             default:
                 return "";
@@ -5612,16 +5622,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36461"; // Bad Sulza
-            case "2":
+            case '2':
                 return "36462"; // Ossmannstedt
-            case "3":
+            case '3':
                 return "36463"; // Gebstedt
-            case "4":
+            case '4':
                 return "36464"; // Wormstedt
-            case "5":
+            case '5':
                 return "36465"; // Oberndorf b Apolda
             default:
                 return "";
@@ -5633,14 +5643,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36481"; // Neustadt an der Orla
-            case "2":
+            case '2':
                 return "36482"; // Triptis
-            case "3":
+            case '3':
                 return "36483"; // Ziegenrück
-            case "4":
+            case '4':
                 return "36484"; // Knau b Pößneck
             default:
                 return "";
@@ -5652,20 +5662,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3660(number.substring(1));
-            case "1":
+            case '1':
                 return "3661"; // Greiz
-            case "2":
+            case '2':
                 return fromNumber3662(number.substring(1));
-            case "3":
+            case '3':
                 return "3663"; // Schleiz
-            case "4":
+            case '4':
                 return fromNumber3664(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber3665(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber3669(number.substring(1));
             default:
                 return "";
@@ -5677,22 +5687,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36601"; // Hermsdorf Thür
-            case "2":
+            case '2':
                 return "36602"; // Ronneburg Thür
-            case "3":
+            case '3':
                 return "36603"; // Weida
-            case "4":
+            case '4':
                 return "36604"; // Münchenbernsdorf
-            case "5":
+            case '5':
                 return "36605"; // Bad Köstritz
-            case "6":
+            case '6':
                 return "36606"; // Kraftsdorf
-            case "7":
+            case '7':
                 return "36607"; // Niederpöllnitz
-            case "8":
+            case '8':
                 return "36608"; // Seelingstädt b Gera
             default:
                 return "";
@@ -5704,20 +5714,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36621"; // Elsterberg b Plauen
-            case "2":
+            case '2':
                 return "36622"; // Triebes
-            case "3":
+            case '3':
                 return "36623"; // Berga Elster
-            case "4":
+            case '4':
                 return "36624"; // Teichwolframsdorf
-            case "5":
+            case '5':
                 return "36625"; // Langenwetzendorf
-            case "6":
+            case '6':
                 return "36626"; // Auma
-            case "8":
+            case '8':
                 return "36628"; // Zeulenroda
             default:
                 return "";
@@ -5729,24 +5739,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "36640"; // Remptendorf
-            case "2":
+            case '2':
                 return "36642"; // Harra
-            case "3":
+            case '3':
                 return "36643"; // Thimmendorf
-            case "4":
+            case '4':
                 return "36644"; // Hirschberg Saale
-            case "5":
+            case '5':
                 return "36645"; // Mühltroff
-            case "6":
+            case '6':
                 return "36646"; // Tanna b Schleiz
-            case "7":
+            case '7':
                 return "36647"; // Saalburg Thür
-            case "8":
+            case '8':
                 return "36648"; // Dittersdorf b Schleiz
-            case "9":
+            case '9':
                 return "36649"; // Gefell b Schleiz
             default:
                 return "";
@@ -5758,12 +5768,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36651"; // Lobenstein
-            case "2":
+            case '2':
                 return "36652"; // Wurzbach
-            case "3":
+            case '3':
                 return "36653"; // Lehesten Thür Wald
             default:
                 return "";
@@ -5775,16 +5785,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36691"; // Eisenberg Thür
-            case "2":
+            case '2':
                 return "36692"; // Bürgel
-            case "3":
+            case '3':
                 return "36693"; // Crossen an der Elster
-            case "4":
+            case '4':
                 return "36694"; // Schkölen Thür
-            case "5":
+            case '5':
                 return "36695"; // Söllmnitz
             default:
                 return "";
@@ -5796,26 +5806,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3670(number.substring(1));
-            case "1":
+            case '1':
                 return "3671"; // Saalfeld Saale
-            case "2":
+            case '2':
                 return "3672"; // Rudolstadt
-            case "3":
+            case '3':
                 return fromNumber3673(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber3674(number.substring(1));
-            case "5":
+            case '5':
                 return "3675"; // Sonneberg Thür
-            case "6":
+            case '6':
                 return fromNumber3676(number.substring(1));
-            case "7":
+            case '7':
                 return "3677"; // Ilmenau Thür
-            case "8":
+            case '8':
                 return fromNumber3678(number.substring(1));
-            case "9":
+            case '9':
                 return "3679"; // Neuhaus a Rennweg
             default:
                 return "";
@@ -5827,16 +5837,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36701"; // Lichte
-            case "2":
+            case '2':
                 return "36702"; // Lauscha
-            case "3":
+            case '3':
                 return "36703"; // Gräfenthal
-            case "4":
+            case '4':
                 return "36704"; // Steinheid
-            case "5":
+            case '5':
                 return "36705"; // Oberweißbach Thür Wald
             default:
                 return "";
@@ -5848,26 +5858,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "36730"; // Sitzendorf
-            case "1":
+            case '1':
                 return "36731"; // Unterloquitz
-            case "2":
+            case '2':
                 return "36732"; // Könitz
-            case "3":
+            case '3':
                 return "36733"; // Kaulsdorf
-            case "4":
+            case '4':
                 return "36734"; // Leutenberg
-            case "5":
+            case '5':
                 return "36735"; // Probstzella
-            case "6":
+            case '6':
                 return "36736"; // Arnsgereuth
-            case "7":
+            case '7':
                 return "36737"; // Drognitz
-            case "8":
+            case '8':
                 return "36738"; // Königsee
-            case "9":
+            case '9':
                 return "36739"; // Rottenbach
             default:
                 return "";
@@ -5879,14 +5889,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36741"; // Bad Blankenburg
-            case "2":
+            case '2':
                 return "36742"; // Uhlstädt
-            case "3":
+            case '3':
                 return "36743"; // Teichel
-            case "4":
+            case '4':
                 return "36744"; // Remda
             default:
                 return "";
@@ -5898,14 +5908,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36761"; // Heubisch
-            case "2":
+            case '2':
                 return "36762"; // Steinach Thür
-            case "4":
+            case '4':
                 return "36764"; // Neuhaus-Schierschnitz
-            case "6":
+            case '6':
                 return "36766"; // Schalkau
             default:
                 return "";
@@ -5917,16 +5927,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36781"; // Grossbreitenbach
-            case "2":
+            case '2':
                 return "36782"; // Schmiedefeld a Rennsteig
-            case "3":
+            case '3':
                 return "36783"; // Gehren Thür
-            case "4":
+            case '4':
                 return "36784"; // Stützerbach
-            case "5":
+            case '5':
                 return "36785"; // Gräfinau-Angstedt
             default:
                 return "";
@@ -5938,20 +5948,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3681"; // Suhl
-            case "2":
+            case '2':
                 return "3682"; // Zella-Mehlis
-            case "3":
+            case '3':
                 return "3683"; // Schmalkalden
-            case "4":
+            case '4':
                 return fromNumber3684(number.substring(1));
-            case "5":
+            case '5':
                 return "3685"; // Hildburghausen
-            case "6":
+            case '6':
                 return "3686"; // Eisfeld
-            case "7":
+            case '7':
                 return fromNumber3687(number.substring(1));
             default:
                 return "";
@@ -5963,26 +5973,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "36840"; // Trusetal
-            case "1":
+            case '1':
                 return "36841"; // Schleusingen
-            case "2":
+            case '2':
                 return "36842"; // Oberhof Thür
-            case "3":
+            case '3':
                 return "36843"; // Benshausen
-            case "4":
+            case '4':
                 return "36844"; // Rohr Thür
-            case "5":
+            case '5':
                 return "36845"; // Gehlberg
-            case "6":
+            case '6':
                 return "36846"; // Suhl-Dietzhausen
-            case "7":
+            case '7':
                 return "36847"; // Steinbach-Hallenberg
-            case "8":
+            case '8':
                 return "36848"; // Wernshausen
-            case "9":
+            case '9':
                 return "36849"; // Kleinschmalkalden
             default:
                 return "";
@@ -5994,18 +6004,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "36870"; // Masserberg
-            case "1":
+            case '1':
                 return "36871"; // Bad Colberg-Heldburg
-            case "3":
+            case '3':
                 return "36873"; // Themar
-            case "4":
+            case '4':
                 return "36874"; // Schönbrunn b Hildburghaus
-            case "5":
+            case '5':
                 return "36875"; // Straufhain-Streufdorf
-            case "8":
+            case '8':
                 return "36878"; // Oberland
             default:
                 return "";
@@ -6017,18 +6027,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3691"; // Eisenach Thür
-            case "2":
+            case '2':
                 return fromNumber3692(number.substring(1));
-            case "3":
+            case '3':
                 return "3693"; // Meiningen
-            case "4":
+            case '4':
                 return fromNumber3694(number.substring(1));
-            case "5":
+            case '5':
                 return "3695"; // Bad Salzungen
-            case "6":
+            case '6':
                 return fromNumber3696(number.substring(1));
             default:
                 return "";
@@ -6040,26 +6050,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "36920"; // Grossenlupnitz
-            case "1":
+            case '1':
                 return "36921"; // Wutha-Farnroda
-            case "2":
+            case '2':
                 return "36922"; // Gerstungen
-            case "3":
+            case '3':
                 return "36923"; // Treffurt
-            case "4":
+            case '4':
                 return "36924"; // Mihla
-            case "5":
+            case '5':
                 return "36925"; // Marksuhl
-            case "6":
+            case '6':
                 return "36926"; // Creuzburg
-            case "7":
+            case '7':
                 return "36927"; // Unterellen
-            case "8":
+            case '8':
                 return "36928"; // Neuenhof Thür
-            case "9":
+            case '9':
                 return "36929"; // Ruhla
             default:
                 return "";
@@ -6071,24 +6081,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "36940"; // Oepfershausen
-            case "1":
+            case '1':
                 return "36941"; // Wasungen
-            case "3":
+            case '3':
                 return "36943"; // Bettenhausen Thür
-            case "4":
+            case '4':
                 return "36944"; // Rentwertshausen
-            case "5":
+            case '5':
                 return "36945"; // Henneberg
-            case "6":
+            case '6':
                 return "36946"; // Erbenhausen Thür
-            case "7":
+            case '7':
                 return "36947"; // Jüchsen
-            case "8":
+            case '8':
                 return "36948"; // Römhild
-            case "9":
+            case '9':
                 return "36949"; // Obermaßfeld-Grimmenthal
             default:
                 return "";
@@ -6100,24 +6110,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "36961"; // Bad Liebenstein
-            case "2":
+            case '2':
                 return "36962"; // Vacha
-            case "3":
+            case '3':
                 return "36963"; // Dorndorf Rhön
-            case "4":
+            case '4':
                 return "36964"; // Dermbach Rhön
-            case "5":
+            case '5':
                 return "36965"; // Stadtlengsfeld
-            case "6":
+            case '6':
                 return "36966"; // Kaltennordheim
-            case "7":
+            case '7':
                 return "36967"; // Geisa
-            case "8":
+            case '8':
                 return "36968"; // Rossdorf Rhön
-            case "9":
+            case '9':
                 return "36969"; // Merkers
             default:
                 return "";
@@ -6129,20 +6139,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "371"; // Chemnitz Sachs
-            case "2":
+            case '2':
                 return fromNumber372(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber373(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber374(number.substring(1));
-            case "5":
+            case '5':
                 return "375"; // Zwickau
-            case "6":
+            case '6':
                 return fromNumber376(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber377(number.substring(1));
             default:
                 return "";
@@ -6154,24 +6164,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3720(number.substring(1));
-            case "1":
+            case '1':
                 return "3721"; // Meinersdorf
-            case "2":
+            case '2':
                 return "3722"; // Limbach-Oberfrohna
-            case "3":
+            case '3':
                 return "3723"; // Hohenstein-Ernstthal
-            case "4":
+            case '4':
                 return "3724"; // Burgstädt
-            case "5":
+            case '5':
                 return "3725"; // Zschopau
-            case "6":
+            case '6':
                 return "3726"; // Flöha
-            case "7":
+            case '7':
                 return "3727"; // Mittweida
-            case "9":
+            case '9':
                 return fromNumber3729(number.substring(1));
             default:
                 return "";
@@ -6183,22 +6193,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "37200"; // Wittgensdorf b Chemnitz
-            case "2":
+            case '2':
                 return "37202"; // Claussnitz b Chemnitz
-            case "3":
+            case '3':
                 return "37203"; // Gersdorf b Chemnitz
-            case "4":
+            case '4':
                 return "37204"; // Lichtenstein Sachs
-            case "6":
+            case '6':
                 return "37206"; // Frankenberg Sachs
-            case "7":
+            case '7':
                 return "37207"; // Hainichen Sachs
-            case "8":
+            case '8':
                 return "37208"; // Auerswalde
-            case "9":
+            case '9':
                 return "37209"; // Einsiedel b Chemnitz
             default:
                 return "";
@@ -6210,22 +6220,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "37291"; // Augustusburg
-            case "2":
+            case '2':
                 return "37292"; // Oederan
-            case "3":
+            case '3':
                 return "37293"; // Eppendorf Sachs
-            case "4":
+            case '4':
                 return "37294"; // Grünhainichen
-            case "5":
+            case '5':
                 return "37295"; // Lugau Erzgeb
-            case "6":
+            case '6':
                 return "37296"; // Stollberg Erzgeb
-            case "7":
+            case '7':
                 return "37297"; // Thum Sachs
-            case "8":
+            case '8':
                 return "37298"; // Oelsnitz Erzgeb
             default:
                 return "";
@@ -6237,22 +6247,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3731"; // Freiberg Sachs
-            case "2":
+            case '2':
                 return fromNumber3732(number.substring(1));
-            case "3":
+            case '3':
                 return "3733"; // Annaberg-Buchholz
-            case "4":
+            case '4':
                 return fromNumber3734(number.substring(1));
-            case "5":
+            case '5':
                 return "3735"; // Marienberg Sachs
-            case "6":
+            case '6':
                 return fromNumber3736(number.substring(1));
-            case "7":
+            case '7':
                 return "3737"; // Rochlitz
-            case "8":
+            case '8':
                 return fromNumber3738(number.substring(1));
             default:
                 return "";
@@ -6264,26 +6274,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "37320"; // Mulda Sachs
-            case "1":
+            case '1':
                 return "37321"; // Frankenstein Sachs
-            case "2":
+            case '2':
                 return "37322"; // Brand-Erbisdorf
-            case "3":
+            case '3':
                 return "37323"; // Lichtenberg Erzgeb
-            case "4":
+            case '4':
                 return "37324"; // Reinsberg Sachs
-            case "5":
+            case '5':
                 return "37325"; // Niederbobritzsch
-            case "6":
+            case '6':
                 return "37326"; // Frauenstein Sachs
-            case "7":
+            case '7':
                 return "37327"; // Rechenberg-Bienenmühle
-            case "8":
+            case '8':
                 return "37328"; // Grossschirma
-            case "9":
+            case '9':
                 return "37329"; // Grosshartmannsdorf
             default:
                 return "";
@@ -6295,22 +6305,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "37341"; // Ehrenfriedersdorf
-            case "2":
+            case '2':
                 return "37342"; // Cranzahl
-            case "3":
+            case '3':
                 return "37343"; // Jöhstadt
-            case "4":
+            case '4':
                 return "37344"; // Crottendorf Sachs
-            case "6":
+            case '6':
                 return "37346"; // Geyer
-            case "7":
+            case '7':
                 return "37347"; // Bärenstein Kr Annaberg
-            case "8":
+            case '8':
                 return "37348"; // Oberwiesenthal Kurort
-            case "9":
+            case '9':
                 return "37349"; // Scheibenberg
             default:
                 return "";
@@ -6322,26 +6332,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "37360"; // Olbernhau
-            case "1":
+            case '1':
                 return "37361"; // Neuhausen Erzgeb
-            case "2":
+            case '2':
                 return "37362"; // Seiffen Erzgeb
-            case "3":
+            case '3':
                 return "37363"; // Zöblitz
-            case "4":
+            case '4':
                 return "37364"; // Reitzenhain Erzgeb
-            case "5":
+            case '5':
                 return "37365"; // Sayda
-            case "6":
+            case '6':
                 return "37366"; // Rübenau
-            case "7":
+            case '7':
                 return "37367"; // Lengefeld Erzgeb
-            case "8":
+            case '8':
                 return "37368"; // Deutschneudorf
-            case "9":
+            case '9':
                 return "37369"; // Wolkenstein
             default:
                 return "";
@@ -6353,14 +6363,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "37381"; // Penig
-            case "2":
+            case '2':
                 return "37382"; // Geringswalde
-            case "3":
+            case '3':
                 return "37383"; // Lunzenau
-            case "4":
+            case '4':
                 return "37384"; // Wechselburg
             default:
                 return "";
@@ -6372,18 +6382,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3741"; // Plauen
-            case "2":
+            case '2':
                 return fromNumber3742(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber3743(number.substring(1));
-            case "4":
+            case '4':
                 return "3744"; // Auerbach Vogtl
-            case "5":
+            case '5':
                 return "3745"; // Falkenstein Vogtl
-            case "6":
+            case '6':
                 return fromNumber3746(number.substring(1));
             default:
                 return "";
@@ -6395,12 +6405,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "37421"; // Oelsnitz Vogtl
-            case "2":
+            case '2':
                 return "37422"; // Markneukirchen
-            case "3":
+            case '3':
                 return "37423"; // Adorf Vogtl
             default:
                 return "";
@@ -6412,26 +6422,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "37430"; // Eichigt
-            case "1":
+            case '1':
                 return "37431"; // Mehltheuer Vogtl
-            case "2":
+            case '2':
                 return "37432"; // Pausa Vogtl
-            case "3":
+            case '3':
                 return "37433"; // Gutenfürst
-            case "4":
+            case '4':
                 return "37434"; // Bobenneukirchen
-            case "5":
+            case '5':
                 return "37435"; // Reuth b Plauen
-            case "6":
+            case '6':
                 return "37436"; // Weischlitz
-            case "7":
+            case '7':
                 return "37437"; // Bad Elster
-            case "8":
+            case '8':
                 return "37438"; // Bad Brambach
-            case "9":
+            case '9':
                 return "37439"; // Jocketa
             default:
                 return "";
@@ -6443,18 +6453,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "37462"; // Rothenkirchen Vogtl
-            case "3":
+            case '3':
                 return "37463"; // Bergen Vogtl
-            case "4":
+            case '4':
                 return "37464"; // Schöneck Vogtl
-            case "5":
+            case '5':
                 return "37465"; // Tannenbergsthal Vogtl
-            case "7":
+            case '7':
                 return "37467"; // Klingenthal Sachs
-            case "8":
+            case '8':
                 return "37468"; // Treuen Vogtl
             default:
                 return "";
@@ -6466,18 +6476,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3760(number.substring(1));
-            case "1":
+            case '1':
                 return "3761"; // Werdau Sachs
-            case "2":
+            case '2':
                 return "3762"; // Crimmitschau
-            case "3":
+            case '3':
                 return "3763"; // Glauchau
-            case "4":
+            case '4':
                 return "3764"; // Meerane
-            case "5":
+            case '5':
                 return "3765"; // Reichenbach Vogtl
             default:
                 return "";
@@ -6489,26 +6499,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "37600"; // Neumark Sachs
-            case "1":
+            case '1':
                 return "37601"; // Mülsen Skt Jacob
-            case "2":
+            case '2':
                 return "37602"; // Kirchberg Sachs
-            case "3":
+            case '3':
                 return "37603"; // Wildenfels
-            case "4":
+            case '4':
                 return "37604"; // Mosel
-            case "5":
+            case '5':
                 return "37605"; // Hartenstein Sachs
-            case "6":
+            case '6':
                 return "37606"; // Lengenfeld Vogtl
-            case "7":
+            case '7':
                 return "37607"; // Ebersbrunn Sachs
-            case "8":
+            case '8':
                 return "37608"; // Waldenburg Sachs
-            case "9":
+            case '9':
                 return "37609"; // Wolkenburg Mulde
             default:
                 return "";
@@ -6520,16 +6530,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3771"; // Aue Sachs
-            case "2":
+            case '2':
                 return "3772"; // Schneeberg Erzgeb
-            case "3":
+            case '3':
                 return "3773"; // Johanngeorgenstadt
-            case "4":
+            case '4':
                 return "3774"; // Schwarzenberg
-            case "5":
+            case '5':
                 return fromNumber3775(number.substring(1));
             default:
                 return "";
@@ -6541,16 +6551,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "37752"; // Eibenstock
-            case "4":
+            case '4':
                 return "37754"; // Zwönitz
-            case "5":
+            case '5':
                 return "37755"; // Schönheide Erzgeb
-            case "6":
+            case '6':
                 return "37756"; // Breitenbrunn Erzgeb
-            case "7":
+            case '7':
                 return "37757"; // Rittersgrün
             default:
                 return "";
@@ -6562,22 +6572,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "381"; // Rostock
-            case "2":
+            case '2':
                 return fromNumber382(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber383(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber384(number.substring(1));
-            case "5":
+            case '5':
                 return "385"; // Schwerin Meckl
-            case "6":
+            case '6':
                 return fromNumber386(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber387(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber388(number.substring(1));
             default:
                 return "";
@@ -6589,16 +6599,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3820(number.substring(1));
-            case "1":
+            case '1':
                 return "3821"; // Ribnitz-Damgarten
-            case "2":
+            case '2':
                 return fromNumber3822(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber3823(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber3829(number.substring(1));
             default:
                 return "";
@@ -6610,24 +6620,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "38201"; // Gelbensande
-            case "2":
+            case '2':
                 return "38202"; // Volkenshagen
-            case "3":
+            case '3':
                 return "38203"; // Bad Doberan
-            case "4":
+            case '4':
                 return "38204"; // Broderstorf
-            case "5":
+            case '5':
                 return "38205"; // Tessin b Rostock
-            case "6":
+            case '6':
                 return "38206"; // Graal-Müritz Seeheilbad
-            case "7":
+            case '7':
                 return "38207"; // Stäbelow
-            case "8":
+            case '8':
                 return "38208"; // Kavelstorf
-            case "9":
+            case '9':
                 return "38209"; // Sanitz b Rostock
             default:
                 return "";
@@ -6639,26 +6649,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "38220"; // Wustrow Ostseebad
-            case "1":
+            case '1':
                 return "38221"; // Marlow
-            case "2":
+            case '2':
                 return "38222"; // Semlow
-            case "3":
+            case '3':
                 return "38223"; // Saal Vorpom
-            case "4":
+            case '4':
                 return "38224"; // Gresenhorst
-            case "5":
+            case '5':
                 return "38225"; // Trinwillershagen
-            case "6":
+            case '6':
                 return "38226"; // Dierhagen Ostseebad
-            case "7":
+            case '7':
                 return "38227"; // Lüdershagen b Barth
-            case "8":
+            case '8':
                 return "38228"; // Dettmannsdorf-Kölzow
-            case "9":
+            case '9':
                 return "38229"; // Bad Sülze
             default:
                 return "";
@@ -6670,14 +6680,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "38231"; // Barth
-            case "2":
+            case '2':
                 return "38232"; // Zingst Ostseebad
-            case "3":
+            case '3':
                 return "38233"; // Prerow Ostseebad
-            case "4":
+            case '4':
                 return "38234"; // Born a Darß
             default:
                 return "";
@@ -6689,18 +6699,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "38292"; // Kröpelin
-            case "3":
+            case '3':
                 return "38293"; // Kühlungsborn Ostseebad
-            case "4":
+            case '4':
                 return "38294"; // Neubukow
-            case "5":
+            case '5':
                 return "38295"; // Satow b Bad Doberan
-            case "6":
+            case '6':
                 return "38296"; // Rerik Ostseebad
-            case "7":
+            case '7':
                 return "38297"; // Moitin
             default:
                 return "";
@@ -6712,26 +6722,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3830(number.substring(1));
-            case "1":
+            case '1':
                 return "3831"; // Stralsund
-            case "2":
+            case '2':
                 return fromNumber3832(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber3833(number.substring(1));
-            case "4":
+            case '4':
                 return "3834"; // Greifswald
-            case "5":
+            case '5':
                 return fromNumber3835(number.substring(1));
-            case "6":
+            case '6':
                 return "3836"; // Wolgast
-            case "7":
+            case '7':
                 return fromNumber3837(number.substring(1));
-            case "8":
+            case '8':
                 return "3838"; // Bergen auf Rügen
-            case "9":
+            case '9':
                 return fromNumber3839(number.substring(1));
             default:
                 return "";
@@ -6743,26 +6753,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "38300"; // Insel Hiddensee
-            case "1":
+            case '1':
                 return "38301"; // Putbus
-            case "2":
+            case '2':
                 return "38302"; // Sagard
-            case "3":
+            case '3':
                 return "38303"; // Sellin Ostseebad
-            case "4":
+            case '4':
                 return "38304"; // Garz Rügen
-            case "5":
+            case '5':
                 return "38305"; // Gingst
-            case "6":
+            case '6':
                 return "38306"; // Samtens
-            case "7":
+            case '7':
                 return "38307"; // Poseritz
-            case "8":
+            case '8':
                 return "38308"; // Göhren Rügen
-            case "9":
+            case '9':
                 return "38309"; // Trent
             default:
                 return "";
@@ -6774,24 +6784,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "38320"; // Tribsees
-            case "1":
+            case '1':
                 return "38321"; // Martensdorf b Stralsund
-            case "2":
+            case '2':
                 return "38322"; // Richtenberg
-            case "3":
+            case '3':
                 return "38323"; // Prohn
-            case "4":
+            case '4':
                 return "38324"; // Velgast
-            case "5":
+            case '5':
                 return "38325"; // Rolofshagen
-            case "6":
+            case '6':
                 return "38326"; // Grimmen
-            case "7":
+            case '7':
                 return "38327"; // Elmenhorst Vorpom
-            case "8":
+            case '8':
                 return "38328"; // Miltzow
             default:
                 return "";
@@ -6803,14 +6813,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "38331"; // Rakow Vorpom
-            case "2":
+            case '2':
                 return "38332"; // Gross Bisdorf
-            case "3":
+            case '3':
                 return "38333"; // Horst b Grimmen
-            case "4":
+            case '4':
                 return "38334"; // Grammendorf
             default:
                 return "";
@@ -6822,18 +6832,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "38351"; // Mesekenhagen
-            case "2":
+            case '2':
                 return "38352"; // Kemnitz b Greifswald
-            case "3":
+            case '3':
                 return "38353"; // Gützkow b Greifswald
-            case "4":
+            case '4':
                 return "38354"; // Wusterhusen
-            case "5":
+            case '5':
                 return "38355"; // Züssow
-            case "6":
+            case '6':
                 return "38356"; // Behrenhoff
             default:
                 return "";
@@ -6845,26 +6855,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "38370"; // Kröslin
-            case "1":
+            case '1':
                 return "38371"; // Karlshagen
-            case "2":
+            case '2':
                 return "38372"; // Usedom
-            case "3":
+            case '3':
                 return "38373"; // Katzow
-            case "4":
+            case '4':
                 return "38374"; // Lassan b Wolgast
-            case "5":
+            case '5':
                 return "38375"; // Koserow
-            case "6":
+            case '6':
                 return "38376"; // Zirchow
-            case "7":
+            case '7':
                 return "38377"; // Zinnowitz
-            case "8":
+            case '8':
                 return "38378"; // Heringsdorf Seebad
-            case "9":
+            case '9':
                 return "38379"; // Benz Usedom
             default:
                 return "";
@@ -6876,12 +6886,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "38391"; // Altenkirchen Rügen
-            case "2":
+            case '2':
                 return "38392"; // Sassnitz
-            case "3":
+            case '3':
                 return "38393"; // Binz Ostseebad
             default:
                 return "";
@@ -6893,22 +6903,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3841"; // Wismar Meckl
-            case "2":
+            case '2':
                 return fromNumber3842(number.substring(1));
-            case "3":
+            case '3':
                 return "3843"; // Güstrow
-            case "4":
+            case '4':
                 return "3844"; // Schwaan
-            case "5":
+            case '5':
                 return fromNumber3845(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber3846(number.substring(1));
-            case "7":
+            case '7':
                 return "3847"; // Sternberg
-            case "8":
+            case '8':
                 return fromNumber3848(number.substring(1));
             default:
                 return "";
@@ -6920,22 +6930,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "38422"; // Neukloster
-            case "3":
+            case '3':
                 return "38423"; // Bad Kleinen
-            case "4":
+            case '4':
                 return "38424"; // Bobitz
-            case "5":
+            case '5':
                 return "38425"; // Kirchdorf Poel
-            case "6":
+            case '6':
                 return "38426"; // Neuburg-Steinhausen
-            case "7":
+            case '7':
                 return "38427"; // Blowatz
-            case "8":
+            case '8':
                 return "38428"; // Hohenkirchen b Wismar
-            case "9":
+            case '9':
                 return "38429"; // Glasin
             default:
                 return "";
@@ -6947,26 +6957,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "38450"; // Tarnow b Bützow
-            case "1":
+            case '1':
                 return "38451"; // Hoppenrade b Güstrow
-            case "2":
+            case '2':
                 return "38452"; // Lalendorf
-            case "3":
+            case '3':
                 return "38453"; // Mistorf
-            case "4":
+            case '4':
                 return "38454"; // Kritzkow
-            case "5":
+            case '5':
                 return "38455"; // Plaaz
-            case "6":
+            case '6':
                 return "38456"; // Langhagen b Güstrow
-            case "7":
+            case '7':
                 return "38457"; // Krakow am See
-            case "8":
+            case '8':
                 return "38458"; // Zehna
-            case "9":
+            case '9':
                 return "38459"; // Laage
             default:
                 return "";
@@ -6978,14 +6988,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "38461"; // Bützow
-            case "2":
+            case '2':
                 return "38462"; // Baumgarten Meckl
-            case "4":
+            case '4':
                 return "38464"; // Bernitt
-            case "6":
+            case '6':
                 return "38466"; // Jürgenshagen
             default:
                 return "";
@@ -6997,20 +7007,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "38481"; // Witzin
-            case "2":
+            case '2':
                 return "38482"; // Warin
-            case "3":
+            case '3':
                 return "38483"; // Brüel
-            case "4":
+            case '4':
                 return "38484"; // Ventschow
-            case "5":
+            case '5':
                 return "38485"; // Dabel
-            case "6":
+            case '6':
                 return "38486"; // Gustävel
-            case "8":
+            case '8':
                 return "38488"; // Demen
             default:
                 return "";
@@ -7022,22 +7032,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "3860"; // Raben Steinfeld
-            case "1":
+            case '1':
                 return "3861"; // Plate
-            case "3":
+            case '3':
                 return "3863"; // Crivitz
-            case "5":
+            case '5':
                 return "3865"; // Holthusen
-            case "6":
+            case '6':
                 return "3866"; // Cambs
-            case "7":
+            case '7':
                 return "3867"; // Lübstorf
-            case "8":
+            case '8':
                 return "3868"; // Rastow
-            case "9":
+            case '9':
                 return "3869"; // Dümmer
             default:
                 return "";
@@ -7049,24 +7059,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3871"; // Parchim
-            case "2":
+            case '2':
                 return fromNumber3872(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber3873(number.substring(1));
-            case "4":
+            case '4':
                 return "3874"; // Ludwigslust Meckl
-            case "5":
+            case '5':
                 return fromNumber3875(number.substring(1));
-            case "6":
+            case '6':
                 return "3876"; // Perleberg
-            case "7":
+            case '7':
                 return "3877"; // Wittenberge
-            case "8":
+            case '8':
                 return fromNumber3878(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber3879(number.substring(1));
             default:
                 return "";
@@ -7078,26 +7088,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "38720"; // Grebbin
-            case "1":
+            case '1':
                 return "38721"; // Ziegendorf
-            case "2":
+            case '2':
                 return "38722"; // Raduhn
-            case "3":
+            case '3':
                 return "38723"; // Kladrum
-            case "4":
+            case '4':
                 return "38724"; // Siggelkow
-            case "5":
+            case '5':
                 return "38725"; // Gross Godems
-            case "6":
+            case '6':
                 return "38726"; // Spornitz
-            case "7":
+            case '7':
                 return "38727"; // Mestlin
-            case "8":
+            case '8':
                 return "38728"; // Domsühl
-            case "9":
+            case '9':
                 return "38729"; // Marnitz
             default:
                 return "";
@@ -7109,20 +7119,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "38731"; // Lübz
-            case "2":
+            case '2':
                 return "38732"; // Gallin b Lübz
-            case "3":
+            case '3':
                 return "38733"; // Karbow-Vietlübbe
-            case "5":
+            case '5':
                 return "38735"; // Plau am See
-            case "6":
+            case '6':
                 return "38736"; // Goldberg Meckl
-            case "7":
+            case '7':
                 return "38737"; // Ganzlin
-            case "8":
+            case '8':
                 return "38738"; // Karow b Lübz
             default:
                 return "";
@@ -7134,26 +7144,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "38750"; // Malliss
-            case "1":
+            case '1':
                 return "38751"; // Picher
-            case "2":
+            case '2':
                 return "38752"; // Zierzow b Ludwigslust
-            case "3":
+            case '3':
                 return "38753"; // Wöbbelin
-            case "4":
+            case '4':
                 return "38754"; // Leussow b Ludwigslust
-            case "5":
+            case '5':
                 return "38755"; // Eldena
-            case "6":
+            case '6':
                 return "38756"; // Grabow Meckl
-            case "7":
+            case '7':
                 return "38757"; // Neustadt-Glewe
-            case "8":
+            case '8':
                 return "38758"; // Dömitz
-            case "9":
+            case '9':
                 return "38759"; // Tewswoos
             default:
                 return "";
@@ -7165,24 +7175,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "38780"; // Lanz Brandenb
-            case "1":
+            case '1':
                 return "38781"; // Mellen
-            case "2":
+            case '2':
                 return "38782"; // Reetz b Perleberg
-            case "3":
+            case '3':
                 return "38783"; // Dallmin
-            case "4":
+            case '4':
                 return "38784"; // Kleinow Kr Prignitz
-            case "5":
+            case '5':
                 return "38785"; // Berge b Perleberg
-            case "7":
+            case '7':
                 return "38787"; // Glöwen
-            case "8":
+            case '8':
                 return "38788"; // Gross Warnow
-            case "9":
+            case '9':
                 return "38789"; // Wolfshagen b Perleberg
             default:
                 return "";
@@ -7194,18 +7204,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "38791"; // Bad Wilsnack
-            case "2":
+            case '2':
                 return "38792"; // Lenzen (Elbe)
-            case "3":
+            case '3':
                 return "38793"; // Dergenthin
-            case "4":
+            case '4':
                 return "38794"; // Cumlosen
-            case "6":
+            case '6':
                 return "38796"; // Viesecke
-            case "7":
+            case '7':
                 return "38797"; // Karstädt Kr Prignitz
             default:
                 return "";
@@ -7217,20 +7227,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3881"; // Grevesmühlen
-            case "2":
+            case '2':
                 return fromNumber3882(number.substring(1));
-            case "3":
+            case '3':
                 return "3883"; // Hagenow
-            case "4":
+            case '4':
                 return fromNumber3884(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber3885(number.substring(1));
-            case "6":
+            case '6':
                 return "3886"; // Gadebusch
-            case "7":
+            case '7':
                 return fromNumber3887(number.substring(1));
             default:
                 return "";
@@ -7242,22 +7252,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "38821"; // Lüdersdorf Meckl
-            case "2":
+            case '2':
                 return "38822"; // Diedrichshagen b Grevesmühlen
-            case "3":
+            case '3':
                 return "38823"; // Selmsdorf
-            case "4":
+            case '4':
                 return "38824"; // Mallentin
-            case "5":
+            case '5':
                 return "38825"; // Klütz
-            case "6":
+            case '6':
                 return "38826"; // Dassow
-            case "7":
+            case '7':
                 return "38827"; // Kalkhorst
-            case "8":
+            case '8':
                 return "38828"; // Schönberg Meckl
             default:
                 return "";
@@ -7269,20 +7279,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "38841"; // Neuhaus Elbe
-            case "2":
+            case '2':
                 return "38842"; // Lüttenmark
-            case "3":
+            case '3':
                 return "38843"; // Bennin
-            case "4":
+            case '4':
                 return "38844"; // Gülze
-            case "5":
+            case '5':
                 return "38845"; // Kaarssen
-            case "7":
+            case '7':
                 return "38847"; // Boizenburg Elbe
-            case "8":
+            case '8':
                 return "38848"; // Vellahn
             default:
                 return "";
@@ -7294,24 +7304,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "38850"; // Gammelin
-            case "1":
+            case '1':
                 return "38851"; // Zarrentin Meckl
-            case "2":
+            case '2':
                 return "38852"; // Wittenburg
-            case "3":
+            case '3':
                 return "38853"; // Drönnewitz b Hagenow
-            case "4":
+            case '4':
                 return "38854"; // Redefin
-            case "5":
+            case '5':
                 return "38855"; // Lübtheen
-            case "6":
+            case '6':
                 return "38856"; // Pritzier b Hagenow
-            case "8":
+            case '8':
                 return "38858"; // Lassahn
-            case "9":
+            case '9':
                 return "38859"; // Alt Zachun
             default:
                 return "";
@@ -7323,18 +7333,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "38871"; // Mühlen Eichsen
-            case "2":
+            case '2':
                 return "38872"; // Rehna
-            case "3":
+            case '3':
                 return "38873"; // Carlow
-            case "4":
+            case '4':
                 return "38874"; // Lützow
-            case "5":
+            case '5':
                 return "38875"; // Schlagsdorf b Gadebusch
-            case "6":
+            case '6':
                 return "38876"; // Roggendorf
             default:
                 return "";
@@ -7346,26 +7356,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber390(number.substring(1));
-            case "1":
+            case '1':
                 return "391"; // Magdeburg
-            case "2":
+            case '2':
                 return fromNumber392(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber393(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber394(number.substring(1));
-            case "5":
+            case '5':
                 return "395"; // Neubrandenburg
-            case "6":
+            case '6':
                 return fromNumber396(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber397(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber398(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber399(number.substring(1));
             default:
                 return "";
@@ -7377,26 +7387,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3900(number.substring(1));
-            case "1":
+            case '1':
                 return "3901"; // Salzwedel
-            case "2":
+            case '2':
                 return "3902"; // Diesdorf Altm
-            case "3":
+            case '3':
                 return fromNumber3903(number.substring(1));
-            case "4":
+            case '4':
                 return "3904"; // Haldensleben
-            case "5":
+            case '5':
                 return fromNumber3905(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber3906(number.substring(1));
-            case "7":
+            case '7':
                 return "3907"; // Gardelegen
-            case "8":
+            case '8':
                 return fromNumber3908(number.substring(1));
-            case "9":
+            case '9':
                 return "3909"; // Klötze Altmark
             default:
                 return "";
@@ -7408,26 +7418,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "39000"; // Beetzendorf
-            case "1":
+            case '1':
                 return "39001"; // Apenburg
-            case "2":
+            case '2':
                 return "39002"; // Oebisfelde
-            case "3":
+            case '3':
                 return "39003"; // Jübar
-            case "4":
+            case '4':
                 return "39004"; // Köckte b Gardelegen
-            case "5":
+            case '5':
                 return "39005"; // Kusey
-            case "6":
+            case '6':
                 return "39006"; // Miesterhorst
-            case "7":
+            case '7':
                 return "39007"; // Tangeln
-            case "8":
+            case '8':
                 return "39008"; // Kunrau
-            case "9":
+            case '9':
                 return "39009"; // Badel
             default:
                 return "";
@@ -7439,26 +7449,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "39030"; // Brunau
-            case "1":
+            case '1':
                 return "39031"; // Dähre
-            case "2":
+            case '2':
                 return "39032"; // Mahlsdorf b Salzwedel
-            case "3":
+            case '3':
                 return "39033"; // Wallstawe
-            case "4":
+            case '4':
                 return "39034"; // Fleetmark
-            case "5":
+            case '5':
                 return "39035"; // Kuhfelde
-            case "6":
+            case '6':
                 return "39036"; // Binde
-            case "7":
+            case '7':
                 return "39037"; // Pretzier
-            case "8":
+            case '8':
                 return "39038"; // Henningen
-            case "9":
+            case '9':
                 return "39039"; // Bonese
             default:
                 return "";
@@ -7470,26 +7480,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "39050"; // Bartensleben
-            case "1":
+            case '1':
                 return "39051"; // Calvörde
-            case "2":
+            case '2':
                 return "39052"; // Erxleben b Haldensleben
-            case "3":
+            case '3':
                 return "39053"; // Süplingen
-            case "4":
+            case '4':
                 return "39054"; // Flechtingen
-            case "5":
+            case '5':
                 return "39055"; // Hörsingen
-            case "6":
+            case '6':
                 return "39056"; // Klüden
-            case "7":
+            case '7':
                 return "39057"; // Rätzlingen Sachs-Anh
-            case "8":
+            case '8':
                 return "39058"; // Uthmöden
-            case "9":
+            case '9':
                 return "39059"; // Wegenstedt
             default:
                 return "";
@@ -7501,10 +7511,10 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39061"; // Weferlingen
-            case "2":
+            case '2':
                 return "39062"; // Bebertal
             default:
                 return "";
@@ -7516,26 +7526,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "39080"; // Kalbe Milde
-            case "1":
+            case '1':
                 return "39081"; // Kakerbeck Sachs-Anh
-            case "2":
+            case '2':
                 return "39082"; // Mieste
-            case "3":
+            case '3':
                 return "39083"; // Messdorf
-            case "4":
+            case '4':
                 return "39084"; // Lindstedt
-            case "5":
+            case '5':
                 return "39085"; // Zichtau
-            case "6":
+            case '6':
                 return "39086"; // Jävenitz
-            case "7":
+            case '7':
                 return "39087"; // Jerchel Altmark
-            case "8":
+            case '8':
                 return "39088"; // Letzlingen
-            case "9":
+            case '9':
                 return "39089"; // Bismark Altmark
             default:
                 return "";
@@ -7547,24 +7557,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3920(number.substring(1));
-            case "1":
+            case '1':
                 return "3921"; // Burg b Magdeburg
-            case "2":
+            case '2':
                 return fromNumber3922(number.substring(1));
-            case "3":
+            case '3':
                 return "3923"; // Zerbst
-            case "4":
+            case '4':
                 return fromNumber3924(number.substring(1));
-            case "5":
+            case '5':
                 return "3925"; // Stassfurt
-            case "6":
+            case '6':
                 return fromNumber3926(number.substring(1));
-            case "8":
+            case '8':
                 return "3928"; // Schönebeck Elbe
-            case "9":
+            case '9':
                 return fromNumber3929(number.substring(1));
             default:
                 return "";
@@ -7576,26 +7586,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "39200"; // Gommern
-            case "1":
+            case '1':
                 return "39201"; // Wolmirstedt
-            case "2":
+            case '2':
                 return "39202"; // Gross Ammensleben
-            case "3":
+            case '3':
                 return "39203"; // Barleben
-            case "4":
+            case '4':
                 return "39204"; // Niederndodeleben
-            case "5":
+            case '5':
                 return "39205"; // Langenweddingen
-            case "6":
+            case '6':
                 return "39206"; // Eichenbarleben
-            case "7":
+            case '7':
                 return "39207"; // Colbitz
-            case "8":
+            case '8':
                 return "39208"; // Loitsche
-            case "9":
+            case '9':
                 return "39209"; // Wanzleben
             default:
                 return "";
@@ -7607,18 +7617,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39221"; // Möckern b Magdeburg
-            case "2":
+            case '2':
                 return "39222"; // Möser
-            case "3":
+            case '3':
                 return "39223"; // Theessen
-            case "4":
+            case '4':
                 return "39224"; // Büden
-            case "5":
+            case '5':
                 return "39225"; // Altengrabow
-            case "6":
+            case '6':
                 return "39226"; // Hohenziatz
             default:
                 return "";
@@ -7630,22 +7640,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39241"; // Leitzkau
-            case "2":
+            case '2':
                 return "39242"; // Prödel
-            case "3":
+            case '3':
                 return "39243"; // Nedlitz b Zerbst
-            case "4":
+            case '4':
                 return "39244"; // Steutz
-            case "5":
+            case '5':
                 return "39245"; // Loburg
-            case "6":
+            case '6':
                 return "39246"; // Lindau Anh
-            case "7":
+            case '7':
                 return "39247"; // Güterglück
-            case "8":
+            case '8':
                 return "39248"; // Dobritz
             default:
                 return "";
@@ -7657,20 +7667,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "39262"; // Güsten Anh
-            case "3":
+            case '3':
                 return "39263"; // Unseburg
-            case "4":
+            case '4':
                 return "39264"; // Kroppenstedt
-            case "5":
+            case '5':
                 return "39265"; // Löderburg
-            case "6":
+            case '6':
                 return "39266"; // Förderstedt
-            case "7":
+            case '7':
                 return "39267"; // Schneidlingen
-            case "8":
+            case '8':
                 return "39268"; // Egeln
             default:
                 return "";
@@ -7682,22 +7692,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39291"; // Calbe Saale
-            case "2":
+            case '2':
                 return "39292"; // Biederitz
-            case "3":
+            case '3':
                 return "39293"; // Dreileben
-            case "4":
+            case '4':
                 return "39294"; // Gross Rosenburg
-            case "5":
+            case '5':
                 return "39295"; // Zuchau
-            case "6":
+            case '6':
                 return "39296"; // Welsleben
-            case "7":
+            case '7':
                 return "39297"; // Eickendorf Kr Schönebeck
-            case "8":
+            case '8':
                 return "39298"; // Barby Elbe
             default:
                 return "";
@@ -7709,24 +7719,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3931"; // Stendal
-            case "2":
+            case '2':
                 return fromNumber3932(number.substring(1));
-            case "3":
+            case '3':
                 return "3933"; // Genthin
-            case "4":
+            case '4':
                 return fromNumber3934(number.substring(1));
-            case "5":
+            case '5':
                 return "3935"; // Tangerhütte
-            case "6":
+            case '6':
                 return fromNumber3936(number.substring(1));
-            case "7":
+            case '7':
                 return "3937"; // Osterburg Altmark
-            case "8":
+            case '8':
                 return fromNumber3938(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber3939(number.substring(1));
             default:
                 return "";
@@ -7738,24 +7748,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "39320"; // Schinne
-            case "1":
+            case '1':
                 return "39321"; // Arneburg
-            case "2":
+            case '2':
                 return "39322"; // Tangermünde
-            case "3":
+            case '3':
                 return "39323"; // Schönhausen Elbe
-            case "4":
+            case '4':
                 return "39324"; // Kläden b Stendal
-            case "5":
+            case '5':
                 return "39325"; // Vinzelberg
-            case "7":
+            case '7':
                 return "39327"; // Klietz
-            case "8":
+            case '8':
                 return "39328"; // Rochau
-            case "9":
+            case '9':
                 return "39329"; // Möringen
             default:
                 return "";
@@ -7767,24 +7777,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39341"; // Redekin
-            case "2":
+            case '2':
                 return "39342"; // Gladau
-            case "3":
+            case '3':
                 return "39343"; // Jerichow
-            case "4":
+            case '4':
                 return "39344"; // Güsen
-            case "5":
+            case '5':
                 return "39345"; // Parchen
-            case "6":
+            case '6':
                 return "39346"; // Tucheim
-            case "7":
+            case '7':
                 return "39347"; // Kade
-            case "8":
+            case '8':
                 return "39348"; // Klitsche
-            case "9":
+            case '9':
                 return "39349"; // Parey Elbe
             default:
                 return "";
@@ -7796,18 +7806,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39361"; // Lüderitz
-            case "2":
+            case '2':
                 return "39362"; // Grieben b Tangerhütte
-            case "3":
+            case '3':
                 return "39363"; // Angern
-            case "4":
+            case '4':
                 return "39364"; // Dolle
-            case "5":
+            case '5':
                 return "39365"; // Bellingen b Stendal
-            case "6":
+            case '6':
                 return "39366"; // Kehnert
             default:
                 return "";
@@ -7819,20 +7829,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "39382"; // Kamern
-            case "3":
+            case '3':
                 return "39383"; // Sandau Elbe
-            case "4":
+            case '4':
                 return "39384"; // Arendsee Altmark
-            case "6":
+            case '6':
                 return "39386"; // Seehausen Altmark
-            case "7":
+            case '7':
                 return "39387"; // Havelberg
-            case "8":
+            case '8':
                 return "39388"; // Goldbeck Altm
-            case "9":
+            case '9':
                 return "39389"; // Schollene
             default:
                 return "";
@@ -7844,26 +7854,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "39390"; // Iden
-            case "1":
+            case '1':
                 return "39391"; // Lückstedt
-            case "2":
+            case '2':
                 return "39392"; // Rönnebeck Sachs-Ahn
-            case "3":
+            case '3':
                 return "39393"; // Werben Elbe
-            case "4":
+            case '4':
                 return "39394"; // Hohenberg-Krusemark
-            case "5":
+            case '5':
                 return "39395"; // Wanzer
-            case "6":
+            case '6':
                 return "39396"; // Neukirchen Altmark
-            case "7":
+            case '7':
                 return "39397"; // Geestgottberg
-            case "8":
+            case '8':
                 return "39398"; // Gross Garz
-            case "9":
+            case '9':
                 return "39399"; // Kleinau
             default:
                 return "";
@@ -7875,26 +7885,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3940(number.substring(1));
-            case "1":
+            case '1':
                 return "3941"; // Halberstadt
-            case "2":
+            case '2':
                 return fromNumber3942(number.substring(1));
-            case "3":
+            case '3':
                 return "3943"; // Wernigerode
-            case "4":
+            case '4':
                 return "3944"; // Blankenburg Harz
-            case "5":
+            case '5':
                 return fromNumber3945(number.substring(1));
-            case "6":
+            case '6':
                 return "3946"; // Quedlinburg
-            case "7":
+            case '7':
                 return "3947"; // Thale
-            case "8":
+            case '8':
                 return fromNumber3948(number.substring(1));
-            case "9":
+            case '9':
                 return "3949"; // Oschersleben Bode
             default:
                 return "";
@@ -7906,26 +7916,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "39400"; // Wefensleben
-            case "1":
+            case '1':
                 return "39401"; // Neuwegersleben
-            case "2":
+            case '2':
                 return "39402"; // Völpke
-            case "3":
+            case '3':
                 return "39403"; // Gröningen Sachs-Ahn
-            case "4":
+            case '4':
                 return "39404"; // Ausleben
-            case "5":
+            case '5':
                 return "39405"; // Hötensleben
-            case "6":
+            case '6':
                 return "39406"; // Harbke
-            case "7":
+            case '7':
                 return "39407"; // Seehausen Börde
-            case "8":
+            case '8':
                 return "39408"; // Hadmersleben
-            case "9":
+            case '9':
                 return "39409"; // Eilsleben
             default:
                 return "";
@@ -7937,22 +7947,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39421"; // Osterwieck
-            case "2":
+            case '2':
                 return "39422"; // Badersleben
-            case "3":
+            case '3':
                 return "39423"; // Wegeleben
-            case "4":
+            case '4':
                 return "39424"; // Schwanebeck Sachs-Anh
-            case "5":
+            case '5':
                 return "39425"; // Dingelstedt a Huy
-            case "6":
+            case '6':
                 return "39426"; // Hessen
-            case "7":
+            case '7':
                 return "39427"; // Ströbeck
-            case "8":
+            case '8':
                 return "39428"; // Pabstorf
             default:
                 return "";
@@ -7964,24 +7974,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39451"; // Wasserleben
-            case "2":
+            case '2':
                 return "39452"; // Ilsenburg
-            case "3":
+            case '3':
                 return "39453"; // Derenburg
-            case "4":
+            case '4':
                 return "39454"; // Elbingerode Harz
-            case "5":
+            case '5':
                 return "39455"; // Schierke
-            case "6":
+            case '6':
                 return "39456"; // Altenbrak
-            case "7":
+            case '7':
                 return "39457"; // Benneckenstein Harz
-            case "8":
+            case '8':
                 return "39458"; // Heudeber
-            case "9":
+            case '9':
                 return "39459"; // Hasselfelde
             default:
                 return "";
@@ -7993,22 +8003,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39481"; // Hedersleben b Aschersleben
-            case "2":
+            case '2':
                 return "39482"; // Gatersleben
-            case "3":
+            case '3':
                 return "39483"; // Ballenstedt
-            case "4":
+            case '4':
                 return "39484"; // Harzgerode
-            case "5":
+            case '5':
                 return "39485"; // Gernrode Harz
-            case "7":
+            case '7':
                 return "39487"; // Friedrichsbrunn
-            case "8":
+            case '8':
                 return "39488"; // Güntersberge
-            case "9":
+            case '9':
                 return "39489"; // Strassberg Harz
             default:
                 return "";
@@ -8020,26 +8030,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber3960(number.substring(1));
-            case "1":
+            case '1':
                 return "3961"; // Altentreptow
-            case "2":
+            case '2':
                 return "3962"; // Penzlin b Waren
-            case "3":
+            case '3':
                 return "3963"; // Woldegk
-            case "4":
+            case '4':
                 return "3964"; // Bredenfelde b Strasburg
-            case "5":
+            case '5':
                 return "3965"; // Burow b Altentreptow
-            case "6":
+            case '6':
                 return "3966"; // Cölpin
-            case "7":
+            case '7':
                 return "3967"; // Oertzenhof b Strasburg
-            case "8":
+            case '8':
                 return "3968"; // Schönbeck Meckl
-            case "9":
+            case '9':
                 return "3969"; // Siedenbollentin
             default:
                 return "";
@@ -8051,24 +8061,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "39600"; // Zwiedorf
-            case "1":
+            case '1':
                 return "39601"; // Friedland Meckl
-            case "2":
+            case '2':
                 return "39602"; // Kleeth
-            case "3":
+            case '3':
                 return "39603"; // Burg Stargard
-            case "4":
+            case '4':
                 return "39604"; // Wildberg b Altentreptow
-            case "5":
+            case '5':
                 return "39605"; // Gross Nemerow
-            case "6":
+            case '6':
                 return "39606"; // Glienke
-            case "7":
+            case '7':
                 return "39607"; // Kotelow
-            case "8":
+            case '8':
                 return "39608"; // Staven
             default:
                 return "";
@@ -8080,20 +8090,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3971"; // Anklam
-            case "2":
+            case '2':
                 return fromNumber3972(number.substring(1));
-            case "3":
+            case '3':
                 return "3973"; // Pasewalk
-            case "4":
+            case '4':
                 return fromNumber3974(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber3975(number.substring(1));
-            case "6":
+            case '6':
                 return "3976"; // Torgelow b Ueckermünde
-            case "7":
+            case '7':
                 return fromNumber3977(number.substring(1));
             default:
                 return "";
@@ -8105,20 +8115,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39721"; // Liepen b Anklam
-            case "2":
+            case '2':
                 return "39722"; // Sarnow b Anklam
-            case "3":
+            case '3':
                 return "39723"; // Krien
-            case "4":
+            case '4':
                 return "39724"; // Klein Bünzow
-            case "6":
+            case '6':
                 return "39726"; // Ducherow
-            case "7":
+            case '7':
                 return "39727"; // Spantekow
-            case "8":
+            case '8':
                 return "39728"; // Medow b Anklam
             default:
                 return "";
@@ -8130,26 +8140,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "39740"; // Nechlin
-            case "1":
+            case '1':
                 return "39741"; // Jatznick
-            case "2":
+            case '2':
                 return "39742"; // Brüssow b Pasewalk
-            case "3":
+            case '3':
                 return "39743"; // Zerrenthin
-            case "4":
+            case '4':
                 return "39744"; // Rothenklempenow
-            case "5":
+            case '5':
                 return "39745"; // Hetzdorf b Strasburg
-            case "6":
+            case '6':
                 return "39746"; // Krackow
-            case "7":
+            case '7':
                 return "39747"; // Züsedom
-            case "8":
+            case '8':
                 return "39748"; // Viereck
-            case "9":
+            case '9':
                 return "39749"; // Grambow b Pasewalk
             default:
                 return "";
@@ -8161,14 +8171,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39751"; // Penkun
-            case "2":
+            case '2':
                 return "39752"; // Blumenhagen b Strasburg
-            case "3":
+            case '3':
                 return "39753"; // Strasburg
-            case "4":
+            case '4':
                 return "39754"; // Löcknitz Vorpom
             default:
                 return "";
@@ -8180,24 +8190,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39771"; // Ueckermünde
-            case "2":
+            case '2':
                 return "39772"; // Rothemühl
-            case "3":
+            case '3':
                 return "39773"; // Altwarp
-            case "4":
+            case '4':
                 return "39774"; // Mönkebude
-            case "5":
+            case '5':
                 return "39775"; // Ahlbeck b Torgelow
-            case "6":
+            case '6':
                 return "39776"; // Hintersee
-            case "7":
+            case '7':
                 return "39777"; // Borkenfriede
-            case "8":
+            case '8':
                 return "39778"; // Ferdinandshof b Torgelow
-            case "9":
+            case '9':
                 return "39779"; // Eggesin
             default:
                 return "";
@@ -8209,22 +8219,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3981"; // Neustrelitz
-            case "2":
+            case '2':
                 return fromNumber3982(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber3983(number.substring(1));
-            case "4":
+            case '4':
                 return "3984"; // Prenzlau
-            case "5":
+            case '5':
                 return fromNumber3985(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber3986(number.substring(1));
-            case "7":
+            case '7':
                 return "3987"; // Templin
-            case "8":
+            case '8':
                 return fromNumber3988(number.substring(1));
             default:
                 return "";
@@ -8236,26 +8246,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "39820"; // Triepkendorf
-            case "1":
+            case '1':
                 return "39821"; // Carpin
-            case "2":
+            case '2':
                 return "39822"; // Kratzeburg
-            case "3":
+            case '3':
                 return "39823"; // Rechlin
-            case "4":
+            case '4':
                 return "39824"; // Hohenzieritz
-            case "5":
+            case '5':
                 return "39825"; // Wokuhl
-            case "6":
+            case '6':
                 return "39826"; // Blankensee b Neustrelitz
-            case "7":
+            case '7':
                 return "39827"; // Schwarz b Neustrelitz
-            case "8":
+            case '8':
                 return "39828"; // Wustrow Kr Mecklenburg-Strelitz
-            case "9":
+            case '9':
                 return "39829"; // Blankenförde
             default:
                 return "";
@@ -8267,12 +8277,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39831"; // Feldberg Meckl
-            case "2":
+            case '2':
                 return "39832"; // Wesenberg Meckl
-            case "3":
+            case '3':
                 return "39833"; // Mirow Kr Neustrelitz
             default:
                 return "";
@@ -8284,24 +8294,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39851"; // Göritz b Prenzlau
-            case "2":
+            case '2':
                 return "39852"; // Schönermark b Prenzlau
-            case "3":
+            case '3':
                 return "39853"; // Holzendorf b Prenzlau
-            case "4":
+            case '4':
                 return "39854"; // Kleptow
-            case "5":
+            case '5':
                 return "39855"; // Parmen-Weggun
-            case "6":
+            case '6':
                 return "39856"; // Beenz b Prenzlau
-            case "7":
+            case '7':
                 return "39857"; // Drense
-            case "8":
+            case '8':
                 return "39858"; // Bietikow
-            case "9":
+            case '9':
                 return "39859"; // Fürstenwerder
             default:
                 return "";
@@ -8313,12 +8323,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39861"; // Gramzow b Prenzlau
-            case "2":
+            case '2':
                 return "39862"; // Schmölln b Prenzlau
-            case "3":
+            case '3':
                 return "39863"; // Seehausen b Prenzlau
             default:
                 return "";
@@ -8330,24 +8340,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39881"; // Ringenwalde b Templin
-            case "2":
+            case '2':
                 return "39882"; // Gollin
-            case "3":
+            case '3':
                 return "39883"; // Groß Dölln
-            case "4":
+            case '4':
                 return "39884"; // Hassleben b Prenzlau
-            case "5":
+            case '5':
                 return "39885"; // Jakobshagen
-            case "6":
+            case '6':
                 return "39886"; // Milmersdorf
-            case "7":
+            case '7':
                 return "39887"; // Gerswalde
-            case "8":
+            case '8':
                 return "39888"; // Lychen
-            case "9":
+            case '9':
                 return "39889"; // Boitzenburg
             default:
                 return "";
@@ -8359,24 +8369,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "3991"; // Waren Müritz
-            case "2":
+            case '2':
                 return fromNumber3992(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber3993(number.substring(1));
-            case "4":
+            case '4':
                 return "3994"; // Malchin
-            case "5":
+            case '5':
                 return fromNumber3995(number.substring(1));
-            case "6":
+            case '6':
                 return "3996"; // Teterow
-            case "7":
+            case '7':
                 return fromNumber3997(number.substring(1));
-            case "8":
+            case '8':
                 return "3998"; // Demmin
-            case "9":
+            case '9':
                 return fromNumber3999(number.substring(1));
             default:
                 return "";
@@ -8388,24 +8398,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39921"; // Ankershagen
-            case "2":
+            case '2':
                 return "39922"; // Dambeck b Röbel
-            case "3":
+            case '3':
                 return "39923"; // Priborn
-            case "4":
+            case '4':
                 return "39924"; // Stuer
-            case "5":
+            case '5':
                 return "39925"; // Wredenhagen
-            case "6":
+            case '6':
                 return "39926"; // Grabowhöfe
-            case "7":
+            case '7':
                 return "39927"; // Nossentiner Hütte
-            case "8":
+            case '8':
                 return "39928"; // Möllenhagen
-            case "9":
+            case '9':
                 return "39929"; // Jabel b Waren
             default:
                 return "";
@@ -8417,14 +8427,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39931"; // Röbel Müritz
-            case "2":
+            case '2':
                 return "39932"; // Malchow b Waren
-            case "3":
+            case '3':
                 return "39933"; // Vollrathsruhe
-            case "4":
+            case '4':
                 return "39934"; // Groß Plasten
             default:
                 return "";
@@ -8436,22 +8446,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39951"; // Faulenrost
-            case "2":
+            case '2':
                 return "39952"; // Grammentin
-            case "3":
+            case '3':
                 return "39953"; // Schwinkendorf
-            case "4":
+            case '4':
                 return "39954"; // Stavenhagen Reuterstadt
-            case "5":
+            case '5':
                 return "39955"; // Jürgenstorf Meckl
-            case "6":
+            case '6':
                 return "39956"; // Neukalen
-            case "7":
+            case '7':
                 return "39957"; // Gielow
-            case "9":
+            case '9':
                 return "39959"; // Dargun
             default:
                 return "";
@@ -8463,20 +8473,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39971"; // Gnoien
-            case "2":
+            case '2':
                 return "39972"; // Walkendorf
-            case "3":
+            case '3':
                 return "39973"; // Altkalen
-            case "5":
+            case '5':
                 return "39975"; // Thürkow
-            case "6":
+            case '6':
                 return "39976"; // Groß Bützin
-            case "7":
+            case '7':
                 return "39977"; // Jördenstorf
-            case "8":
+            case '8':
                 return "39978"; // Gross Roge
             default:
                 return "";
@@ -8488,24 +8498,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "39991"; // Daberkow
-            case "2":
+            case '2':
                 return "39992"; // Görmin
-            case "3":
+            case '3':
                 return "39993"; // Hohenmocker
-            case "4":
+            case '4':
                 return "39994"; // Metschow
-            case "5":
+            case '5':
                 return "39995"; // Nossendorf
-            case "6":
+            case '6':
                 return "39996"; // Törpin
-            case "7":
+            case '7':
                 return "39997"; // Jarmen
-            case "8":
+            case '8':
                 return "39998"; // Loitz b Demmin
-            case "9":
+            case '9':
                 return "39999"; // Tutow
             default:
                 return "";
@@ -8517,26 +8527,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "40"; // Hamburg
-            case "1":
+            case '1':
                 return fromNumber41(number.substring(1));
-            case "2":
+            case '2':
                 return fromNumber42(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber43(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber44(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber45(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber46(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber47(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber48(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber49(number.substring(1));
             default:
                 return "";
@@ -8548,24 +8558,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber410(number.substring(1));
-            case "2":
+            case '2':
                 return fromNumber412(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber413(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber414(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber415(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber416(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber417(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber418(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber419(number.substring(1));
             default:
                 return "";
@@ -8577,24 +8587,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4101"; // Pinneberg
-            case "2":
+            case '2':
                 return "4102"; // Ahrensburg
-            case "3":
+            case '3':
                 return "4103"; // Wedel
-            case "4":
+            case '4':
                 return "4104"; // Aumühle b Hamburg
-            case "5":
+            case '5':
                 return "4105"; // Seevetal
-            case "6":
+            case '6':
                 return "4106"; // Quickborn Kr Pinneberg
-            case "7":
+            case '7':
                 return "4107"; // Siek Kr Stormarn
-            case "8":
+            case '8':
                 return "4108"; // Rosengarten Kr Harburg
-            case "9":
+            case '9':
                 return "4109"; // Tangstedt Bz Hamburg
             default:
                 return "";
@@ -8606,26 +8616,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4120"; // Ellerhoop
-            case "1":
+            case '1':
                 return "4121"; // Elmshorn
-            case "2":
+            case '2':
                 return "4122"; // Uetersen
-            case "3":
+            case '3':
                 return "4123"; // Barmstedt
-            case "4":
+            case '4':
                 return "4124"; // Glückstadt
-            case "5":
+            case '5':
                 return "4125"; // Seestermühe
-            case "6":
+            case '6':
                 return "4126"; // Horst Holstein
-            case "7":
+            case '7':
                 return "4127"; // Westerhorn
-            case "8":
+            case '8':
                 return "4128"; // Kollmar
-            case "9":
+            case '9':
                 return "4129"; // Haseldorf
             default:
                 return "";
@@ -8637,24 +8647,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4131"; // Lüneburg
-            case "2":
+            case '2':
                 return "4132"; // Amelinghausen
-            case "3":
+            case '3':
                 return "4133"; // Wittorf Kr Lünebeburg
-            case "4":
+            case '4':
                 return "4134"; // Embsen Kr Lünebeburg
-            case "5":
+            case '5':
                 return "4135"; // Kirchgellersen
-            case "6":
+            case '6':
                 return "4136"; // Scharnebeck
-            case "7":
+            case '7':
                 return "4137"; // Barendorf
-            case "8":
+            case '8':
                 return "4138"; // Betzendorf Kr Lünebeburg
-            case "9":
+            case '9':
                 return "4139"; // Hohnstorf Elbe
             default:
                 return "";
@@ -8666,22 +8676,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4140"; // Estorf Kr Stade
-            case "1":
+            case '1':
                 return "4141"; // Stade
-            case "2":
+            case '2':
                 return "4142"; // Steinkirchen Kr Stade
-            case "3":
+            case '3':
                 return "4143"; // Drochtersen
-            case "4":
+            case '4':
                 return "4144"; // Himmelpforten
-            case "6":
+            case '6':
                 return "4146"; // Stade-Bützfleth
-            case "8":
+            case '8':
                 return "4148"; // Drochtersen-Assel
-            case "9":
+            case '9':
                 return "4149"; // Fredenbeck
             default:
                 return "";
@@ -8693,22 +8703,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4151"; // Schwarzenbek
-            case "2":
+            case '2':
                 return "4152"; // Geesthacht
-            case "3":
+            case '3':
                 return "4153"; // Lauenburg Elbe
-            case "4":
+            case '4':
                 return "4154"; // Trittau
-            case "5":
+            case '5':
                 return "4155"; // Büchen
-            case "6":
+            case '6':
                 return "4156"; // Talkau
-            case "8":
+            case '8':
                 return "4158"; // Roseburg
-            case "9":
+            case '9':
                 return "4159"; // Basthorst
             default:
                 return "";
@@ -8720,24 +8730,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4161"; // Buxtehude
-            case "2":
+            case '2':
                 return "4162"; // Jork
-            case "3":
+            case '3':
                 return "4163"; // Horneburg Niederelbe
-            case "4":
+            case '4':
                 return "4164"; // Harsefeld
-            case "5":
+            case '5':
                 return "4165"; // Hollenstedt Nordheide
-            case "6":
+            case '6':
                 return "4166"; // Ahlerstedt
-            case "7":
+            case '7':
                 return "4167"; // Apensen
-            case "8":
+            case '8':
                 return "4168"; // Neu Wulmstorf-Elstorf
-            case "9":
+            case '9':
                 return "4169"; // Sauensiek
             default:
                 return "";
@@ -8749,24 +8759,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4171"; // Winsen Luhe
-            case "2":
+            case '2':
                 return "4172"; // Salzhausen
-            case "3":
+            case '3':
                 return "4173"; // Wulfsen
-            case "4":
+            case '4':
                 return "4174"; // Stelle Kr Harburg
-            case "5":
+            case '5':
                 return "4175"; // Egestorf Nordheide
-            case "6":
+            case '6':
                 return "4176"; // Marschacht
-            case "7":
+            case '7':
                 return "4177"; // Drage Elbe
-            case "8":
+            case '8':
                 return "4178"; // Radbruch
-            case "9":
+            case '9':
                 return "4179"; // Winsen-Tönnhausen
             default:
                 return "";
@@ -8778,26 +8788,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4180"; // Königsmoor
-            case "1":
+            case '1':
                 return "4181"; // Buchholz in der Nordheide
-            case "2":
+            case '2':
                 return "4182"; // Tostedt
-            case "3":
+            case '3':
                 return "4183"; // Jesteburg
-            case "4":
+            case '4':
                 return "4184"; // Hanstedt Nordheide
-            case "5":
+            case '5':
                 return "4185"; // Marxen Auetal
-            case "6":
+            case '6':
                 return "4186"; // Buchholz-Trelde
-            case "7":
+            case '7':
                 return "4187"; // Holm-Seppensen
-            case "8":
+            case '8':
                 return "4188"; // Welle Nordheide
-            case "9":
+            case '9':
                 return "4189"; // Undeloh
             default:
                 return "";
@@ -8809,16 +8819,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4191"; // Kaltenkirchen Holst
-            case "2":
+            case '2':
                 return "4192"; // Bad Bramstedt
-            case "3":
+            case '3':
                 return "4193"; // Henstedt-Ulzburg
-            case "4":
+            case '4':
                 return "4194"; // Sievershütten
-            case "5":
+            case '5':
                 return "4195"; // Hartenholm
             default:
                 return "";
@@ -8830,26 +8840,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber420(number.substring(1));
-            case "1":
+            case '1':
                 return "421"; // Bremen
-            case "2":
+            case '2':
                 return fromNumber422(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber423(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber424(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber425(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber426(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber427(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber428(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber429(number.substring(1));
             default:
                 return "";
@@ -8861,22 +8871,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "4202"; // Achim b Bremen
-            case "3":
+            case '3':
                 return "4203"; // Weyhe b Bremen
-            case "4":
+            case '4':
                 return "4204"; // Thedinghausen
-            case "5":
+            case '5':
                 return "4205"; // Ottersberg
-            case "6":
+            case '6':
                 return "4206"; // Stuhr-Heiligenrode
-            case "7":
+            case '7':
                 return "4207"; // Oyten
-            case "8":
+            case '8':
                 return "4208"; // Grasberg
-            case "9":
+            case '9':
                 return "4209"; // Schwanewede
             default:
                 return "";
@@ -8888,14 +8898,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4221"; // Delmenhorst
-            case "2":
+            case '2':
                 return "4222"; // Ganderkesee
-            case "3":
+            case '3':
                 return "4223"; // Ganderkesee-Bookholzberg
-            case "4":
+            case '4':
                 return "4224"; // Gross Ippener
             default:
                 return "";
@@ -8907,26 +8917,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4230"; // Verden-Walle
-            case "1":
+            case '1':
                 return "4231"; // Verden Aller
-            case "2":
+            case '2':
                 return "4232"; // Langwedel Kr Verden
-            case "3":
+            case '3':
                 return "4233"; // Blender
-            case "4":
+            case '4':
                 return "4234"; // Dörverden
-            case "5":
+            case '5':
                 return "4235"; // Langwedel-Etelsen
-            case "6":
+            case '6':
                 return "4236"; // Kirchlinteln
-            case "7":
+            case '7':
                 return "4237"; // Bendingbostel
-            case "8":
+            case '8':
                 return "4238"; // Neddenaverbergen
-            case "9":
+            case '9':
                 return "4239"; // Dörverden-Westen
             default:
                 return "";
@@ -8938,26 +8948,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4240"; // Syke-Heiligenfelde
-            case "1":
+            case '1':
                 return "4241"; // Bassum
-            case "2":
+            case '2':
                 return "4242"; // Syke
-            case "3":
+            case '3':
                 return "4243"; // Twistringen
-            case "4":
+            case '4':
                 return "4244"; // Harpstedt
-            case "5":
+            case '5':
                 return "4245"; // Neuenkirchen b Bassum
-            case "6":
+            case '6':
                 return "4246"; // Twistringen-Heiligenloh
-            case "7":
+            case '7':
                 return "4247"; // Affinghausen
-            case "8":
+            case '8':
                 return "4248"; // Bassum-Neubruchhausen
-            case "9":
+            case '9':
                 return "4249"; // Bassum-Nordwohlde
             default:
                 return "";
@@ -8969,22 +8979,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4251"; // Hoya
-            case "2":
+            case '2':
                 return "4252"; // Bruchhausen-Vilsen
-            case "3":
+            case '3':
                 return "4253"; // Asendorf Kr Diepholz
-            case "4":
+            case '4':
                 return "4254"; // Eystrup
-            case "5":
+            case '5':
                 return "4255"; // Martfeld
-            case "6":
+            case '6':
                 return "4256"; // Hilgermissen
-            case "7":
+            case '7':
                 return "4257"; // Schweringen
-            case "8":
+            case '8':
                 return "4258"; // Schwarme
             default:
                 return "";
@@ -8996,26 +9006,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4260"; // Visselhövede-Wittorf
-            case "1":
+            case '1':
                 return "4261"; // Rotenburg Wümme
-            case "2":
+            case '2':
                 return "4262"; // Visselhövede
-            case "3":
+            case '3':
                 return "4263"; // Scheessel
-            case "4":
+            case '4':
                 return "4264"; // Sottrum Kr Rotenburg
-            case "5":
+            case '5':
                 return "4265"; // Fintel
-            case "6":
+            case '6':
                 return "4266"; // Brockel
-            case "7":
+            case '7':
                 return "4267"; // Lauenbrück
-            case "8":
+            case '8':
                 return "4268"; // Bötersen
-            case "9":
+            case '9':
                 return "4269"; // Ahausen-Kirchwalsede
             default:
                 return "";
@@ -9027,20 +9037,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4271"; // Sulingen
-            case "2":
+            case '2':
                 return "4272"; // Siedenburg
-            case "3":
+            case '3':
                 return "4273"; // Kirchdorf b Sulingen
-            case "4":
+            case '4':
                 return "4274"; // Varrel b Sulingen
-            case "5":
+            case '5':
                 return "4275"; // Ehrenburg
-            case "6":
+            case '6':
                 return "4276"; // Borstel b Sulingen
-            case "7":
+            case '7':
                 return "4277"; // Schwaförden
             default:
                 return "";
@@ -9052,24 +9062,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4281"; // Zeven
-            case "2":
+            case '2':
                 return "4282"; // Sittensen
-            case "3":
+            case '3':
                 return "4283"; // Tarmstedt
-            case "4":
+            case '4':
                 return "4284"; // Selsingen
-            case "5":
+            case '5':
                 return "4285"; // Rhade b Zeven
-            case "6":
+            case '6':
                 return "4286"; // Gyhum
-            case "7":
+            case '7':
                 return "4287"; // Heeslingen-Boitzen
-            case "8":
+            case '8':
                 return "4288"; // Horstedt Kr Rotenburg
-            case "9":
+            case '9':
                 return "4289"; // Kirchtimke
             default:
                 return "";
@@ -9081,20 +9091,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "4292"; // Ritterhude
-            case "3":
+            case '3':
                 return "4293"; // Ottersberg-Fischerhude
-            case "4":
+            case '4':
                 return "4294"; // Riede Kr Verden
-            case "5":
+            case '5':
                 return "4295"; // Emtinghausen
-            case "6":
+            case '6':
                 return "4296"; // Schwanewede-Aschwarden
-            case "7":
+            case '7':
                 return "4297"; // Ottersberg-Posthausen
-            case "8":
+            case '8':
                 return "4298"; // Lilienthal
             default:
                 return "";
@@ -9106,26 +9116,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber430(number.substring(1));
-            case "1":
+            case '1':
                 return "431"; // Kiel
-            case "2":
+            case '2':
                 return fromNumber432(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber433(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber434(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber435(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber436(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber437(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber438(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber439(number.substring(1));
             default:
                 return "";
@@ -9137,16 +9147,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "4302"; // Kirchbarkau
-            case "3":
+            case '3':
                 return "4303"; // Schlesen
-            case "5":
+            case '5':
                 return "4305"; // Westensee
-            case "7":
+            case '7':
                 return "4307"; // Raisdorf
-            case "8":
+            case '8':
                 return "4308"; // Schwedeneck
             default:
                 return "";
@@ -9158,24 +9168,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4320"; // Heidmühlen
-            case "1":
+            case '1':
                 return "4321"; // Neumünster
-            case "2":
+            case '2':
                 return "4322"; // Bordesholm
-            case "3":
+            case '3':
                 return "4323"; // Bornhöved
-            case "4":
+            case '4':
                 return "4324"; // Brokstedt
-            case "6":
+            case '6':
                 return "4326"; // Wankendorf
-            case "7":
+            case '7':
                 return "4327"; // Grossenaspe
-            case "8":
+            case '8':
                 return "4328"; // Rickling
-            case "9":
+            case '9':
                 return "4329"; // Langwedel Holst
             default:
                 return "";
@@ -9187,26 +9197,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4330"; // Emkendorf
-            case "1":
+            case '1':
                 return "4331"; // Rendsburg
-            case "2":
+            case '2':
                 return "4332"; // Hamdorf b Rendsburg
-            case "3":
+            case '3':
                 return "4333"; // Erfde
-            case "4":
+            case '4':
                 return "4334"; // Bredenbek b Rendsburg
-            case "5":
+            case '5':
                 return "4335"; // Hohn b Rendsburg
-            case "6":
+            case '6':
                 return "4336"; // Owschlag
-            case "7":
+            case '7':
                 return "4337"; // Jevenstedt
-            case "8":
+            case '8':
                 return "4338"; // Alt Duvenstedt
-            case "9":
+            case '9':
                 return "4339"; // Christiansholm
             default:
                 return "";
@@ -9218,22 +9228,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4340"; // Achterwehr
-            case "2":
+            case '2':
                 return "4342"; // Preetz Kr Plön
-            case "3":
+            case '3':
                 return "4343"; // Laboe
-            case "4":
+            case '4':
                 return "4344"; // Schönberg Holstein
-            case "6":
+            case '6':
                 return "4346"; // Gettorf
-            case "7":
+            case '7':
                 return "4347"; // Flintbek
-            case "8":
+            case '8':
                 return "4348"; // Schönkirchen
-            case "9":
+            case '9':
                 return "4349"; // Dänischenhagen
             default:
                 return "";
@@ -9245,22 +9255,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4351"; // Eckernförde
-            case "2":
+            case '2':
                 return "4352"; // Damp
-            case "3":
+            case '3':
                 return "4353"; // Ascheffel
-            case "4":
+            case '4':
                 return "4354"; // Fleckeby
-            case "5":
+            case '5':
                 return "4355"; // Rieseby
-            case "6":
+            case '6':
                 return "4356"; // Gross Wittensee
-            case "7":
+            case '7':
                 return "4357"; // Sehestedt Eider
-            case "8":
+            case '8':
                 return "4358"; // Loose b Eckernförde
             default:
                 return "";
@@ -9272,20 +9282,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4361"; // Oldenburg in Holstein
-            case "2":
+            case '2':
                 return "4362"; // Heiligenhafen
-            case "3":
+            case '3':
                 return "4363"; // Lensahn
-            case "4":
+            case '4':
                 return "4364"; // Dahme Kr Ostholstein
-            case "5":
+            case '5':
                 return "4365"; // Heringsdorf Holst
-            case "6":
+            case '6':
                 return "4366"; // Grömitz-Cismar
-            case "7":
+            case '7':
                 return "4367"; // Grossenbrode
             default:
                 return "";
@@ -9297,10 +9307,10 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4371"; // Burg auf Fehmarn
-            case "2":
+            case '2':
                 return "4372"; // Westfehmarn
             default:
                 return "";
@@ -9312,16 +9322,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4381"; // Lütjenburg
-            case "2":
+            case '2':
                 return "4382"; // Wangels
-            case "3":
+            case '3':
                 return "4383"; // Grebin
-            case "4":
+            case '4':
                 return "4384"; // Selent
-            case "5":
+            case '5':
                 return "4385"; // Hohenfelde b Kiel
             default:
                 return "";
@@ -9333,12 +9343,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "4392"; // Nortorf b Neumünster
-            case "3":
+            case '3':
                 return "4393"; // Boostedt
-            case "4":
+            case '4':
                 return "4394"; // Bokhorst
             default:
                 return "";
@@ -9350,26 +9360,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber440(number.substring(1));
-            case "1":
+            case '1':
                 return "441"; // Oldenburg (Oldb)
-            case "2":
+            case '2':
                 return fromNumber442(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber443(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber444(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber445(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber446(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber447(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber448(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber449(number.substring(1));
             default:
                 return "";
@@ -9381,24 +9391,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4401"; // Brake Unterweser
-            case "2":
+            case '2':
                 return "4402"; // Rastede
-            case "3":
+            case '3':
                 return "4403"; // Bad Zwischenahn
-            case "4":
+            case '4':
                 return "4404"; // Elsfleth
-            case "5":
+            case '5':
                 return "4405"; // Edewecht
-            case "6":
+            case '6':
                 return "4406"; // Berne
-            case "7":
+            case '7':
                 return "4407"; // Wardenburg
-            case "8":
+            case '8':
                 return "4408"; // Hude Oldenburg
-            case "9":
+            case '9':
                 return "4409"; // Westerstede-Ocholt
             default:
                 return "";
@@ -9410,16 +9420,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4421"; // Wilhelmshaven
-            case "2":
+            case '2':
                 return "4422"; // Sande Kr Friesl
-            case "3":
+            case '3':
                 return "4423"; // Fedderwarden
-            case "5":
+            case '5':
                 return "4425"; // Wangerland-Hooksiel
-            case "6":
+            case '6':
                 return "4426"; // Wangerland-Horumersiel
             default:
                 return "";
@@ -9431,16 +9441,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4431"; // Wildeshausen
-            case "2":
+            case '2':
                 return "4432"; // Dötlingen-Brettorf
-            case "3":
+            case '3':
                 return "4433"; // Dötlingen
-            case "4":
+            case '4':
                 return "4434"; // Colnrade
-            case "5":
+            case '5':
                 return "4435"; // Grossenkneten
             default:
                 return "";
@@ -9452,20 +9462,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4441"; // Vechta
-            case "2":
+            case '2':
                 return "4442"; // Lohne Oldenburg
-            case "3":
+            case '3':
                 return "4443"; // Dinklage
-            case "4":
+            case '4':
                 return "4444"; // Goldenstedt
-            case "5":
+            case '5':
                 return "4445"; // Visbek Kr Vechta
-            case "6":
+            case '6':
                 return "4446"; // Bakum Kr Vechta
-            case "7":
+            case '7':
                 return "4447"; // Vechta-Langförden
             default:
                 return "";
@@ -9477,20 +9487,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4451"; // Varel Jadebusen
-            case "2":
+            case '2':
                 return "4452"; // Zetel-Neuenburg
-            case "3":
+            case '3':
                 return "4453"; // Zetel
-            case "4":
+            case '4':
                 return "4454"; // Jade
-            case "5":
+            case '5':
                 return "4455"; // Jade-Schweiburg
-            case "6":
+            case '6':
                 return "4456"; // Varel-Altjührden
-            case "8":
+            case '8':
                 return "4458"; // Wiefelstede-Spohle
             default:
                 return "";
@@ -9502,24 +9512,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4461"; // Jever
-            case "2":
+            case '2':
                 return "4462"; // Wittmund
-            case "3":
+            case '3':
                 return "4463"; // Wangerland
-            case "4":
+            case '4':
                 return "4464"; // Wittmund-Carolinensiel
-            case "5":
+            case '5':
                 return "4465"; // Friedeburg Ostfriesl
-            case "6":
+            case '6':
                 return "4466"; // Wittmund-Ardorf
-            case "7":
+            case '7':
                 return "4467"; // Wittmund-Funnix
-            case "8":
+            case '8':
                 return "4468"; // Friedeburg-Reepsholt
-            case "9":
+            case '9':
                 return "4469"; // Wangerooge
             default:
                 return "";
@@ -9531,22 +9541,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4471"; // Cloppenburg
-            case "2":
+            case '2':
                 return "4472"; // Lastrup
-            case "3":
+            case '3':
                 return "4473"; // Emstek
-            case "4":
+            case '4':
                 return "4474"; // Garrel
-            case "5":
+            case '5':
                 return "4475"; // Molbergen
-            case "7":
+            case '7':
                 return "4477"; // Lastrup-Hemmelte
-            case "8":
+            case '8':
                 return "4478"; // Cappeln Oldenburg
-            case "9":
+            case '9':
                 return "4479"; // Molbergen-Peheim
             default:
                 return "";
@@ -9558,26 +9568,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4480"; // Ovelgönne-Strückhausen
-            case "1":
+            case '1':
                 return "4481"; // Hatten-Sandkrug
-            case "2":
+            case '2':
                 return "4482"; // Hatten
-            case "3":
+            case '3':
                 return "4483"; // Ovelgönne-Großenmeer
-            case "4":
+            case '4':
                 return "4484"; // Hude-Wüsting
-            case "5":
+            case '5':
                 return "4485"; // Elsfleth-Huntorf
-            case "6":
+            case '6':
                 return "4486"; // Edewecht-Friedrichsfehn
-            case "7":
+            case '7':
                 return "4487"; // Grossenkneten-Huntlosen
-            case "8":
+            case '8':
                 return "4488"; // Westerstede
-            case "9":
+            case '9':
                 return "4489"; // Apen
             default:
                 return "";
@@ -9589,24 +9599,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4491"; // Friesoythe
-            case "2":
+            case '2':
                 return "4492"; // Saterland
-            case "3":
+            case '3':
                 return "4493"; // Friesoythe-Gehlenberg
-            case "4":
+            case '4':
                 return "4494"; // Bösel Oldenburg
-            case "5":
+            case '5':
                 return "4495"; // Friesoythe-Thüle
-            case "6":
+            case '6':
                 return "4496"; // Friesoythe-Markhausen
-            case "7":
+            case '7':
                 return "4497"; // Barßel-Harkebrügge
-            case "8":
+            case '8':
                 return "4498"; // Saterland-Ramsloh
-            case "9":
+            case '9':
                 return "4499"; // Barssel
             default:
                 return "";
@@ -9618,20 +9628,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber450(number.substring(1));
-            case "1":
+            case '1':
                 return "451"; // Lübeck
-            case "2":
+            case '2':
                 return fromNumber452(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber453(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber454(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber455(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber456(number.substring(1));
             default:
                 return "";
@@ -9643,22 +9653,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4501"; // Kastorf Holst
-            case "2":
+            case '2':
                 return "4502"; // Lübeck-Travemünde
-            case "3":
+            case '3':
                 return "4503"; // Timmendorfer Strand
-            case "4":
+            case '4':
                 return "4504"; // Ratekau
-            case "5":
+            case '5':
                 return "4505"; // Stockelsdorf-Curau
-            case "6":
+            case '6':
                 return "4506"; // Stockelsdorf-Krumbeck
-            case "8":
+            case '8':
                 return "4508"; // Krummesse
-            case "9":
+            case '9':
                 return "4509"; // Groß Grönau
             default:
                 return "";
@@ -9670,24 +9680,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4521"; // Eutin
-            case "2":
+            case '2':
                 return "4522"; // Plön
-            case "3":
+            case '3':
                 return "4523"; // Malente
-            case "4":
+            case '4':
                 return "4524"; // Scharbeutz-Pönitz
-            case "5":
+            case '5':
                 return "4525"; // Ahrensbök
-            case "6":
+            case '6':
                 return "4526"; // Ascheberg Holstein
-            case "7":
+            case '7':
                 return "4527"; // Bosau
-            case "8":
+            case '8':
                 return "4528"; // Schönwalde am Bungsberg
-            case "9":
+            case '9':
                 return "4529"; // Süsel-Bujendorf
             default:
                 return "";
@@ -9699,22 +9709,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4531"; // Bad Oldesloe
-            case "2":
+            case '2':
                 return "4532"; // Bargteheide
-            case "3":
+            case '3':
                 return "4533"; // Reinfeld Holstein
-            case "4":
+            case '4':
                 return "4534"; // Steinburg Kr Storman
-            case "5":
+            case '5':
                 return "4535"; // Nahe
-            case "6":
+            case '6':
                 return "4536"; // Steinhorst Lauenb
-            case "7":
+            case '7':
                 return "4537"; // Sülfeld Holst
-            case "9":
+            case '9':
                 return "4539"; // Westerau
             default:
                 return "";
@@ -9726,20 +9736,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4541"; // Ratzeburg
-            case "2":
+            case '2':
                 return "4542"; // Mölln Lauenb
-            case "3":
+            case '3':
                 return "4543"; // Nusse
-            case "4":
+            case '4':
                 return "4544"; // Berkenthin
-            case "5":
+            case '5':
                 return "4545"; // Seedorf Lauenb
-            case "6":
+            case '6':
                 return "4546"; // Mustin Lauenburg
-            case "7":
+            case '7':
                 return "4547"; // Gudow Lauenb
             default:
                 return "";
@@ -9751,26 +9761,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4550"; // Bühnsdorf
-            case "1":
+            case '1':
                 return "4551"; // Bad Segeberg
-            case "2":
+            case '2':
                 return "4552"; // Leezen
-            case "3":
+            case '3':
                 return "4553"; // Geschendorf
-            case "4":
+            case '4':
                 return "4554"; // Wahlstedt
-            case "5":
+            case '5':
                 return "4555"; // Seedorf b Bad Segeberg
-            case "6":
+            case '6':
                 return "4556"; // Ahrensbök-Gnissau
-            case "7":
+            case '7':
                 return "4557"; // Blunk
-            case "8":
+            case '8':
                 return "4558"; // Todesfelde
-            case "9":
+            case '9':
                 return "4559"; // Wensin
             default:
                 return "";
@@ -9782,14 +9792,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4561"; // Neustadt in Holstein
-            case "2":
+            case '2':
                 return "4562"; // Grömitz
-            case "3":
+            case '3':
                 return "4563"; // Scharbeutz-Haffkrug
-            case "4":
+            case '4':
                 return "4564"; // Schashagen
             default:
                 return "";
@@ -9801,24 +9811,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber460(number.substring(1));
-            case "1":
+            case '1':
                 return "461"; // Flensburg
-            case "2":
+            case '2':
                 return fromNumber462(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber463(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber464(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber465(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber466(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber467(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber468(number.substring(1));
             default:
                 return "";
@@ -9830,22 +9840,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "4602"; // Freienwill
-            case "3":
+            case '3':
                 return "4603"; // Havetoft
-            case "4":
+            case '4':
                 return "4604"; // Grossenwiehe
-            case "5":
+            case '5':
                 return "4605"; // Medelby
-            case "6":
+            case '6':
                 return "4606"; // Wanderup
-            case "7":
+            case '7':
                 return "4607"; // Janneby
-            case "8":
+            case '8':
                 return "4608"; // Handewitt
-            case "9":
+            case '9':
                 return "4609"; // Eggebek
             default:
                 return "";
@@ -9857,20 +9867,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4621"; // Schleswig
-            case "2":
+            case '2':
                 return "4622"; // Taarstedt
-            case "3":
+            case '3':
                 return "4623"; // Böklund
-            case "4":
+            case '4':
                 return "4624"; // Kropp
-            case "5":
+            case '5':
                 return "4625"; // Jübek
-            case "6":
+            case '6':
                 return "4626"; // Treia
-            case "7":
+            case '7':
                 return "4627"; // Dörpstedt
             default:
                 return "";
@@ -9882,26 +9892,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4630"; // Barderup
-            case "1":
+            case '1':
                 return "4631"; // Glücksburg Ostsee
-            case "2":
+            case '2':
                 return "4632"; // Steinbergkirche
-            case "3":
+            case '3':
                 return "4633"; // Satrup
-            case "4":
+            case '4':
                 return "4634"; // Husby
-            case "5":
+            case '5':
                 return "4635"; // Sörup
-            case "6":
+            case '6':
                 return "4636"; // Langballig
-            case "7":
+            case '7':
                 return "4637"; // Sterup
-            case "8":
+            case '8':
                 return "4638"; // Tarp
-            case "9":
+            case '9':
                 return "4639"; // Schafflund
             default:
                 return "";
@@ -9913,16 +9923,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4641"; // Süderbrarup
-            case "2":
+            case '2':
                 return "4642"; // Kappeln Schlei
-            case "3":
+            case '3':
                 return "4643"; // Gelting Angeln
-            case "4":
+            case '4':
                 return "4644"; // Karby
-            case "6":
+            case '6':
                 return "4646"; // Mohrkirch
             default:
                 return "";
@@ -9934,8 +9944,8 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4651"; // Sylt
             default:
                 return "";
@@ -9947,22 +9957,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4661"; // Niebüll
-            case "2":
+            case '2':
                 return "4662"; // Leck
-            case "3":
+            case '3':
                 return "4663"; // Süderlügum
-            case "4":
+            case '4':
                 return "4664"; // Neukirchen b Niebüll
-            case "5":
+            case '5':
                 return "4665"; // Emmelsbüll-Horsbüll
-            case "6":
+            case '6':
                 return "4666"; // Ladelund
-            case "7":
+            case '7':
                 return "4667"; // Dagebüll
-            case "8":
+            case '8':
                 return "4668"; // Klanxbüll
             default:
                 return "";
@@ -9974,14 +9984,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4671"; // Bredstedt
-            case "2":
+            case '2':
                 return "4672"; // Langenhorn
-            case "3":
+            case '3':
                 return "4673"; // Joldelund
-            case "4":
+            case '4':
                 return "4674"; // Ockholm
             default:
                 return "";
@@ -9993,14 +10003,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4681"; // Wyk auf Föhr
-            case "2":
+            case '2':
                 return "4682"; // Amrum
-            case "3":
+            case '3':
                 return "4683"; // Oldsum
-            case "4":
+            case '4':
                 return "4684"; // Langeneß Hallig
             default:
                 return "";
@@ -10012,24 +10022,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber470(number.substring(1));
-            case "1":
+            case '1':
                 return "471"; // Bremerhaven
-            case "2":
+            case '2':
                 return fromNumber472(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber473(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber474(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber475(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber476(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber477(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber479(number.substring(1));
             default:
                 return "";
@@ -10041,20 +10051,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "4702"; // Sandstedt
-            case "3":
+            case '3':
                 return "4703"; // Loxstedt-Donnern
-            case "4":
+            case '4':
                 return "4704"; // Drangstedt
-            case "5":
+            case '5':
                 return "4705"; // Wremen
-            case "6":
+            case '6':
                 return "4706"; // Schiffdorf
-            case "7":
+            case '7':
                 return "4707"; // Langen-Neuenwalde
-            case "8":
+            case '8':
                 return "4708"; // Ringstedt
             default:
                 return "";
@@ -10066,16 +10076,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4721"; // Cuxhaven
-            case "2":
+            case '2':
                 return "4722"; // Cuxhaven-Altenbruch
-            case "3":
+            case '3':
                 return "4723"; // Cuxhaven-Altenwalde
-            case "4":
+            case '4':
                 return "4724"; // Cuxhaven-Lüdingworth
-            case "5":
+            case '5':
                 return "4725"; // Helgoland
             default:
                 return "";
@@ -10087,20 +10097,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4731"; // Nordenham
-            case "2":
+            case '2':
                 return "4732"; // Stadland-Rodenkirchen
-            case "3":
+            case '3':
                 return "4733"; // Butjadingen-Burhave
-            case "4":
+            case '4':
                 return "4734"; // Stadland-Seefeld
-            case "5":
+            case '5':
                 return "4735"; // Butjadingen-Stollhamm
-            case "6":
+            case '6':
                 return "4736"; // Butjadingen-Tossens
-            case "7":
+            case '7':
                 return "4737"; // Stadland-Schwei
             default:
                 return "";
@@ -10112,26 +10122,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4740"; // Loxstedt-Dedesdorf
-            case "1":
+            case '1':
                 return "4741"; // Nordholz b Bremerhaven
-            case "2":
+            case '2':
                 return "4742"; // Dorum
-            case "3":
+            case '3':
                 return "4743"; // Langen b Bremerhaven
-            case "4":
+            case '4':
                 return "4744"; // Loxstedt
-            case "5":
+            case '5':
                 return "4745"; // Bad Bederkesa
-            case "6":
+            case '6':
                 return "4746"; // Hagen b Bremerhaven
-            case "7":
+            case '7':
                 return "4747"; // Beverstedt
-            case "8":
+            case '8':
                 return "4748"; // Stubben b Bremerhaven
-            case "9":
+            case '9':
                 return "4749"; // Schiffdorf-Geestenseth
             default:
                 return "";
@@ -10143,22 +10153,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4751"; // Otterndorf
-            case "2":
+            case '2':
                 return "4752"; // Neuhaus Oste
-            case "3":
+            case '3':
                 return "4753"; // Balje
-            case "4":
+            case '4':
                 return "4754"; // Bülkau
-            case "5":
+            case '5':
                 return "4755"; // Ihlienworth
-            case "6":
+            case '6':
                 return "4756"; // Odisheim
-            case "7":
+            case '7':
                 return "4757"; // Wanna
-            case "8":
+            case '8':
                 return "4758"; // Nordleda
             default:
                 return "";
@@ -10170,24 +10180,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4761"; // Bremervörde
-            case "2":
+            case '2':
                 return "4762"; // Kutenholz
-            case "3":
+            case '3':
                 return "4763"; // Gnarrenburg
-            case "4":
+            case '4':
                 return "4764"; // Gnarrenburg-Klenkendorf
-            case "5":
+            case '5':
                 return "4765"; // Ebersdorf b Bremervörde
-            case "6":
+            case '6':
                 return "4766"; // Basdahl
-            case "7":
+            case '7':
                 return "4767"; // Bremervörde-Bevern
-            case "8":
+            case '8':
                 return "4768"; // Hipstedt
-            case "9":
+            case '9':
                 return "4769"; // Bremervörde-Iselersheim
             default:
                 return "";
@@ -10199,26 +10209,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4770"; // Wischhafen
-            case "1":
+            case '1':
                 return "4771"; // Hemmoor
-            case "2":
+            case '2':
                 return "4772"; // Oberndorf Oste
-            case "3":
+            case '3':
                 return "4773"; // Lamstedt
-            case "4":
+            case '4':
                 return "4774"; // Hechthausen
-            case "5":
+            case '5':
                 return "4775"; // Grossenwörden
-            case "6":
+            case '6':
                 return "4776"; // Osten-Altendorf
-            case "7":
+            case '7':
                 return "4777"; // Cadenberge
-            case "8":
+            case '8':
                 return "4778"; // Wingst
-            case "9":
+            case '9':
                 return "4779"; // Freiburg Elbe
             default:
                 return "";
@@ -10230,18 +10240,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4791"; // Osterholz-Scharmbeck
-            case "2":
+            case '2':
                 return "4792"; // Worpswede
-            case "3":
+            case '3':
                 return "4793"; // Hambergen
-            case "4":
+            case '4':
                 return "4794"; // Worpswede-Ostersode
-            case "5":
+            case '5':
                 return "4795"; // Garlstedt
-            case "6":
+            case '6':
                 return "4796"; // Teufelsmoor
             default:
                 return "";
@@ -10253,26 +10263,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber480(number.substring(1));
-            case "1":
+            case '1':
                 return "481"; // Heide Holst
-            case "2":
+            case '2':
                 return fromNumber482(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber483(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber484(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber485(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber486(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber487(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber488(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber489(number.substring(1));
             default:
                 return "";
@@ -10284,16 +10294,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "4802"; // Wrohm
-            case "3":
+            case '3':
                 return "4803"; // Pahlen
-            case "4":
+            case '4':
                 return "4804"; // Nordhastedt
-            case "5":
+            case '5':
                 return "4805"; // Schafstedt
-            case "6":
+            case '6':
                 return "4806"; // Sarzbüttel
             default:
                 return "";
@@ -10305,24 +10315,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4821"; // Itzehoe
-            case "2":
+            case '2':
                 return "4822"; // Kellinghusen
-            case "3":
+            case '3':
                 return "4823"; // Wilster
-            case "4":
+            case '4':
                 return "4824"; // Krempe
-            case "5":
+            case '5':
                 return "4825"; // Burg Dithmarschen
-            case "6":
+            case '6':
                 return "4826"; // Hohenlockstedt
-            case "7":
+            case '7':
                 return "4827"; // Wacken
-            case "8":
+            case '8':
                 return "4828"; // Lägerdorf
-            case "9":
+            case '9':
                 return "4829"; // Wewelsfleth
             default:
                 return "";
@@ -10334,24 +10344,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4830"; // Süderhastedt
-            case "2":
+            case '2':
                 return "4832"; // Meldorf
-            case "3":
+            case '3':
                 return "4833"; // Wesselburen
-            case "4":
+            case '4':
                 return "4834"; // Büsum
-            case "5":
+            case '5':
                 return "4835"; // Albersdorf Holst
-            case "6":
+            case '6':
                 return "4836"; // Hennstedt Dithm
-            case "7":
+            case '7':
                 return "4837"; // Neuenkirchen Dithm
-            case "8":
+            case '8':
                 return "4838"; // Tellingstedt
-            case "9":
+            case '9':
                 return "4839"; // Wöhrden Dithm
             default:
                 return "";
@@ -10363,24 +10373,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4841"; // Husum Nordsee
-            case "2":
+            case '2':
                 return "4842"; // Nordstrand
-            case "3":
+            case '3':
                 return "4843"; // Viöl
-            case "4":
+            case '4':
                 return "4844"; // Pellworm
-            case "5":
+            case '5':
                 return "4845"; // Ostenfeld Husum
-            case "6":
+            case '6':
                 return "4846"; // Hattstedt
-            case "7":
+            case '7':
                 return "4847"; // Oster-Ohrstedt
-            case "8":
+            case '8':
                 return "4848"; // Rantrum
-            case "9":
+            case '9':
                 return "4849"; // Hooge
             default:
                 return "";
@@ -10392,24 +10402,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4851"; // Marne
-            case "2":
+            case '2':
                 return "4852"; // Brunsbüttel
-            case "3":
+            case '3':
                 return "4853"; // Sankt Michaelisdonn
-            case "4":
+            case '4':
                 return "4854"; // Friedrichskoog
-            case "5":
+            case '5':
                 return "4855"; // Eddelak
-            case "6":
+            case '6':
                 return "4856"; // Kronprinzenkoog
-            case "7":
+            case '7':
                 return "4857"; // Barlt
-            case "8":
+            case '8':
                 return "4858"; // Sankt Margarethen Holst
-            case "9":
+            case '9':
                 return "4859"; // Windbergen
             default:
                 return "";
@@ -10421,16 +10431,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4861"; // Tönning
-            case "2":
+            case '2':
                 return "4862"; // Garding
-            case "3":
+            case '3':
                 return "4863"; // Sankt Peter-Ording
-            case "4":
+            case '4':
                 return "4864"; // Oldenswort
-            case "5":
+            case '5':
                 return "4865"; // Osterhever
             default:
                 return "";
@@ -10442,20 +10452,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4871"; // Hohenwestedt
-            case "2":
+            case '2':
                 return "4872"; // Hanerau-Hademarschen
-            case "3":
+            case '3':
                 return "4873"; // Aukrug
-            case "4":
+            case '4':
                 return "4874"; // Todenbüttel
-            case "5":
+            case '5':
                 return "4875"; // Stafstedt
-            case "6":
+            case '6':
                 return "4876"; // Reher Holst
-            case "7":
+            case '7':
                 return "4877"; // Hennstedt b Itzehoe
             default:
                 return "";
@@ -10467,16 +10477,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4881"; // Friedrichstadt
-            case "2":
+            case '2':
                 return "4882"; // Lunden
-            case "3":
+            case '3':
                 return "4883"; // Süderstapel
-            case "4":
+            case '4':
                 return "4884"; // Schwabstedt
-            case "5":
+            case '5':
                 return "4885"; // Bergenhusen
             default:
                 return "";
@@ -10488,10 +10498,10 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "4892"; // Schenefeld Mittelholst
-            case "3":
+            case '3':
                 return "4893"; // Hohenaspe
             default:
                 return "";
@@ -10503,22 +10513,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber490(number.substring(1));
-            case "1":
+            case '1':
                 return "491"; // Leer Ostfriesland
-            case "2":
+            case '2':
                 return fromNumber492(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber493(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber494(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber495(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber496(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber497(number.substring(1));
             default:
                 return "";
@@ -10530,10 +10540,10 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "4902"; // Jemgum-Ditzum
-            case "3":
+            case '3':
                 return "4903"; // Wymeer
             default:
                 return "";
@@ -10545,26 +10555,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4920"; // Wirdum
-            case "1":
+            case '1':
                 return "4921"; // Emden Stadt
-            case "2":
+            case '2':
                 return "4922"; // Borkum
-            case "3":
+            case '3':
                 return "4923"; // Krummhörn-Pewsum
-            case "4":
+            case '4':
                 return "4924"; // Moormerland-Oldersum
-            case "5":
+            case '5':
                 return "4925"; // Hinte
-            case "6":
+            case '6':
                 return "4926"; // Krummhörn-Greetsiel
-            case "7":
+            case '7':
                 return "4927"; // Krummhörn-Loquard
-            case "8":
+            case '8':
                 return "4928"; // Ihlow-Riepe
-            case "9":
+            case '9':
                 return "4929"; // Ihlow Kr Aurich
             default:
                 return "";
@@ -10576,22 +10586,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4931"; // Norden
-            case "2":
+            case '2':
                 return "4932"; // Norderney
-            case "3":
+            case '3':
                 return "4933"; // Dornum Ostfriesl
-            case "4":
+            case '4':
                 return "4934"; // Marienhafe
-            case "5":
+            case '5':
                 return "4935"; // Juist
-            case "6":
+            case '6':
                 return "4936"; // Grossheide
-            case "8":
+            case '8':
                 return "4938"; // Hagermarsch
-            case "9":
+            case '9':
                 return "4939"; // Baltrum
             default:
                 return "";
@@ -10603,22 +10613,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4941"; // Aurich
-            case "2":
+            case '2':
                 return "4942"; // Südbrookmerland
-            case "3":
+            case '3':
                 return "4943"; // Grossefehn
-            case "4":
+            case '4':
                 return "4944"; // Wiesmoor
-            case "5":
+            case '5':
                 return "4945"; // Grossefehn-Timmel
-            case "6":
+            case '6':
                 return "4946"; // Grossefehn-Bagband
-            case "7":
+            case '7':
                 return "4947"; // Aurich-Ogenbargen
-            case "8":
+            case '8':
                 return "4948"; // Wiesmoor-Marcardsmoor
             default:
                 return "";
@@ -10630,26 +10640,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "4950"; // Holtland
-            case "1":
+            case '1':
                 return "4951"; // Weener
-            case "2":
+            case '2':
                 return "4952"; // Rhauderfehn
-            case "3":
+            case '3':
                 return "4953"; // Bunde
-            case "4":
+            case '4':
                 return "4954"; // Moormerland
-            case "5":
+            case '5':
                 return "4955"; // Westoverledingen
-            case "6":
+            case '6':
                 return "4956"; // Uplengen
-            case "7":
+            case '7':
                 return "4957"; // Detern
-            case "8":
+            case '8':
                 return "4958"; // Jemgum
-            case "9":
+            case '9':
                 return "4959"; // Dollart
             default:
                 return "";
@@ -10661,22 +10671,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4961"; // Papenburg
-            case "2":
+            case '2':
                 return "4962"; // Papenburg-Aschendorf
-            case "3":
+            case '3':
                 return "4963"; // Dörpen
-            case "4":
+            case '4':
                 return "4964"; // Rhede Ems
-            case "5":
+            case '5':
                 return "4965"; // Surwold
-            case "6":
+            case '6':
                 return "4966"; // Neubörger
-            case "7":
+            case '7':
                 return "4967"; // Rhauderfehn-Burlage
-            case "8":
+            case '8':
                 return "4968"; // Neulehe
             default:
                 return "";
@@ -10688,20 +10698,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "4971"; // Esens
-            case "2":
+            case '2':
                 return "4972"; // Langeoog
-            case "3":
+            case '3':
                 return "4973"; // Wittmund-Burhafe
-            case "4":
+            case '4':
                 return "4974"; // Neuharlingersiel
-            case "5":
+            case '5':
                 return "4975"; // Westerholt Ostfriesl
-            case "6":
+            case '6':
                 return "4976"; // Spiekeroog
-            case "7":
+            case '7':
                 return "4977"; // Blomberg Ostfriesl
             default:
                 return "";
@@ -10713,26 +10723,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber50(number.substring(1));
-            case "1":
+            case '1':
                 return fromNumber51(number.substring(1));
-            case "2":
+            case '2':
                 return fromNumber52(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber53(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber54(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber55(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber56(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber57(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber58(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber59(number.substring(1));
             default:
                 return "";
@@ -10744,20 +10754,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return fromNumber502(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber503(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber504(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber505(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber506(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber507(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber508(number.substring(1));
             default:
                 return "";
@@ -10769,22 +10779,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5021"; // Nienburg Weser
-            case "2":
+            case '2':
                 return "5022"; // Wietzen
-            case "3":
+            case '3':
                 return "5023"; // Liebenau Kr Nieburg Weser
-            case "4":
+            case '4':
                 return "5024"; // Rohrsen Kr Nienburg Weser
-            case "5":
+            case '5':
                 return "5025"; // Estorf Weser
-            case "6":
+            case '6':
                 return "5026"; // Steimbke
-            case "7":
+            case '7':
                 return "5027"; // Linsburg
-            case "8":
+            case '8':
                 return "5028"; // Pennigsehl
             default:
                 return "";
@@ -10796,20 +10806,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5031"; // Wunstorf
-            case "2":
+            case '2':
                 return "5032"; // Neustadt am Rübenberge
-            case "3":
+            case '3':
                 return "5033"; // Wunstorf-Grossenheidorn
-            case "4":
+            case '4':
                 return "5034"; // Neustadt-Hagen
-            case "5":
+            case '5':
                 return "5035"; // Gross Munzel
-            case "6":
+            case '6':
                 return "5036"; // Neustadt-Schneeren
-            case "7":
+            case '7':
                 return "5037"; // Bad Rehburg
             default:
                 return "";
@@ -10821,16 +10831,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5041"; // Springe Deister
-            case "2":
+            case '2':
                 return "5042"; // Bad Münder am Deister
-            case "3":
+            case '3':
                 return "5043"; // Lauenau
-            case "4":
+            case '4':
                 return "5044"; // Springe-Eldagsen
-            case "5":
+            case '5':
                 return "5045"; // Springe-Bennigsen
             default:
                 return "";
@@ -10842,18 +10852,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5051"; // Bergen Kr Celle
-            case "2":
+            case '2':
                 return "5052"; // Hermannsburg
-            case "3":
+            case '3':
                 return "5053"; // Faßberg-Müden
-            case "4":
+            case '4':
                 return "5054"; // Bergen-Sülze
-            case "5":
+            case '5':
                 return "5055"; // Fassberg
-            case "6":
+            case '6':
                 return "5056"; // Winsen-Meissendorf
             default:
                 return "";
@@ -10865,24 +10875,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "5060"; // Bodenburg
-            case "2":
+            case '2':
                 return "5062"; // Holle b Hildesheim
-            case "3":
+            case '3':
                 return "5063"; // Bad Salzdetfurth
-            case "4":
+            case '4':
                 return "5064"; // Groß Düngen
-            case "5":
+            case '5':
                 return "5065"; // Sibbesse
-            case "6":
+            case '6':
                 return "5066"; // Sarstedt
-            case "7":
+            case '7':
                 return "5067"; // Bockenem
-            case "8":
+            case '8':
                 return "5068"; // Elze Leine
-            case "9":
+            case '9':
                 return "5069"; // Nordstemmen
             default:
                 return "";
@@ -10894,14 +10904,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5071"; // Schwarmstedt
-            case "2":
+            case '2':
                 return "5072"; // Neustadt-Mandelsloh
-            case "3":
+            case '3':
                 return "5073"; // Neustadt-Esperke
-            case "4":
+            case '4':
                 return "5074"; // Rodewald
             default:
                 return "";
@@ -10913,16 +10923,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "5082"; // Langlingen
-            case "3":
+            case '3':
                 return "5083"; // Hohne b Celle
-            case "4":
+            case '4':
                 return "5084"; // Hambühren
-            case "5":
+            case '5':
                 return "5085"; // Burgdorf-Ehlershausen
-            case "6":
+            case '6':
                 return "5086"; // Celle-Scheuen
             default:
                 return "";
@@ -10934,26 +10944,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber510(number.substring(1));
-            case "1":
+            case '1':
                 return "511"; // Hannover
-            case "2":
+            case '2':
                 return fromNumber512(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber513(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber514(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber515(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber516(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber517(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber518(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber519(number.substring(1));
             default:
                 return "";
@@ -10965,18 +10975,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5101"; // Pattensen
-            case "2":
+            case '2':
                 return "5102"; // Laatzen
-            case "3":
+            case '3':
                 return "5103"; // Wennigsen Deister
-            case "5":
+            case '5':
                 return "5105"; // Barsinghausen
-            case "8":
+            case '8':
                 return "5108"; // Gehrden Han
-            case "9":
+            case '9':
                 return "5109"; // Ronnenberg
             default:
                 return "";
@@ -10988,18 +10998,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5121"; // Hildesheim
-            case "3":
+            case '3':
                 return "5123"; // Schellerten
-            case "6":
+            case '6':
                 return "5126"; // Algermissen
-            case "7":
+            case '7':
                 return "5127"; // Harsum
-            case "8":
+            case '8':
                 return "5128"; // Hohenhameln
-            case "9":
+            case '9':
                 return "5129"; // Söhlde
             default:
                 return "";
@@ -11011,22 +11021,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "5130"; // Wedemark
-            case "1":
+            case '1':
                 return "5131"; // Garbsen
-            case "2":
+            case '2':
                 return "5132"; // Lehrte
-            case "5":
+            case '5':
                 return "5135"; // Burgwedel-Fuhrberg
-            case "6":
+            case '6':
                 return "5136"; // Burgdorf Kr Hannover
-            case "7":
+            case '7':
                 return "5137"; // Seelze
-            case "8":
+            case '8':
                 return "5138"; // Sehnde
-            case "9":
+            case '9':
                 return "5139"; // Burgwedel
             default:
                 return "";
@@ -11038,24 +11048,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5141"; // Celle
-            case "2":
+            case '2':
                 return "5142"; // Eschede
-            case "3":
+            case '3':
                 return "5143"; // Winsen Aller
-            case "4":
+            case '4':
                 return "5144"; // Wathlingen
-            case "5":
+            case '5':
                 return "5145"; // Beedenbostel
-            case "6":
+            case '6':
                 return "5146"; // Wietze
-            case "7":
+            case '7':
                 return "5147"; // Uetze-Hänigsen
-            case "8":
+            case '8':
                 return "5148"; // Steinhorst Niedersachs
-            case "9":
+            case '9':
                 return "5149"; // Wienhausen
             default:
                 return "";
@@ -11067,24 +11077,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5151"; // Hameln
-            case "2":
+            case '2':
                 return "5152"; // Hessisch Oldendorf
-            case "3":
+            case '3':
                 return "5153"; // Salzhemmendorf
-            case "4":
+            case '4':
                 return "5154"; // Aerzen
-            case "5":
+            case '5':
                 return "5155"; // Emmerthal
-            case "6":
+            case '6':
                 return "5156"; // Coppenbrügge
-            case "7":
+            case '7':
                 return "5157"; // Emmerthal-Börry
-            case "8":
+            case '8':
                 return "5158"; // Hemeringen
-            case "9":
+            case '9':
                 return "5159"; // Coppenbrügge-Bisperode
             default:
                 return "";
@@ -11096,22 +11106,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5161"; // Walsrode
-            case "2":
+            case '2':
                 return "5162"; // Fallingbostel
-            case "3":
+            case '3':
                 return "5163"; // Fallingbostel-Dorfmark
-            case "4":
+            case '4':
                 return "5164"; // Hodenhagen
-            case "5":
+            case '5':
                 return "5165"; // Rethem Aller
-            case "6":
+            case '6':
                 return "5166"; // Walsrode-Kirchboitzen
-            case "7":
+            case '7':
                 return "5167"; // Walsrode-Westenholz
-            case "8":
+            case '8':
                 return "5168"; // Walsrode-Stellichte
             default:
                 return "";
@@ -11123,20 +11133,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5171"; // Peine
-            case "2":
+            case '2':
                 return "5172"; // Ilsede
-            case "3":
+            case '3':
                 return "5173"; // Uetze
-            case "4":
+            case '4':
                 return "5174"; // Lahstedt
-            case "5":
+            case '5':
                 return "5175"; // Lehrte-Arpke
-            case "6":
+            case '6':
                 return "5176"; // Edemissen
-            case "7":
+            case '7':
                 return "5177"; // Edemissen-Abbensen
             default:
                 return "";
@@ -11148,20 +11158,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5181"; // Alfeld Leine
-            case "2":
+            case '2':
                 return "5182"; // Gronau Leine
-            case "3":
+            case '3':
                 return "5183"; // Lamspringe
-            case "4":
+            case '4':
                 return "5184"; // Freden Leine
-            case "5":
+            case '5':
                 return "5185"; // Duingen
-            case "6":
+            case '6':
                 return "5186"; // Salzhemmendorf-Wallensen
-            case "7":
+            case '7':
                 return "5187"; // Delligsen
             default:
                 return "";
@@ -11173,26 +11183,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "5190"; // Soltau-Emmingen
-            case "1":
+            case '1':
                 return "5191"; // Soltau
-            case "2":
+            case '2':
                 return "5192"; // Munster
-            case "3":
+            case '3':
                 return "5193"; // Schneverdingen
-            case "4":
+            case '4':
                 return "5194"; // Bispingen
-            case "5":
+            case '5':
                 return "5195"; // Neuenkirchen b Soltau
-            case "6":
+            case '6':
                 return "5196"; // Wietzendorf
-            case "7":
+            case '7':
                 return "5197"; // Soltau-Frielingen
-            case "8":
+            case '8':
                 return "5198"; // Schneverdingen-Wintermoor
-            case "9":
+            case '9':
                 return "5199"; // Schneverdingen-Heber
             default:
                 return "";
@@ -11204,26 +11214,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber520(number.substring(1));
-            case "1":
+            case '1':
                 return "521"; // Bielefeld
-            case "2":
+            case '2':
                 return fromNumber522(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber523(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber524(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber525(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber526(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber527(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber528(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber529(number.substring(1));
             default:
                 return "";
@@ -11235,24 +11245,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5201"; // Halle Westf
-            case "2":
+            case '2':
                 return "5202"; // Oerlinghausen
-            case "3":
+            case '3':
                 return "5203"; // Werther Westf
-            case "4":
+            case '4':
                 return "5204"; // Steinhagen Westf
-            case "5":
+            case '5':
                 return "5205"; // Bielefeld-Sennestadt
-            case "6":
+            case '6':
                 return "5206"; // Bielefeld-Jöllenbeck
-            case "7":
+            case '7':
                 return "5207"; // Schloss Holte-Stukenbrock
-            case "8":
+            case '8':
                 return "5208"; // Leopoldshöhe
-            case "9":
+            case '9':
                 return "5209"; // Gütersloh-Friedrichsdorf
             default:
                 return "";
@@ -11264,20 +11274,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5221"; // Herford
-            case "2":
+            case '2':
                 return "5222"; // Bad Salzuflen
-            case "3":
+            case '3':
                 return "5223"; // Bünde
-            case "4":
+            case '4':
                 return "5224"; // Enger Westf
-            case "5":
+            case '5':
                 return "5225"; // Spenge
-            case "6":
+            case '6':
                 return "5226"; // Bruchmühlen Westf
-            case "8":
+            case '8':
                 return "5228"; // Vlotho-Exter
             default:
                 return "";
@@ -11289,22 +11299,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5231"; // Detmold
-            case "2":
+            case '2':
                 return "5232"; // Lage Lippe
-            case "3":
+            case '3':
                 return "5233"; // Steinheim Westf
-            case "4":
+            case '4':
                 return "5234"; // Horn-Bad Meinberg
-            case "5":
+            case '5':
                 return "5235"; // Blomberg Lippe
-            case "6":
+            case '6':
                 return "5236"; // Blomberg-Grossenmarpe
-            case "7":
+            case '7':
                 return "5237"; // Augustdorf
-            case "8":
+            case '8':
                 return "5238"; // Nieheim-Himmighausen
             default:
                 return "";
@@ -11316,20 +11326,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5241"; // Gütersloh
-            case "2":
+            case '2':
                 return "5242"; // Rheda-Wiedenbrück
-            case "4":
+            case '4':
                 return "5244"; // Rietberg
-            case "5":
+            case '5':
                 return "5245"; // Herzebrock-Clarholz
-            case "6":
+            case '6':
                 return "5246"; // Verl
-            case "7":
+            case '7':
                 return "5247"; // Harsewinkel
-            case "8":
+            case '8':
                 return "5248"; // Langenberg Kr Gütersloh
             default:
                 return "";
@@ -11341,24 +11351,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "5250"; // Delbrück Westf
-            case "1":
+            case '1':
                 return "5251"; // Paderborn
-            case "2":
+            case '2':
                 return "5252"; // Bad Lippspringe
-            case "3":
+            case '3':
                 return "5253"; // Bad Driburg
-            case "4":
+            case '4':
                 return "5254"; // Paderborn-Schloss Neuhaus
-            case "5":
+            case '5':
                 return "5255"; // Altenbeken
-            case "7":
+            case '7':
                 return "5257"; // Hövelhof
-            case "8":
+            case '8':
                 return "5258"; // Salzkotten
-            case "9":
+            case '9':
                 return "5259"; // Bad Driburg-Neuenheerse
             default:
                 return "";
@@ -11370,18 +11380,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5261"; // Lemgo
-            case "2":
+            case '2':
                 return "5262"; // Extertal
-            case "3":
+            case '3':
                 return "5263"; // Barntrup
-            case "4":
+            case '4':
                 return "5264"; // Kalletal
-            case "5":
+            case '5':
                 return "5265"; // Dörentrup
-            case "6":
+            case '6':
                 return "5266"; // Lemgo-Kirchheide
             default:
                 return "";
@@ -11393,22 +11403,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5271"; // Höxter
-            case "2":
+            case '2':
                 return "5272"; // Brakel Westf
-            case "3":
+            case '3':
                 return "5273"; // Beverungen
-            case "4":
+            case '4':
                 return "5274"; // Nieheim
-            case "5":
+            case '5':
                 return "5275"; // Höxter-Ottbergen
-            case "6":
+            case '6':
                 return "5276"; // Marienmünster
-            case "7":
+            case '7':
                 return "5277"; // Höxter-Fürstenau
-            case "8":
+            case '8':
                 return "5278"; // Höxter-Ovenhausen
             default:
                 return "";
@@ -11420,18 +11430,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5281"; // Bad Pyrmont
-            case "2":
+            case '2':
                 return "5282"; // Schieder-Schwalenberg
-            case "3":
+            case '3':
                 return "5283"; // Lügde-Rischenau
-            case "4":
+            case '4':
                 return "5284"; // Schwalenberg
-            case "5":
+            case '5':
                 return "5285"; // Bad Pyrmont-Kleinenberg
-            case "6":
+            case '6':
                 return "5286"; // Ottenstein Niedersachs
             default:
                 return "";
@@ -11443,14 +11453,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "5292"; // Lichtenau-Atteln
-            case "3":
+            case '3':
                 return "5293"; // Paderborn-Dahl
-            case "4":
+            case '4':
                 return "5294"; // Hövelhof-Espeln
-            case "5":
+            case '5':
                 return "5295"; // Lichtenau Westf
             default:
                 return "";
@@ -11462,24 +11472,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber530(number.substring(1));
-            case "1":
+            case '1':
                 return "531"; // Braunschweig
-            case "2":
+            case '2':
                 return fromNumber532(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber533(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber534(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber535(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber536(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber537(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber538(number.substring(1));
             default:
                 return "";
@@ -11491,26 +11501,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "5300"; // Salzgitter-Üfingen
-            case "1":
+            case '1':
                 return "5301"; // Lehre-Essenrode
-            case "2":
+            case '2':
                 return "5302"; // Vechelde
-            case "3":
+            case '3':
                 return "5303"; // Wendeburg
-            case "4":
+            case '4':
                 return "5304"; // Meine
-            case "5":
+            case '5':
                 return "5305"; // Sickte
-            case "6":
+            case '6':
                 return "5306"; // Cremlingen
-            case "7":
+            case '7':
                 return "5307"; // Braunschweig-Wenden
-            case "8":
+            case '8':
                 return "5308"; // Lehre
-            case "9":
+            case '9':
                 return "5309"; // Lehre-Wendhausen
             default:
                 return "";
@@ -11522,26 +11532,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "5320"; // Torfhaus
-            case "1":
+            case '1':
                 return "5321"; // Goslar
-            case "2":
+            case '2':
                 return "5322"; // Bad Harzburg
-            case "3":
+            case '3':
                 return "5323"; // Clausthal-Zellerfeld
-            case "4":
+            case '4':
                 return "5324"; // Vienenburg
-            case "5":
+            case '5':
                 return "5325"; // Goslar-Hahnenklee
-            case "6":
+            case '6':
                 return "5326"; // Langelsheim
-            case "7":
+            case '7':
                 return "5327"; // Bad Grund Harz
-            case "8":
+            case '8':
                 return "5328"; // Altenau Harz
-            case "9":
+            case '9':
                 return "5329"; // Schulenberg im Oberharz
             default:
                 return "";
@@ -11553,22 +11563,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5331"; // Wolfenbüttel
-            case "2":
+            case '2':
                 return "5332"; // Schöppenstedt
-            case "3":
+            case '3':
                 return "5333"; // Dettum
-            case "4":
+            case '4':
                 return "5334"; // Hornburg Kr Wolfenbüttel
-            case "5":
+            case '5':
                 return "5335"; // Schladen
-            case "6":
+            case '6':
                 return "5336"; // Semmenstedt
-            case "7":
+            case '7':
                 return "5337"; // Kissenbrück
-            case "9":
+            case '9':
                 return "5339"; // Gielde
             default:
                 return "";
@@ -11580,16 +11590,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5341"; // Salzgitter
-            case "4":
+            case '4':
                 return "5344"; // Lengede
-            case "5":
+            case '5':
                 return "5345"; // Baddeckenstedt
-            case "6":
+            case '6':
                 return "5346"; // Liebenburg
-            case "7":
+            case '7':
                 return "5347"; // Burgdorf b Salzgitter
             default:
                 return "";
@@ -11601,22 +11611,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5351"; // Helmstedt
-            case "2":
+            case '2':
                 return "5352"; // Schöningen
-            case "3":
+            case '3':
                 return "5353"; // Königslutter am Elm
-            case "4":
+            case '4':
                 return "5354"; // Jerxheim
-            case "5":
+            case '5':
                 return "5355"; // Frellstedt
-            case "6":
+            case '6':
                 return "5356"; // Helmstedt-Barmke
-            case "7":
+            case '7':
                 return "5357"; // Grasleben
-            case "8":
+            case '8':
                 return "5358"; // Bahrdorf-Mackendorf
             default:
                 return "";
@@ -11628,22 +11638,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5361"; // Wolfsburg
-            case "2":
+            case '2':
                 return "5362"; // Wolfsburg-Fallersleben
-            case "3":
+            case '3':
                 return "5363"; // Wolfsburg-Vorsfelde
-            case "4":
+            case '4':
                 return "5364"; // Velpke
-            case "5":
+            case '5':
                 return "5365"; // Wolfsburg-Neindorf
-            case "6":
+            case '6':
                 return "5366"; // Jembke
-            case "7":
+            case '7':
                 return "5367"; // Rühen
-            case "8":
+            case '8':
                 return "5368"; // Parsau
             default:
                 return "";
@@ -11655,24 +11665,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5371"; // Gifhorn
-            case "2":
+            case '2':
                 return "5372"; // Meinersen
-            case "3":
+            case '3':
                 return "5373"; // Hillerse Kr Gifhorn
-            case "4":
+            case '4':
                 return "5374"; // Isenbüttel
-            case "5":
+            case '5':
                 return "5375"; // Müden Aller
-            case "6":
+            case '6':
                 return "5376"; // Wesendorf Kr Gifhorn
-            case "7":
+            case '7':
                 return "5377"; // Ehra-Lessien
-            case "8":
+            case '8':
                 return "5378"; // Sassenburg-Platendorf
-            case "9":
+            case '9':
                 return "5379"; // Sassenburg-Grussendorf
             default:
                 return "";
@@ -11684,14 +11694,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5381"; // Seesen
-            case "2":
+            case '2':
                 return "5382"; // Bad Gandersheim
-            case "3":
+            case '3':
                 return "5383"; // Lutter am Barenberge
-            case "4":
+            case '4':
                 return "5384"; // Seesen-Groß Rhüden
             default:
                 return "";
@@ -11703,26 +11713,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber540(number.substring(1));
-            case "1":
+            case '1':
                 return "541"; // Osnabrück
-            case "2":
+            case '2':
                 return fromNumber542(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber543(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber544(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber545(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber546(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber547(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber548(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber549(number.substring(1));
             default:
                 return "";
@@ -11734,22 +11744,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5401"; // Georgsmarienhütte
-            case "2":
+            case '2':
                 return "5402"; // Bissendorf Kr Osnabrück
-            case "3":
+            case '3':
                 return "5403"; // Bad Iburg
-            case "4":
+            case '4':
                 return "5404"; // Westerkappeln
-            case "5":
+            case '5':
                 return "5405"; // Hasbergen Kr Osnabrück
-            case "6":
+            case '6':
                 return "5406"; // Belm
-            case "7":
+            case '7':
                 return "5407"; // Wallenhorst
-            case "9":
+            case '9':
                 return "5409"; // Hilter am Teutoburger Wald
             default:
                 return "";
@@ -11761,24 +11771,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5421"; // Dissen am Teutoburger Wald
-            case "2":
+            case '2':
                 return "5422"; // Melle
-            case "3":
+            case '3':
                 return "5423"; // Versmold
-            case "4":
+            case '4':
                 return "5424"; // Bad Rothenfelde
-            case "5":
+            case '5':
                 return "5425"; // Borgholzhausen
-            case "6":
+            case '6':
                 return "5426"; // Glandorf
-            case "7":
+            case '7':
                 return "5427"; // Melle-Buer
-            case "8":
+            case '8':
                 return "5428"; // Melle-Neuenkirchen
-            case "9":
+            case '9':
                 return "5429"; // Melle-Wellingholzhausen
             default:
                 return "";
@@ -11790,24 +11800,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5431"; // Quakenbrück
-            case "2":
+            case '2':
                 return "5432"; // Löningen
-            case "3":
+            case '3':
                 return "5433"; // Badbergen
-            case "4":
+            case '4':
                 return "5434"; // Essen Oldenburg
-            case "5":
+            case '5':
                 return "5435"; // Berge b Quakenbrück
-            case "6":
+            case '6':
                 return "5436"; // Nortrup
-            case "7":
+            case '7':
                 return "5437"; // Menslage
-            case "8":
+            case '8':
                 return "5438"; // Bakum-Lüsche
-            case "9":
+            case '9':
                 return "5439"; // Bersenbrück
             default:
                 return "";
@@ -11819,22 +11829,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5441"; // Diepholz
-            case "2":
+            case '2':
                 return "5442"; // Barnstorf Kr Diepholz
-            case "3":
+            case '3':
                 return "5443"; // Lemförde
-            case "4":
+            case '4':
                 return "5444"; // Wagenfeld
-            case "5":
+            case '5':
                 return "5445"; // Drebber
-            case "6":
+            case '6':
                 return "5446"; // Rehden
-            case "7":
+            case '7':
                 return "5447"; // Lembruch
-            case "8":
+            case '8':
                 return "5448"; // Barver
             default:
                 return "";
@@ -11846,24 +11856,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5451"; // Ibbenbüren
-            case "2":
+            case '2':
                 return "5452"; // Mettingen Westf
-            case "3":
+            case '3':
                 return "5453"; // Recke
-            case "4":
+            case '4':
                 return "5454"; // Hörstel-Riesenbeck
-            case "5":
+            case '5':
                 return "5455"; // Tecklenburg-Brochterbeck
-            case "6":
+            case '6':
                 return "5456"; // Westerkappeln-Velpe
-            case "7":
+            case '7':
                 return "5457"; // Hopsten-Schale
-            case "8":
+            case '8':
                 return "5458"; // Hopsten
-            case "9":
+            case '9':
                 return "5459"; // Hörstel
             default:
                 return "";
@@ -11875,20 +11885,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5461"; // Bramsche Hase
-            case "2":
+            case '2':
                 return "5462"; // Ankum
-            case "4":
+            case '4':
                 return "5464"; // Alfhausen
-            case "5":
+            case '5':
                 return "5465"; // Neuenkirchen b Bramsche
-            case "6":
+            case '6':
                 return "5466"; // Merzen
-            case "7":
+            case '7':
                 return "5467"; // Voltlage
-            case "8":
+            case '8':
                 return "5468"; // Bramsche-Engter
             default:
                 return "";
@@ -11900,18 +11910,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5471"; // Bohmte
-            case "2":
+            case '2':
                 return "5472"; // Bad Essen
-            case "3":
+            case '3':
                 return "5473"; // Ostercappeln
-            case "4":
+            case '4':
                 return "5474"; // Stemwede-Dielingen
-            case "5":
+            case '5':
                 return "5475"; // Bohmte-Hunteburg
-            case "6":
+            case '6':
                 return "5476"; // Ostercappeln-Venne
             default:
                 return "";
@@ -11923,16 +11933,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5481"; // Lengerich Westf
-            case "2":
+            case '2':
                 return "5482"; // Tecklenburg
-            case "3":
+            case '3':
                 return "5483"; // Lienen
-            case "4":
+            case '4':
                 return "5484"; // Lienen-Kattenvenne
-            case "5":
+            case '5':
                 return "5485"; // Ladbergen
             default:
                 return "";
@@ -11944,16 +11954,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5491"; // Damme Dümmer
-            case "2":
+            case '2':
                 return "5492"; // Steinfeld Oldenburg
-            case "3":
+            case '3':
                 return "5493"; // Neuenkirchen Kr Vechta
-            case "4":
+            case '4':
                 return "5494"; // Holdorf Niedersachs
-            case "5":
+            case '5':
                 return "5495"; // Vörden Kr Vechta
             default:
                 return "";
@@ -11965,26 +11975,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber550(number.substring(1));
-            case "1":
+            case '1':
                 return "551"; // Göttingen
-            case "2":
+            case '2':
                 return fromNumber552(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber553(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber554(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber555(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber556(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber557(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber558(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber559(number.substring(1));
             default:
                 return "";
@@ -11996,22 +12006,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "5502"; // Dransfeld
-            case "3":
+            case '3':
                 return "5503"; // Nörten-Hardenberg
-            case "4":
+            case '4':
                 return "5504"; // Friedland Kr Göttingen
-            case "5":
+            case '5':
                 return "5505"; // Hardegsen
-            case "6":
+            case '6':
                 return "5506"; // Adelebsen
-            case "7":
+            case '7':
                 return "5507"; // Ebergötzen
-            case "8":
+            case '8':
                 return "5508"; // Gleichen-Rittmarshausen
-            case "9":
+            case '9':
                 return "5509"; // Rosdorf Kr Göttingen
             default:
                 return "";
@@ -12023,24 +12033,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "5520"; // Braunlage
-            case "1":
+            case '1':
                 return "5521"; // Herzberg am Harz
-            case "2":
+            case '2':
                 return "5522"; // Osterode am Harz
-            case "3":
+            case '3':
                 return "5523"; // Bad Sachsa
-            case "4":
+            case '4':
                 return "5524"; // Bad Lauterberg im Harz
-            case "5":
+            case '5':
                 return "5525"; // Walkenried
-            case "7":
+            case '7':
                 return "5527"; // Duderstadt
-            case "8":
+            case '8':
                 return "5528"; // Gieboldehausen
-            case "9":
+            case '9':
                 return "5529"; // Rhumspringe
             default:
                 return "";
@@ -12052,18 +12062,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5531"; // Holzminden
-            case "2":
+            case '2':
                 return "5532"; // Stadtoldendorf
-            case "3":
+            case '3':
                 return "5533"; // Bodenwerder
-            case "4":
+            case '4':
                 return "5534"; // Eschershausen a d Lenne
-            case "5":
+            case '5':
                 return "5535"; // Polle
-            case "6":
+            case '6':
                 return "5536"; // Holzminden-Neuhaus
             default:
                 return "";
@@ -12075,18 +12085,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5541"; // Hann. Münden
-            case "2":
+            case '2':
                 return "5542"; // Witzenhausen
-            case "3":
+            case '3':
                 return "5543"; // Staufenberg Niedersachs
-            case "4":
+            case '4':
                 return "5544"; // Reinhardshagen
-            case "5":
+            case '5':
                 return "5545"; // Hedemünden
-            case "6":
+            case '6':
                 return "5546"; // Scheden
             default:
                 return "";
@@ -12098,18 +12108,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5551"; // Northeim
-            case "2":
+            case '2':
                 return "5552"; // Katlenburg
-            case "3":
+            case '3':
                 return "5553"; // Kalefeld
-            case "4":
+            case '4':
                 return "5554"; // Moringen
-            case "5":
+            case '5':
                 return "5555"; // Moringen-Fredelsloh
-            case "6":
+            case '6':
                 return "5556"; // Lindau Harz
             default:
                 return "";
@@ -12121,16 +12131,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5561"; // Einbeck
-            case "2":
+            case '2':
                 return "5562"; // Dassel-Markoldendorf
-            case "3":
+            case '3':
                 return "5563"; // Kreiensen
-            case "4":
+            case '4':
                 return "5564"; // Dassel
-            case "5":
+            case '5':
                 return "5565"; // Einbeck-Wenzen
             default:
                 return "";
@@ -12142,14 +12152,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5571"; // Uslar
-            case "2":
+            case '2':
                 return "5572"; // Bodenfelde
-            case "3":
+            case '3':
                 return "5573"; // Uslar-Volpriehausen
-            case "4":
+            case '4':
                 return "5574"; // Oberweser
             default:
                 return "";
@@ -12161,16 +12171,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "5582"; // Sankt Andreasberg
-            case "3":
+            case '3':
                 return "5583"; // Braunlage-Hohegeiss
-            case "4":
+            case '4':
                 return "5584"; // Hattorf am Harz
-            case "5":
+            case '5':
                 return "5585"; // Herzberg-Sieber
-            case "6":
+            case '6':
                 return "5586"; // Wieda
             default:
                 return "";
@@ -12182,12 +12192,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "5592"; // Gleichen-Bremke
-            case "3":
+            case '3':
                 return "5593"; // Bovenden-Lenglern
-            case "4":
+            case '4':
                 return "5594"; // Bovenden-Reyershausen
             default:
                 return "";
@@ -12199,26 +12209,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber560(number.substring(1));
-            case "1":
+            case '1':
                 return "561"; // Kassel
-            case "2":
+            case '2':
                 return fromNumber562(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber563(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber564(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber565(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber566(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber567(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber568(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber569(number.substring(1));
             default:
                 return "";
@@ -12230,24 +12240,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5601"; // Schauenburg
-            case "2":
+            case '2':
                 return "5602"; // Hessisch Lichtenau
-            case "3":
+            case '3':
                 return "5603"; // Gudensberg
-            case "4":
+            case '4':
                 return "5604"; // Grossalmerode
-            case "5":
+            case '5':
                 return "5605"; // Kaufungen Hess
-            case "6":
+            case '6':
                 return "5606"; // Zierenberg
-            case "7":
+            case '7':
                 return "5607"; // Fuldatal
-            case "8":
+            case '8':
                 return "5608"; // Söhrewald
-            case "9":
+            case '9':
                 return "5609"; // Ahnatal
             default:
                 return "";
@@ -12259,18 +12269,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5621"; // Bad Wildungen
-            case "2":
+            case '2':
                 return "5622"; // Fritzlar
-            case "3":
+            case '3':
                 return "5623"; // Edertal
-            case "4":
+            case '4':
                 return "5624"; // Bad Emstal
-            case "5":
+            case '5':
                 return "5625"; // Naumburg Hess
-            case "6":
+            case '6':
                 return "5626"; // Bad Zwesten
             default:
                 return "";
@@ -12282,18 +12292,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5631"; // Korbach
-            case "2":
+            case '2':
                 return "5632"; // Willingen Upland
-            case "3":
+            case '3':
                 return "5633"; // Diemelsee
-            case "4":
+            case '4':
                 return "5634"; // Waldeck-Sachsenhausen
-            case "5":
+            case '5':
                 return "5635"; // Vöhl
-            case "6":
+            case '6':
                 return "5636"; // Lichtenfels-Goddelsheim
             default:
                 return "";
@@ -12305,22 +12315,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5641"; // Warburg
-            case "2":
+            case '2':
                 return "5642"; // Warburg-Scherfede
-            case "3":
+            case '3':
                 return "5643"; // Borgentreich
-            case "4":
+            case '4':
                 return "5644"; // Willebadessen-Peckelsheim
-            case "5":
+            case '5':
                 return "5645"; // Borgentreich-Borgholz
-            case "6":
+            case '6':
                 return "5646"; // Willebadessen
-            case "7":
+            case '7':
                 return "5647"; // Lichtenau-Kleinenberg
-            case "8":
+            case '8':
                 return "5648"; // Brakel-Gehrden
             default:
                 return "";
@@ -12332,26 +12342,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "5650"; // Cornberg
-            case "1":
+            case '1':
                 return "5651"; // Eschwege
-            case "2":
+            case '2':
                 return "5652"; // Bad Sooden-Allendorf
-            case "3":
+            case '3':
                 return "5653"; // Sontra
-            case "4":
+            case '4':
                 return "5654"; // Herleshausen
-            case "5":
+            case '5':
                 return "5655"; // Wanfried
-            case "6":
+            case '6':
                 return "5656"; // Waldkappel
-            case "7":
+            case '7':
                 return "5657"; // Meissner
-            case "8":
+            case '8':
                 return "5658"; // Wehretal
-            case "9":
+            case '9':
                 return "5659"; // Ringgau
             default:
                 return "";
@@ -12363,16 +12373,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5661"; // Melsungen
-            case "2":
+            case '2':
                 return "5662"; // Felsberg Hess
-            case "3":
+            case '3':
                 return "5663"; // Spangenberg
-            case "4":
+            case '4':
                 return "5664"; // Morschen
-            case "5":
+            case '5':
                 return "5665"; // Guxhagen
             default:
                 return "";
@@ -12384,20 +12394,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5671"; // Hofgeismar
-            case "2":
+            case '2':
                 return "5672"; // Bad Karlshafen
-            case "3":
+            case '3':
                 return "5673"; // Immenhausen Hess
-            case "4":
+            case '4':
                 return "5674"; // Grebenstein
-            case "5":
+            case '5':
                 return "5675"; // Trendelburg
-            case "6":
+            case '6':
                 return "5676"; // Liebenau Hess
-            case "7":
+            case '7':
                 return "5677"; // Calden-Westuffeln
             default:
                 return "";
@@ -12409,18 +12419,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5681"; // Homberg Efze
-            case "2":
+            case '2':
                 return "5682"; // Borken Hessen
-            case "3":
+            case '3':
                 return "5683"; // Wabern Hess
-            case "4":
+            case '4':
                 return "5684"; // Frielendorf
-            case "5":
+            case '5':
                 return "5685"; // Knüllwald
-            case "6":
+            case '6':
                 return "5686"; // Schwarzenborn Knüll
             default:
                 return "";
@@ -12432,18 +12442,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5691"; // Bad Arolsen
-            case "2":
+            case '2':
                 return "5692"; // Wolfhagen
-            case "3":
+            case '3':
                 return "5693"; // Volkmarsen
-            case "4":
+            case '4':
                 return "5694"; // Diemelstadt
-            case "5":
+            case '5':
                 return "5695"; // Twistetal
-            case "6":
+            case '6':
                 return "5696"; // Bad Arolsen-Landau
             default:
                 return "";
@@ -12455,22 +12465,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber570(number.substring(1));
-            case "1":
+            case '1':
                 return "571"; // Minden Westf
-            case "2":
+            case '2':
                 return fromNumber572(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber573(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber574(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber575(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber576(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber577(number.substring(1));
             default:
                 return "";
@@ -12482,18 +12492,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "5702"; // Petershagen-Lahde
-            case "3":
+            case '3':
                 return "5703"; // Hille
-            case "4":
+            case '4':
                 return "5704"; // Petershagen-Friedewalde
-            case "5":
+            case '5':
                 return "5705"; // Petershagen-Windheim
-            case "6":
+            case '6':
                 return "5706"; // Porta Westfalica
-            case "7":
+            case '7':
                 return "5707"; // Petershagen Weser
             default:
                 return "";
@@ -12505,18 +12515,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5721"; // Stadthagen
-            case "2":
+            case '2':
                 return "5722"; // Bückeburg
-            case "3":
+            case '3':
                 return "5723"; // Bad Nenndorf
-            case "4":
+            case '4':
                 return "5724"; // Obernkirchen
-            case "5":
+            case '5':
                 return "5725"; // Lindhorst b Stadthagen
-            case "6":
+            case '6':
                 return "5726"; // Wiedensahl
             default:
                 return "";
@@ -12528,14 +12538,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5731"; // Bad Oeynhausen
-            case "2":
+            case '2':
                 return "5732"; // Löhne
-            case "3":
+            case '3':
                 return "5733"; // Vlotho
-            case "4":
+            case '4':
                 return "5734"; // Bergkirchen Westf
             default:
                 return "";
@@ -12547,18 +12557,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5741"; // Lübbecke
-            case "2":
+            case '2':
                 return "5742"; // Preussisch Oldendorf
-            case "3":
+            case '3':
                 return "5743"; // Espelkamp-Gestringen
-            case "4":
+            case '4':
                 return "5744"; // Hüllhorst
-            case "5":
+            case '5':
                 return "5745"; // Stemwede-Levern
-            case "6":
+            case '6':
                 return "5746"; // Rödinghausen
             default:
                 return "";
@@ -12570,16 +12580,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5751"; // Rinteln
-            case "2":
+            case '2':
                 return "5752"; // Auetal-Hattendorf
-            case "3":
+            case '3':
                 return "5753"; // Auetal-Bernsen
-            case "4":
+            case '4':
                 return "5754"; // Extertal-Bremke
-            case "5":
+            case '5':
                 return "5755"; // Kalletal-Varenholz
             default:
                 return "";
@@ -12591,22 +12601,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5761"; // Stolzenau
-            case "3":
+            case '3':
                 return "5763"; // Uchte
-            case "4":
+            case '4':
                 return "5764"; // Steyerberg
-            case "5":
+            case '5':
                 return "5765"; // Raddestorf
-            case "6":
+            case '6':
                 return "5766"; // Rehburg-Loccum
-            case "7":
+            case '7':
                 return "5767"; // Warmsen
-            case "8":
+            case '8':
                 return "5768"; // Petershagen-Heimsen
-            case "9":
+            case '9':
                 return "5769"; // Steyerberg-Voigtei
             default:
                 return "";
@@ -12618,20 +12628,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5771"; // Rahden Westf
-            case "2":
+            case '2':
                 return "5772"; // Espelkamp
-            case "3":
+            case '3':
                 return "5773"; // Stemwede-Wehdem
-            case "4":
+            case '4':
                 return "5774"; // Wagenfeld-Ströhen
-            case "5":
+            case '5':
                 return "5775"; // Diepenau
-            case "6":
+            case '6':
                 return "5776"; // Preussisch Ströhen
-            case "7":
+            case '7':
                 return "5777"; // Diepenau-Essern
             default:
                 return "";
@@ -12643,24 +12653,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber580(number.substring(1));
-            case "1":
+            case '1':
                 return "581"; // Uelzen
-            case "2":
+            case '2':
                 return fromNumber582(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber583(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber584(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber585(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber586(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber587(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber588(number.substring(1));
             default:
                 return "";
@@ -12672,20 +12682,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "5802"; // Wrestedt
-            case "3":
+            case '3':
                 return "5803"; // Rosche
-            case "4":
+            case '4':
                 return "5804"; // Rätzlingen Kr Uelzen
-            case "5":
+            case '5':
                 return "5805"; // Oetzen
-            case "6":
+            case '6':
                 return "5806"; // Barum b Bad Bevensen
-            case "7":
+            case '7':
                 return "5807"; // Altenmedingen
-            case "8":
+            case '8':
                 return "5808"; // Gerdau
             default:
                 return "";
@@ -12697,26 +12707,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "5820"; // Suhlendorf
-            case "1":
+            case '1':
                 return "5821"; // Bad Bevensen
-            case "2":
+            case '2':
                 return "5822"; // Ebstorf
-            case "3":
+            case '3':
                 return "5823"; // Bienenbüttel
-            case "4":
+            case '4':
                 return "5824"; // Bad Bodenteich
-            case "5":
+            case '5':
                 return "5825"; // Wieren
-            case "6":
+            case '6':
                 return "5826"; // Suderburg
-            case "7":
+            case '7':
                 return "5827"; // Unterlüß
-            case "8":
+            case '8':
                 return "5828"; // Himbergen
-            case "9":
+            case '9':
                 return "5829"; // Wriedel
             default:
                 return "";
@@ -12728,24 +12738,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5831"; // Wittingen
-            case "2":
+            case '2':
                 return "5832"; // Hankensbüttel
-            case "3":
+            case '3':
                 return "5833"; // Brome
-            case "4":
+            case '4':
                 return "5834"; // Wittingen-Knesebeck
-            case "5":
+            case '5':
                 return "5835"; // Wahrenholz
-            case "6":
+            case '6':
                 return "5836"; // Wittingen-Radenbeck
-            case "7":
+            case '7':
                 return "5837"; // Sprakensehl
-            case "8":
+            case '8':
                 return "5838"; // Gross Oesingen
-            case "9":
+            case '9':
                 return "5839"; // Wittingen-Ohrdorf
             default:
                 return "";
@@ -12757,24 +12767,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "5840"; // Schnackenburg
-            case "1":
+            case '1':
                 return "5841"; // Lüchow Wendland
-            case "2":
+            case '2':
                 return "5842"; // Schnega
-            case "3":
+            case '3':
                 return "5843"; // Wustrow Wendland
-            case "4":
+            case '4':
                 return "5844"; // Clenze
-            case "5":
+            case '5':
                 return "5845"; // Bergen Dumme
-            case "6":
+            case '6':
                 return "5846"; // Gartow Niedersachs
-            case "8":
+            case '8':
                 return "5848"; // Trebel
-            case "9":
+            case '9':
                 return "5849"; // Waddeweitz
             default:
                 return "";
@@ -12786,24 +12796,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "5850"; // Neetze
-            case "1":
+            case '1':
                 return "5851"; // Dahlenburg
-            case "2":
+            case '2':
                 return "5852"; // Bleckede
-            case "3":
+            case '3':
                 return "5853"; // Neu Darchau
-            case "4":
+            case '4':
                 return "5854"; // Bleckede-Barskamp
-            case "5":
+            case '5':
                 return "5855"; // Nahrendorf
-            case "7":
+            case '7':
                 return "5857"; // Bleckede-Brackede
-            case "8":
+            case '8':
                 return "5858"; // Hitzacker-Wietzetze
-            case "9":
+            case '9':
                 return "5859"; // Thomasburg
             default:
                 return "";
@@ -12815,16 +12825,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5861"; // Dannenberg Elbe
-            case "2":
+            case '2':
                 return "5862"; // Hitzacker Elbe
-            case "3":
+            case '3':
                 return "5863"; // Zernien
-            case "4":
+            case '4':
                 return "5864"; // Jameln
-            case "5":
+            case '5':
                 return "5865"; // Gusborn
             default:
                 return "";
@@ -12836,14 +12846,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "5872"; // Stoetze
-            case "3":
+            case '3':
                 return "5873"; // Eimke
-            case "4":
+            case '4':
                 return "5874"; // Soltendieck
-            case "5":
+            case '5':
                 return "5875"; // Emmendorf
             default:
                 return "";
@@ -12855,10 +12865,10 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "5882"; // Gorleben
-            case "3":
+            case '3':
                 return "5883"; // Lemgow
             default:
                 return "";
@@ -12870,22 +12880,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber590(number.substring(1));
-            case "1":
+            case '1':
                 return "591"; // Lingen (Ems)
-            case "2":
+            case '2':
                 return fromNumber592(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber593(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber594(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber595(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber596(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber597(number.substring(1));
             default:
                 return "";
@@ -12897,24 +12907,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5901"; // Fürstenau b Bramsche
-            case "2":
+            case '2':
                 return "5902"; // Freren
-            case "3":
+            case '3':
                 return "5903"; // Emsbüren
-            case "4":
+            case '4':
                 return "5904"; // Lengerich Emsl
-            case "5":
+            case '5':
                 return "5905"; // Beesten
-            case "6":
+            case '6':
                 return "5906"; // Lünne
-            case "7":
+            case '7':
                 return "5907"; // Geeste
-            case "8":
+            case '8':
                 return "5908"; // Wietmarschen-Lohne
-            case "9":
+            case '9':
                 return "5909"; // Wettrup
             default:
                 return "";
@@ -12926,18 +12936,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5921"; // Nordhorn
-            case "2":
+            case '2':
                 return "5922"; // Bad Bentheim
-            case "3":
+            case '3':
                 return "5923"; // Schüttorf
-            case "4":
+            case '4':
                 return "5924"; // Bad Bentheim-Gildehaus
-            case "5":
+            case '5':
                 return "5925"; // Wietmarschen
-            case "6":
+            case '6':
                 return "5926"; // Engden
             default:
                 return "";
@@ -12949,22 +12959,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5931"; // Meppen
-            case "2":
+            case '2':
                 return "5932"; // Haren Ems
-            case "3":
+            case '3':
                 return "5933"; // Lathen
-            case "4":
+            case '4':
                 return "5934"; // Haren-Rütenbrock
-            case "5":
+            case '5':
                 return "5935"; // Twist-Schöninghsdorf
-            case "6":
+            case '6':
                 return "5936"; // Twist
-            case "7":
+            case '7':
                 return "5937"; // Geeste-Gross Hesepe
-            case "9":
+            case '9':
                 return "5939"; // Sustrum
             default:
                 return "";
@@ -12976,22 +12986,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5941"; // Neuenhaus Dinkel
-            case "2":
+            case '2':
                 return "5942"; // Uelsen
-            case "3":
+            case '3':
                 return "5943"; // Emlichheim
-            case "4":
+            case '4':
                 return "5944"; // Hoogstede
-            case "5":
+            case '5':
                 return "5945"; // Wilsum
-            case "6":
+            case '6':
                 return "5946"; // Georgsdorf
-            case "7":
+            case '7':
                 return "5947"; // Laar Vechte
-            case "8":
+            case '8':
                 return "5948"; // Itterbeck
             default:
                 return "";
@@ -13003,20 +13013,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5951"; // Werlte
-            case "2":
+            case '2':
                 return "5952"; // Sögel
-            case "3":
+            case '3':
                 return "5953"; // Börger
-            case "4":
+            case '4':
                 return "5954"; // Lorup
-            case "5":
+            case '5':
                 return "5955"; // Esterwegen
-            case "6":
+            case '6':
                 return "5956"; // Rastdorf
-            case "7":
+            case '7':
                 return "5957"; // Lindern Oldenburg
             default:
                 return "";
@@ -13028,18 +13038,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5961"; // Haselünne
-            case "2":
+            case '2':
                 return "5962"; // Herzlake
-            case "3":
+            case '3':
                 return "5963"; // Bawinkel
-            case "4":
+            case '4':
                 return "5964"; // Lähden
-            case "5":
+            case '5':
                 return "5965"; // Klein Berssen
-            case "6":
+            case '6':
                 return "5966"; // Meppen-Apeldorn
             default:
                 return "";
@@ -13051,18 +13061,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "5971"; // Rheine
-            case "3":
+            case '3':
                 return "5973"; // Neuenkirchen Kr Steinfurt
-            case "5":
+            case '5':
                 return "5975"; // Rheine-Mesum
-            case "6":
+            case '6':
                 return "5976"; // Salzbergen
-            case "7":
+            case '7':
                 return "5977"; // Spelle
-            case "8":
+            case '8':
                 return "5978"; // Hörstel-Dreierwalde
             default:
                 return "";
@@ -13074,26 +13084,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber60(number.substring(1));
-            case "1":
+            case '1':
                 return fromNumber61(number.substring(1));
-            case "2":
+            case '2':
                 return fromNumber62(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber63(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber64(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber65(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber66(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber67(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber68(number.substring(1));
-            case "9":
+            case '9':
                 return "69"; // Frankfurt am Main
             default:
                 return "";
@@ -13105,24 +13115,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber600(number.substring(1));
-            case "2":
+            case '2':
                 return fromNumber602(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber603(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber604(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber605(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber606(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber607(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber608(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber609(number.substring(1));
             default:
                 return "";
@@ -13134,16 +13144,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "6002"; // Ober-Mörlen
-            case "3":
+            case '3':
                 return "6003"; // Rosbach v d Höhe
-            case "4":
+            case '4':
                 return "6004"; // Lich-Eberstadt
-            case "7":
+            case '7':
                 return "6007"; // Rosbach-Rodheim
-            case "8":
+            case '8':
                 return "6008"; // Echzell
             default:
                 return "";
@@ -13155,24 +13165,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6020"; // Heigenbrücken
-            case "1":
+            case '1':
                 return "6021"; // Aschaffenburg
-            case "2":
+            case '2':
                 return "6022"; // Obernburg a Main
-            case "3":
+            case '3':
                 return "6023"; // Alzenau i Ufr
-            case "4":
+            case '4':
                 return "6024"; // Schöllkrippen
-            case "6":
+            case '6':
                 return "6026"; // Grossostheim
-            case "7":
+            case '7':
                 return "6027"; // Stockstadt a Main
-            case "8":
+            case '8':
                 return "6028"; // Sulzbach a Main
-            case "9":
+            case '9':
                 return "6029"; // Mömbris
             default:
                 return "";
@@ -13184,20 +13194,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6031"; // Friedberg Hess
-            case "2":
+            case '2':
                 return "6032"; // Bad Nauheim
-            case "3":
+            case '3':
                 return "6033"; // Butzbach
-            case "4":
+            case '4':
                 return "6034"; // Wöllstadt
-            case "5":
+            case '5':
                 return "6035"; // Reichelsheim Wetterau
-            case "6":
+            case '6':
                 return "6036"; // Wölfersheim
-            case "9":
+            case '9':
                 return "6039"; // Karben
             default:
                 return "";
@@ -13209,24 +13219,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6041"; // Glauburg
-            case "2":
+            case '2':
                 return "6042"; // Büdingen Hess
-            case "3":
+            case '3':
                 return "6043"; // Nidda
-            case "4":
+            case '4':
                 return "6044"; // Schotten Hess
-            case "5":
+            case '5':
                 return "6045"; // Gedern
-            case "6":
+            case '6':
                 return "6046"; // Ortenberg Hess
-            case "7":
+            case '7':
                 return "6047"; // Altenstadt Hess
-            case "8":
+            case '8':
                 return "6048"; // Büdingen-Eckartshausen
-            case "9":
+            case '9':
                 return "6049"; // Kefenrod
             default:
                 return "";
@@ -13238,26 +13248,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6050"; // Biebergemünd
-            case "1":
+            case '1':
                 return "6051"; // Gelnhausen
-            case "2":
+            case '2':
                 return "6052"; // Bad Orb
-            case "3":
+            case '3':
                 return "6053"; // Wächtersbach
-            case "4":
+            case '4':
                 return "6054"; // Birstein
-            case "5":
+            case '5':
                 return "6055"; // Freigericht
-            case "6":
+            case '6':
                 return "6056"; // Bad Soden-Salmünster
-            case "7":
+            case '7':
                 return "6057"; // Flörsbachtal
-            case "8":
+            case '8':
                 return "6058"; // Gründau
-            case "9":
+            case '9':
                 return "6059"; // Jossgrund
             default:
                 return "";
@@ -13269,16 +13279,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6061"; // Michelstadt
-            case "2":
+            case '2':
                 return "6062"; // Erbach Odenw
-            case "3":
+            case '3':
                 return "6063"; // Bad König
-            case "6":
+            case '6':
                 return "6066"; // Michelstadt-Vielbrunn
-            case "8":
+            case '8':
                 return "6068"; // Beerfelden
             default:
                 return "";
@@ -13290,14 +13300,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6071"; // Dieburg
-            case "3":
+            case '3':
                 return "6073"; // Babenhausen Hess
-            case "4":
+            case '4':
                 return "6074"; // Rödermark
-            case "8":
+            case '8':
                 return "6078"; // Gross-Umstadt
             default:
                 return "";
@@ -13309,20 +13319,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6081"; // Usingen
-            case "2":
+            case '2':
                 return "6082"; // Niederreifenberg
-            case "3":
+            case '3':
                 return "6083"; // Weilrod
-            case "4":
+            case '4':
                 return "6084"; // Schmitten Taunus
-            case "5":
+            case '5':
                 return "6085"; // Waldsolms
-            case "6":
+            case '6':
                 return "6086"; // Grävenwiesbach
-            case "7":
+            case '7':
                 return "6087"; // Waldems
             default:
                 return "";
@@ -13334,16 +13344,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "6092"; // Heimbuchenthal
-            case "3":
+            case '3':
                 return "6093"; // Laufach
-            case "4":
+            case '4':
                 return "6094"; // Weibersbrunn
-            case "5":
+            case '5':
                 return "6095"; // Bessenbach
-            case "6":
+            case '6':
                 return "6096"; // Wiesen Unterfr
             default:
                 return "";
@@ -13355,26 +13365,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber610(number.substring(1));
-            case "1":
+            case '1':
                 return "611"; // Wiesbaden
-            case "2":
+            case '2':
                 return fromNumber612(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber613(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber614(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber615(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber616(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber617(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber618(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber619(number.substring(1));
             default:
                 return "";
@@ -13386,24 +13396,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6101"; // Bad Vilbel
-            case "2":
+            case '2':
                 return "6102"; // Neu-Isenburg
-            case "3":
+            case '3':
                 return "6103"; // Langen Hess
-            case "4":
+            case '4':
                 return "6104"; // Heusenstamm
-            case "5":
+            case '5':
                 return "6105"; // Mörfelden-Walldorf
-            case "6":
+            case '6':
                 return "6106"; // Rodgau
-            case "7":
+            case '7':
                 return "6107"; // Kelsterbach
-            case "8":
+            case '8':
                 return "6108"; // Mühlheim am Main
-            case "9":
+            case '9':
                 return "6109"; // Frankfurt-Bergen-Enkheim
             default:
                 return "";
@@ -13415,22 +13425,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6120"; // Aarbergen
-            case "2":
+            case '2':
                 return "6122"; // Hofheim-Wallau
-            case "3":
+            case '3':
                 return "6123"; // Eltville am Rhein
-            case "4":
+            case '4':
                 return "6124"; // Bad Schwalbach
-            case "6":
+            case '6':
                 return "6126"; // Idstein
-            case "7":
+            case '7':
                 return "6127"; // Niedernhausen Taunus
-            case "8":
+            case '8':
                 return "6128"; // Taunusstein
-            case "9":
+            case '9':
                 return "6129"; // Schlangenbad
             default:
                 return "";
@@ -13442,24 +13452,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6130"; // Schwabenheim an der Selz
-            case "1":
+            case '1':
                 return "6131"; // Mainz
-            case "2":
+            case '2':
                 return "6132"; // Ingelheim am Rhein
-            case "3":
+            case '3':
                 return "6133"; // Oppenheim
-            case "4":
+            case '4':
                 return "6134"; // Mainz-Kastel
-            case "5":
+            case '5':
                 return "6135"; // Bodenheim Rhein
-            case "6":
+            case '6':
                 return "6136"; // Nieder-Olm
-            case "8":
+            case '8':
                 return "6138"; // Mommenheim
-            case "9":
+            case '9':
                 return "6139"; // Budenheim
             default:
                 return "";
@@ -13471,16 +13481,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "6142"; // Rüsselsheim
-            case "4":
+            case '4':
                 return "6144"; // Bischofsheim b Rüsselsheim
-            case "5":
+            case '5':
                 return "6145"; // Flörsheim am Main
-            case "6":
+            case '6':
                 return "6146"; // Hochheim am Main
-            case "7":
+            case '7':
                 return "6147"; // Trebur
             default:
                 return "";
@@ -13492,22 +13502,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6150"; // Weiterstadt
-            case "1":
+            case '1':
                 return "6151"; // Darmstadt
-            case "2":
+            case '2':
                 return "6152"; // Gross-Gerau
-            case "4":
+            case '4':
                 return "6154"; // Ober-Ramstadt
-            case "5":
+            case '5':
                 return "6155"; // Griesheim Hess
-            case "7":
+            case '7':
                 return "6157"; // Pfungstadt
-            case "8":
+            case '8':
                 return "6158"; // Riedstadt
-            case "9":
+            case '9':
                 return "6159"; // Messel
             default:
                 return "";
@@ -13519,20 +13529,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6161"; // Brensbach
-            case "2":
+            case '2':
                 return "6162"; // Reinheim Odenw
-            case "3":
+            case '3':
                 return "6163"; // Höchst i Odw
-            case "4":
+            case '4':
                 return "6164"; // Reichelsheim Odenwald
-            case "5":
+            case '5':
                 return "6165"; // Breuberg
-            case "6":
+            case '6':
                 return "6166"; // Fischbachtal
-            case "7":
+            case '7':
                 return "6167"; // Modautal
             default:
                 return "";
@@ -13544,16 +13554,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6171"; // Oberursel Taunus
-            case "2":
+            case '2':
                 return "6172"; // Bad Homburg v d Höhe
-            case "3":
+            case '3':
                 return "6173"; // Kronberg im Taunus
-            case "4":
+            case '4':
                 return "6174"; // Königstein im Taunus
-            case "5":
+            case '5':
                 return "6175"; // Friedrichsdorf Taunus
             default:
                 return "";
@@ -13565,22 +13575,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6181"; // Hanau
-            case "2":
+            case '2':
                 return "6182"; // Seligenstadt
-            case "3":
+            case '3':
                 return "6183"; // Erlensee
-            case "4":
+            case '4':
                 return "6184"; // Langenselbold
-            case "5":
+            case '5':
                 return "6185"; // Hammersbach Hess
-            case "6":
+            case '6':
                 return "6186"; // Grosskrotzenburg
-            case "7":
+            case '7':
                 return "6187"; // Schöneck
-            case "8":
+            case '8':
                 return "6188"; // Kahl a Main
             default:
                 return "";
@@ -13592,16 +13602,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6190"; // Hattersheim a Main
-            case "2":
+            case '2':
                 return "6192"; // Hofheim am Taunus
-            case "5":
+            case '5':
                 return "6195"; // Kelkheim Taunus
-            case "6":
+            case '6':
                 return "6196"; // Bad Soden am Taunus
-            case "8":
+            case '8':
                 return "6198"; // Eppstein
             default:
                 return "";
@@ -13613,26 +13623,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber620(number.substring(1));
-            case "1":
+            case '1':
                 return "621"; // Mannheim
-            case "2":
+            case '2':
                 return fromNumber622(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber623(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber624(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber625(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber626(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber627(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber628(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber629(number.substring(1));
             default:
                 return "";
@@ -13644,22 +13654,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6201"; // Weinheim Bergstr
-            case "2":
+            case '2':
                 return "6202"; // Schwetzingen
-            case "3":
+            case '3':
                 return "6203"; // Ladenburg
-            case "4":
+            case '4':
                 return "6204"; // Viernheim
-            case "5":
+            case '5':
                 return "6205"; // Hockenheim
-            case "6":
+            case '6':
                 return "6206"; // Lampertheim
-            case "7":
+            case '7':
                 return "6207"; // Wald-Michelbach
-            case "9":
+            case '9':
                 return "6209"; // Mörlenbach
             default:
                 return "";
@@ -13671,24 +13681,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6220"; // Wilhelmsfeld
-            case "1":
+            case '1':
                 return "6221"; // Heidelberg
-            case "2":
+            case '2':
                 return "6222"; // Wiesloch
-            case "3":
+            case '3':
                 return "6223"; // Neckargemünd
-            case "4":
+            case '4':
                 return "6224"; // Sandhausen Baden
-            case "6":
+            case '6':
                 return "6226"; // Meckesheim
-            case "7":
+            case '7':
                 return "6227"; // Walldorf Baden
-            case "8":
+            case '8':
                 return "6228"; // Schönau Odenw
-            case "9":
+            case '9':
                 return "6229"; // Neckarsteinach
             default:
                 return "";
@@ -13700,24 +13710,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6231"; // Hochdorf-Assenheim
-            case "2":
+            case '2':
                 return "6232"; // Speyer
-            case "3":
+            case '3':
                 return "6233"; // Frankenthal Pfalz
-            case "4":
+            case '4':
                 return "6234"; // Mutterstadt
-            case "5":
+            case '5':
                 return "6235"; // Schifferstadt
-            case "6":
+            case '6':
                 return "6236"; // Neuhofen Pfalz
-            case "7":
+            case '7':
                 return "6237"; // Maxdorf
-            case "8":
+            case '8':
                 return "6238"; // Dirmstein
-            case "9":
+            case '9':
                 return "6239"; // Bobenheim-Roxheim
             default:
                 return "";
@@ -13729,22 +13739,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6241"; // Worms
-            case "2":
+            case '2':
                 return "6242"; // Osthofen
-            case "3":
+            case '3':
                 return "6243"; // Monsheim
-            case "4":
+            case '4':
                 return "6244"; // Westhofen Rheinhess
-            case "5":
+            case '5':
                 return "6245"; // Biblis
-            case "6":
+            case '6':
                 return "6246"; // Eich Rheinhess
-            case "7":
+            case '7':
                 return "6247"; // Worms-Pfeddersheim
-            case "9":
+            case '9':
                 return "6249"; // Guntersblum
             default:
                 return "";
@@ -13756,22 +13766,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6251"; // Bensheim
-            case "2":
+            case '2':
                 return "6252"; // Heppenheim Bergstraße
-            case "3":
+            case '3':
                 return "6253"; // Fürth Odenw
-            case "4":
+            case '4':
                 return "6254"; // Lautertal Odenwald
-            case "5":
+            case '5':
                 return "6255"; // Lindenfels
-            case "6":
+            case '6':
                 return "6256"; // Lampertheim-Hüttenfeld
-            case "7":
+            case '7':
                 return "6257"; // Seeheim-Jugenheim
-            case "8":
+            case '8':
                 return "6258"; // Gernsheim
             default:
                 return "";
@@ -13783,24 +13793,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6261"; // Mosbach Baden
-            case "2":
+            case '2':
                 return "6262"; // Aglasterhausen
-            case "3":
+            case '3':
                 return "6263"; // Neckargerach
-            case "4":
+            case '4':
                 return "6264"; // Neudenau
-            case "5":
+            case '5':
                 return "6265"; // Billigheim Baden
-            case "6":
+            case '6':
                 return "6266"; // Hassmersheim
-            case "7":
+            case '7':
                 return "6267"; // Fahrenbach Baden
-            case "8":
+            case '8':
                 return "6268"; // Hüffenhardt
-            case "9":
+            case '9':
                 return "6269"; // Gundelsheim Württ
             default:
                 return "";
@@ -13812,16 +13822,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6271"; // Eberbach Baden
-            case "2":
+            case '2':
                 return "6272"; // Hirschhorn Neckar
-            case "4":
+            case '4':
                 return "6274"; // Waldbrunn Odenw
-            case "5":
+            case '5':
                 return "6275"; // Rothenberg Odenw
-            case "6":
+            case '6':
                 return "6276"; // Hesseneck
             default:
                 return "";
@@ -13833,20 +13843,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6281"; // Buchen Odenwald
-            case "2":
+            case '2':
                 return "6282"; // Walldürn
-            case "3":
+            case '3':
                 return "6283"; // Hardheim Odenw
-            case "4":
+            case '4':
                 return "6284"; // Mudau
-            case "5":
+            case '5':
                 return "6285"; // Walldürn-Altheim
-            case "6":
+            case '6':
                 return "6286"; // Walldürn-Rippberg
-            case "7":
+            case '7':
                 return "6287"; // Limbach Baden
             default:
                 return "";
@@ -13858,22 +13868,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6291"; // Adelsheim
-            case "2":
+            case '2':
                 return "6292"; // Seckach
-            case "3":
+            case '3':
                 return "6293"; // Schefflenz
-            case "4":
+            case '4':
                 return "6294"; // Krautheim Jagst
-            case "5":
+            case '5':
                 return "6295"; // Rosenberg Baden
-            case "6":
+            case '6':
                 return "6296"; // Ahorn Baden
-            case "7":
+            case '7':
                 return "6297"; // Ravenstein Baden
-            case "8":
+            case '8':
                 return "6298"; // Möckmühl
             default:
                 return "";
@@ -13885,26 +13895,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber630(number.substring(1));
-            case "1":
+            case '1':
                 return "631"; // Kaiserslautern
-            case "2":
+            case '2':
                 return fromNumber632(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber633(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber634(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber635(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber636(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber637(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber638(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber639(number.substring(1));
             default:
                 return "";
@@ -13916,22 +13926,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6301"; // Otterbach Pfalz
-            case "2":
+            case '2':
                 return "6302"; // Winnweiler
-            case "3":
+            case '3':
                 return "6303"; // Enkenbach-Alsenborn
-            case "4":
+            case '4':
                 return "6304"; // Wolfstein Pfalz
-            case "5":
+            case '5':
                 return "6305"; // Hochspeyer
-            case "6":
+            case '6':
                 return "6306"; // Trippstadt
-            case "7":
+            case '7':
                 return "6307"; // Schopp
-            case "8":
+            case '8':
                 return "6308"; // Olsbrücken
             default:
                 return "";
@@ -13943,24 +13953,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6321"; // Neustadt an der Weinstraße
-            case "2":
+            case '2':
                 return "6322"; // Bad Dürkheim
-            case "3":
+            case '3':
                 return "6323"; // Edenkoben
-            case "4":
+            case '4':
                 return "6324"; // Hassloch
-            case "5":
+            case '5':
                 return "6325"; // Lambrecht Pfalz
-            case "6":
+            case '6':
                 return "6326"; // Deidesheim
-            case "7":
+            case '7':
                 return "6327"; // Neustadt-Lachen
-            case "8":
+            case '8':
                 return "6328"; // Elmstein
-            case "9":
+            case '9':
                 return "6329"; // Weidenthal Pfalz
             default:
                 return "";
@@ -13972,24 +13982,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6331"; // Pirmasens
-            case "2":
+            case '2':
                 return "6332"; // Zweibrücken
-            case "3":
+            case '3':
                 return "6333"; // Waldfischbach-Burgalben
-            case "4":
+            case '4':
                 return "6334"; // Thaleischweiler-Fröschen
-            case "5":
+            case '5':
                 return "6335"; // Trulben
-            case "6":
+            case '6':
                 return "6336"; // Dellfeld
-            case "7":
+            case '7':
                 return "6337"; // Grossbundenbach
-            case "8":
+            case '8':
                 return "6338"; // Hornbach Pfalz
-            case "9":
+            case '9':
                 return "6339"; // Grosssteinhausen
             default:
                 return "";
@@ -14001,26 +14011,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6340"; // Wörth-Schaidt
-            case "1":
+            case '1':
                 return "6341"; // Landau in der Pfalz
-            case "2":
+            case '2':
                 return "6342"; // Schweigen-Rechtenbach
-            case "3":
+            case '3':
                 return "6343"; // Bad Bergzabern
-            case "4":
+            case '4':
                 return "6344"; // Schwegenheim
-            case "5":
+            case '5':
                 return "6345"; // Albersweiler
-            case "6":
+            case '6':
                 return "6346"; // Annweiler am Trifels
-            case "7":
+            case '7':
                 return "6347"; // Hochstadt Pfalz
-            case "8":
+            case '8':
                 return "6348"; // Offenbach an der Queich
-            case "9":
+            case '9':
                 return "6349"; // Billigheim-Ingenheim
             default:
                 return "";
@@ -14032,22 +14042,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6351"; // Eisenberg Pfalz
-            case "2":
+            case '2':
                 return "6352"; // Kirchheimbolanden
-            case "3":
+            case '3':
                 return "6353"; // Freinsheim
-            case "5":
+            case '5':
                 return "6355"; // Albisheim Pfrimm
-            case "6":
+            case '6':
                 return "6356"; // Carlsberg Pfalz
-            case "7":
+            case '7':
                 return "6357"; // Standenbühl
-            case "8":
+            case '8':
                 return "6358"; // Kriegsfeld
-            case "9":
+            case '9':
                 return "6359"; // Grünstadt
             default:
                 return "";
@@ -14059,14 +14069,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6361"; // Rockenhausen
-            case "2":
+            case '2':
                 return "6362"; // Alsenz
-            case "3":
+            case '3':
                 return "6363"; // Niederkirchen
-            case "4":
+            case '4':
                 return "6364"; // Nußbach Pfalz
             default:
                 return "";
@@ -14078,16 +14088,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6371"; // Landstuhl
-            case "2":
+            case '2':
                 return "6372"; // Bruchmühlbach-Miesau
-            case "3":
+            case '3':
                 return "6373"; // Schönenberg-Kübelberg
-            case "4":
+            case '4':
                 return "6374"; // Weilerbach
-            case "5":
+            case '5':
                 return "6375"; // Wallhalben
             default:
                 return "";
@@ -14099,20 +14109,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6381"; // Kusel
-            case "2":
+            case '2':
                 return "6382"; // Lauterecken
-            case "3":
+            case '3':
                 return "6383"; // Glan-Münchweiler
-            case "4":
+            case '4':
                 return "6384"; // Konken
-            case "5":
+            case '5':
                 return "6385"; // Reichenbach-Steegen
-            case "6":
+            case '6':
                 return "6386"; // Altenkirchen Pfalz
-            case "7":
+            case '7':
                 return "6387"; // Sankt Julian
             default:
                 return "";
@@ -14124,22 +14134,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6391"; // Dahn
-            case "2":
+            case '2':
                 return "6392"; // Hauenstein Pfalz
-            case "3":
+            case '3':
                 return "6393"; // Fischbach bei Dahn
-            case "4":
+            case '4':
                 return "6394"; // Bundenthal
-            case "5":
+            case '5':
                 return "6395"; // Münchweiler an der Rodalb
-            case "6":
+            case '6':
                 return "6396"; // Hinterweidenthal
-            case "7":
+            case '7':
                 return "6397"; // Leimen Pfalz
-            case "8":
+            case '8':
                 return "6398"; // Vorderweidenthal
             default:
                 return "";
@@ -14151,24 +14161,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber640(number.substring(1));
-            case "1":
+            case '1':
                 return "641"; // Giessen
-            case "2":
+            case '2':
                 return fromNumber642(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber643(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber644(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber645(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber646(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber647(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber648(number.substring(1));
             default:
                 return "";
@@ -14180,26 +14190,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6400"; // Mücke
-            case "1":
+            case '1':
                 return "6401"; // Grünberg Hess
-            case "2":
+            case '2':
                 return "6402"; // Hungen
-            case "3":
+            case '3':
                 return "6403"; // Linden Hess
-            case "4":
+            case '4':
                 return "6404"; // Lich Hess
-            case "5":
+            case '5':
                 return "6405"; // Laubach Hess
-            case "6":
+            case '6':
                 return "6406"; // Lollar
-            case "7":
+            case '7':
                 return "6407"; // Rabenau Hess
-            case "8":
+            case '8':
                 return "6408"; // Buseck
-            case "9":
+            case '9':
                 return "6409"; // Biebertal
             default:
                 return "";
@@ -14211,26 +14221,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6420"; // Lahntal
-            case "1":
+            case '1':
                 return "6421"; // Marburg
-            case "2":
+            case '2':
                 return "6422"; // Kirchhain
-            case "3":
+            case '3':
                 return "6423"; // Wetter Hessen
-            case "4":
+            case '4':
                 return "6424"; // Ebsdorfergrund
-            case "5":
+            case '5':
                 return "6425"; // Rauschenberg Hess
-            case "6":
+            case '6':
                 return "6426"; // Fronhausen
-            case "7":
+            case '7':
                 return "6427"; // Cölbe-Schönstadt
-            case "8":
+            case '8':
                 return "6428"; // Stadtallendorf
-            case "9":
+            case '9':
                 return "6429"; // Schweinsberg Hess
             default:
                 return "";
@@ -14242,24 +14252,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6430"; // Hahnstätten
-            case "1":
+            case '1':
                 return "6431"; // Limburg a d Lahn
-            case "2":
+            case '2':
                 return "6432"; // Diez
-            case "3":
+            case '3':
                 return "6433"; // Hadamar
-            case "4":
+            case '4':
                 return "6434"; // Bad Camberg
-            case "5":
+            case '5':
                 return "6435"; // Wallmerod
-            case "6":
+            case '6':
                 return "6436"; // Dornburg Hess
-            case "8":
+            case '8':
                 return "6438"; // Hünfelden
-            case "9":
+            case '9':
                 return "6439"; // Holzappel
             default:
                 return "";
@@ -14271,24 +14281,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6440"; // Kölschhausen
-            case "1":
+            case '1':
                 return "6441"; // Wetzlar
-            case "2":
+            case '2':
                 return "6442"; // Braunfels
-            case "3":
+            case '3':
                 return "6443"; // Ehringshausen Dill
-            case "4":
+            case '4':
                 return "6444"; // Bischoffen
-            case "5":
+            case '5':
                 return "6445"; // Schöffengrund
-            case "6":
+            case '6':
                 return "6446"; // Hohenahr
-            case "7":
+            case '7':
                 return "6447"; // Langgöns-Niederkleen
-            case "9":
+            case '9':
                 return "6449"; // Ehringshausen-Katzenfurt
             default:
                 return "";
@@ -14300,22 +14310,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6451"; // Frankenberg Eder
-            case "2":
+            case '2':
                 return "6452"; // Battenberg Eder
-            case "3":
+            case '3':
                 return "6453"; // Gemünden Wohra
-            case "4":
+            case '4':
                 return "6454"; // Lichtenfels-Sachsenberg
-            case "5":
+            case '5':
                 return "6455"; // Frankenau Hess
-            case "6":
+            case '6':
                 return "6456"; // Haina Kloster
-            case "7":
+            case '7':
                 return "6457"; // Burgwald Eder
-            case "8":
+            case '8':
                 return "6458"; // Rosenthal Hess
             default:
                 return "";
@@ -14327,20 +14337,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6461"; // Biedenkopf
-            case "2":
+            case '2':
                 return "6462"; // Gladenbach
-            case "4":
+            case '4':
                 return "6464"; // Angelburg
-            case "5":
+            case '5':
                 return "6465"; // Breidenbach b Biedenkopf
-            case "6":
+            case '6':
                 return "6466"; // Dautphetal-Friedensdorf
-            case "7":
+            case '7':
                 return "6467"; // Hatzfeld Eder
-            case "8":
+            case '8':
                 return "6468"; // Dautphetal-Mornshausen
             default:
                 return "";
@@ -14352,24 +14362,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6471"; // Weilburg
-            case "2":
+            case '2':
                 return "6472"; // Weilmünster
-            case "3":
+            case '3':
                 return "6473"; // Leun
-            case "4":
+            case '4':
                 return "6474"; // Villmar-Aumenau
-            case "5":
+            case '5':
                 return "6475"; // Weilmünster-Wolfenhausen
-            case "6":
+            case '6':
                 return "6476"; // Mengerskirchen
-            case "7":
+            case '7':
                 return "6477"; // Greifenstein-Nenderoth
-            case "8":
+            case '8':
                 return "6478"; // Greifenstein-Ulm
-            case "9":
+            case '9':
                 return "6479"; // Waldbrunn Westerwald
             default:
                 return "";
@@ -14381,16 +14391,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "6482"; // Runkel
-            case "3":
+            case '3':
                 return "6483"; // Selters Taunus
-            case "4":
+            case '4':
                 return "6484"; // Beselich
-            case "5":
+            case '5':
                 return "6485"; // Nentershausen Westerw
-            case "6":
+            case '6':
                 return "6486"; // Katzenelnbogen
             default:
                 return "";
@@ -14402,26 +14412,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber650(number.substring(1));
-            case "1":
+            case '1':
                 return "651"; // Trier
-            case "2":
+            case '2':
                 return fromNumber652(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber653(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber654(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber655(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber656(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber657(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber658(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber659(number.substring(1));
             default:
                 return "";
@@ -14433,26 +14443,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6500"; // Waldrach
-            case "1":
+            case '1':
                 return "6501"; // Konz
-            case "2":
+            case '2':
                 return "6502"; // Schweich
-            case "3":
+            case '3':
                 return "6503"; // Hermeskeil
-            case "4":
+            case '4':
                 return "6504"; // Thalfang
-            case "5":
+            case '5':
                 return "6505"; // Kordel
-            case "6":
+            case '6':
                 return "6506"; // Welschbillig
-            case "7":
+            case '7':
                 return "6507"; // Neumagen-Dhron
-            case "8":
+            case '8':
                 return "6508"; // Hetzerath Mosel
-            case "9":
+            case '9':
                 return "6509"; // Büdlich
             default:
                 return "";
@@ -14464,18 +14474,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "6522"; // Mettendorf
-            case "3":
+            case '3':
                 return "6523"; // Holsthum
-            case "4":
+            case '4':
                 return "6524"; // Rodershausen
-            case "5":
+            case '5':
                 return "6525"; // Irrel
-            case "6":
+            case '6':
                 return "6526"; // Bollendorf
-            case "7":
+            case '7':
                 return "6527"; // Oberweis
             default:
                 return "";
@@ -14487,18 +14497,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6531"; // Bernkastel-Kues
-            case "2":
+            case '2':
                 return "6532"; // Zeltingen-Rachtig
-            case "3":
+            case '3':
                 return "6533"; // Morbach Hunsrück
-            case "4":
+            case '4':
                 return "6534"; // Mülheim Mosel
-            case "5":
+            case '5':
                 return "6535"; // Osann-Monzel
-            case "6":
+            case '6':
                 return "6536"; // Kleinich
             default:
                 return "";
@@ -14510,16 +14520,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6541"; // Traben-Trarbach
-            case "2":
+            case '2':
                 return "6542"; // Bullay
-            case "3":
+            case '3':
                 return "6543"; // Büchenbeuren
-            case "4":
+            case '4':
                 return "6544"; // Rhaunen
-            case "5":
+            case '5':
                 return "6545"; // Blankenrath
             default:
                 return "";
@@ -14531,26 +14541,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6550"; // Irrhausen
-            case "1":
+            case '1':
                 return "6551"; // Prüm
-            case "2":
+            case '2':
                 return "6552"; // Olzheim
-            case "3":
+            case '3':
                 return "6553"; // Schönecken
-            case "4":
+            case '4':
                 return "6554"; // Waxweiler
-            case "5":
+            case '5':
                 return "6555"; // Bleialf
-            case "6":
+            case '6':
                 return "6556"; // Pronsfeld
-            case "7":
+            case '7':
                 return "6557"; // Hallschlag
-            case "8":
+            case '8':
                 return "6558"; // Büdesheim Eifel
-            case "9":
+            case '9':
                 return "6559"; // Leidenborn
             default:
                 return "";
@@ -14562,24 +14572,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6561"; // Bitburg
-            case "2":
+            case '2':
                 return "6562"; // Speicher
-            case "3":
+            case '3':
                 return "6563"; // Kyllburg
-            case "4":
+            case '4':
                 return "6564"; // Neuerburg Eifel
-            case "5":
+            case '5':
                 return "6565"; // Dudeldorf
-            case "6":
+            case '6':
                 return "6566"; // Körperich
-            case "7":
+            case '7':
                 return "6567"; // Oberkail
-            case "8":
+            case '8':
                 return "6568"; // Wolsfeld
-            case "9":
+            case '9':
                 return "6569"; // Bickendorf
             default:
                 return "";
@@ -14591,18 +14601,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6571"; // Wittlich
-            case "2":
+            case '2':
                 return "6572"; // Manderscheid Eifel
-            case "3":
+            case '3':
                 return "6573"; // Gillenfeld
-            case "4":
+            case '4':
                 return "6574"; // Hasborn
-            case "5":
+            case '5':
                 return "6575"; // Landscheid
-            case "8":
+            case '8':
                 return "6578"; // Salmtal
             default:
                 return "";
@@ -14614,26 +14624,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6580"; // Zemmer
-            case "1":
+            case '1':
                 return "6581"; // Saarburg
-            case "2":
+            case '2':
                 return "6582"; // Freudenburg
-            case "3":
+            case '3':
                 return "6583"; // Palzem
-            case "4":
+            case '4':
                 return "6584"; // Wellen Mosel
-            case "5":
+            case '5':
                 return "6585"; // Ralingen
-            case "6":
+            case '6':
                 return "6586"; // Beuren Hochwald
-            case "7":
+            case '7':
                 return "6587"; // Zerf
-            case "8":
+            case '8':
                 return "6588"; // Pluwig
-            case "9":
+            case '9':
                 return "6589"; // Kell am See
             default:
                 return "";
@@ -14645,22 +14655,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6591"; // Gerolstein
-            case "2":
+            case '2':
                 return "6592"; // Daun
-            case "3":
+            case '3':
                 return "6593"; // Hillesheim Eifel
-            case "4":
+            case '4':
                 return "6594"; // Birresborn
-            case "5":
+            case '5':
                 return "6595"; // Dockweiler
-            case "6":
+            case '6':
                 return "6596"; // Üdersdorf
-            case "7":
+            case '7':
                 return "6597"; // Jünkerath
-            case "9":
+            case '9':
                 return "6599"; // Weidenbach b Gerolstein
             default:
                 return "";
@@ -14672,24 +14682,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "661"; // Fulda
-            case "2":
+            case '2':
                 return fromNumber662(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber663(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber664(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber665(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber666(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber667(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber668(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber669(number.substring(1));
             default:
                 return "";
@@ -14701,26 +14711,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6620"; // Philippsthal Werra
-            case "1":
+            case '1':
                 return "6621"; // Bad Hersfeld
-            case "2":
+            case '2':
                 return "6622"; // Bebra
-            case "3":
+            case '3':
                 return "6623"; // Rotenburg a d Fulda
-            case "4":
+            case '4':
                 return "6624"; // Heringen Werra
-            case "5":
+            case '5':
                 return "6625"; // Niederaula
-            case "6":
+            case '6':
                 return "6626"; // Wildeck-Obersuhl
-            case "7":
+            case '7':
                 return "6627"; // Nentershausen Hess
-            case "8":
+            case '8':
                 return "6628"; // Oberaula
-            case "9":
+            case '9':
                 return "6629"; // Schenklengsfeld
             default:
                 return "";
@@ -14732,24 +14742,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6630"; // Schwalmtal-Storndorf
-            case "1":
+            case '1':
                 return "6631"; // Alsfeld
-            case "3":
+            case '3':
                 return "6633"; // Homberg Ohm
-            case "4":
+            case '4':
                 return "6634"; // Gemünden Felda
-            case "5":
+            case '5':
                 return "6635"; // Kirtorf
-            case "6":
+            case '6':
                 return "6636"; // Romrod
-            case "7":
+            case '7':
                 return "6637"; // Feldatal
-            case "8":
+            case '8':
                 return "6638"; // Schwalmtal-Renzendorf
-            case "9":
+            case '9':
                 return "6639"; // Ottrau
             default:
                 return "";
@@ -14761,22 +14771,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6641"; // Lauterbach Hessen
-            case "2":
+            case '2':
                 return "6642"; // Schlitz
-            case "3":
+            case '3':
                 return "6643"; // Herbstein
-            case "4":
+            case '4':
                 return "6644"; // Grebenhain
-            case "5":
+            case '5':
                 return "6645"; // Ulrichstein
-            case "6":
+            case '6':
                 return "6646"; // Grebenau
-            case "7":
+            case '7':
                 return "6647"; // Herbstein-Stockhausen
-            case "8":
+            case '8':
                 return "6648"; // Bad Salzschlirf
             default:
                 return "";
@@ -14788,26 +14798,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6650"; // Hosenfeld
-            case "1":
+            case '1':
                 return "6651"; // Rasdorf
-            case "2":
+            case '2':
                 return "6652"; // Hünfeld
-            case "3":
+            case '3':
                 return "6653"; // Burghaun
-            case "4":
+            case '4':
                 return "6654"; // Gersfeld Rhön
-            case "5":
+            case '5':
                 return "6655"; // Neuhof Kr Fulda
-            case "6":
+            case '6':
                 return "6656"; // Ebersburg
-            case "7":
+            case '7':
                 return "6657"; // Hofbieber
-            case "8":
+            case '8':
                 return "6658"; // Poppenhausen Wasserkuppe
-            case "9":
+            case '9':
                 return "6659"; // Eichenzell
             default:
                 return "";
@@ -14819,24 +14829,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6660"; // Steinau-Marjoss
-            case "1":
+            case '1':
                 return "6661"; // Schlüchtern
-            case "3":
+            case '3':
                 return "6663"; // Steinau an der Straße
-            case "4":
+            case '4':
                 return "6664"; // Sinntal-Sterbfritz
-            case "5":
+            case '5':
                 return "6665"; // Sinntal-Altengronau
-            case "6":
+            case '6':
                 return "6666"; // Freiensteinau
-            case "7":
+            case '7':
                 return "6667"; // Steinau-Ulmbach
-            case "8":
+            case '8':
                 return "6668"; // Birstein-Lichenroth
-            case "9":
+            case '9':
                 return "6669"; // Neuhof-Hauswurz
             default:
                 return "";
@@ -14848,22 +14858,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "6670"; // Ludwigsau Hess
-            case "2":
+            case '2':
                 return "6672"; // Eiterfeld
-            case "3":
+            case '3':
                 return "6673"; // Haunetal
-            case "4":
+            case '4':
                 return "6674"; // Friedewald Hess
-            case "5":
+            case '5':
                 return "6675"; // Breitenbach a Herzberg
-            case "6":
+            case '6':
                 return "6676"; // Hohenroda Hess
-            case "7":
+            case '7':
                 return "6677"; // Neuenstein Hess
-            case "8":
+            case '8':
                 return "6678"; // Wildeck-Hönebach
             default:
                 return "";
@@ -14875,14 +14885,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6681"; // Hilders
-            case "2":
+            case '2':
                 return "6682"; // Tann Rhön
-            case "3":
+            case '3':
                 return "6683"; // Ehrenberg Rhön
-            case "4":
+            case '4':
                 return "6684"; // Hofbieber-Schwarzbach
             default:
                 return "";
@@ -14894,22 +14904,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6691"; // Schwalmstadt
-            case "2":
+            case '2':
                 return "6692"; // Neustadt Hessen
-            case "3":
+            case '3':
                 return "6693"; // Neuental
-            case "4":
+            case '4':
                 return "6694"; // Neukirchen Knüll
-            case "5":
+            case '5':
                 return "6695"; // Jesberg
-            case "6":
+            case '6':
                 return "6696"; // Gilserberg
-            case "7":
+            case '7':
                 return "6697"; // Willingshausen
-            case "8":
+            case '8':
                 return "6698"; // Schrecksbach
             default:
                 return "";
@@ -14921,24 +14931,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber670(number.substring(1));
-            case "1":
+            case '1':
                 return "671"; // Bad Kreuznach
-            case "2":
+            case '2':
                 return fromNumber672(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber673(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber674(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber675(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber676(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber677(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber678(number.substring(1));
             default:
                 return "";
@@ -14950,20 +14960,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6701"; // Sprendlingen Rheinhess
-            case "3":
+            case '3':
                 return "6703"; // Wöllstein Rheinhess
-            case "4":
+            case '4':
                 return "6704"; // Langenlonsheim
-            case "6":
+            case '6':
                 return "6706"; // Wallhausen Nahe
-            case "7":
+            case '7':
                 return "6707"; // Windesheim
-            case "8":
+            case '8':
                 return "6708"; // Bad Münster am Stein-Ebernburg
-            case "9":
+            case '9':
                 return "6709"; // Fürfeld Kr Bad Kreuznach
             default:
                 return "";
@@ -14975,22 +14985,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6721"; // Bingen am Rhein
-            case "2":
+            case '2':
                 return "6722"; // Rüdesheim am Rhein
-            case "3":
+            case '3':
                 return "6723"; // Oestrich-Winkel
-            case "4":
+            case '4':
                 return "6724"; // Stromberg Hunsrück
-            case "5":
+            case '5':
                 return "6725"; // Gau-Algesheim
-            case "6":
+            case '6':
                 return "6726"; // Lorch Rheingau
-            case "7":
+            case '7':
                 return "6727"; // Gensingen
-            case "8":
+            case '8':
                 return "6728"; // Ober-Hilbersheim
             default:
                 return "";
@@ -15002,20 +15012,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6731"; // Alzey
-            case "2":
+            case '2':
                 return "6732"; // Wörrstadt
-            case "3":
+            case '3':
                 return "6733"; // Gau-Odernheim
-            case "4":
+            case '4':
                 return "6734"; // Flonheim
-            case "5":
+            case '5':
                 return "6735"; // Eppelsheim
-            case "6":
+            case '6':
                 return "6736"; // Bechenheim
-            case "7":
+            case '7':
                 return "6737"; // Köngernheim
             default:
                 return "";
@@ -15027,20 +15037,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6741"; // St Goar
-            case "2":
+            case '2':
                 return "6742"; // Boppard
-            case "3":
+            case '3':
                 return "6743"; // Bacharach
-            case "4":
+            case '4':
                 return "6744"; // Oberwesel
-            case "5":
+            case '5':
                 return "6745"; // Gondershausen
-            case "6":
+            case '6':
                 return "6746"; // Pfalzfeld
-            case "7":
+            case '7':
                 return "6747"; // Emmelshausen
             default:
                 return "";
@@ -15052,22 +15062,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6751"; // Bad Sobernheim
-            case "2":
+            case '2':
                 return "6752"; // Kirn Nahe
-            case "3":
+            case '3':
                 return "6753"; // Meisenheim
-            case "4":
+            case '4':
                 return "6754"; // Martinstein
-            case "5":
+            case '5':
                 return "6755"; // Odernheim am Glan
-            case "6":
+            case '6':
                 return "6756"; // Winterbach Soonwald
-            case "7":
+            case '7':
                 return "6757"; // Becherbach bei Kirn
-            case "8":
+            case '8':
                 return "6758"; // Waldböckelheim
             default:
                 return "";
@@ -15079,18 +15089,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6761"; // Simmern Hunsrück
-            case "2":
+            case '2':
                 return "6762"; // Kastellaun
-            case "3":
+            case '3':
                 return "6763"; // Kirchberg Hunsrück
-            case "4":
+            case '4':
                 return "6764"; // Rheinböllen
-            case "5":
+            case '5':
                 return "6765"; // Gemünden Hunsrück
-            case "6":
+            case '6':
                 return "6766"; // Kisselbach
             default:
                 return "";
@@ -15102,18 +15112,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6771"; // St Goarshausen
-            case "2":
+            case '2':
                 return "6772"; // Nastätten
-            case "3":
+            case '3':
                 return "6773"; // Kamp-Bornhofen
-            case "4":
+            case '4':
                 return "6774"; // Kaub
-            case "5":
+            case '5':
                 return "6775"; // Strüth Taunus
-            case "6":
+            case '6':
                 return "6776"; // Dachsenhausen
             default:
                 return "";
@@ -15125,24 +15135,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6781"; // Idar-Oberstein
-            case "2":
+            case '2':
                 return "6782"; // Birkenfeld Nahe
-            case "3":
+            case '3':
                 return "6783"; // Baumholder
-            case "4":
+            case '4':
                 return "6784"; // Weierbach
-            case "5":
+            case '5':
                 return "6785"; // Herrstein
-            case "6":
+            case '6':
                 return "6786"; // Kempfeld
-            case "7":
+            case '7':
                 return "6787"; // Niederbrombach
-            case "8":
+            case '8':
                 return "6788"; // Sien
-            case "9":
+            case '9':
                 return "6789"; // Heimbach Nahe
             default:
                 return "";
@@ -15154,26 +15164,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber680(number.substring(1));
-            case "1":
+            case '1':
                 return "681"; // Saarbrücken
-            case "2":
+            case '2':
                 return fromNumber682(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber683(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber684(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber685(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber686(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber687(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber688(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber689(number.substring(1));
             default:
                 return "";
@@ -15185,18 +15195,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "6802"; // Völklingen-Lauterbach
-            case "3":
+            case '3':
                 return "6803"; // Mandelbachtal-Ommersheim
-            case "4":
+            case '4':
                 return "6804"; // Mandelbachtal
-            case "5":
+            case '5':
                 return "6805"; // Kleinblittersdorf
-            case "6":
+            case '6':
                 return "6806"; // Heusweiler
-            case "9":
+            case '9':
                 return "6809"; // Grossrosseln
             default:
                 return "";
@@ -15208,16 +15218,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6821"; // Neunkirchen Saar
-            case "4":
+            case '4':
                 return "6824"; // Ottweiler
-            case "5":
+            case '5':
                 return "6825"; // Illingen Saar
-            case "6":
+            case '6':
                 return "6826"; // Bexbach
-            case "7":
+            case '7':
                 return "6827"; // Eppelborn
             default:
                 return "";
@@ -15229,22 +15239,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6831"; // Saarlouis
-            case "2":
+            case '2':
                 return "6832"; // Beckingen-Reimsbach
-            case "3":
+            case '3':
                 return "6833"; // Rehlingen-Siersburg
-            case "4":
+            case '4':
                 return "6834"; // Bous
-            case "5":
+            case '5':
                 return "6835"; // Beckingen
-            case "6":
+            case '6':
                 return "6836"; // Überherrn
-            case "7":
+            case '7':
                 return "6837"; // Wallerfangen
-            case "8":
+            case '8':
                 return "6838"; // Saarwellingen
             default:
                 return "";
@@ -15256,18 +15266,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6841"; // Homburg Saar
-            case "2":
+            case '2':
                 return "6842"; // Blieskastel
-            case "3":
+            case '3':
                 return "6843"; // Gersheim
-            case "4":
+            case '4':
                 return "6844"; // Blieskastel-Altheim
-            case "8":
+            case '8':
                 return "6848"; // Homburg-Einöd
-            case "9":
+            case '9':
                 return "6849"; // Kirkel
             default:
                 return "";
@@ -15279,22 +15289,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6851"; // St Wendel
-            case "2":
+            case '2':
                 return "6852"; // Nohfelden
-            case "3":
+            case '3':
                 return "6853"; // Marpingen
-            case "4":
+            case '4':
                 return "6854"; // Oberthal Saar
-            case "5":
+            case '5':
                 return "6855"; // Freisen
-            case "6":
+            case '6':
                 return "6856"; // St Wendel-Niederkirchen
-            case "7":
+            case '7':
                 return "6857"; // Namborn
-            case "8":
+            case '8':
                 return "6858"; // Ottweiler-Fürth
             default:
                 return "";
@@ -15306,20 +15316,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6861"; // Merzig
-            case "4":
+            case '4':
                 return "6864"; // Mettlach
-            case "5":
+            case '5':
                 return "6865"; // Mettlach-Orscholz
-            case "6":
+            case '6':
                 return "6866"; // Perl-Nennig
-            case "7":
+            case '7':
                 return "6867"; // Perl
-            case "8":
+            case '8':
                 return "6868"; // Mettlach-Tünsdorf
-            case "9":
+            case '9':
                 return "6869"; // Merzig-Silwingen
             default:
                 return "";
@@ -15331,18 +15341,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6871"; // Wadern
-            case "2":
+            case '2':
                 return "6872"; // Losheim am See
-            case "3":
+            case '3':
                 return "6873"; // Nonnweiler
-            case "4":
+            case '4':
                 return "6874"; // Wadern-Nunkirchen
-            case "5":
+            case '5':
                 return "6875"; // Nonnweiler-Primstal
-            case "6":
+            case '6':
                 return "6876"; // Weiskirchen Saar
             default:
                 return "";
@@ -15354,12 +15364,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "6881"; // Lebach
-            case "7":
+            case '7':
                 return "6887"; // Schmelz Saar
-            case "8":
+            case '8':
                 return "6888"; // Lebach-Steinbach
             default:
                 return "";
@@ -15371,14 +15381,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "3":
+        switch (number.charAt(0)) {
+            case '3':
                 return "6893"; // Saarbrücken-Ensheim
-            case "4":
+            case '4':
                 return "6894"; // St Ingbert
-            case "7":
+            case '7':
                 return "6897"; // Sulzbach Saar
-            case "8":
+            case '8':
                 return "6898"; // Völklingen
             default:
                 return "";
@@ -15390,26 +15400,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber70(number.substring(1));
-            case "1":
+            case '1':
                 return fromNumber71(number.substring(1));
-            case "2":
+            case '2':
                 return fromNumber72(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber73(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber74(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber75(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber76(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber77(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber78(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber79(number.substring(1));
             default:
                 return "";
@@ -15421,20 +15431,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return fromNumber702(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber703(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber704(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber705(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber706(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber707(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber708(number.substring(1));
             default:
                 return "";
@@ -15446,18 +15456,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7021"; // Kirchheim unter Teck
-            case "2":
+            case '2':
                 return "7022"; // Nürtingen
-            case "3":
+            case '3':
                 return "7023"; // Weilheim an der Teck
-            case "4":
+            case '4':
                 return "7024"; // Wendlingen am Neckar
-            case "5":
+            case '5':
                 return "7025"; // Neuffen
-            case "6":
+            case '6':
                 return "7026"; // Lenningen
             default:
                 return "";
@@ -15469,14 +15479,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7031"; // Böblingen
-            case "2":
+            case '2':
                 return "7032"; // Herrenberg
-            case "3":
+            case '3':
                 return "7033"; // Weil Der Stadt
-            case "4":
+            case '4':
                 return "7034"; // Ehningen
             default:
                 return "";
@@ -15488,18 +15498,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7041"; // Mühlacker
-            case "2":
+            case '2':
                 return "7042"; // Vaihingen an der Enz
-            case "3":
+            case '3':
                 return "7043"; // Maulbronn
-            case "4":
+            case '4':
                 return "7044"; // Mönsheim
-            case "5":
+            case '5':
                 return "7045"; // Oberderdingen
-            case "6":
+            case '6':
                 return "7046"; // Zaberfeld
             default:
                 return "";
@@ -15511,18 +15521,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7051"; // Calw
-            case "2":
+            case '2':
                 return "7052"; // Bad Liebenzell
-            case "3":
+            case '3':
                 return "7053"; // Bad Teinach-Zavelstein
-            case "4":
+            case '4':
                 return "7054"; // Wildberg Württ
-            case "5":
+            case '5':
                 return "7055"; // Neuweiler Kr Calw
-            case "6":
+            case '6':
                 return "7056"; // Gechingen
             default:
                 return "";
@@ -15534,12 +15544,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "7062"; // Beilstein Württ
-            case "3":
+            case '3':
                 return "7063"; // Bad Wimpfen
-            case "6":
+            case '6':
                 return "7066"; // Bad Rappenau-Bonfeld
             default:
                 return "";
@@ -15551,12 +15561,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7071"; // Tübingen
-            case "2":
+            case '2':
                 return "7072"; // Gomaringen
-            case "3":
+            case '3':
                 return "7073"; // Ammerbuch
             default:
                 return "";
@@ -15568,16 +15578,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7081"; // Bad Wildbad
-            case "2":
+            case '2':
                 return "7082"; // Neuenbürg Württ
-            case "3":
+            case '3':
                 return "7083"; // Bad Herrenalb
-            case "4":
+            case '4':
                 return "7084"; // Schömberg b Neuenbürg
-            case "5":
+            case '5':
                 return "7085"; // Enzklösterle
             default:
                 return "";
@@ -15589,24 +15599,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "711"; // Stuttgart
-            case "2":
+            case '2':
                 return fromNumber712(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber713(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber714(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber715(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber716(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber717(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber718(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber719(number.substring(1));
             default:
                 return "";
@@ -15618,24 +15628,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7121"; // Reutlingen
-            case "2":
+            case '2':
                 return "7122"; // St Johann Württ
-            case "3":
+            case '3':
                 return "7123"; // Metzingen Württ
-            case "4":
+            case '4':
                 return "7124"; // Trochtelfingen Hohenz
-            case "5":
+            case '5':
                 return "7125"; // Bad Urach
-            case "6":
+            case '6':
                 return "7126"; // Burladingen-Melchingen
-            case "7":
+            case '7':
                 return "7127"; // Neckartenzlingen
-            case "8":
+            case '8':
                 return "7128"; // Sonnenbühl
-            case "9":
+            case '9':
                 return "7129"; // Lichtenstein Württ
             default:
                 return "";
@@ -15647,24 +15657,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7130"; // Löwenstein Württ
-            case "1":
+            case '1':
                 return "7131"; // Heilbronn Neckar
-            case "2":
+            case '2':
                 return "7132"; // Neckarsulm
-            case "3":
+            case '3':
                 return "7133"; // Lauffen am Neckar
-            case "4":
+            case '4':
                 return "7134"; // Weinsberg
-            case "5":
+            case '5':
                 return "7135"; // Brackenheim
-            case "6":
+            case '6':
                 return "7136"; // Bad Friedrichshall
-            case "8":
+            case '8':
                 return "7138"; // Schwaigern
-            case "9":
+            case '9':
                 return "7139"; // Neuenstadt am Kocher
             default:
                 return "";
@@ -15676,22 +15686,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7141"; // Ludwigsburg Württ
-            case "2":
+            case '2':
                 return "7142"; // Bietigheim-Bissingen
-            case "3":
+            case '3':
                 return "7143"; // Besigheim
-            case "4":
+            case '4':
                 return "7144"; // Marbach am Neckar
-            case "5":
+            case '5':
                 return "7145"; // Markgröningen
-            case "6":
+            case '6':
                 return "7146"; // Remseck am Neckar
-            case "7":
+            case '7':
                 return "7147"; // Sachsenheim Württ
-            case "8":
+            case '8':
                 return "7148"; // Grossbottwar
             default:
                 return "";
@@ -15703,24 +15713,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7150"; // Korntal-Münchingen
-            case "1":
+            case '1':
                 return "7151"; // Waiblingen
-            case "2":
+            case '2':
                 return "7152"; // Leonberg Württ
-            case "3":
+            case '3':
                 return "7153"; // Plochingen
-            case "4":
+            case '4':
                 return "7154"; // Kornwestheim
-            case "6":
+            case '6':
                 return "7156"; // Ditzingen
-            case "7":
+            case '7':
                 return "7157"; // Waldenbuch
-            case "8":
+            case '8':
                 return "7158"; // Neuhausen auf den Fildern
-            case "9":
+            case '9':
                 return "7159"; // Renningen
             default:
                 return "";
@@ -15732,18 +15742,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7161"; // Göppingen
-            case "2":
+            case '2':
                 return "7162"; // Süßen
-            case "3":
+            case '3':
                 return "7163"; // Ebersbach an der Fils
-            case "4":
+            case '4':
                 return "7164"; // Boll Kr Göppingen
-            case "5":
+            case '5':
                 return "7165"; // Göppingen-Hohenstaufen
-            case "6":
+            case '6':
                 return "7166"; // Adelberg
             default:
                 return "";
@@ -15755,18 +15765,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7171"; // Schwäbisch Gmünd
-            case "2":
+            case '2':
                 return "7172"; // Lorch Württ
-            case "3":
+            case '3':
                 return "7173"; // Heubach
-            case "4":
+            case '4':
                 return "7174"; // Mögglingen
-            case "5":
+            case '5':
                 return "7175"; // Leinzell
-            case "6":
+            case '6':
                 return "7176"; // Spraitbach
             default:
                 return "";
@@ -15778,14 +15788,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7181"; // Schorndorf Württ
-            case "2":
+            case '2':
                 return "7182"; // Welzheim
-            case "3":
+            case '3':
                 return "7183"; // Rudersberg Württ
-            case "4":
+            case '4':
                 return "7184"; // Kaisersbach
             default:
                 return "";
@@ -15797,16 +15807,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7191"; // Backnang
-            case "2":
+            case '2':
                 return "7192"; // Murrhardt
-            case "3":
+            case '3':
                 return "7193"; // Sulzbach an der Murr
-            case "4":
+            case '4':
                 return "7194"; // Spiegelberg
-            case "5":
+            case '5':
                 return "7195"; // Winnenden
             default:
                 return "";
@@ -15818,22 +15828,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber720(number.substring(1));
-            case "1":
+            case '1':
                 return "721"; // Karlsruhe
-            case "2":
+            case '2':
                 return fromNumber722(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber723(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber724(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber725(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber726(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber727(number.substring(1));
             default:
                 return "";
@@ -15845,12 +15855,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "7202"; // Karlsbad
-            case "3":
+            case '3':
                 return "7203"; // Walzbachtal
-            case "4":
+            case '4':
                 return "7204"; // Malsch-Völkersbach
             default:
                 return "";
@@ -15862,26 +15872,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7220"; // Forbach-Hundsbach
-            case "1":
+            case '1':
                 return "7221"; // Baden-Baden
-            case "2":
+            case '2':
                 return "7222"; // Rastatt
-            case "3":
+            case '3':
                 return "7223"; // Bühl Baden
-            case "4":
+            case '4':
                 return "7224"; // Gernsbach
-            case "5":
+            case '5':
                 return "7225"; // Gaggenau
-            case "6":
+            case '6':
                 return "7226"; // Bühl-Sand
-            case "7":
+            case '7':
                 return "7227"; // Lichtenau Baden
-            case "8":
+            case '8':
                 return "7228"; // Forbach
-            case "9":
+            case '9':
                 return "7229"; // Iffezheim
             default:
                 return "";
@@ -15893,20 +15903,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7231"; // Pforzheim
-            case "2":
+            case '2':
                 return "7232"; // Königsbach-Stein
-            case "3":
+            case '3':
                 return "7233"; // Niefern-Öschelbronn
-            case "4":
+            case '4':
                 return "7234"; // Tiefenbronn
-            case "5":
+            case '5':
                 return "7235"; // Unterreichenbach Kr Calw
-            case "6":
+            case '6':
                 return "7236"; // Keltern
-            case "7":
+            case '7':
                 return "7237"; // Neulingen Enzkreis
             default:
                 return "";
@@ -15918,24 +15928,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7240"; // Pfinztal
-            case "2":
+            case '2':
                 return "7242"; // Rheinstetten
-            case "3":
+            case '3':
                 return "7243"; // Ettlingen
-            case "4":
+            case '4':
                 return "7244"; // Weingarten Baden
-            case "5":
+            case '5':
                 return "7245"; // Durmersheim
-            case "6":
+            case '6':
                 return "7246"; // Malsch Kr Karlsruhe
-            case "7":
+            case '7':
                 return "7247"; // Linkenheim-Hochstetten
-            case "8":
+            case '8':
                 return "7248"; // Marxzell
-            case "9":
+            case '9':
                 return "7249"; // Stutensee
             default:
                 return "";
@@ -15947,26 +15957,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7250"; // Kraichtal
-            case "1":
+            case '1':
                 return "7251"; // Bruchsal
-            case "2":
+            case '2':
                 return "7252"; // Bretten
-            case "3":
+            case '3':
                 return "7253"; // Bad Schönborn
-            case "4":
+            case '4':
                 return "7254"; // Waghäusel
-            case "5":
+            case '5':
                 return "7255"; // Graben-Neudorf
-            case "6":
+            case '6':
                 return "7256"; // Philippsburg
-            case "7":
+            case '7':
                 return "7257"; // Bruchsal-Untergrombach
-            case "8":
+            case '8':
                 return "7258"; // Oberderdingen-Flehingen
-            case "9":
+            case '9':
                 return "7259"; // Östringen-Odenheim
             default:
                 return "";
@@ -15978,26 +15988,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7260"; // Sinsheim-Hilsbach
-            case "1":
+            case '1':
                 return "7261"; // Sinsheim
-            case "2":
+            case '2':
                 return "7262"; // Eppingen
-            case "3":
+            case '3':
                 return "7263"; // Waibstadt
-            case "4":
+            case '4':
                 return "7264"; // Bad Rappenau
-            case "5":
+            case '5':
                 return "7265"; // Angelbachtal
-            case "6":
+            case '6':
                 return "7266"; // Kirchardt
-            case "7":
+            case '7':
                 return "7267"; // Gemmingen
-            case "8":
+            case '8':
                 return "7268"; // Bad Rappenau-Obergimpern
-            case "9":
+            case '9':
                 return "7269"; // Sulzfeld Baden
             default:
                 return "";
@@ -16009,20 +16019,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7271"; // Wörth am Rhein
-            case "2":
+            case '2':
                 return "7272"; // Rülzheim
-            case "3":
+            case '3':
                 return "7273"; // Hagenbach Pfalz
-            case "4":
+            case '4':
                 return "7274"; // Germersheim
-            case "5":
+            case '5':
                 return "7275"; // Kandel
-            case "6":
+            case '6':
                 return "7276"; // Herxheim bei Landau Pfalz
-            case "7":
+            case '7':
                 return "7277"; // Wörth-Büchelberg
             default:
                 return "";
@@ -16034,26 +16044,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber730(number.substring(1));
-            case "1":
+            case '1':
                 return "731"; // Ulm Donau
-            case "2":
+            case '2':
                 return fromNumber732(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber733(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber734(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber735(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber736(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber737(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber738(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber739(number.substring(1));
             default:
                 return "";
@@ -16065,24 +16075,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7300"; // Roggenburg
-            case "2":
+            case '2':
                 return "7302"; // Pfaffenhofen a d Roth
-            case "3":
+            case '3':
                 return "7303"; // Illertissen
-            case "4":
+            case '4':
                 return "7304"; // Blaustein Württ
-            case "5":
+            case '5':
                 return "7305"; // Erbach Donau
-            case "6":
+            case '6':
                 return "7306"; // Vöhringen Iller
-            case "7":
+            case '7':
                 return "7307"; // Senden Iller
-            case "8":
+            case '8':
                 return "7308"; // Nersingen
-            case "9":
+            case '9':
                 return "7309"; // Weissenhorn
             default:
                 return "";
@@ -16094,24 +16104,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7321"; // Heidenheim a d Brenz
-            case "2":
+            case '2':
                 return "7322"; // Giengen a d Brenz
-            case "3":
+            case '3':
                 return "7323"; // Gerstetten
-            case "4":
+            case '4':
                 return "7324"; // Herbrechtingen
-            case "5":
+            case '5':
                 return "7325"; // Sontheim a d Brenz
-            case "6":
+            case '6':
                 return "7326"; // Neresheim
-            case "7":
+            case '7':
                 return "7327"; // Dischingen
-            case "8":
+            case '8':
                 return "7328"; // Königsbronn
-            case "9":
+            case '9':
                 return "7329"; // Steinheim am Albuch
             default:
                 return "";
@@ -16123,20 +16133,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7331"; // Geislingen an der Steige
-            case "2":
+            case '2':
                 return "7332"; // Lauterstein
-            case "3":
+            case '3':
                 return "7333"; // Laichingen
-            case "4":
+            case '4':
                 return "7334"; // Deggingen
-            case "5":
+            case '5':
                 return "7335"; // Wiesensteig
-            case "6":
+            case '6':
                 return "7336"; // Lonsee
-            case "7":
+            case '7':
                 return "7337"; // Nellingen Alb
             default:
                 return "";
@@ -16148,20 +16158,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7340"; // Neenstetten
-            case "3":
+            case '3':
                 return "7343"; // Buch b Illertissen
-            case "4":
+            case '4':
                 return "7344"; // Blaubeuren
-            case "5":
+            case '5':
                 return "7345"; // Langenau Württ
-            case "6":
+            case '6':
                 return "7346"; // Illerkirchberg
-            case "7":
+            case '7':
                 return "7347"; // Dietenheim
-            case "8":
+            case '8':
                 return "7348"; // Beimerstetten
             default:
                 return "";
@@ -16173,22 +16183,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7351"; // Biberach an der Riß
-            case "2":
+            case '2':
                 return "7352"; // Ochsenhausen
-            case "3":
+            case '3':
                 return "7353"; // Schwendi
-            case "4":
+            case '4':
                 return "7354"; // Erolzheim
-            case "5":
+            case '5':
                 return "7355"; // Hochdorf Riß
-            case "6":
+            case '6':
                 return "7356"; // Schemmerhofen
-            case "7":
+            case '7':
                 return "7357"; // Attenweiler
-            case "8":
+            case '8':
                 return "7358"; // Eberhardzell-Füramoos
             default:
                 return "";
@@ -16200,20 +16210,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7361"; // Aalen
-            case "2":
+            case '2':
                 return "7362"; // Bopfingen
-            case "3":
+            case '3':
                 return "7363"; // Lauchheim
-            case "4":
+            case '4':
                 return "7364"; // Oberkochen
-            case "5":
+            case '5':
                 return "7365"; // Essingen Württ
-            case "6":
+            case '6':
                 return "7366"; // Abtsgmünd
-            case "7":
+            case '7':
                 return "7367"; // Aalen-Ebnat
             default:
                 return "";
@@ -16225,16 +16235,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7371"; // Riedlingen Württ
-            case "3":
+            case '3':
                 return "7373"; // Zwiefalten
-            case "4":
+            case '4':
                 return "7374"; // Uttenweiler
-            case "5":
+            case '5':
                 return "7375"; // Obermarchtal
-            case "6":
+            case '6':
                 return "7376"; // Langenenslingen
             default:
                 return "";
@@ -16246,24 +16256,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7381"; // Münsingen
-            case "2":
+            case '2':
                 return "7382"; // Römerstein
-            case "3":
+            case '3':
                 return "7383"; // Münsingen-Buttenhausen
-            case "4":
+            case '4':
                 return "7384"; // Schelklingen-Hütten
-            case "5":
+            case '5':
                 return "7385"; // Gomadingen
-            case "6":
+            case '6':
                 return "7386"; // Hayingen
-            case "7":
+            case '7':
                 return "7387"; // Hohenstein Württ
-            case "8":
+            case '8':
                 return "7388"; // Pfronstetten
-            case "9":
+            case '9':
                 return "7389"; // Heroldstatt
             default:
                 return "";
@@ -16275,16 +16285,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7391"; // Ehingen Donau
-            case "2":
+            case '2':
                 return "7392"; // Laupheim
-            case "3":
+            case '3':
                 return "7393"; // Munderkingen
-            case "4":
+            case '4':
                 return "7394"; // Schelklingen
-            case "5":
+            case '5':
                 return "7395"; // Ehingen-Dächingen
             default:
                 return "";
@@ -16296,24 +16306,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber740(number.substring(1));
-            case "1":
+            case '1':
                 return "741"; // Rottweil
-            case "2":
+            case '2':
                 return fromNumber742(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber743(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber744(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber745(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber746(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber747(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber748(number.substring(1));
             default:
                 return "";
@@ -16325,12 +16335,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "7402"; // Fluorn-Winzeln
-            case "3":
+            case '3':
                 return "7403"; // Dunningen
-            case "4":
+            case '4':
                 return "7404"; // Epfendorf
             default:
                 return "";
@@ -16342,24 +16352,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7420"; // Deisslingen
-            case "2":
+            case '2':
                 return "7422"; // Schramberg
-            case "3":
+            case '3':
                 return "7423"; // Oberndorf am Neckar
-            case "4":
+            case '4':
                 return "7424"; // Spaichingen
-            case "5":
+            case '5':
                 return "7425"; // Trossingen
-            case "6":
+            case '6':
                 return "7426"; // Gosheim
-            case "7":
+            case '7':
                 return "7427"; // Schömberg b Balingen
-            case "8":
+            case '8':
                 return "7428"; // Rosenfeld
-            case "9":
+            case '9':
                 return "7429"; // Egesheim
             default:
                 return "";
@@ -16371,18 +16381,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7431"; // Albstadt-Ebingen
-            case "2":
+            case '2':
                 return "7432"; // Albstadt-Tailfingen
-            case "3":
+            case '3':
                 return "7433"; // Balingen
-            case "4":
+            case '4':
                 return "7434"; // Winterlingen
-            case "5":
+            case '5':
                 return "7435"; // Albstadt-Laufen
-            case "6":
+            case '6':
                 return "7436"; // Messstetten-Oberdigisheim
             default:
                 return "";
@@ -16394,26 +16404,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7440"; // Bad Rippoldsau
-            case "1":
+            case '1':
                 return "7441"; // Freudenstadt
-            case "2":
+            case '2':
                 return "7442"; // Baiersbronn
-            case "3":
+            case '3':
                 return "7443"; // Dornstetten
-            case "4":
+            case '4':
                 return "7444"; // Alpirsbach
-            case "5":
+            case '5':
                 return "7445"; // Pfalzgrafenweiler
-            case "6":
+            case '6':
                 return "7446"; // Lossburg
-            case "7":
+            case '7':
                 return "7447"; // Baiersbronn-Schwarzenberg
-            case "8":
+            case '8':
                 return "7448"; // Seewald
-            case "9":
+            case '9':
                 return "7449"; // Baiersbronn-Obertal
             default:
                 return "";
@@ -16425,24 +16435,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7451"; // Horb am Neckar
-            case "2":
+            case '2':
                 return "7452"; // Nagold
-            case "3":
+            case '3':
                 return "7453"; // Altensteig Württ
-            case "4":
+            case '4':
                 return "7454"; // Sulz am Neckar
-            case "5":
+            case '5':
                 return "7455"; // Dornhan
-            case "6":
+            case '6':
                 return "7456"; // Haiterbach
-            case "7":
+            case '7':
                 return "7457"; // Rottenburg-Ergenzingen
-            case "8":
+            case '8':
                 return "7458"; // Ebhausen
-            case "9":
+            case '9':
                 return "7459"; // Nagold-Hochdorf
             default:
                 return "";
@@ -16454,20 +16464,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7461"; // Tuttlingen
-            case "2":
+            case '2':
                 return "7462"; // Immendingen
-            case "3":
+            case '3':
                 return "7463"; // Mühlheim an der Donau
-            case "4":
+            case '4':
                 return "7464"; // Talheim Kr Tuttlingen
-            case "5":
+            case '5':
                 return "7465"; // Emmingen-Liptingen
-            case "6":
+            case '6':
                 return "7466"; // Beuron
-            case "7":
+            case '7':
                 return "7467"; // Neuhausen ob Eck
             default:
                 return "";
@@ -16479,22 +16489,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7471"; // Hechingen
-            case "2":
+            case '2':
                 return "7472"; // Rottenburg am Neckar
-            case "3":
+            case '3':
                 return "7473"; // Mössingen
-            case "4":
+            case '4':
                 return "7474"; // Haigerloch
-            case "5":
+            case '5':
                 return "7475"; // Burladingen
-            case "6":
+            case '6':
                 return "7476"; // Bisingen
-            case "7":
+            case '7':
                 return "7477"; // Jungingen b Hechingen
-            case "8":
+            case '8':
                 return "7478"; // Hirrlingen
             default:
                 return "";
@@ -16506,16 +16516,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "7482"; // Horb-Dettingen
-            case "3":
+            case '3':
                 return "7483"; // Horb-Mühringen
-            case "4":
+            case '4':
                 return "7484"; // Simmersfeld
-            case "5":
+            case '5':
                 return "7485"; // Empfingen
-            case "6":
+            case '6':
                 return "7486"; // Horb-Altheim
             default:
                 return "";
@@ -16527,24 +16537,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber750(number.substring(1));
-            case "1":
+            case '1':
                 return "751"; // Ravensburg
-            case "2":
+            case '2':
                 return fromNumber752(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber753(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber754(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber755(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber756(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber757(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber758(number.substring(1));
             default:
                 return "";
@@ -16556,16 +16566,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "7502"; // Wolpertswende
-            case "3":
+            case '3':
                 return "7503"; // Wilhelmsdorf Württ
-            case "4":
+            case '4':
                 return "7504"; // Horgenzell
-            case "5":
+            case '5':
                 return "7505"; // Fronreute
-            case "6":
+            case '6':
                 return "7506"; // Wangen-Leupolz
             default:
                 return "";
@@ -16577,20 +16587,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7520"; // Bodnegg
-            case "2":
+            case '2':
                 return "7522"; // Wangen im Allgäu
-            case "4":
+            case '4':
                 return "7524"; // Bad Waldsee
-            case "5":
+            case '5':
                 return "7525"; // Aulendorf
-            case "7":
+            case '7':
                 return "7527"; // Wolfegg
-            case "8":
+            case '8':
                 return "7528"; // Neukirch b Tettnang
-            case "9":
+            case '9':
                 return "7529"; // Waldburg Württ
             default:
                 return "";
@@ -16602,14 +16612,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7531"; // Konstanz
-            case "2":
+            case '2':
                 return "7532"; // Meersburg
-            case "3":
+            case '3':
                 return "7533"; // Allensbach
-            case "4":
+            case '4':
                 return "7534"; // Reichenau Baden
             default:
                 return "";
@@ -16621,18 +16631,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7541"; // Friedrichshafen
-            case "2":
+            case '2':
                 return "7542"; // Tettnang
-            case "3":
+            case '3':
                 return "7543"; // Kressbronn am Bodensee
-            case "4":
+            case '4':
                 return "7544"; // Markdorf
-            case "5":
+            case '5':
                 return "7545"; // Immenstaad am Bodensee
-            case "6":
+            case '6':
                 return "7546"; // Oberteuringen
             default:
                 return "";
@@ -16644,22 +16654,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7551"; // Überlingen Bodensee
-            case "2":
+            case '2':
                 return "7552"; // Pfullendorf
-            case "3":
+            case '3':
                 return "7553"; // Salem Baden
-            case "4":
+            case '4':
                 return "7554"; // Heiligenberg Baden
-            case "5":
+            case '5':
                 return "7555"; // Deggenhausertal
-            case "6":
+            case '6':
                 return "7556"; // Uhldingen-Mühlhofen
-            case "7":
+            case '7':
                 return "7557"; // Herdwangen-Schönach
-            case "8":
+            case '8':
                 return "7558"; // Illmensee
             default:
                 return "";
@@ -16671,24 +16681,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7561"; // Leutkirch im Allgäu
-            case "2":
+            case '2':
                 return "7562"; // Isny im Allgäu
-            case "3":
+            case '3':
                 return "7563"; // Kisslegg
-            case "4":
+            case '4':
                 return "7564"; // Bad Wurzach
-            case "5":
+            case '5':
                 return "7565"; // Aichstetten Kr Ravensburg
-            case "6":
+            case '6':
                 return "7566"; // Argenbühl
-            case "7":
+            case '7':
                 return "7567"; // Leutkirch-Friesenhofen
-            case "8":
+            case '8':
                 return "7568"; // Bad Wurzach-Hauerz
-            case "9":
+            case '9':
                 return "7569"; // Isny-Eisenbach
             default:
                 return "";
@@ -16700,26 +16710,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7570"; // Sigmaringen-Gutenstein
-            case "1":
+            case '1':
                 return "7571"; // Sigmaringen
-            case "2":
+            case '2':
                 return "7572"; // Mengen Württ
-            case "3":
+            case '3':
                 return "7573"; // Stetten am kalten Markt
-            case "4":
+            case '4':
                 return "7574"; // Gammertingen
-            case "5":
+            case '5':
                 return "7575"; // Messkirch
-            case "6":
+            case '6':
                 return "7576"; // Krauchenwies
-            case "7":
+            case '7':
                 return "7577"; // Veringenstadt
-            case "8":
+            case '8':
                 return "7578"; // Wald Hohenz
-            case "9":
+            case '9':
                 return "7579"; // Schwenningen Baden
             default:
                 return "";
@@ -16731,20 +16741,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7581"; // Saulgau
-            case "2":
+            case '2':
                 return "7582"; // Bad Buchau
-            case "3":
+            case '3':
                 return "7583"; // Bad Schussenried
-            case "4":
+            case '4':
                 return "7584"; // Altshausen
-            case "5":
+            case '5':
                 return "7585"; // Ostrach
-            case "6":
+            case '6':
                 return "7586"; // Herbertingen
-            case "7":
+            case '7':
                 return "7587"; // Hosskirch
             default:
                 return "";
@@ -16756,24 +16766,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber760(number.substring(1));
-            case "1":
+            case '1':
                 return "761"; // Freiburg im Breisgau
-            case "2":
+            case '2':
                 return fromNumber762(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber763(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber764(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber765(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber766(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber767(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber768(number.substring(1));
             default:
                 return "";
@@ -16785,8 +16795,8 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "7602"; // Oberried Breisgau
             default:
                 return "";
@@ -16798,26 +16808,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7620"; // Schopfheim-Gersbach
-            case "1":
+            case '1':
                 return "7621"; // Lörrach
-            case "2":
+            case '2':
                 return "7622"; // Schopfheim
-            case "3":
+            case '3':
                 return "7623"; // Rheinfelden Baden
-            case "4":
+            case '4':
                 return "7624"; // Grenzach-Wyhlen
-            case "5":
+            case '5':
                 return "7625"; // Zell im Wiesental
-            case "6":
+            case '6':
                 return "7626"; // Kandern
-            case "7":
+            case '7':
                 return "7627"; // Steinen Kr Lörrach
-            case "8":
+            case '8':
                 return "7628"; // Efringen-Kirchen
-            case "9":
+            case '9':
                 return "7629"; // Tegernau Baden
             default:
                 return "";
@@ -16829,18 +16839,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7631"; // Müllheim Baden
-            case "2":
+            case '2':
                 return "7632"; // Badenweiler
-            case "3":
+            case '3':
                 return "7633"; // Staufen im Breisgau
-            case "4":
+            case '4':
                 return "7634"; // Sulzburg
-            case "5":
+            case '5':
                 return "7635"; // Schliengen
-            case "6":
+            case '6':
                 return "7636"; // Münstertal Schwarzwald
             default:
                 return "";
@@ -16852,18 +16862,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7641"; // Emmendingen
-            case "2":
+            case '2':
                 return "7642"; // Endingen Kaiserstuhl
-            case "3":
+            case '3':
                 return "7643"; // Herbolzheim Breisgau
-            case "4":
+            case '4':
                 return "7644"; // Kenzingen
-            case "5":
+            case '5':
                 return "7645"; // Freiamt
-            case "6":
+            case '6':
                 return "7646"; // Weisweil Breisgau
             default:
                 return "";
@@ -16875,20 +16885,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7651"; // Titisee-Neustadt
-            case "2":
+            case '2':
                 return "7652"; // Hinterzarten
-            case "3":
+            case '3':
                 return "7653"; // Lenzkirch
-            case "4":
+            case '4':
                 return "7654"; // Löffingen
-            case "5":
+            case '5':
                 return "7655"; // Feldberg-Altglashütten
-            case "6":
+            case '6':
                 return "7656"; // Schluchsee
-            case "7":
+            case '7':
                 return "7657"; // Eisenbach Hochschwarzwald
             default:
                 return "";
@@ -16900,26 +16910,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7660"; // St Peter Schwarzw
-            case "1":
+            case '1':
                 return "7661"; // Kirchzarten
-            case "2":
+            case '2':
                 return "7662"; // Vogtsburg im Kaiserstuhl
-            case "3":
+            case '3':
                 return "7663"; // Eichstetten
-            case "4":
+            case '4':
                 return "7664"; // Freiburg-Tiengen
-            case "5":
+            case '5':
                 return "7665"; // March Breisgau
-            case "6":
+            case '6':
                 return "7666"; // Denzlingen
-            case "7":
+            case '7':
                 return "7667"; // Breisach am Rhein
-            case "8":
+            case '8':
                 return "7668"; // Ihringen
-            case "9":
+            case '9':
                 return "7669"; // St Märgen
             default:
                 return "";
@@ -16931,18 +16941,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7671"; // Todtnau
-            case "2":
+            case '2':
                 return "7672"; // St Blasien
-            case "3":
+            case '3':
                 return "7673"; // Schönau im Schwarzwald
-            case "4":
+            case '4':
                 return "7674"; // Todtmoos
-            case "5":
+            case '5':
                 return "7675"; // Bernau Baden
-            case "6":
+            case '6':
                 return "7676"; // Feldberg Schwarzwald
             default:
                 return "";
@@ -16954,16 +16964,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7681"; // Waldkirch Breisgau
-            case "2":
+            case '2':
                 return "7682"; // Elzach
-            case "3":
+            case '3':
                 return "7683"; // Simonswald
-            case "4":
+            case '4':
                 return "7684"; // Glottertal
-            case "5":
+            case '5':
                 return "7685"; // Gutach-Bleibach
             default:
                 return "";
@@ -16975,22 +16985,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber770(number.substring(1));
-            case "1":
+            case '1':
                 return "771"; // Donaueschingen
-            case "2":
+            case '2':
                 return fromNumber772(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber773(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber774(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber775(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber776(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber777(number.substring(1));
             default:
                 return "";
@@ -17002,22 +17012,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "7702"; // Blumberg Baden
-            case "3":
+            case '3':
                 return "7703"; // Bonndorf im Schwarzwald
-            case "4":
+            case '4':
                 return "7704"; // Geisingen Baden
-            case "5":
+            case '5':
                 return "7705"; // Wolterdingen Schwarzw
-            case "6":
+            case '6':
                 return "7706"; // Oberbaldingen
-            case "7":
+            case '7':
                 return "7707"; // Bräunlingen
-            case "8":
+            case '8':
                 return "7708"; // Geisingen-Leipferdingen
-            case "9":
+            case '9':
                 return "7709"; // Wutach
             default:
                 return "";
@@ -17029,26 +17039,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7720"; // Schwenningen a Neckar
-            case "1":
+            case '1':
                 return "7721"; // Villingen i Schwarzw
-            case "2":
+            case '2':
                 return "7722"; // Triberg im Schwarzwald
-            case "3":
+            case '3':
                 return "7723"; // Furtwangen im Schwarzwald
-            case "4":
+            case '4':
                 return "7724"; // St Georgen im Schwarzwald
-            case "5":
+            case '5':
                 return "7725"; // Königsfeld im Schwarzwald
-            case "6":
+            case '6':
                 return "7726"; // Bad Dürrheim
-            case "7":
+            case '7':
                 return "7727"; // Vöhrenbach
-            case "8":
+            case '8':
                 return "7728"; // Niedereschach
-            case "9":
+            case '9':
                 return "7729"; // Tennenbronn
             default:
                 return "";
@@ -17060,22 +17070,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7731"; // Singen Hohentwiel
-            case "2":
+            case '2':
                 return "7732"; // Radolfzell am Bodensee
-            case "3":
+            case '3':
                 return "7733"; // Engen Hegau
-            case "4":
+            case '4':
                 return "7734"; // Gailingen
-            case "5":
+            case '5':
                 return "7735"; // Öhningen
-            case "6":
+            case '6':
                 return "7736"; // Tengen
-            case "8":
+            case '8':
                 return "7738"; // Steisslingen
-            case "9":
+            case '9':
                 return "7739"; // Hilzingen
             default:
                 return "";
@@ -17087,22 +17097,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7741"; // Tiengen Hochrhein
-            case "2":
+            case '2':
                 return "7742"; // Klettgau
-            case "3":
+            case '3':
                 return "7743"; // Ühlingen-Birkendorf
-            case "4":
+            case '4':
                 return "7744"; // Stühlingen
-            case "5":
+            case '5':
                 return "7745"; // Jestetten
-            case "6":
+            case '6':
                 return "7746"; // Wutöschingen
-            case "7":
+            case '7':
                 return "7747"; // Berau
-            case "8":
+            case '8':
                 return "7748"; // Grafenhausen Hochschwarzw
             default:
                 return "";
@@ -17114,14 +17124,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7751"; // Waldshut
-            case "3":
+            case '3':
                 return "7753"; // Albbruck
-            case "4":
+            case '4':
                 return "7754"; // Görwihl
-            case "5":
+            case '5':
                 return "7755"; // Weilheim Kr Waldshut
             default:
                 return "";
@@ -17133,16 +17143,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7761"; // Bad Säckingen
-            case "2":
+            case '2':
                 return "7762"; // Wehr Baden
-            case "3":
+            case '3':
                 return "7763"; // Murg
-            case "4":
+            case '4':
                 return "7764"; // Herrischried
-            case "5":
+            case '5':
                 return "7765"; // Rickenbach Hotzenw
             default:
                 return "";
@@ -17154,16 +17164,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7771"; // Stockach
-            case "3":
+            case '3':
                 return "7773"; // Bodman-Ludwigshafen
-            case "4":
+            case '4':
                 return "7774"; // Eigeltingen
-            case "5":
+            case '5':
                 return "7775"; // Mühlingen
-            case "7":
+            case '7':
                 return "7777"; // Sauldorf
             default:
                 return "";
@@ -17175,18 +17185,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber780(number.substring(1));
-            case "1":
+            case '1':
                 return "781"; // Offenburg
-            case "2":
+            case '2':
                 return fromNumber782(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber783(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber784(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber785(number.substring(1));
             default:
                 return "";
@@ -17198,20 +17208,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "7802"; // Oberkirch Baden
-            case "3":
+            case '3':
                 return "7803"; // Gengenbach
-            case "4":
+            case '4':
                 return "7804"; // Oppenau
-            case "5":
+            case '5':
                 return "7805"; // Appenweier
-            case "6":
+            case '6':
                 return "7806"; // Bad Peterstal-Griesbach
-            case "7":
+            case '7':
                 return "7807"; // Neuried Ortenaukreis
-            case "8":
+            case '8':
                 return "7808"; // Hohberg b Offenburg
             default:
                 return "";
@@ -17223,18 +17233,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7821"; // Lahr Schwarzwald
-            case "2":
+            case '2':
                 return "7822"; // Ettenheim
-            case "3":
+            case '3':
                 return "7823"; // Seelbach Schutter
-            case "4":
+            case '4':
                 return "7824"; // Schwanau
-            case "5":
+            case '5':
                 return "7825"; // Kippenheim
-            case "6":
+            case '6':
                 return "7826"; // Schuttertal
             default:
                 return "";
@@ -17246,24 +17256,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7831"; // Hausach
-            case "2":
+            case '2':
                 return "7832"; // Haslach im Kinzigtal
-            case "3":
+            case '3':
                 return "7833"; // Hornberg Schwarzwaldbahn
-            case "4":
+            case '4':
                 return "7834"; // Wolfach
-            case "5":
+            case '5':
                 return "7835"; // Zell am Harmersbach
-            case "6":
+            case '6':
                 return "7836"; // Schiltach
-            case "7":
+            case '7':
                 return "7837"; // Oberharmersbach
-            case "8":
+            case '8':
                 return "7838"; // Nordrach
-            case "9":
+            case '9':
                 return "7839"; // Schapbach
             default:
                 return "";
@@ -17275,14 +17285,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7841"; // Achern
-            case "2":
+            case '2':
                 return "7842"; // Kappelrodeck
-            case "3":
+            case '3':
                 return "7843"; // Renchen
-            case "4":
+            case '4':
                 return "7844"; // Rheinau
             default:
                 return "";
@@ -17294,14 +17304,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7851"; // Kehl
-            case "2":
+            case '2':
                 return "7852"; // Willstätt
-            case "3":
+            case '3':
                 return "7853"; // Kehl-Bodersweier
-            case "4":
+            case '4':
                 return "7854"; // Kehl-Goldscheuer
             default:
                 return "";
@@ -17313,20 +17323,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber790(number.substring(1));
-            case "1":
+            case '1':
                 return "791"; // Schwäbisch Hall
-            case "3":
+            case '3':
                 return fromNumber793(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber794(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber795(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber796(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber797(number.substring(1));
             default:
                 return "";
@@ -17338,16 +17348,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "3":
+        switch (number.charAt(0)) {
+            case '3':
                 return "7903"; // Mainhardt
-            case "4":
+            case '4':
                 return "7904"; // Ilshofen
-            case "5":
+            case '5':
                 return "7905"; // Langenburg
-            case "6":
+            case '6':
                 return "7906"; // Braunsbach
-            case "7":
+            case '7':
                 return "7907"; // Schwäbisch Hall-Sulzdorf
             default:
                 return "";
@@ -17359,26 +17369,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7930"; // Boxberg Baden
-            case "1":
+            case '1':
                 return "7931"; // Bad Mergentheim
-            case "2":
+            case '2':
                 return "7932"; // Niederstetten Württ
-            case "3":
+            case '3':
                 return "7933"; // Creglingen
-            case "4":
+            case '4':
                 return "7934"; // Weikersheim
-            case "5":
+            case '5':
                 return "7935"; // Schrozberg
-            case "6":
+            case '6':
                 return "7936"; // Schrozberg-Bartenstein
-            case "7":
+            case '7':
                 return "7937"; // Dörzbach
-            case "8":
+            case '8':
                 return "7938"; // Mulfingen Jagst
-            case "9":
+            case '9':
                 return "7939"; // Schrozberg-Spielbach
             default:
                 return "";
@@ -17390,26 +17400,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7940"; // Künzelsau
-            case "1":
+            case '1':
                 return "7941"; // Öhringen
-            case "2":
+            case '2':
                 return "7942"; // Neuenstein Württ
-            case "3":
+            case '3':
                 return "7943"; // Schöntal Jagst
-            case "4":
+            case '4':
                 return "7944"; // Kupferzell
-            case "5":
+            case '5':
                 return "7945"; // Wüstenrot
-            case "6":
+            case '6':
                 return "7946"; // Bretzfeld
-            case "7":
+            case '7':
                 return "7947"; // Forchtenberg
-            case "8":
+            case '8':
                 return "7948"; // Öhringen-Ohrnberg
-            case "9":
+            case '9':
                 return "7949"; // Pfedelbach-Untersteinbach
             default:
                 return "";
@@ -17421,24 +17431,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "7950"; // Schnelldorf
-            case "1":
+            case '1':
                 return "7951"; // Crailsheim
-            case "2":
+            case '2':
                 return "7952"; // Gerabronn
-            case "3":
+            case '3':
                 return "7953"; // Blaufelden
-            case "4":
+            case '4':
                 return "7954"; // Kirchberg an der Jagst
-            case "5":
+            case '5':
                 return "7955"; // Wallhausen Württ
-            case "7":
+            case '7':
                 return "7957"; // Kressberg
-            case "8":
+            case '8':
                 return "7958"; // Rot Am See-Brettheim
-            case "9":
+            case '9':
                 return "7959"; // Frankenhardt
             default:
                 return "";
@@ -17450,20 +17460,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7961"; // Ellwangen Jagst
-            case "2":
+            case '2':
                 return "7962"; // Fichtenau
-            case "3":
+            case '3':
                 return "7963"; // Adelmannsfelden
-            case "4":
+            case '4':
                 return "7964"; // Stödtlen
-            case "5":
+            case '5':
                 return "7965"; // Ellwangen-Röhlingen
-            case "6":
+            case '6':
                 return "7966"; // Unterschneidheim
-            case "7":
+            case '7':
                 return "7967"; // Jagstzell
             default:
                 return "";
@@ -17475,20 +17485,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "7971"; // Gaildorf
-            case "2":
+            case '2':
                 return "7972"; // Gschwend b Gaildorf
-            case "3":
+            case '3':
                 return "7973"; // Obersontheim
-            case "4":
+            case '4':
                 return "7974"; // Bühlerzell
-            case "5":
+            case '5':
                 return "7975"; // Untergröningen
-            case "6":
+            case '6':
                 return "7976"; // Sulzbach-Laufen
-            case "7":
+            case '7':
                 return "7977"; // Oberrot b Gaildorf
             default:
                 return "";
@@ -17500,26 +17510,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber80(number.substring(1));
-            case "1":
+            case '1':
                 return fromNumber81(number.substring(1));
-            case "2":
+            case '2':
                 return fromNumber82(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber83(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber84(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber85(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber86(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber87(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber88(number.substring(1));
-            case "9":
+            case '9':
                 return "89"; // München
             default:
                 return "";
@@ -17531,22 +17541,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return fromNumber802(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber803(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber804(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber805(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber806(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber807(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber808(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber809(number.substring(1));
             default:
                 return "";
@@ -17558,26 +17568,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8020"; // Weyarn
-            case "1":
+            case '1':
                 return "8021"; // Waakirchen
-            case "2":
+            case '2':
                 return "8022"; // Tegernsee
-            case "3":
+            case '3':
                 return "8023"; // Bayrischzell
-            case "4":
+            case '4':
                 return "8024"; // Holzkirchen
-            case "5":
+            case '5':
                 return "8025"; // Miesbach
-            case "6":
+            case '6':
                 return "8026"; // Hausham
-            case "7":
+            case '7':
                 return "8027"; // Dietramszell
-            case "8":
+            case '8':
                 return "8028"; // Fischbachau
-            case "9":
+            case '9':
                 return "8029"; // Kreuth b Tegernsee
             default:
                 return "";
@@ -17589,22 +17599,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8031"; // Rosenheim Oberbay
-            case "2":
+            case '2':
                 return "8032"; // Rohrdorf Kr Rosenheim
-            case "3":
+            case '3':
                 return "8033"; // Oberaudorf
-            case "4":
+            case '4':
                 return "8034"; // Brannenburg
-            case "5":
+            case '5':
                 return "8035"; // Raubling
-            case "6":
+            case '6':
                 return "8036"; // Stephanskirchen Simssee
-            case "8":
+            case '8':
                 return "8038"; // Vogtareuth
-            case "9":
+            case '9':
                 return "8039"; // Rott a Inn
             default:
                 return "";
@@ -17616,16 +17626,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8041"; // Bad Tölz
-            case "2":
+            case '2':
                 return "8042"; // Lenggries
-            case "3":
+            case '3':
                 return "8043"; // Jachenau
-            case "5":
+            case '5':
                 return "8045"; // Lenggries-Fall
-            case "6":
+            case '6':
                 return "8046"; // Bad Heilbrunn
             default:
                 return "";
@@ -17637,20 +17647,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8051"; // Prien a Chiemsee
-            case "2":
+            case '2':
                 return "8052"; // Aschau i Chiemgau
-            case "3":
+            case '3':
                 return "8053"; // Bad Endorf
-            case "4":
+            case '4':
                 return "8054"; // Breitbrunn a Chiemsee
-            case "5":
+            case '5':
                 return "8055"; // Halfing
-            case "6":
+            case '6':
                 return "8056"; // Eggstätt
-            case "7":
+            case '7':
                 return "8057"; // Aschau-Sachrang
             default:
                 return "";
@@ -17662,20 +17672,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8061"; // Bad Aibling
-            case "2":
+            case '2':
                 return "8062"; // Bruckmühl Mangfall
-            case "3":
+            case '3':
                 return "8063"; // Feldkirchen-Westerham
-            case "4":
+            case '4':
                 return "8064"; // Au b Bad Aibling
-            case "5":
+            case '5':
                 return "8065"; // Tuntenhausen-Schönau
-            case "6":
+            case '6':
                 return "8066"; // Bad Feilnbach
-            case "7":
+            case '7':
                 return "8067"; // Tuntenhausen
             default:
                 return "";
@@ -17687,18 +17697,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8071"; // Wasserburg a Inn
-            case "2":
+            case '2':
                 return "8072"; // Haag i OB
-            case "3":
+            case '3':
                 return "8073"; // Gars a Inn
-            case "4":
+            case '4':
                 return "8074"; // Schnaitsee
-            case "5":
+            case '5':
                 return "8075"; // Amerang
-            case "6":
+            case '6':
                 return "8076"; // Pfaffing
             default:
                 return "";
@@ -17710,18 +17720,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8081"; // Dorfen Stadt
-            case "2":
+            case '2':
                 return "8082"; // Schwindegg
-            case "3":
+            case '3':
                 return "8083"; // Isen
-            case "4":
+            case '4':
                 return "8084"; // Taufkirchen Vils
-            case "5":
+            case '5':
                 return "8085"; // Sankt Wolfgang
-            case "6":
+            case '6':
                 return "8086"; // Buchbach Oberbay
             default:
                 return "";
@@ -17733,16 +17743,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8091"; // Kirchseeon
-            case "2":
+            case '2':
                 return "8092"; // Grafing b München
-            case "3":
+            case '3':
                 return "8093"; // Glonn Kr Ebersberg
-            case "4":
+            case '4':
                 return "8094"; // Steinhöring
-            case "5":
+            case '5':
                 return "8095"; // Aying
             default:
                 return "";
@@ -17754,24 +17764,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber810(number.substring(1));
-            case "1":
+            case '1':
                 return "811"; // Hallbergmoos
-            case "2":
+            case '2':
                 return fromNumber812(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber813(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber814(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber815(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber816(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber817(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber819(number.substring(1));
             default:
                 return "";
@@ -17783,14 +17793,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "8102"; // Höhenkirchen-Siegertsbrunn
-            case "4":
+            case '4':
                 return "8104"; // Sauerlach
-            case "5":
+            case '5':
                 return "8105"; // Gilching
-            case "6":
+            case '6':
                 return "8106"; // Vaterstetten
             default:
                 return "";
@@ -17802,14 +17812,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8121"; // Markt Schwaben
-            case "2":
+            case '2':
                 return "8122"; // Erding
-            case "3":
+            case '3':
                 return "8123"; // Moosinning
-            case "4":
+            case '4':
                 return "8124"; // Forstern Oberbay
             default:
                 return "";
@@ -17821,22 +17831,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8131"; // Dachau
-            case "3":
+            case '3':
                 return "8133"; // Haimhausen Oberbay
-            case "4":
+            case '4':
                 return "8134"; // Odelzhausen
-            case "5":
+            case '5':
                 return "8135"; // Sulzemoos
-            case "6":
+            case '6':
                 return "8136"; // Markt Indersdorf
-            case "7":
+            case '7':
                 return "8137"; // Petershausen
-            case "8":
+            case '8':
                 return "8138"; // Schwabhausen b Dachau
-            case "9":
+            case '9':
                 return "8139"; // Röhrmoos
             default:
                 return "";
@@ -17848,18 +17858,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8141"; // Fürstenfeldbruck
-            case "2":
+            case '2':
                 return "8142"; // Olching
-            case "3":
+            case '3':
                 return "8143"; // Inning a Ammersee
-            case "4":
+            case '4':
                 return "8144"; // Grafrath
-            case "5":
+            case '5':
                 return "8145"; // Mammendorf
-            case "6":
+            case '6':
                 return "8146"; // Moorenweis
             default:
                 return "";
@@ -17871,16 +17881,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8151"; // Starnberg
-            case "2":
+            case '2':
                 return "8152"; // Herrsching a Ammersee
-            case "3":
+            case '3':
                 return "8153"; // Wessling
-            case "7":
+            case '7':
                 return "8157"; // Feldafing
-            case "8":
+            case '8':
                 return "8158"; // Tutzing
             default:
                 return "";
@@ -17892,16 +17902,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8161"; // Freising
-            case "5":
+            case '5':
                 return "8165"; // Neufahrn b Freising
-            case "6":
+            case '6':
                 return "8166"; // Allershausen Oberbay
-            case "7":
+            case '7':
                 return "8167"; // Zolling
-            case "8":
+            case '8':
                 return "8168"; // Attenkirchen
             default:
                 return "";
@@ -17913,18 +17923,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8170"; // Straßlach-Dingharting
-            case "1":
+            case '1':
                 return "8171"; // Wolfratshausen
-            case "6":
+            case '6':
                 return "8176"; // Egling b Wolfratshausen
-            case "7":
+            case '7':
                 return "8177"; // Münsing Starnberger See
-            case "8":
+            case '8':
                 return "8178"; // Icking
-            case "9":
+            case '9':
                 return "8179"; // Eurasburg a d Loisach
             default:
                 return "";
@@ -17936,18 +17946,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8191"; // Landsberg a Lech
-            case "2":
+            case '2':
                 return "8192"; // Schondorf a Ammersee
-            case "3":
+            case '3':
                 return "8193"; // Geltendorf
-            case "4":
+            case '4':
                 return "8194"; // Vilgertshofen
-            case "5":
+            case '5':
                 return "8195"; // Weil Kr Landsberg a Lech
-            case "6":
+            case '6':
                 return "8196"; // Pürgen
             default:
                 return "";
@@ -17959,26 +17969,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber820(number.substring(1));
-            case "1":
+            case '1':
                 return "821"; // Augsburg
-            case "2":
+            case '2':
                 return fromNumber822(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber823(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber824(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber825(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber826(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber827(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber828(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber829(number.substring(1));
             default:
                 return "";
@@ -17990,20 +18000,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "8202"; // Althegnenberg
-            case "3":
+            case '3':
                 return "8203"; // Grossaitingen
-            case "4":
+            case '4':
                 return "8204"; // Mickhausen
-            case "5":
+            case '5':
                 return "8205"; // Dasing
-            case "6":
+            case '6':
                 return "8206"; // Egling a d Paar
-            case "7":
+            case '7':
                 return "8207"; // Affing
-            case "8":
+            case '8':
                 return "8208"; // Eurasburg b Augsburg
             default:
                 return "";
@@ -18015,18 +18025,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8221"; // Günzburg
-            case "2":
+            case '2':
                 return "8222"; // Burgau Schwab
-            case "3":
+            case '3':
                 return "8223"; // Ichenhausen
-            case "4":
+            case '4':
                 return "8224"; // Offingen Donau
-            case "5":
+            case '5':
                 return "8225"; // Jettingen-Scheppach
-            case "6":
+            case '6':
                 return "8226"; // Bibertal
             default:
                 return "";
@@ -18038,24 +18048,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8230"; // Gablingen
-            case "1":
+            case '1':
                 return "8231"; // Königsbrunn b Augsburg
-            case "2":
+            case '2':
                 return "8232"; // Schwabmünchen
-            case "3":
+            case '3':
                 return "8233"; // Kissing
-            case "4":
+            case '4':
                 return "8234"; // Bobingen
-            case "6":
+            case '6':
                 return "8236"; // Fischach
-            case "7":
+            case '7':
                 return "8237"; // Aindling
-            case "8":
+            case '8':
                 return "8238"; // Gessertshausen
-            case "9":
+            case '9':
                 return "8239"; // Langenneufnach
             default:
                 return "";
@@ -18067,20 +18077,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8241"; // Buchloe
-            case "3":
+            case '3':
                 return "8243"; // Fuchstal
-            case "5":
+            case '5':
                 return "8245"; // Türkheim Wertach
-            case "6":
+            case '6':
                 return "8246"; // Waal
-            case "7":
+            case '7':
                 return "8247"; // Bad Wörishofen
-            case "8":
+            case '8':
                 return "8248"; // Lamerdingen
-            case "9":
+            case '9':
                 return "8249"; // Ettringen Wertach
             default:
                 return "";
@@ -18092,22 +18102,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8250"; // Hilgertshausen-Tandern
-            case "1":
+            case '1':
                 return "8251"; // Aichach
-            case "2":
+            case '2':
                 return "8252"; // Schrobenhausen
-            case "3":
+            case '3':
                 return "8253"; // Pöttmes
-            case "4":
+            case '4':
                 return "8254"; // Altomünster
-            case "7":
+            case '7':
                 return "8257"; // Inchenhofen
-            case "8":
+            case '8':
                 return "8258"; // Sielenbach
-            case "9":
+            case '9':
                 return "8259"; // Schiltberg
             default:
                 return "";
@@ -18119,22 +18129,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8261"; // Mindelheim
-            case "2":
+            case '2':
                 return "8262"; // Mittelneufnach
-            case "3":
+            case '3':
                 return "8263"; // Breitenbrunn Schwab
-            case "5":
+            case '5':
                 return "8265"; // Pfaffenhausen Schwab
-            case "6":
+            case '6':
                 return "8266"; // Kirchheim i Schw
-            case "7":
+            case '7':
                 return "8267"; // Dirlewang
-            case "8":
+            case '8':
                 return "8268"; // Tussenhausen
-            case "9":
+            case '9':
                 return "8269"; // Unteregg b Mindelheim
             default:
                 return "";
@@ -18146,16 +18156,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8271"; // Meitingen
-            case "2":
+            case '2':
                 return "8272"; // Wertingen
-            case "3":
+            case '3':
                 return "8273"; // Nordendorf
-            case "4":
+            case '4':
                 return "8274"; // Buttenwiesen
-            case "6":
+            case '6':
                 return "8276"; // Baar Schwaben
             default:
                 return "";
@@ -18167,16 +18177,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8281"; // Thannhausen Schwab
-            case "2":
+            case '2':
                 return "8282"; // Krumbach Schwaben
-            case "3":
+            case '3':
                 return "8283"; // Neuburg a d Kammel
-            case "4":
+            case '4':
                 return "8284"; // Ziemetshausen
-            case "5":
+            case '5':
                 return "8285"; // Burtenbach
             default:
                 return "";
@@ -18188,18 +18198,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8291"; // Zusmarshausen
-            case "2":
+            case '2':
                 return "8292"; // Dinkelscherben
-            case "3":
+            case '3':
                 return "8293"; // Welden b Augsburg
-            case "4":
+            case '4':
                 return "8294"; // Horgau
-            case "5":
+            case '5':
                 return "8295"; // Altenmünster Schwab
-            case "6":
+            case '6':
                 return "8296"; // Villenbach
             default:
                 return "";
@@ -18211,24 +18221,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber830(number.substring(1));
-            case "1":
+            case '1':
                 return "831"; // Kempten Allgäu
-            case "2":
+            case '2':
                 return fromNumber832(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber833(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber834(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber836(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber837(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber838(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber839(number.substring(1));
             default:
                 return "";
@@ -18240,14 +18250,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "8302"; // Görisried
-            case "3":
+            case '3':
                 return "8303"; // Waltenhofen
-            case "4":
+            case '4':
                 return "8304"; // Wildpoldsried
-            case "6":
+            case '6':
                 return "8306"; // Ronsberg
             default:
                 return "";
@@ -18259,24 +18269,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8320"; // Missen-Wilhams
-            case "1":
+            case '1':
                 return "8321"; // Sonthofen
-            case "2":
+            case '2':
                 return "8322"; // Oberstdorf
-            case "3":
+            case '3':
                 return "8323"; // Immenstadt i Allgäu
-            case "4":
+            case '4':
                 return "8324"; // Hindelang
-            case "5":
+            case '5':
                 return "8325"; // Oberstaufen-Thalkirchdorf
-            case "6":
+            case '6':
                 return "8326"; // Fischen i Allgäu
-            case "7":
+            case '7':
                 return "8327"; // Rettenberg
-            case "8":
+            case '8':
                 return "8328"; // Balderschwang
             default:
                 return "";
@@ -18288,24 +18298,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8330"; // Legau
-            case "1":
+            case '1':
                 return "8331"; // Memmingen
-            case "2":
+            case '2':
                 return "8332"; // Ottobeuren
-            case "3":
+            case '3':
                 return "8333"; // Babenhausen Schwab
-            case "4":
+            case '4':
                 return "8334"; // Bad Grönenbach
-            case "5":
+            case '5':
                 return "8335"; // Fellheim
-            case "6":
+            case '6':
                 return "8336"; // Erkheim
-            case "7":
+            case '7':
                 return "8337"; // Altenstadt Iller
-            case "8":
+            case '8':
                 return "8338"; // Böhen
             default:
                 return "";
@@ -18317,26 +18327,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8340"; // Baisweil
-            case "1":
+            case '1':
                 return "8341"; // Kaufbeuren
-            case "2":
+            case '2':
                 return "8342"; // Marktoberdorf
-            case "3":
+            case '3':
                 return "8343"; // Aitrang
-            case "4":
+            case '4':
                 return "8344"; // Westendorf b Kaufbeuren
-            case "5":
+            case '5':
                 return "8345"; // Stöttwang
-            case "6":
+            case '6':
                 return "8346"; // Pforzen
-            case "7":
+            case '7':
                 return "8347"; // Friesenried
-            case "8":
+            case '8':
                 return "8348"; // Bidingen
-            case "9":
+            case '9':
                 return "8349"; // Stötten a Auerberg
             default:
                 return "";
@@ -18348,24 +18358,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8361"; // Nesselwang
-            case "2":
+            case '2':
                 return "8362"; // Füssen
-            case "3":
+            case '3':
                 return "8363"; // Pfronten
-            case "4":
+            case '4':
                 return "8364"; // Seeg
-            case "5":
+            case '5':
                 return "8365"; // Wertach
-            case "6":
+            case '6':
                 return "8366"; // Oy-Mittelberg
-            case "7":
+            case '7':
                 return "8367"; // Roßhaupten Forggensee
-            case "8":
+            case '8':
                 return "8368"; // Halblech
-            case "9":
+            case '9':
                 return "8369"; // Rückholz
             default:
                 return "";
@@ -18377,24 +18387,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8370"; // Wiggensbach
-            case "2":
+            case '2':
                 return "8372"; // Obergünzburg
-            case "3":
+            case '3':
                 return "8373"; // Altusried
-            case "4":
+            case '4':
                 return "8374"; // Dietmannsried
-            case "5":
+            case '5':
                 return "8375"; // Weitnau
-            case "6":
+            case '6':
                 return "8376"; // Sulzberg Allgäu
-            case "7":
+            case '7':
                 return "8377"; // Unterthingau
-            case "8":
+            case '8':
                 return "8378"; // Buchenberg b Kempten
-            case "9":
+            case '9':
                 return "8379"; // Waltenhofen-Oberdorf
             default:
                 return "";
@@ -18406,26 +18416,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8380"; // Achberg
-            case "1":
+            case '1':
                 return "8381"; // Lindenberg i Allgäu
-            case "2":
+            case '2':
                 return "8382"; // Lindau Bodensee
-            case "3":
+            case '3':
                 return "8383"; // Grünenbach Allgäu
-            case "4":
+            case '4':
                 return "8384"; // Röthenbach Allgäu
-            case "5":
+            case '5':
                 return "8385"; // Hergatz
-            case "6":
+            case '6':
                 return "8386"; // Oberstaufen
-            case "7":
+            case '7':
                 return "8387"; // Weiler-Simmerberg
-            case "8":
+            case '8':
                 return "8388"; // Hergensweiler
-            case "9":
+            case '9':
                 return "8389"; // Weissensberg
             default:
                 return "";
@@ -18437,14 +18447,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "8392"; // Markt Rettenbach
-            case "3":
+            case '3':
                 return "8393"; // Holzgünz
-            case "4":
+            case '4':
                 return "8394"; // Lautrach
-            case "5":
+            case '5':
                 return "8395"; // Tannheim Württ
             default:
                 return "";
@@ -18456,20 +18466,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber840(number.substring(1));
-            case "1":
+            case '1':
                 return "841"; // Ingolstadt Donau
-            case "2":
+            case '2':
                 return fromNumber842(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber843(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber844(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber845(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber846(number.substring(1));
             default:
                 return "";
@@ -18481,18 +18491,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "8402"; // Münchsmünster
-            case "3":
+            case '3':
                 return "8403"; // Pförring
-            case "4":
+            case '4':
                 return "8404"; // Oberdolling
-            case "5":
+            case '5':
                 return "8405"; // Stammham b Ingolstadt
-            case "6":
+            case '6':
                 return "8406"; // Böhmfeld
-            case "7":
+            case '7':
                 return "8407"; // Grossmehring
             default:
                 return "";
@@ -18504,18 +18514,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8421"; // Eichstätt Bay
-            case "2":
+            case '2':
                 return "8422"; // Dollnstein
-            case "3":
+            case '3':
                 return "8423"; // Titting
-            case "4":
+            case '4':
                 return "8424"; // Nassenfels
-            case "6":
+            case '6':
                 return "8426"; // Walting Kr Eichstätt
-            case "7":
+            case '7':
                 return "8427"; // Wellheim
             default:
                 return "";
@@ -18527,16 +18537,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8431"; // Neuburg a d Donau
-            case "2":
+            case '2':
                 return "8432"; // Burgheim
-            case "3":
+            case '3':
                 return "8433"; // Königsmoos
-            case "4":
+            case '4':
                 return "8434"; // Rennertshofen
-            case "5":
+            case '5':
                 return "8435"; // Ehekirchen
             default:
                 return "";
@@ -18548,18 +18558,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8441"; // Pfaffenhofen a d Ilm
-            case "2":
+            case '2':
                 return "8442"; // Wolnzach
-            case "3":
+            case '3':
                 return "8443"; // Hohenwart Paar
-            case "4":
+            case '4':
                 return "8444"; // Schweitenkirchen
-            case "5":
+            case '5':
                 return "8445"; // Gerolsbach
-            case "6":
+            case '6':
                 return "8446"; // Pörnbach
             default:
                 return "";
@@ -18571,22 +18581,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8450"; // Ingolstadt-Zuchering
-            case "2":
+            case '2':
                 return "8452"; // Geisenfeld
-            case "3":
+            case '3':
                 return "8453"; // Reichertshofen Oberbay
-            case "4":
+            case '4':
                 return "8454"; // Karlshuld
-            case "6":
+            case '6':
                 return "8456"; // Lenting
-            case "7":
+            case '7':
                 return "8457"; // Vohburg a d Donau
-            case "8":
+            case '8':
                 return "8458"; // Gaimersheim
-            case "9":
+            case '9':
                 return "8459"; // Manching
             default:
                 return "";
@@ -18598,26 +18608,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8460"; // Berching-Holnstein
-            case "1":
+            case '1':
                 return "8461"; // Beilngries
-            case "2":
+            case '2':
                 return "8462"; // Berching
-            case "3":
+            case '3':
                 return "8463"; // Greding
-            case "4":
+            case '4':
                 return "8464"; // Dietfurt a d Altmühl
-            case "5":
+            case '5':
                 return "8465"; // Kipfenberg
-            case "6":
+            case '6':
                 return "8466"; // Denkendorf Oberbay
-            case "7":
+            case '7':
                 return "8467"; // Kinding
-            case "8":
+            case '8':
                 return "8468"; // Altmannstein-Pondorf
-            case "9":
+            case '9':
                 return "8469"; // Freystadt-Burggriesbach
             default:
                 return "";
@@ -18629,24 +18639,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber850(number.substring(1));
-            case "1":
+            case '1':
                 return "851"; // Passau
-            case "3":
+            case '3':
                 return fromNumber853(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber854(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber855(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber856(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber857(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber858(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber859(number.substring(1));
             default:
                 return "";
@@ -18658,22 +18668,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8501"; // Thyrnau
-            case "2":
+            case '2':
                 return "8502"; // Fürstenzell
-            case "3":
+            case '3':
                 return "8503"; // Neuhaus a Inn
-            case "4":
+            case '4':
                 return "8504"; // Tittling
-            case "5":
+            case '5':
                 return "8505"; // Hutthurm
-            case "6":
+            case '6':
                 return "8506"; // Bad Höhenstadt
-            case "7":
+            case '7':
                 return "8507"; // Neuburg a Inn
-            case "9":
+            case '9':
                 return "8509"; // Ruderting
             default:
                 return "";
@@ -18685,22 +18695,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8531"; // Pocking
-            case "2":
+            case '2':
                 return "8532"; // Griesbach i Rottal
-            case "3":
+            case '3':
                 return "8533"; // Rotthalmünster
-            case "4":
+            case '4':
                 return "8534"; // Tettenweis
-            case "5":
+            case '5':
                 return "8535"; // Haarbach
-            case "6":
+            case '6':
                 return "8536"; // Kößlarn
-            case "7":
+            case '7':
                 return "8537"; // Bad Füssing-Aigen
-            case "8":
+            case '8':
                 return "8538"; // Pocking-Hartkirchen
             default:
                 return "";
@@ -18712,24 +18722,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8541"; // Vilshofen Niederbay
-            case "2":
+            case '2':
                 return "8542"; // Ortenburg
-            case "3":
+            case '3':
                 return "8543"; // Aidenbach
-            case "4":
+            case '4':
                 return "8544"; // Eging a See
-            case "5":
+            case '5':
                 return "8545"; // Hofkirchen Bay
-            case "6":
+            case '6':
                 return "8546"; // Windorf-Otterskirchen
-            case "7":
+            case '7':
                 return "8547"; // Osterhofen-Gergweis
-            case "8":
+            case '8':
                 return "8548"; // Vilshofen-Sandbach
-            case "9":
+            case '9':
                 return "8549"; // Vilshofen-Pleinting
             default:
                 return "";
@@ -18741,24 +18751,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8550"; // Philippsreut
-            case "1":
+            case '1':
                 return "8551"; // Freyung
-            case "2":
+            case '2':
                 return "8552"; // Grafenau Niederbay
-            case "3":
+            case '3':
                 return "8553"; // Spiegelau
-            case "4":
+            case '4':
                 return "8554"; // Schönberg Niederbay
-            case "5":
+            case '5':
                 return "8555"; // Perlesreut
-            case "6":
+            case '6':
                 return "8556"; // Haidmühle
-            case "7":
+            case '7':
                 return "8557"; // Mauth
-            case "8":
+            case '8':
                 return "8558"; // Hohenau Niederbay
             default:
                 return "";
@@ -18770,16 +18780,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8561"; // Pfarrkirchen Niederbay
-            case "2":
+            case '2':
                 return "8562"; // Triftern
-            case "3":
+            case '3':
                 return "8563"; // Bad Birnbach Rottal
-            case "4":
+            case '4':
                 return "8564"; // Johanniskirchen
-            case "5":
+            case '5':
                 return "8565"; // Dietersburg-Baumgarten
             default:
                 return "";
@@ -18791,14 +18801,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8571"; // Simbach a Inn
-            case "2":
+            case '2':
                 return "8572"; // Tann Niederbay
-            case "3":
+            case '3':
                 return "8573"; // Ering
-            case "4":
+            case '4':
                 return "8574"; // Wittibreut
             default:
                 return "";
@@ -18810,18 +18820,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8581"; // Waldkirchen Niederbay
-            case "2":
+            case '2':
                 return "8582"; // Röhrnbach
-            case "3":
+            case '3':
                 return "8583"; // Neureichenau
-            case "4":
+            case '4':
                 return "8584"; // Breitenberg Niederbay
-            case "5":
+            case '5':
                 return "8585"; // Grainet
-            case "6":
+            case '6':
                 return "8586"; // Hauzenberg
             default:
                 return "";
@@ -18833,12 +18843,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8591"; // Obernzell
-            case "2":
+            case '2':
                 return "8592"; // Wegscheid Niederbay
-            case "3":
+            case '3':
                 return "8593"; // Untergriesbach
             default:
                 return "";
@@ -18850,22 +18860,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "861"; // Traunstein
-            case "2":
+            case '2':
                 return fromNumber862(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber863(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber864(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber865(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber866(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber867(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber868(number.substring(1));
             default:
                 return "";
@@ -18877,18 +18887,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8621"; // Trostberg
-            case "2":
+            case '2':
                 return "8622"; // Tacherting- Peterskirchen
-            case "3":
+            case '3':
                 return "8623"; // Kirchweidach
-            case "4":
+            case '4':
                 return "8624"; // Obing
-            case "8":
+            case '8':
                 return "8628"; // Kienberg Oberbay
-            case "9":
+            case '9':
                 return "8629"; // Palling
             default:
                 return "";
@@ -18900,24 +18910,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8630"; // Oberneukirchen
-            case "1":
+            case '1':
                 return "8631"; // Mühldorf a Inn
-            case "3":
+            case '3':
                 return "8633"; // Tüßling
-            case "4":
+            case '4':
                 return "8634"; // Garching a d Alz
-            case "5":
+            case '5':
                 return "8635"; // Pleiskirchen
-            case "6":
+            case '6':
                 return "8636"; // Ampfing
-            case "7":
+            case '7':
                 return "8637"; // Lohkirchen
-            case "8":
+            case '8':
                 return "8638"; // Waldkraiburg
-            case "9":
+            case '9':
                 return "8639"; // Neumarkt-Sankt Veit
             default:
                 return "";
@@ -18929,14 +18939,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8640"; // Reit Im Winkl
-            case "1":
+            case '1':
                 return "8641"; // Grassau Kr Traunstein
-            case "2":
+            case '2':
                 return "8642"; // Übersee
-            case "9":
+            case '9':
                 return "8649"; // Schleching
             default:
                 return "";
@@ -18948,18 +18958,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8650"; // Marktschellenberg
-            case "1":
+            case '1':
                 return "8651"; // Bad Reichenhall
-            case "2":
+            case '2':
                 return "8652"; // Berchtesgaden
-            case "4":
+            case '4':
                 return "8654"; // Freilassing
-            case "6":
+            case '6':
                 return "8656"; // Anger
-            case "7":
+            case '7':
                 return "8657"; // Ramsau b Berchtesgaden
             default:
                 return "";
@@ -18971,22 +18981,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8661"; // Grabenstätt Chiemsee
-            case "2":
+            case '2':
                 return "8662"; // Siegsdorf Kr Traunstein
-            case "3":
+            case '3':
                 return "8663"; // Ruhpolding
-            case "4":
+            case '4':
                 return "8664"; // Chieming
-            case "5":
+            case '5':
                 return "8665"; // Inzell
-            case "6":
+            case '6':
                 return "8666"; // Teisendorf
-            case "7":
+            case '7':
                 return "8667"; // Seeon-Seebruck
-            case "9":
+            case '9':
                 return "8669"; // Traunreut
             default:
                 return "";
@@ -18998,16 +19008,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8670"; // Reischach Kr Altötting
-            case "1":
+            case '1':
                 return "8671"; // Altötting
-            case "7":
+            case '7':
                 return "8677"; // Burghausen Salzach
-            case "8":
+            case '8':
                 return "8678"; // Marktl
-            case "9":
+            case '9':
                 return "8679"; // Burgkirchen a d Alz
             default:
                 return "";
@@ -19019,20 +19029,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8681"; // Waging a See
-            case "2":
+            case '2':
                 return "8682"; // Laufen Salzach
-            case "3":
+            case '3':
                 return "8683"; // Tittmoning
-            case "4":
+            case '4':
                 return "8684"; // Fridolfing
-            case "5":
+            case '5':
                 return "8685"; // Kirchanschöring
-            case "6":
+            case '6':
                 return "8686"; // Petting
-            case "7":
+            case '7':
                 return "8687"; // Taching-Tengling
             default:
                 return "";
@@ -19044,24 +19054,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber870(number.substring(1));
-            case "1":
+            case '1':
                 return "871"; // Landshut
-            case "2":
+            case '2':
                 return fromNumber872(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber873(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber874(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber875(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber876(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber877(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber878(number.substring(1));
             default:
                 return "";
@@ -19073,22 +19083,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "8702"; // Wörth a d Isar
-            case "3":
+            case '3':
                 return "8703"; // Essenbach
-            case "4":
+            case '4':
                 return "8704"; // Altdorf-Pfettrach
-            case "5":
+            case '5':
                 return "8705"; // Altfraunhofen
-            case "6":
+            case '6':
                 return "8706"; // Vilsheim
-            case "7":
+            case '7':
                 return "8707"; // Adlkofen
-            case "8":
+            case '8':
                 return "8708"; // Weihmichl-Unterneuhausen
-            case "9":
+            case '9':
                 return "8709"; // Eching Niederbay
             default:
                 return "";
@@ -19100,22 +19110,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8721"; // Eggenfelden
-            case "2":
+            case '2':
                 return "8722"; // Gangkofen
-            case "3":
+            case '3':
                 return "8723"; // Arnstorf
-            case "4":
+            case '4':
                 return "8724"; // Massing
-            case "5":
+            case '5':
                 return "8725"; // Wurmannsquick
-            case "6":
+            case '6':
                 return "8726"; // Schönau Niederbay
-            case "7":
+            case '7':
                 return "8727"; // Falkenberg Niederbay
-            case "8":
+            case '8':
                 return "8728"; // Geratskirchen
             default:
                 return "";
@@ -19127,16 +19137,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8731"; // Dingolfing
-            case "2":
+            case '2':
                 return "8732"; // Frontenhausen
-            case "3":
+            case '3':
                 return "8733"; // Mengkofen
-            case "4":
+            case '4':
                 return "8734"; // Reisbach Niederbay
-            case "5":
+            case '5':
                 return "8735"; // Gangkofen-Kollbach
             default:
                 return "";
@@ -19148,16 +19158,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8741"; // Vilsbiburg
-            case "2":
+            case '2':
                 return "8742"; // Velden Vils
-            case "3":
+            case '3':
                 return "8743"; // Geisenhausen
-            case "4":
+            case '4':
                 return "8744"; // Gerzen
-            case "5":
+            case '5':
                 return "8745"; // Bodenkirchen
             default:
                 return "";
@@ -19169,16 +19179,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8751"; // Mainburg
-            case "2":
+            case '2':
                 return "8752"; // Au i d Hallertau
-            case "3":
+            case '3':
                 return "8753"; // Elsendorf Niederbay
-            case "4":
+            case '4':
                 return "8754"; // Volkenschwand
-            case "6":
+            case '6':
                 return "8756"; // Nandlstadt
             default:
                 return "";
@@ -19190,16 +19200,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8761"; // Moosburg a d Isar
-            case "2":
+            case '2':
                 return "8762"; // Wartenberg Oberbay
-            case "4":
+            case '4':
                 return "8764"; // Mauern Kr Freising
-            case "5":
+            case '5':
                 return "8765"; // Bruckberg Niederbay
-            case "6":
+            case '6':
                 return "8766"; // Gammelsdorf
             default:
                 return "";
@@ -19211,14 +19221,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8771"; // Ergoldsbach
-            case "2":
+            case '2':
                 return "8772"; // Mallersdorf-Pfaffenberg
-            case "3":
+            case '3':
                 return "8773"; // Neufahrn i NB
-            case "4":
+            case '4':
                 return "8774"; // Bayerbach b Ergoldsbach
             default:
                 return "";
@@ -19230,16 +19240,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8781"; // Rottenburg a d Laaber
-            case "2":
+            case '2':
                 return "8782"; // Pfeffenhausen
-            case "3":
+            case '3':
                 return "8783"; // Rohr i NB
-            case "4":
+            case '4':
                 return "8784"; // Hohenthann
-            case "5":
+            case '5':
                 return "8785"; // Rottenburg-Oberroning
             default:
                 return "";
@@ -19251,18 +19261,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber880(number.substring(1));
-            case "1":
+            case '1':
                 return "881"; // Weilheim i OB
-            case "2":
+            case '2':
                 return fromNumber882(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber884(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber885(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber886(number.substring(1));
             default:
                 return "";
@@ -19274,22 +19284,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8801"; // Seeshaupt
-            case "2":
+            case '2':
                 return "8802"; // Huglfing
-            case "3":
+            case '3':
                 return "8803"; // Peissenberg
-            case "5":
+            case '5':
                 return "8805"; // Hohenpeissenberg
-            case "6":
+            case '6':
                 return "8806"; // Utting a Ammersee
-            case "7":
+            case '7':
                 return "8807"; // Dießen a Ammersee
-            case "8":
+            case '8':
                 return "8808"; // Pähl
-            case "9":
+            case '9':
                 return "8809"; // Wessobrunn
             default:
                 return "";
@@ -19301,16 +19311,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8821"; // Garmisch-Partenkirchen
-            case "2":
+            case '2':
                 return "8822"; // Oberammergau
-            case "3":
+            case '3':
                 return "8823"; // Mittenwald
-            case "4":
+            case '4':
                 return "8824"; // Oberau Loisach
-            case "5":
+            case '5':
                 return "8825"; // Krün
             default:
                 return "";
@@ -19322,14 +19332,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8841"; // Murnau a Staffelsee
-            case "5":
+            case '5':
                 return "8845"; // Bad Kohlgrub
-            case "6":
+            case '6':
                 return "8846"; // Uffing a Staffelsee
-            case "7":
+            case '7':
                 return "8847"; // Obersöchering
             default:
                 return "";
@@ -19341,14 +19351,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "8851"; // Kochel a See
-            case "6":
+            case '6':
                 return "8856"; // Penzberg
-            case "7":
+            case '7':
                 return "8857"; // Benediktbeuern
-            case "8":
+            case '8':
                 return "8858"; // Kochel-Walchensee
             default:
                 return "";
@@ -19360,18 +19370,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "8860"; // Bernbeuren
-            case "1":
+            case '1':
                 return "8861"; // Schongau
-            case "2":
+            case '2':
                 return "8862"; // Steingaden Oberbay
-            case "7":
+            case '7':
                 return "8867"; // Rottenbuch Oberbay
-            case "8":
+            case '8':
                 return "8868"; // Schwabsoien
-            case "9":
+            case '9':
                 return "8869"; // Kinsau
             default:
                 return "";
@@ -19383,26 +19393,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber90(number.substring(1));
-            case "1":
+            case '1':
                 return fromNumber91(number.substring(1));
-            case "2":
+            case '2':
                 return fromNumber92(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber93(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber94(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber95(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber96(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber97(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber98(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber99(number.substring(1));
             default:
                 return "";
@@ -19414,14 +19424,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "6":
+        switch (number.charAt(0)) {
+            case '6':
                 return "906"; // Donauwörth
-            case "7":
+            case '7':
                 return fromNumber907(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber908(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber909(number.substring(1));
             default:
                 return "";
@@ -19433,24 +19443,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9070"; // Tapfheim
-            case "1":
+            case '1':
                 return "9071"; // Dillingen a d Donau
-            case "2":
+            case '2':
                 return "9072"; // Lauingen Donau
-            case "3":
+            case '3':
                 return "9073"; // Gundelfingen a d Donau
-            case "4":
+            case '4':
                 return "9074"; // Höchstädt a d Donau
-            case "5":
+            case '5':
                 return "9075"; // Glött
-            case "6":
+            case '6':
                 return "9076"; // Wittislingen
-            case "7":
+            case '7':
                 return "9077"; // Bachhagel
-            case "8":
+            case '8':
                 return "9078"; // Mertingen
             default:
                 return "";
@@ -19462,26 +19472,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9080"; // Harburg Schwaben
-            case "1":
+            case '1':
                 return "9081"; // Nördlingen
-            case "2":
+            case '2':
                 return "9082"; // Oettingen i Bay
-            case "3":
+            case '3':
                 return "9083"; // Möttingen
-            case "4":
+            case '4':
                 return "9084"; // Bissingen Schwab
-            case "5":
+            case '5':
                 return "9085"; // Alerheim
-            case "6":
+            case '6':
                 return "9086"; // Fremdingen
-            case "7":
+            case '7':
                 return "9087"; // Marktoffingen
-            case "8":
+            case '8':
                 return "9088"; // Mönchsdeggingen
-            case "9":
+            case '9':
                 return "9089"; // Bissingen-Unterringingen
             default:
                 return "";
@@ -19493,20 +19503,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9090"; // Rain Lech
-            case "1":
+            case '1':
                 return "9091"; // Monheim Schwab
-            case "2":
+            case '2':
                 return "9092"; // Wemding
-            case "3":
+            case '3':
                 return "9093"; // Polsingen
-            case "4":
+            case '4':
                 return "9094"; // Tagmersheim
-            case "7":
+            case '7':
                 return "9097"; // Marxheim
-            case "9":
+            case '9':
                 return "9099"; // Kaisheim
             default:
                 return "";
@@ -19518,26 +19528,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber910(number.substring(1));
-            case "1":
+            case '1':
                 return "911"; // Nürnberg
-            case "2":
+            case '2':
                 return fromNumber912(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber913(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber914(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber915(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber916(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber917(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber918(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber919(number.substring(1));
             default:
                 return "";
@@ -19549,20 +19559,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9101"; // Langenzenn
-            case "2":
+            case '2':
                 return "9102"; // Wilhermsdorf
-            case "3":
+            case '3':
                 return "9103"; // Cadolzburg
-            case "4":
+            case '4':
                 return "9104"; // Emskirchen
-            case "5":
+            case '5':
                 return "9105"; // Grosshabersdorf
-            case "6":
+            case '6':
                 return "9106"; // Markt Erlbach
-            case "7":
+            case '7':
                 return "9107"; // Trautskirchen
             default:
                 return "";
@@ -19574,20 +19584,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9120"; // Leinburg
-            case "2":
+            case '2':
                 return "9122"; // Schwabach
-            case "3":
+            case '3':
                 return "9123"; // Lauf a d Pegnitz
-            case "6":
+            case '6':
                 return "9126"; // Eckental
-            case "7":
+            case '7':
                 return "9127"; // Rosstal Mittelfr
-            case "8":
+            case '8':
                 return "9128"; // Feucht
-            case "9":
+            case '9':
                 return "9129"; // Wendelstein
             default:
                 return "";
@@ -19599,16 +19609,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9131"; // Erlangen
-            case "2":
+            case '2':
                 return "9132"; // Herzogenaurach
-            case "3":
+            case '3':
                 return "9133"; // Baiersdorf Mittelfr
-            case "4":
+            case '4':
                 return "9134"; // Neunkirchen a Brand
-            case "5":
+            case '5':
                 return "9135"; // Heßdorf Mittelfr
             default:
                 return "";
@@ -19620,24 +19630,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9141"; // Weißenburg i Bay
-            case "2":
+            case '2':
                 return "9142"; // Treuchtlingen
-            case "3":
+            case '3':
                 return "9143"; // Pappenheim Mittelfr
-            case "4":
+            case '4':
                 return "9144"; // Pleinfeld
-            case "5":
+            case '5':
                 return "9145"; // Solnhofen
-            case "6":
+            case '6':
                 return "9146"; // Markt Berolzheim
-            case "7":
+            case '7':
                 return "9147"; // Nennslingen
-            case "8":
+            case '8':
                 return "9148"; // Ettenstatt
-            case "9":
+            case '9':
                 return "9149"; // Weissenburg-Suffersheim
             default:
                 return "";
@@ -19649,22 +19659,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9151"; // Hersbruck
-            case "2":
+            case '2':
                 return "9152"; // Hartenstein Mittelfr
-            case "3":
+            case '3':
                 return "9153"; // Schnaittach
-            case "4":
+            case '4':
                 return "9154"; // Pommelsbrunn
-            case "5":
+            case '5':
                 return "9155"; // Simmelsdorf
-            case "6":
+            case '6':
                 return "9156"; // Neuhaus a d Pegnitz
-            case "7":
+            case '7':
                 return "9157"; // Alfeld Mittelfr
-            case "8":
+            case '8':
                 return "9158"; // Offenhausen Mittelfr
             default:
                 return "";
@@ -19676,20 +19686,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9161"; // Neustadt a d Aisch
-            case "2":
+            case '2':
                 return "9162"; // Scheinfeld
-            case "3":
+            case '3':
                 return "9163"; // Dachsbach
-            case "4":
+            case '4':
                 return "9164"; // Langenfeld Mittelfr
-            case "5":
+            case '5':
                 return "9165"; // Sugenheim
-            case "6":
+            case '6':
                 return "9166"; // Münchsteinach
-            case "7":
+            case '7':
                 return "9167"; // Oberscheinfeld
             default:
                 return "";
@@ -19701,26 +19711,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9170"; // Schwanstetten
-            case "1":
+            case '1':
                 return "9171"; // Roth Mittelfr
-            case "2":
+            case '2':
                 return "9172"; // Georgensgmünd
-            case "3":
+            case '3':
                 return "9173"; // Thalmässing
-            case "4":
+            case '4':
                 return "9174"; // Hilpoltstein
-            case "5":
+            case '5':
                 return "9175"; // Spalt
-            case "6":
+            case '6':
                 return "9176"; // Allersberg
-            case "7":
+            case '7':
                 return "9177"; // Heideck
-            case "8":
+            case '8':
                 return "9178"; // Abenberg Mittelfr
-            case "9":
+            case '9':
                 return "9179"; // Freystadt
             default:
                 return "";
@@ -19732,26 +19742,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9180"; // Pyrbaum
-            case "1":
+            case '1':
                 return "9181"; // Neumarkt i d Opf
-            case "2":
+            case '2':
                 return "9182"; // Velburg
-            case "3":
+            case '3':
                 return "9183"; // Burgthann
-            case "4":
+            case '4':
                 return "9184"; // Deining Oberpf
-            case "5":
+            case '5':
                 return "9185"; // Mühlhausen Oberpf
-            case "6":
+            case '6':
                 return "9186"; // Lauterhofen Oberpf
-            case "7":
+            case '7':
                 return "9187"; // Altdorf b Nürnberg
-            case "8":
+            case '8':
                 return "9188"; // Postbauer-Heng
-            case "9":
+            case '9':
                 return "9189"; // Berg b Neumarkt i d Opf
             default:
                 return "";
@@ -19763,26 +19773,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9190"; // Heroldsbach
-            case "1":
+            case '1':
                 return "9191"; // Forchheim Oberfr
-            case "2":
+            case '2':
                 return "9192"; // Gräfenberg
-            case "3":
+            case '3':
                 return "9193"; // Höchstadt a d Aisch
-            case "4":
+            case '4':
                 return "9194"; // Ebermannstadt
-            case "5":
+            case '5':
                 return "9195"; // Adelsdorf Mittelfr
-            case "6":
+            case '6':
                 return "9196"; // Wiesenttal
-            case "7":
+            case '7':
                 return "9197"; // Egloffstein
-            case "8":
+            case '8':
                 return "9198"; // Heiligenstadt i Ofr
-            case "9":
+            case '9':
                 return "9199"; // Kunreuth
             default:
                 return "";
@@ -19794,26 +19804,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber920(number.substring(1));
-            case "1":
+            case '1':
                 return "921"; // Bayreuth
-            case "2":
+            case '2':
                 return fromNumber922(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber923(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber924(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber925(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber926(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber927(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber928(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber929(number.substring(1));
             default:
                 return "";
@@ -19825,24 +19835,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9201"; // Gesees
-            case "2":
+            case '2':
                 return "9202"; // Waischenfeld
-            case "3":
+            case '3':
                 return "9203"; // Neudrossenfeld
-            case "4":
+            case '4':
                 return "9204"; // Plankenfels
-            case "5":
+            case '5':
                 return "9205"; // Vorbach
-            case "6":
+            case '6':
                 return "9206"; // Mistelgau-Obernsees
-            case "7":
+            case '7':
                 return "9207"; // Königsfeld Oberfr
-            case "8":
+            case '8':
                 return "9208"; // Bindlach
-            case "9":
+            case '9':
                 return "9209"; // Emtmannsberg
             default:
                 return "";
@@ -19854,22 +19864,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9220"; // Kasendorf-Azendorf
-            case "1":
+            case '1':
                 return "9221"; // Kulmbach
-            case "2":
+            case '2':
                 return "9222"; // Presseck
-            case "3":
+            case '3':
                 return "9223"; // Rugendorf
-            case "5":
+            case '5':
                 return "9225"; // Stadtsteinach
-            case "7":
+            case '7':
                 return "9227"; // Neuenmarkt
-            case "8":
+            case '8':
                 return "9228"; // Thurnau
-            case "9":
+            case '9':
                 return "9229"; // Mainleus
             default:
                 return "";
@@ -19881,20 +19891,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9231"; // Marktredwitz
-            case "2":
+            case '2':
                 return "9232"; // Wunsiedel
-            case "3":
+            case '3':
                 return "9233"; // Arzberg Oberfr
-            case "4":
+            case '4':
                 return "9234"; // Neusorg
-            case "5":
+            case '5':
                 return "9235"; // Thierstein
-            case "6":
+            case '6':
                 return "9236"; // Nagel
-            case "8":
+            case '8':
                 return "9238"; // Röslau
             default:
                 return "";
@@ -19906,18 +19916,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9241"; // Pegnitz
-            case "2":
+            case '2':
                 return "9242"; // Gößweinstein
-            case "3":
+            case '3':
                 return "9243"; // Pottenstein
-            case "4":
+            case '4':
                 return "9244"; // Betzenstein
-            case "5":
+            case '5':
                 return "9245"; // Obertrubach
-            case "6":
+            case '6':
                 return "9246"; // Pegnitz-Trockau
             default:
                 return "";
@@ -19929,20 +19939,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9251"; // Münchberg
-            case "2":
+            case '2':
                 return "9252"; // Helmbrechts
-            case "3":
+            case '3':
                 return "9253"; // Weissenstadt
-            case "4":
+            case '4':
                 return "9254"; // Gefrees
-            case "5":
+            case '5':
                 return "9255"; // Marktleugast
-            case "6":
+            case '6':
                 return "9256"; // Stammbach
-            case "7":
+            case '7':
                 return "9257"; // Zell Oberfr
             default:
                 return "";
@@ -19954,26 +19964,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9260"; // Wilhelmsthal Oberfr
-            case "1":
+            case '1':
                 return "9261"; // Kronach
-            case "2":
+            case '2':
                 return "9262"; // Wallenfels
-            case "3":
+            case '3':
                 return "9263"; // Ludwigsstadt
-            case "4":
+            case '4':
                 return "9264"; // Küps
-            case "5":
+            case '5':
                 return "9265"; // Pressig
-            case "6":
+            case '6':
                 return "9266"; // Mitwitz
-            case "7":
+            case '7':
                 return "9267"; // Nordhalben
-            case "8":
+            case '8':
                 return "9268"; // Teuschnitz
-            case "9":
+            case '9':
                 return "9269"; // Tettau Kr Kronach
             default:
                 return "";
@@ -19985,26 +19995,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9270"; // Creussen
-            case "1":
+            case '1':
                 return "9271"; // Thurnau-Alladorf
-            case "2":
+            case '2':
                 return "9272"; // Fichtelberg
-            case "3":
+            case '3':
                 return "9273"; // Bad Berneck i Fichtelgebirge
-            case "4":
+            case '4':
                 return "9274"; // Hollfeld
-            case "5":
+            case '5':
                 return "9275"; // Speichersdorf
-            case "6":
+            case '6':
                 return "9276"; // Bischofsgrün
-            case "7":
+            case '7':
                 return "9277"; // Warmensteinach
-            case "8":
+            case '8':
                 return "9278"; // Weidenberg
-            case "9":
+            case '9':
                 return "9279"; // Mistelgau
             default:
                 return "";
@@ -20016,26 +20026,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9280"; // Selbitz Oberfr
-            case "1":
+            case '1':
                 return "9281"; // Hof Saale
-            case "2":
+            case '2':
                 return "9282"; // Naila
-            case "3":
+            case '3':
                 return "9283"; // Rehau
-            case "4":
+            case '4':
                 return "9284"; // Schwarzenbach a d Saale
-            case "5":
+            case '5':
                 return "9285"; // Kirchenlamitz
-            case "6":
+            case '6':
                 return "9286"; // Oberkotzau
-            case "7":
+            case '7':
                 return "9287"; // Selb
-            case "8":
+            case '8':
                 return "9288"; // Bad Steben
-            case "9":
+            case '9':
                 return "9289"; // Schwarzenbach a Wald
             default:
                 return "";
@@ -20047,14 +20057,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "9292"; // Konradsreuth
-            case "3":
+            case '3':
                 return "9293"; // Berg Oberfr
-            case "4":
+            case '4':
                 return "9294"; // Regnitzlosau
-            case "5":
+            case '5':
                 return "9295"; // Töpen
             default:
                 return "";
@@ -20066,26 +20076,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber930(number.substring(1));
-            case "1":
+            case '1':
                 return "931"; // Würzburg
-            case "2":
+            case '2':
                 return fromNumber932(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber933(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber934(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber935(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber936(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber937(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber938(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber939(number.substring(1));
             default:
                 return "";
@@ -20097,16 +20107,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "9302"; // Rottendorf Unterfr
-            case "3":
+            case '3':
                 return "9303"; // Eibelstadt
-            case "5":
+            case '5':
                 return "9305"; // Estenfeld
-            case "6":
+            case '6':
                 return "9306"; // Kist
-            case "7":
+            case '7':
                 return "9307"; // Altertheim
             default:
                 return "";
@@ -20118,16 +20128,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9321"; // Kitzingen
-            case "3":
+            case '3':
                 return "9323"; // Iphofen
-            case "4":
+            case '4':
                 return "9324"; // Dettelbach
-            case "5":
+            case '5':
                 return "9325"; // Kleinlangheim
-            case "6":
+            case '6':
                 return "9326"; // Markt Einersheim
             default:
                 return "";
@@ -20139,24 +20149,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9331"; // Ochsenfurt
-            case "2":
+            case '2':
                 return "9332"; // Marktbreit
-            case "3":
+            case '3':
                 return "9333"; // Sommerhausen
-            case "4":
+            case '4':
                 return "9334"; // Giebelstadt
-            case "5":
+            case '5':
                 return "9335"; // Aub Kr Würzburg
-            case "6":
+            case '6':
                 return "9336"; // Bütthard
-            case "7":
+            case '7':
                 return "9337"; // Gaukönigshofen
-            case "8":
+            case '8':
                 return "9338"; // Röttingen Unterfr
-            case "9":
+            case '9':
                 return "9339"; // Ippesheim
             default:
                 return "";
@@ -20168,26 +20178,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9340"; // Königheim-Brehmen
-            case "1":
+            case '1':
                 return "9341"; // Tauberbischofsheim
-            case "2":
+            case '2':
                 return "9342"; // Wertheim
-            case "3":
+            case '3':
                 return "9343"; // Lauda-Königshofen
-            case "4":
+            case '4':
                 return "9344"; // Gerchsheim
-            case "5":
+            case '5':
                 return "9345"; // Külsheim Baden
-            case "6":
+            case '6':
                 return "9346"; // Grünsfeld
-            case "7":
+            case '7':
                 return "9347"; // Wittighausen
-            case "8":
+            case '8':
                 return "9348"; // Werbach-Gamburg
-            case "9":
+            case '9':
                 return "9349"; // Werbach-Wenkheim
             default:
                 return "";
@@ -20199,26 +20209,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9350"; // Eussenheim-Hundsbach
-            case "1":
+            case '1':
                 return "9351"; // Gemünden a Main
-            case "2":
+            case '2':
                 return "9352"; // Lohr a Main
-            case "3":
+            case '3':
                 return "9353"; // Karlstadt
-            case "4":
+            case '4':
                 return "9354"; // Rieneck
-            case "5":
+            case '5':
                 return "9355"; // Frammersbach
-            case "6":
+            case '6':
                 return "9356"; // Burgsinn
-            case "7":
+            case '7':
                 return "9357"; // Gräfendorf Bay
-            case "8":
+            case '8':
                 return "9358"; // Gössenheim
-            case "9":
+            case '9':
                 return "9359"; // Karlstadt-Wiesenfeld
             default:
                 return "";
@@ -20230,20 +20240,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9360"; // Thüngen
-            case "3":
+            case '3':
                 return "9363"; // Arnstein Unterfr
-            case "4":
+            case '4':
                 return "9364"; // Zellingen
-            case "5":
+            case '5':
                 return "9365"; // Rimpar
-            case "6":
+            case '6':
                 return "9366"; // Geroldshausen Unterfr
-            case "7":
+            case '7':
                 return "9367"; // Unterpleichfeld
-            case "9":
+            case '9':
                 return "9369"; // Uettingen
             default:
                 return "";
@@ -20255,22 +20265,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9371"; // Miltenberg
-            case "2":
+            case '2':
                 return "9372"; // Klingenberg a Main
-            case "3":
+            case '3':
                 return "9373"; // Amorbach
-            case "4":
+            case '4':
                 return "9374"; // Eschau
-            case "5":
+            case '5':
                 return "9375"; // Freudenberg Baden
-            case "6":
+            case '6':
                 return "9376"; // Collenberg
-            case "7":
+            case '7':
                 return "9377"; // Freudenberg-Boxtal
-            case "8":
+            case '8':
                 return "9378"; // Eichenbühl-Riedern
             default:
                 return "";
@@ -20282,18 +20292,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9381"; // Volkach
-            case "2":
+            case '2':
                 return "9382"; // Gerolzhofen
-            case "3":
+            case '3':
                 return "9383"; // Wiesentheid
-            case "4":
+            case '4':
                 return "9384"; // Schwanfeld
-            case "5":
+            case '5':
                 return "9385"; // Kolitzheim
-            case "6":
+            case '6':
                 return "9386"; // Prosselsheim
             default:
                 return "";
@@ -20305,22 +20315,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9391"; // Marktheidenfeld
-            case "2":
+            case '2':
                 return "9392"; // Faulbach Unterfr
-            case "3":
+            case '3':
                 return "9393"; // Rothenfels Unterfr
-            case "4":
+            case '4':
                 return "9394"; // Esselbach
-            case "5":
+            case '5':
                 return "9395"; // Triefenstein
-            case "6":
+            case '6':
                 return "9396"; // Urspringen b Lohr
-            case "7":
+            case '7':
                 return "9397"; // Wertheim-Dertingen
-            case "8":
+            case '8':
                 return "9398"; // Birkenfeld b Würzburg
             default:
                 return "";
@@ -20332,26 +20342,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber940(number.substring(1));
-            case "1":
+            case '1':
                 return "941"; // Regensburg
-            case "2":
+            case '2':
                 return fromNumber942(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber943(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber944(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber945(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber946(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber947(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber948(number.substring(1));
-            case "9":
+            case '9':
                 return fromNumber949(number.substring(1));
             default:
                 return "";
@@ -20363,24 +20373,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9401"; // Neutraubling
-            case "2":
+            case '2':
                 return "9402"; // Regenstauf
-            case "3":
+            case '3':
                 return "9403"; // Donaustauf
-            case "4":
+            case '4':
                 return "9404"; // Nittendorf
-            case "5":
+            case '5':
                 return "9405"; // Bad Abbach
-            case "6":
+            case '6':
                 return "9406"; // Mintraching
-            case "7":
+            case '7':
                 return "9407"; // Wenzenbach
-            case "8":
+            case '8':
                 return "9408"; // Altenthann
-            case "9":
+            case '9':
                 return "9409"; // Pielenhofen
             default:
                 return "";
@@ -20392,24 +20402,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9420"; // Feldkirchen Niederbay
-            case "1":
+            case '1':
                 return "9421"; // Straubing
-            case "2":
+            case '2':
                 return "9422"; // Bogen Niederbay
-            case "3":
+            case '3':
                 return "9423"; // Geiselhöring
-            case "4":
+            case '4':
                 return "9424"; // Strasskirchen
-            case "6":
+            case '6':
                 return "9426"; // Oberschneiding
-            case "7":
+            case '7':
                 return "9427"; // Leiblfing
-            case "8":
+            case '8':
                 return "9428"; // Kirchroth
-            case "9":
+            case '9':
                 return "9429"; // Rain Niederbay
             default:
                 return "";
@@ -20421,20 +20431,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9431"; // Schwandorf
-            case "3":
+            case '3':
                 return "9433"; // Nabburg
-            case "4":
+            case '4':
                 return "9434"; // Bodenwöhr
-            case "5":
+            case '5':
                 return "9435"; // Schwarzenfeld
-            case "6":
+            case '6':
                 return "9436"; // Nittenau
-            case "8":
+            case '8':
                 return "9438"; // Fensterbach
-            case "9":
+            case '9':
                 return "9439"; // Neunburg-Kemnath
             default:
                 return "";
@@ -20446,22 +20456,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9441"; // Kelheim
-            case "2":
+            case '2':
                 return "9442"; // Riedenburg
-            case "3":
+            case '3':
                 return "9443"; // Abensberg
-            case "4":
+            case '4':
                 return "9444"; // Siegenburg
-            case "5":
+            case '5':
                 return "9445"; // Neustadt a d Donau
-            case "6":
+            case '6':
                 return "9446"; // Altmannstein
-            case "7":
+            case '7':
                 return "9447"; // Essing
-            case "8":
+            case '8':
                 return "9448"; // Hausen Niederbay
             default:
                 return "";
@@ -20473,14 +20483,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9451"; // Schierling
-            case "2":
+            case '2':
                 return "9452"; // Langquaid
-            case "3":
+            case '3':
                 return "9453"; // Thalmassing
-            case "4":
+            case '4':
                 return "9454"; // Aufhausen Oberpf
             default:
                 return "";
@@ -20492,24 +20502,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9461"; // Roding
-            case "2":
+            case '2':
                 return "9462"; // Falkenstein Oberpf
-            case "3":
+            case '3':
                 return "9463"; // Wald Oberpf
-            case "4":
+            case '4':
                 return "9464"; // Walderbach
-            case "5":
+            case '5':
                 return "9465"; // Neukirchen-Balbini
-            case "6":
+            case '6':
                 return "9466"; // Stamsried
-            case "7":
+            case '7':
                 return "9467"; // Michelsneukirchen
-            case "8":
+            case '8':
                 return "9468"; // Zell Oberpf
-            case "9":
+            case '9':
                 return "9469"; // Roding-Neubäu
             default:
                 return "";
@@ -20521,14 +20531,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9471"; // Burglengenfeld
-            case "2":
+            case '2':
                 return "9472"; // Hohenfels Oberpf
-            case "3":
+            case '3':
                 return "9473"; // Kallmünz
-            case "4":
+            case '4':
                 return "9474"; // Schmidmühlen
             default:
                 return "";
@@ -20540,14 +20550,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9480"; // Sünching
-            case "1":
+            case '1':
                 return "9481"; // Pfatter
-            case "2":
+            case '2':
                 return "9482"; // Wörth a d Donau
-            case "4":
+            case '4':
                 return "9484"; // Brennberg
             default:
                 return "";
@@ -20559,20 +20569,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9491"; // Hemau
-            case "2":
+            case '2':
                 return "9492"; // Parsberg
-            case "3":
+            case '3':
                 return "9493"; // Beratzhausen
-            case "5":
+            case '5':
                 return "9495"; // Breitenbrunn Oberpf
-            case "7":
+            case '7':
                 return "9497"; // Seubersdorf i d Opf
-            case "8":
+            case '8':
                 return "9498"; // Laaber
-            case "9":
+            case '9':
                 return "9499"; // Painten
             default:
                 return "";
@@ -20584,22 +20594,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber950(number.substring(1));
-            case "1":
+            case '1':
                 return "951"; // Bamberg
-            case "2":
+            case '2':
                 return fromNumber952(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber953(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber954(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber955(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber956(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber957(number.substring(1));
             default:
                 return "";
@@ -20611,14 +20621,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "9502"; // Frensdorf
-            case "3":
+            case '3':
                 return "9503"; // Oberhaid Oberfr
-            case "4":
+            case '4':
                 return "9504"; // Stadelhofen
-            case "5":
+            case '5':
                 return "9505"; // Litzendorf
             default:
                 return "";
@@ -20630,24 +20640,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9521"; // Hassfurt
-            case "2":
+            case '2':
                 return "9522"; // Eltmann
-            case "3":
+            case '3':
                 return "9523"; // Hofheim i Ufr
-            case "4":
+            case '4':
                 return "9524"; // Zeil a Main
-            case "5":
+            case '5':
                 return "9525"; // Königsberg i Bay
-            case "6":
+            case '6':
                 return "9526"; // Riedbach
-            case "7":
+            case '7':
                 return "9527"; // Knetzgau
-            case "8":
+            case '8':
                 return "9528"; // Donnersdorf
-            case "9":
+            case '9':
                 return "9529"; // Oberaurach
             default:
                 return "";
@@ -20659,18 +20669,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9531"; // Ebern
-            case "2":
+            case '2':
                 return "9532"; // Maroldsweisach
-            case "3":
+            case '3':
                 return "9533"; // Untermerzbach
-            case "4":
+            case '4':
                 return "9534"; // Burgpreppach
-            case "5":
+            case '5':
                 return "9535"; // Pfarrweisach
-            case "6":
+            case '6':
                 return "9536"; // Kirchlauter
             default:
                 return "";
@@ -20682,22 +20692,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "9542"; // Schesslitz
-            case "3":
+            case '3':
                 return "9543"; // Hirschaid
-            case "4":
+            case '4':
                 return "9544"; // Baunach
-            case "5":
+            case '5':
                 return "9545"; // Buttenheim
-            case "6":
+            case '6':
                 return "9546"; // Burgebrach
-            case "7":
+            case '7':
                 return "9547"; // Zapfendorf
-            case "8":
+            case '8':
                 return "9548"; // Mühlhausen Mittelfr
-            case "9":
+            case '9':
                 return "9549"; // Lisberg
             default:
                 return "";
@@ -20709,18 +20719,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9551"; // Burgwindheim
-            case "2":
+            case '2':
                 return "9552"; // Burghaslach
-            case "3":
+            case '3':
                 return "9553"; // Ebrach Oberfr
-            case "4":
+            case '4':
                 return "9554"; // Untersteinbach Unterfr
-            case "5":
+            case '5':
                 return "9555"; // Schlüsselfeld-Aschbach
-            case "6":
+            case '6':
                 return "9556"; // Geiselwind
             default:
                 return "";
@@ -20732,26 +20742,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9560"; // Grub a Forst
-            case "1":
+            case '1':
                 return "9561"; // Coburg
-            case "2":
+            case '2':
                 return "9562"; // Sonnefeld
-            case "3":
+            case '3':
                 return "9563"; // Rödental
-            case "4":
+            case '4':
                 return "9564"; // Bad Rodach
-            case "5":
+            case '5':
                 return "9565"; // Untersiemau
-            case "6":
+            case '6':
                 return "9566"; // Meeder
-            case "7":
+            case '7':
                 return "9567"; // Seßlach-Gemünda
-            case "8":
+            case '8':
                 return "9568"; // Neustadt b Coburg
-            case "9":
+            case '9':
                 return "9569"; // Sesslach
             default:
                 return "";
@@ -20763,18 +20773,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9571"; // Lichtenfels Bay
-            case "2":
+            case '2':
                 return "9572"; // Burgkunstadt
-            case "3":
+            case '3':
                 return "9573"; // Staffelstein Oberfr
-            case "4":
+            case '4':
                 return "9574"; // Marktzeuln
-            case "5":
+            case '5':
                 return "9575"; // Weismain
-            case "6":
+            case '6':
                 return "9576"; // Lichtenfels-Isling
             default:
                 return "";
@@ -20786,24 +20796,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber960(number.substring(1));
-            case "1":
+            case '1':
                 return "961"; // Weiden i d Opf
-            case "2":
+            case '2':
                 return fromNumber962(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber963(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber964(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber965(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber966(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber967(number.substring(1));
-            case "8":
+            case '8':
                 return fromNumber968(number.substring(1));
             default:
                 return "";
@@ -20815,20 +20825,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "9602"; // Neustadt a d Waldnaab
-            case "3":
+            case '3':
                 return "9603"; // Floss
-            case "4":
+            case '4':
                 return "9604"; // Wernberg-Köblitz
-            case "5":
+            case '5':
                 return "9605"; // Weiherhammer
-            case "6":
+            case '6':
                 return "9606"; // Pfreimd
-            case "7":
+            case '7':
                 return "9607"; // Luhe-Wildenau
-            case "8":
+            case '8':
                 return "9608"; // Kohlberg Oberpf
             default:
                 return "";
@@ -20840,20 +20850,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9621"; // Amberg Oberpf
-            case "2":
+            case '2':
                 return "9622"; // Hirschau Oberpf
-            case "4":
+            case '4':
                 return "9624"; // Ensdorf Oberpf
-            case "5":
+            case '5':
                 return "9625"; // Kastl b Amberg
-            case "6":
+            case '6':
                 return "9626"; // Hohenburg
-            case "7":
+            case '7':
                 return "9627"; // Freudenberg Oberpf
-            case "8":
+            case '8':
                 return "9628"; // Ursensollen
             default:
                 return "";
@@ -20865,24 +20875,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9631"; // Tirschenreuth
-            case "2":
+            case '2':
                 return "9632"; // Waldsassen
-            case "3":
+            case '3':
                 return "9633"; // Mitterteich
-            case "4":
+            case '4':
                 return "9634"; // Wiesau
-            case "5":
+            case '5':
                 return "9635"; // Bärnau
-            case "6":
+            case '6':
                 return "9636"; // Plößberg
-            case "7":
+            case '7':
                 return "9637"; // Falkenberg Oberpf
-            case "8":
+            case '8':
                 return "9638"; // Neualbenreuth
-            case "9":
+            case '9':
                 return "9639"; // Mähring
             default:
                 return "";
@@ -20894,22 +20904,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9641"; // Grafenwöhr
-            case "2":
+            case '2':
                 return "9642"; // Kemnath Stadt
-            case "3":
+            case '3':
                 return "9643"; // Auerbach i d Opf
-            case "4":
+            case '4':
                 return "9644"; // Pressath
-            case "5":
+            case '5':
                 return "9645"; // Eschenbach i d Opf
-            case "6":
+            case '6':
                 return "9646"; // Freihung
-            case "7":
+            case '7':
                 return "9647"; // Kirchenthumbach
-            case "8":
+            case '8':
                 return "9648"; // Neustadt a Kulm
             default:
                 return "";
@@ -20921,24 +20931,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9651"; // Vohenstrauss
-            case "2":
+            case '2':
                 return "9652"; // Waidhaus
-            case "3":
+            case '3':
                 return "9653"; // Eslarn
-            case "4":
+            case '4':
                 return "9654"; // Pleystein
-            case "5":
+            case '5':
                 return "9655"; // Tännesberg
-            case "6":
+            case '6':
                 return "9656"; // Moosbach b Vohenstrauß
-            case "7":
+            case '7':
                 return "9657"; // Waldthurn
-            case "8":
+            case '8':
                 return "9658"; // Georgenberg
-            case "9":
+            case '9':
                 return "9659"; // Leuchtenberg
             default:
                 return "";
@@ -20950,18 +20960,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9661"; // Sulzbach-Rosenberg
-            case "2":
+            case '2':
                 return "9662"; // Vilseck
-            case "3":
+            case '3':
                 return "9663"; // Neukirchen b Sulzbach-Rosenberg
-            case "4":
+            case '4':
                 return "9664"; // Hahnbach
-            case "5":
+            case '5':
                 return "9665"; // Königstein Oberpf
-            case "6":
+            case '6':
                 return "9666"; // Illschwang
             default:
                 return "";
@@ -20973,20 +20983,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9671"; // Oberviechtach
-            case "2":
+            case '2':
                 return "9672"; // Neunburg vorm Wald
-            case "3":
+            case '3':
                 return "9673"; // Tiefenbach Oberpf
-            case "4":
+            case '4':
                 return "9674"; // Schönsee
-            case "5":
+            case '5':
                 return "9675"; // Altendorf a Nabburg
-            case "6":
+            case '6':
                 return "9676"; // Winklarn
-            case "7":
+            case '7':
                 return "9677"; // Oberviechtach-Pullenried
             default:
                 return "";
@@ -20998,12 +21008,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9681"; // Windischeschenbach
-            case "2":
+            case '2':
                 return "9682"; // Erbendorf
-            case "3":
+            case '3':
                 return "9683"; // Friedenfels
             default:
                 return "";
@@ -21015,20 +21025,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber970(number.substring(1));
-            case "1":
+            case '1':
                 return "971"; // Bad Kissingen
-            case "2":
+            case '2':
                 return fromNumber972(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber973(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber974(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber976(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber977(number.substring(1));
             default:
                 return "";
@@ -21040,12 +21050,12 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9701"; // Sandberg Unterfr
-            case "4":
+            case '4':
                 return "9704"; // Euerdorf
-            case "8":
+            case '8':
                 return "9708"; // Bad Bocklet
             default:
                 return "";
@@ -21057,26 +21067,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9720"; // Üchtelhausen
-            case "1":
+            case '1':
                 return "9721"; // Schweinfurt
-            case "2":
+            case '2':
                 return "9722"; // Werneck
-            case "3":
+            case '3':
                 return "9723"; // Röthlein
-            case "4":
+            case '4':
                 return "9724"; // Stadtlauringen
-            case "5":
+            case '5':
                 return "9725"; // Poppenhausen Unterfr
-            case "6":
+            case '6':
                 return "9726"; // Euerbach
-            case "7":
+            case '7':
                 return "9727"; // Schonungen-Marktsteinach
-            case "8":
+            case '8':
                 return "9728"; // Wülfershausen Unterfr
-            case "9":
+            case '9':
                 return "9729"; // Grettstadt
             default:
                 return "";
@@ -21088,20 +21098,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "9732"; // Hammelburg
-            case "3":
+            case '3':
                 return "9733"; // Münnerstadt
-            case "4":
+            case '4':
                 return "9734"; // Burkardroth
-            case "5":
+            case '5':
                 return "9735"; // Massbach
-            case "6":
+            case '6':
                 return "9736"; // Oberthulba
-            case "7":
+            case '7':
                 return "9737"; // Wartmannsroth
-            case "8":
+            case '8':
                 return "9738"; // Rottershausen
             default:
                 return "";
@@ -21113,22 +21123,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9741"; // Bad Brückenau
-            case "2":
+            case '2':
                 return "9742"; // Kalbach Rhön
-            case "4":
+            case '4':
                 return "9744"; // Zeitlofs-Detter
-            case "5":
+            case '5':
                 return "9745"; // Wildflecken
-            case "6":
+            case '6':
                 return "9746"; // Zeitlofs
-            case "7":
+            case '7':
                 return "9747"; // Geroda Bay
-            case "8":
+            case '8':
                 return "9748"; // Motten
-            case "9":
+            case '9':
                 return "9749"; // Oberbach Unterfr
             default:
                 return "";
@@ -21140,18 +21150,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9761"; // Bad Königshofen i Grabfeld
-            case "2":
+            case '2':
                 return "9762"; // Saal a d Saale
-            case "3":
+            case '3':
                 return "9763"; // Sulzdorf a d Lederhecke
-            case "4":
+            case '4':
                 return "9764"; // Höchheim
-            case "5":
+            case '5':
                 return "9765"; // Trappstadt
-            case "6":
+            case '6':
                 return "9766"; // Grosswenkheim
             default:
                 return "";
@@ -21163,24 +21173,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9771"; // Bad Neustadt a d Saale
-            case "2":
+            case '2':
                 return "9772"; // Bischofsheim a d Rhön
-            case "3":
+            case '3':
                 return "9773"; // Unsleben
-            case "4":
+            case '4':
                 return "9774"; // Oberelsbach
-            case "5":
+            case '5':
                 return "9775"; // Schönau a d Brend
-            case "6":
+            case '6':
                 return "9776"; // Mellrichstadt
-            case "7":
+            case '7':
                 return "9777"; // Ostheim v d Rhön
-            case "8":
+            case '8':
                 return "9778"; // Fladungen
-            case "9":
+            case '9':
                 return "9779"; // Nordheim v d Rhön
             default:
                 return "";
@@ -21192,22 +21202,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber980(number.substring(1));
-            case "1":
+            case '1':
                 return "981"; // Ansbach
-            case "2":
+            case '2':
                 return fromNumber982(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber983(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber984(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber985(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber986(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber987(number.substring(1));
             default:
                 return "";
@@ -21219,14 +21229,14 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "2":
+        switch (number.charAt(0)) {
+            case '2':
                 return "9802"; // Ansbach-Katterbach
-            case "3":
+            case '3':
                 return "9803"; // Colmberg
-            case "4":
+            case '4':
                 return "9804"; // Aurach
-            case "5":
+            case '5':
                 return "9805"; // Burgoberbach
             default:
                 return "";
@@ -21238,24 +21248,24 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9820"; // Lehrberg
-            case "2":
+            case '2':
                 return "9822"; // Bechhofen a d Heide
-            case "3":
+            case '3':
                 return "9823"; // Leutershausen
-            case "4":
+            case '4':
                 return "9824"; // Dietenhofen
-            case "5":
+            case '5':
                 return "9825"; // Herrieden
-            case "6":
+            case '6':
                 return "9826"; // Weidenbach Mittelfr
-            case "7":
+            case '7':
                 return "9827"; // Lichtenau Mittelfr
-            case "8":
+            case '8':
                 return "9828"; // Rügland
-            case "9":
+            case '9':
                 return "9829"; // Flachslanden
             default:
                 return "";
@@ -21267,20 +21277,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9831"; // Gunzenhausen
-            case "2":
+            case '2':
                 return "9832"; // Wassertrüdingen
-            case "3":
+            case '3':
                 return "9833"; // Heidenheim Mittelfr
-            case "4":
+            case '4':
                 return "9834"; // Theilenhofen
-            case "5":
+            case '5':
                 return "9835"; // Ehingen Mittelfr
-            case "6":
+            case '6':
                 return "9836"; // Gunzenhausen-Cronheim
-            case "7":
+            case '7':
                 return "9837"; // Haundorf
             default:
                 return "";
@@ -21292,22 +21302,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9841"; // Bad Windsheim
-            case "2":
+            case '2':
                 return "9842"; // Uffenheim
-            case "3":
+            case '3':
                 return "9843"; // Burgbernheim
-            case "4":
+            case '4':
                 return "9844"; // Obernzenn
-            case "5":
+            case '5':
                 return "9845"; // Oberdachstetten
-            case "6":
+            case '6':
                 return "9846"; // Ipsheim
-            case "7":
+            case '7':
                 return "9847"; // Ergersheim
-            case "8":
+            case '8':
                 return "9848"; // Simmershofen
             default:
                 return "";
@@ -21319,20 +21329,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9851"; // Dinkelsbühl
-            case "2":
+            case '2':
                 return "9852"; // Feuchtwangen
-            case "3":
+            case '3':
                 return "9853"; // Wilburgstetten
-            case "4":
+            case '4':
                 return "9854"; // Wittelshofen
-            case "5":
+            case '5':
                 return "9855"; // Dentlein a Forst
-            case "6":
+            case '6':
                 return "9856"; // Dürrwangen
-            case "7":
+            case '7':
                 return "9857"; // Schopfloch Mittelfr
             default:
                 return "";
@@ -21344,16 +21354,16 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9861"; // Rothenburg ob der Tauber
-            case "5":
+            case '5':
                 return "9865"; // Adelshofen Mittelfr
-            case "7":
+            case '7':
                 return "9867"; // Geslau
-            case "8":
+            case '8':
                 return "9868"; // Schillingsfürst
-            case "9":
+            case '9':
                 return "9869"; // Wettringen Mittelfr
             default:
                 return "";
@@ -21365,18 +21375,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9871"; // Windsbach
-            case "2":
+            case '2':
                 return "9872"; // Heilsbronn
-            case "3":
+            case '3':
                 return "9873"; // Abenberg-Wassermungenau
-            case "4":
+            case '4':
                 return "9874"; // Neuendettelsau
-            case "5":
+            case '5':
                 return "9875"; // Wolframs-Eschenbach
-            case "6":
+            case '6':
                 return "9876"; // Rohr Mittelfr
             default:
                 return "";
@@ -21388,22 +21398,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return fromNumber990(number.substring(1));
-            case "1":
+            case '1':
                 return "991"; // Deggendorf
-            case "2":
+            case '2':
                 return fromNumber992(number.substring(1));
-            case "3":
+            case '3':
                 return fromNumber993(number.substring(1));
-            case "4":
+            case '4':
                 return fromNumber994(number.substring(1));
-            case "5":
+            case '5':
                 return fromNumber995(number.substring(1));
-            case "6":
+            case '6':
                 return fromNumber996(number.substring(1));
-            case "7":
+            case '7':
                 return fromNumber997(number.substring(1));
             default:
                 return "";
@@ -21415,20 +21425,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9901"; // Hengersberg Bay
-            case "3":
+            case '3':
                 return "9903"; // Schöllnach
-            case "4":
+            case '4':
                 return "9904"; // Lalling
-            case "5":
+            case '5':
                 return "9905"; // Bernried Niederbay
-            case "6":
+            case '6':
                 return "9906"; // Mariaposching
-            case "7":
+            case '7':
                 return "9907"; // Zenting
-            case "8":
+            case '8':
                 return "9908"; // Schöfweg
             default:
                 return "";
@@ -21440,26 +21450,26 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "0":
+        switch (number.charAt(0)) {
+            case '0':
                 return "9920"; // Bischofsmais
-            case "1":
+            case '1':
                 return "9921"; // Regen
-            case "2":
+            case '2':
                 return "9922"; // Zwiesel
-            case "3":
+            case '3':
                 return "9923"; // Teisnach
-            case "4":
+            case '4':
                 return "9924"; // Bodenmais
-            case "5":
+            case '5':
                 return "9925"; // Bayerisch Eisenstein
-            case "6":
+            case '6':
                 return "9926"; // Frauenau
-            case "7":
+            case '7':
                 return "9927"; // Kirchberg Wald
-            case "8":
+            case '8':
                 return "9928"; // Kirchdorf i Wald
-            case "9":
+            case '9':
                 return "9929"; // Ruhmannsfelden
             default:
                 return "";
@@ -21471,20 +21481,20 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9931"; // Plattling
-            case "2":
+            case '2':
                 return "9932"; // Osterhofen
-            case "3":
+            case '3':
                 return "9933"; // Wallersdorf
-            case "5":
+            case '5':
                 return "9935"; // Stephansposching
-            case "6":
+            case '6':
                 return "9936"; // Wallerfing
-            case "7":
+            case '7':
                 return "9937"; // Oberpöring
-            case "8":
+            case '8':
                 return "9938"; // Moos Niederbay
             default:
                 return "";
@@ -21496,22 +21506,22 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9941"; // Kötzting
-            case "2":
+            case '2':
                 return "9942"; // Viechtach
-            case "3":
+            case '3':
                 return "9943"; // Lam Oberpf
-            case "4":
+            case '4':
                 return "9944"; // Miltach
-            case "5":
+            case '5':
                 return "9945"; // Arnbruck
-            case "6":
+            case '6':
                 return "9946"; // Hohenwarth b Kötzing
-            case "7":
+            case '7':
                 return "9947"; // Neukirchen b Hl Blut
-            case "8":
+            case '8':
                 return "9948"; // Eschlkam
             default:
                 return "";
@@ -21523,18 +21533,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9951"; // Landau a d Isar
-            case "2":
+            case '2':
                 return "9952"; // Eichendorf
-            case "3":
+            case '3':
                 return "9953"; // Pilsting
-            case "4":
+            case '4':
                 return "9954"; // Simbach Niederbay
-            case "5":
+            case '5':
                 return "9955"; // Mamming
-            case "6":
+            case '6':
                 return "9956"; // Eichendorf-Aufhausen
             default:
                 return "";
@@ -21546,18 +21556,18 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9961"; // Mitterfels
-            case "2":
+            case '2':
                 return "9962"; // Schwarzach Niederbay
-            case "3":
+            case '3':
                 return "9963"; // Konzell
-            case "4":
+            case '4':
                 return "9964"; // Stallwang
-            case "5":
+            case '5':
                 return "9965"; // Sankt Englmar
-            case "6":
+            case '6':
                 return "9966"; // Wiesenfelden
             default:
                 return "";
@@ -21569,27 +21579,28 @@ public class GermanAreaCodeExtractor {
             return "";
         }
 
-        switch (number.substring(0, 1)) {
-            case "1":
+        switch (number.charAt(0)) {
+            case '1':
                 return "9971"; // Cham
-            case "2":
+            case '2':
                 return "9972"; // Waldmünchen
-            case "3":
+            case '3':
                 return "9973"; // Furth i Wald
-            case "4":
+            case '4':
                 return "9974"; // Traitsching
-            case "5":
+            case '5':
                 return "9975"; // Waldmünchen-Geigant
-            case "6":
+            case '6':
                 return "9976"; // Rötz
-            case "7":
+            case '7':
                 return "9977"; // Arnschwang
-            case "8":
+            case '8':
                 return "9978"; // Schönthal Oberpf
             default:
                 return "";
         }
     }
+
     /*
         End of generated code.
     */
