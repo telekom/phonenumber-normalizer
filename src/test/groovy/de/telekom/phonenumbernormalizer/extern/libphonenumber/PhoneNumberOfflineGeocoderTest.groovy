@@ -3307,13 +3307,27 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "6206"   | "Lampertheim"                            | false
         "6207"   | "Wald Michelbach"                        | false
         "6209"   | "Mörlenbach"                             | false
-        "621"    | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
-        // note of BnetzA, that starting number is sperating both cities: see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/ONVerzeichnisse/ONBVerzeichnis/Sonderregelungen0212_0621.pdf?__blob=publicationFile&v=1
-        "6215"   | "Ludwigshafen"                           | true  // see https://issuetracker.google.com/issues/338710341
-        "6216"   | "Ludwigshafen"                           | true  // see https://issuetracker.google.com/issues/338710341
-        "62195"  | "Ludwigshafen"                           | true  // see https://issuetracker.google.com/issues/338710341
-        "62196"  | "Ludwigshafen"                           | true  // see https://issuetracker.google.com/issues/338710341
-        "62199"  | "Ludwigshafen"                           | true  // see https://issuetracker.google.com/issues/338710341
+        // 621 extended 0..4, 7&8 because number with starting 5 is added
+        "6210"   | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        "6211"   | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        "6212"   | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        "6213"   | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        "6214"   | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        // note of BnetzA, that starting number is separating both cities: see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/ONVerzeichnisse/ONBVerzeichnis/Sonderregelungen0212_0621.pdf?__blob=publicationFile&v=1
+        "6215"   | "Ludwigshafen"                           | false  // see https://issuetracker.google.com/issues/338710341
+        "6216"   | "Ludwigshafen"                           | false  // see https://issuetracker.google.com/issues/338710341
+        "6217"   | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        "6218"   | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        "62190"  | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        "62191"  | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        "62192"  | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        "62193"  | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        "62194"  | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        "62195"  | "Ludwigshafen"                           | false  // see https://issuetracker.google.com/issues/338710341
+        "62196"  | "Ludwigshafen"                           | false  // see https://issuetracker.google.com/issues/338710341
+        "62197"  | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        "62198"  | "Mannheim"                               | false  // main BnetzA number plan - but shared with Ludwigshafen
+        "62199"  | "Ludwigshafen"                           | false  // see https://issuetracker.google.com/issues/338710341
         "6220"   | "Wilhelmsfeld"                           | false
         "6221"   | "Heidelberg"                             | false
         "6222"   | "Wiesloch"                               | false
