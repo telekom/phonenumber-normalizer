@@ -47,3 +47,7 @@ When we have further insights, we will report them as issues, re-engage with Goo
 BnetzA [described special case for NDC 212 and 621](https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/ONVerzeichnisse/ONBVerzeichnis/Sonderregelungen0212_0621.pdf?__blob=publicationFile&v=1) the first one is correctly recognized by geocoder and the two cities are correctly labeled. But the second case is not recognized and only the city Mannheim is used for labeling and not Ludwigshafen.
 
 We have provided Ludwighafen in our labeling data.
+
+### 2024-05-22 - [Emergency Numbers must not be used with National Destination Code in Germany fixed line](https://issuetracker.google.com/issues/341947688)
+
+BnetzA [described emergency short codes 110 & 112 as numbers without local NDC](https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1), since NDC is optional in fixed line, no number might start with those three digits (otherwise using such a number without NDC would trigger the emergency call). In mobile networks NDC is mandatory, so a number might start with those three digits, since NDC would be a prefix. Real live examples have been found.
