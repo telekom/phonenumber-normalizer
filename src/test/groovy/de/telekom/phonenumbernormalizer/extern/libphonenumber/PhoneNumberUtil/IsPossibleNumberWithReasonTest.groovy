@@ -75,23 +75,32 @@ class IsPossibleNumberWithReasonTest extends Specification {
         number                      | regionCode  | expectedResult                                           | expectingFail
         // short code for Police (110) is not dial-able internationally nor does it has additional numbers
         "110"                       | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
+        "110556677"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "0110"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // checked
         "0110 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "0175 110"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "0175 110555"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
         "0175 1105555"              | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "0175 11055555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "0175 110555555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
         "0203 110"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "0203 110555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49110"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // IS_POSSIBLE_LOCAL_ONLY would also acceptable
         "+49110 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49175 110"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 110555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
         "+49175 1105555"            | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 11055555"           | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 110555555"          | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
         "+49203 110"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49203 110555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49110"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // IS_POSSIBLE_LOCAL_ONLY would also acceptable
         "+49110 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49175 110"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 110555"             | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
         "+49175 1105555"            | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "+49203 110"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49175 11055555"           | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 110555555"          | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110        "+49203 110"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+49203 110555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         // end of 110
     }
@@ -113,22 +122,32 @@ class IsPossibleNumberWithReasonTest extends Specification {
         number                      | regionCode  | expectedResult                                           | expectingFail
         // short code for emergency (112) is not dial-able internationally nor does it has additional numbers
         "112"                       | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
+        "112556677"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "0112"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // checked
-        "0112 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0112 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "0175 112"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
+        "0175 112555"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
         "0175 1125555"              | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
+        "0175 11255555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
+        "0175 112555555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
         "0203 112"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "0203 112555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49112"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // IS_POSSIBLE_LOCAL_ONLY would also acceptable
         "+49112 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49175 112"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
+        "+49175 112555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
         "+49175 1125555"            | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
+        "+49175 11255555"           | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
+        "+49175 112555555"          | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
         "+49203 112"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49203 112555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49112"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // IS_POSSIBLE_LOCAL_ONLY would also acceptable
         "+49112 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49175 112"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
+        "+49175 112555"             | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
         "+49175 1125555"            | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
+        "+49175 11255555"           | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
+        "+49175 112555555"          | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
         "+49203 112"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49203 112555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         // end of 112

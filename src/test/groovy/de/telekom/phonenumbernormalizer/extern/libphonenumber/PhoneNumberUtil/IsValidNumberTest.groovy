@@ -76,21 +76,31 @@ class IsValidNumberTest extends Specification {
         number                      | regionCode | expectedResult   | expectingFail
         // short code for Police (110) is not dial-able internationally nor does it has additional numbers
         "110"                       | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "110556677"                 | "DE"       | false            | false
         "0110"                      | "DE"       | false            | false
-        "0175 110"                  | "DE"       | false            | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "0175 1105555"              | "DE"       | true             | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "0175 110"                  | "DE"       | false            | false
+        "0175 110555"               | "DE"       | false            | false
+        "0175 1105555"              | "DE"       | true             | false
+        "0175 11055555"             | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "0175 110555555"            | "DE"       | false            | false
         "0203 110"                  | "DE"       | false            | true  // <--
         "0203 110555"               | "DE"       | false            | true  // <--
         "+49110"                    | "DE"       | false            | false
         "+49110 556677"             | "DE"       | false            | false
-        "+49175 110"                | "DE"       | false            | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "+49175 1105555"            | "DE"       | true             | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 110"                | "DE"       | false            | false
+        "+49175 110555"             | "DE"       | false            | false
+        "+49175 1105555"            | "DE"       | true             | false
+        "+49175 11055555"           | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 110555555"          | "DE"       | false            | false
         "+49203 110"                | "DE"       | false            | true  // <--
         "+49203 110555"             | "DE"       | false            | true  // <--
         "+49110"                    | "FR"       | false            | false
         "+49110 556677"             | "FR"       | false            | false
-        "+49175 110"                | "FR"       | false            | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "+49175 1105555"            | "FR"       | true             | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 110"                | "FR"       | false            | false
+        "+49175 110555"             | "FR"       | false            | false
+        "+49175 1105555"            | "FR"       | true             | false
+        "+49175 11055555"           | "FR"       | false            | true   // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 110555555"          | "FR"       | false            | false
         "+49203 110"                | "FR"       | false            | true  // <--
         "+49203 110555"             | "FR"       | false            | true  // <--
         // end of 110
@@ -113,24 +123,33 @@ class IsValidNumberTest extends Specification {
         number                      | regionCode  | expectedResult  | expectingFail
         // short code for emergency (112) is not dial-able internationally nor does it has additional numbers
         "112"                       | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "112556677"                 | "DE"       | false            | false
         "0112"                      | "DE"       | false            | false
-        "0112 556677"               | "DE"       | false            | false
-        "0175 112"                  | "DE"       | false            | false  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "0175 1125555"              | "DE"       | true             | false  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "0203 112"                  | "DE"       | false            | true   // <--
-        "0203 112555"               | "DE"       | false            | true   // <--
+        "0175 112"                  | "DE"       | false            | false
+        "0175 112555"               | "DE"       | false            | false
+        "0175 1125555"              | "DE"       | true             | false
+        "0175 11255555"             | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "0175 112555555"            | "DE"       | false            | false
+        "0203 112"                  | "DE"       | false            | true  // <--
+        "0203 112555"               | "DE"       | false            | true  // <--
         "+49112"                    | "DE"       | false            | false
         "+49112 556677"             | "DE"       | false            | false
-        "+49175 112"                | "DE"       | false            | false  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "+49175 1125555"            | "DE"       | true             | false  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "+49203 112"                | "DE"       | false            | true   // <--
-        "+49203 112555"             | "DE"       | false            | true   // <--
+        "+49175 112"                | "DE"       | false            | false
+        "+49175 112555"             | "DE"       | false            | false
+        "+49175 1125555"            | "DE"       | true             | false
+        "+49175 11255555"           | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 112555555"          | "DE"       | false            | false
+        "+49203 112"                | "DE"       | false            | true  // <--
+        "+49203 112555"             | "DE"       | false            | true  // <--
         "+49112"                    | "FR"       | false            | false
         "+49112 556677"             | "FR"       | false            | false
-        "+49175 112"                | "FR"       | false            | false  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "+49175 1125555"            | "FR"       | true             | false  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "+49203 112"                | "FR"       | false            | true   // <--
-        "+49203 112555"             | "FR"       | false            | true   // <--
+        "+49175 112"                | "FR"       | false            | false
+        "+49175 112555"             | "FR"       | false            | false
+        "+49175 1125555"            | "FR"       | true             | false
+        "+49175 11255555"           | "FR"       | false            | true   // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 112555555"          | "FR"       | false            | false
+        "+49203 112"                | "FR"       | false            | true  // <--
+        "+49203 112555"             | "FR"       | false            | true  // <--
         // end of 112
     }
 
