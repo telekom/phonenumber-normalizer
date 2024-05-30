@@ -154,7 +154,7 @@ class PhoneLibWrapperTest extends Specification {
         "+49203555666"  | "RU"       | "8"
         "+49203555666"  | "CZ"       | ""
         "+49203555666"  | "HU"       | "06"
-        "+49203555666"  | "MX"       | "01"
+        // "+49203555666"  | "MX"       | "01" v8.13.38 on 30.05.2024 adapted new MX numberplan from 2019 elemination NAC 01
     }
 
     def "hasRegionNationalPrefix"( number,  regionCode, expectedResult) {
@@ -187,7 +187,7 @@ class PhoneLibWrapperTest extends Specification {
         "+49203555666"  | "RU"       | true
         "+49203555666"  | "CZ"       | false
         "+49203555666"  | "HU"       | true
-        "+49203555666"  | "MX"       | true
+        // "+49203555666"  | "MX"       | true  v8.13.38 on 30.05.2024 adapted new MX numberplan from 2019 elemination NAC 01
     }
 
     def "isSpecialFormat"( number,   expectedResult) {
