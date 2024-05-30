@@ -136,6 +136,10 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
     @Override
     public PhoneNumberValidationResult isPhoneNumberPossibleWithReason(String number, String regionCode) {
 
+        if (number == null || number.length()==0) {
+            return PhoneNumberValidationResult.INVALID_LENGTH;
+        }
+
         PhoneLibWrapper wrapper = new PhoneLibWrapper(number, regionCode);
 
         // TODO: change parameter regionCode to deviceContext
