@@ -80,6 +80,42 @@ public abstract class NumberPlan {
         return "";
     }
 
+    public int getNationDestinationCodeMinimalNumberLength(String ndc, String number) {
+        return -1;
+    }
+
+    public int getNationDestinationCodeMaximumNumberLength(String ndc, String number) {
+        return -1;
+    }
+
+    public int getDefaultMinimalNumberLength() {
+        return -1;
+    }
+
+    public int getDefaultMaximumNumberLength() {
+        return -1;
+    }
+
+    public boolean isNumberTooShortForNationalDestinationCode(String ndc, String number) {
+        int minLength = getNationDestinationCodeMinimalNumberLength(ndc, number);
+        if (minLength == -1) {
+            minLength = getDefaultMinimalNumberLength();
+        }
+        return ((minLength != -1) && (minLength>number.length()));
+    }
+
+    public boolean isNumberTooLongForNationalDestinationCode(String ndc, String number) {
+        int maxLength = getNationDestinationCodeMaximumNumberLength(ndc, number);
+        if (maxLength == -1) {
+            maxLength = getDefaultMaximumNumberLength();
+        }
+        return ((maxLength != -1) && (maxLength<number.length()));
+    }
+
+    public boolean isNDCOptional(String ndc) {
+        return true;
+    }
+
     public boolean isUsableWithIDPandCCfromOutside(String number) {
         return false;
     }
