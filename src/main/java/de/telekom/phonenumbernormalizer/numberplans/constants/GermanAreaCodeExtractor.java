@@ -10,6 +10,9 @@ public class GermanAreaCodeExtractor {
     TODO: special NDC need to be added to the script (mobile is done)
      */
 
+    public static Boolean isNDCOptional(String number) {
+        return ! (number.startsWith("1"));
+    }
 
     /*
         Start of generated code
