@@ -81,25 +81,79 @@ class PhoneNumberValidatorImplTest extends Specification {
         "110556677"                 | "DE"       | PhoneNumberValidationResult.INVALID_LENGTH
         "0110"                      | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE
         "0110 556677"               | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE
-        "0175 110"                  | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "0175 110555"               | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "0175 110"                  | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "0175 110555"               | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "0175 1105555"              | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "0175 11055555"             | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "0175 110555555"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
         "0203 110"                  | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
         "0203 110555"               | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
         "+49110"                    | "DE"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
         "+49110 556677"             | "DE"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
-        "+49175 110"                | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+49175 110555"             | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49175 110"                | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175 110555"             | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175 1105555"            | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49175 11055555"           | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "+49175 110555555"          | "DE"       | PhoneNumberValidationResult.TOO_LONG
         "+49203 110"                | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
         "+49203 110555"             | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
         "+49110"                    | "FR"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
         "+49110 556677"             | "FR"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
-        "+49175 110"                | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+49175 110555"             | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49175 110"                | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175 110555"             | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175 1105555"            | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49175 11055555"           | "FR"       | PhoneNumberValidationResult.TOO_LONG
+        "+49175 110555555"          | "FR"       | PhoneNumberValidationResult.TOO_LONG
         "+49203 110"                | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
         "+49203 110555"             | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
         // end of 110
     }
 
+    def "validate police short code 112 in combination as NDC"(String number, regionCode, expectedResult) {
+        given:
+
+        when: "validate number: $number for country: $regionCode"
+
+        PhoneNumberValidationResult result = target.isPhoneNumberPossibleWithReason(number, regionCode)
+
+        then: "it should validate to: $expectedResult"
+        result == expectedResult
+
+        where:
+
+        number                      | regionCode  | expectedResult
+        // short code for Police (112) is not dial-able internationally nor does it has additional numbers
+        "112"                       | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
+        "112556677"                 | "DE"       | PhoneNumberValidationResult.INVALID_LENGTH
+        "0112"                      | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE
+        "0112 556677"               | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE
+        "0175 112"                  | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "0175 112555"               | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "0175 1125555"              | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "0175 11255555"             | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "0175 112555555"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "0203 112"                  | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "0203 112555"               | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49112"                    | "DE"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
+        "+49112 556677"             | "DE"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
+        "+49175 112"                | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175 112555"             | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175 1125555"            | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49175 11255555"           | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "+49175 112555555"          | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "+49203 112"                | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49203 112555"             | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49112"                    | "FR"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
+        "+49112 556677"             | "FR"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
+        "+49175 112"                | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175 112555"             | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175 1125555"            | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49175 11255555"           | "FR"       | PhoneNumberValidationResult.TOO_LONG
+        "+49175 112555555"          | "FR"       | PhoneNumberValidationResult.TOO_LONG
+        "+49203 112"                | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49203 112555"             | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        // end of 112
+    }
 
 
 }
