@@ -16,10 +16,7 @@
 package de.telekom.phonenumbernormalizer;
 
 import de.telekom.phonenumbernormalizer.dto.DeviceContextLineType;
-import de.telekom.phonenumbernormalizer.numberplans.NumberPlan;
-import de.telekom.phonenumbernormalizer.numberplans.NumberPlanFactory;
-import de.telekom.phonenumbernormalizer.numberplans.PhoneNumberValidationResult;
-import de.telekom.phonenumbernormalizer.numberplans.PhoneLibWrapper;
+import de.telekom.phonenumbernormalizer.numberplans.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +33,29 @@ import java.util.Objects;
 public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PhoneNumberValidatorImpl.class);
+
+
+    private PhoneNumberValidationResult checkShortCodeOverlapping(NumberPlan numberplan, String numberToCheck, ShortCodeUseable mainSet, ShortCodeUseable oppositeSet,
+                                                                  PhoneNumberValidationResult notUseableInMainSet, PhoneNumberValidationResult useableOnlyInMainSet,
+                                                                  PhoneNumberValidationResult longerThanShortCode) {
+        String shortNumberKey = numberplan.startingWithShortNumberKey(numberToCheck);
+        if (shortNumberKey.length() > 0) {
+            if (numberToCheck.length() == numberplan.getShortCodeLength(shortNumberKey)) {
+                if (!numberplan.isUsable(mainSet, shortNumberKey)) {
+                    return notUseableInMainSet;
+                } else {
+                    if (numberplan.isUsable(oppositeSet, shortNumberKey)) {
+                        return PhoneNumberValidationResult.IS_POSSIBLE;
+                    } else {
+                        return useableOnlyInMainSet;
+                    }
+                }
+            } else {
+                return longerThanShortCode;
+            }
+        }
+        return null;
+    }
 
 
     @Override
@@ -65,23 +85,14 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
             if (regionCountryCode.equals(numberCountryCode)) {
                 // Calling within the country
 
-
                 if (numberplan!=null) {
 
-                    // Check for ShortNumber directly after CC
-                    String shortNumberKey = numberplan.startingWithShortNumberKey(numberWithoutCountryCode);
-                    if (shortNumberKey.length() > 0) {
-                        if (numberWithoutCountryCode.length() == numberplan.getShortCodeLength(shortNumberKey)) {
-                            if (!numberplan.isUsableWithIDPandCCfromInside(shortNumberKey)) {
-                                return PhoneNumberValidationResult.INVALID_COUNTRY_CODE;
-                            } else {
-                                if (numberplan.isUsableWithIDPandCCfromOutside(shortNumberKey)) {
-                                    return PhoneNumberValidationResult.IS_POSSIBLE;
-                                } else {
-                                    return PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY;
-                                }
-                            }
-                        }  // else path of invalid NDC is checked explicitly here after also for non short number cases.
+                    PhoneNumberValidationResult isShortCodeDirectlyAfterCC = checkShortCodeOverlapping(numberplan, numberWithoutCountryCode,
+                            ShortCodeUseable.WITH_IDP_AND_CC_FROM_INSIDE, ShortCodeUseable.WITH_IDP_AND_CC_FROM_OUTSIDE,
+                            PhoneNumberValidationResult.INVALID_COUNTRY_CODE, PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY, null);
+
+                    if (isShortCodeDirectlyAfterCC!=null) {
+                        return isShortCodeDirectlyAfterCC;
                     }
 
                     // Check for NDC after CC:
@@ -94,22 +105,15 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                     String numberWithoutNationDestinationCode = numberWithoutCountryCode.substring(ndc.length());
                     // Check for Shortnumber after NDC if NDC is Optional (<=> Fixline)
                     if (numberplan.isNDCOptional(ndc)) {
-                        shortNumberKey = numberplan.startingWithShortNumberKey(numberWithoutNationDestinationCode);
-                        if (shortNumberKey.length() > 0) {
-                            if (numberWithoutNationDestinationCode.length() == numberplan.getShortCodeLength(shortNumberKey)) {
-                                if (!numberplan.isUsableWithIDPandCCandNDCfromInside(shortNumberKey)) {
-                                    return PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE;
-                                } else {
-                                    if (numberplan.isUsableWithIDPandCCandNDCfromOutside(shortNumberKey)) {
-                                        return PhoneNumberValidationResult.IS_POSSIBLE;
-                                    } else {
-                                        return PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY;
-                                    }
-                                }
-                            } else {
-                                return PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER;
-                            }
+
+                        PhoneNumberValidationResult isShortCodeDirectlyAfterCCandNDC = checkShortCodeOverlapping(numberplan, numberWithoutNationDestinationCode,
+                                ShortCodeUseable.WITH_IDP_AND_CC_AND_NDC_FROM_INSIDE, ShortCodeUseable.WITH_IDP_AND_CC_AND_NDC_FROM_OUTSIDE,
+                                PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE, PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY, PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER);
+
+                        if (isShortCodeDirectlyAfterCCandNDC!=null) {
+                            return isShortCodeDirectlyAfterCCandNDC;
                         }
+
                         // when NDC is optional, then number must not start with NAC again.
                         String nac = wrapper.getNationalAccessCode();
                         if (numberWithoutNationDestinationCode.startsWith(nac)) {
@@ -131,20 +135,12 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                 // calling from outside the country
                 if (numberplan!=null) {
 
-                    // Check for ShortNumber directly after CC
-                    String shortNumberKey = numberplan.startingWithShortNumberKey(numberWithoutCountryCode);
-                    if (shortNumberKey.length() > 0) {
-                        if (numberWithoutCountryCode.length() == numberplan.getShortCodeLength(shortNumberKey)) {
-                            if (!numberplan.isUsableWithIDPandCCfromOutside(shortNumberKey)) {
-                                return PhoneNumberValidationResult.INVALID_COUNTRY_CODE;
-                            } else {
-                                if (numberplan.isUsableWithIDPandCCfromInside(shortNumberKey)) {
-                                    return PhoneNumberValidationResult.IS_POSSIBLE;
-                                } else {
-                                    return PhoneNumberValidationResult.IS_POSSIBLE_INTERNATIONAL_ONLY;
-                                }
-                            }
-                        }  // else path of invalid NDC is checked explicitly here after also for non short number cases.
+                    PhoneNumberValidationResult isShortCodeDirectlyAfterCC = checkShortCodeOverlapping(numberplan, numberWithoutCountryCode,
+                            ShortCodeUseable.WITH_IDP_AND_CC_FROM_OUTSIDE, ShortCodeUseable.WITH_IDP_AND_CC_FROM_INSIDE,
+                            PhoneNumberValidationResult.INVALID_COUNTRY_CODE, PhoneNumberValidationResult.IS_POSSIBLE_INTERNATIONAL_ONLY,  null);
+
+                    if (isShortCodeDirectlyAfterCC!=null) {
+                        return isShortCodeDirectlyAfterCC;
                     }
 
                     // Check for NDC after CC:
@@ -157,22 +153,15 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                     String numberWithoutNationDestinationCode = numberWithoutCountryCode.substring(ndc.length());
                     // Check for Shortnumber after NDC if NDC is Optional (<=> Fixline)
                     if (numberplan.isNDCOptional(ndc)) {
-                        shortNumberKey = numberplan.startingWithShortNumberKey(numberWithoutNationDestinationCode);
-                        if (shortNumberKey.length() > 0) {
-                            if (numberWithoutNationDestinationCode.length() == numberplan.getShortCodeLength(shortNumberKey)) {
-                                if (!numberplan.isUsableWithIDPandCCandNDCfromOutside(shortNumberKey)) {
-                                    return PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE;
-                                } else {
-                                    if (numberplan.isUsableWithIDPandCCandNDCfromInside(shortNumberKey)) {
-                                        return PhoneNumberValidationResult.IS_POSSIBLE;
-                                    } else {
-                                        return PhoneNumberValidationResult.IS_POSSIBLE_INTERNATIONAL_ONLY;
-                                    }
-                                }
-                            } else {
-                                return PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER;
-                            }
+
+                        PhoneNumberValidationResult isShortCodeDirectlyAfterCCandNDC = checkShortCodeOverlapping(numberplan, numberWithoutNationDestinationCode,
+                                ShortCodeUseable.WITH_IDP_AND_CC_AND_NDC_FROM_OUTSIDE, ShortCodeUseable.WITH_IDP_AND_CC_AND_NDC_FROM_INSIDE,
+                                PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE, PhoneNumberValidationResult.IS_POSSIBLE_INTERNATIONAL_ONLY, PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER);
+
+                        if (isShortCodeDirectlyAfterCCandNDC!=null) {
+                            return isShortCodeDirectlyAfterCCandNDC;
                         }
+
                         // when NDC is optional, then number must not start with NAC again.
                         String nac = wrapper.getNationalAccessCode();
                         if (numberWithoutNationDestinationCode.startsWith(nac)) {
@@ -204,16 +193,15 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
 
                     if (numberplan!=null) {
                         // check if a shortnumber is used directly after NAC and if that is allowed
-                        String shortNumberKey = numberplan.startingWithShortNumberKey(numberWithOutNac);
-                        if (shortNumberKey.length() > 0) {
-                            if (numberWithOutNac.length() == numberplan.getShortCodeLength(shortNumberKey)) {
-                                if (!numberplan.isUsableWithNAC(shortNumberKey)) {
-                                    return PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE;
-                                } else {
-                                    return PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY;
-                                }
-                            }  // else path of invalid NDC is checked explicitly here after also for non short number cases.
+
+                        PhoneNumberValidationResult isShortCodeDirectlyAfterNAC = checkShortCodeOverlapping(numberplan, numberWithOutNac,
+                                ShortCodeUseable.WITH_NAC, null,
+                                PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE, PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY, null);
+
+                        if (isShortCodeDirectlyAfterNAC!=null) {
+                            return isShortCodeDirectlyAfterNAC;
                         }
+
 
                         // Check for NDC after Nac:
                         String ndc = numberplan.getNationalDestinationCodeFromNationalSignificantNumber(numberWithOutNac);
@@ -224,27 +212,21 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                         String numberWithoutNationDestinationCode = numberWithOutNac.substring(ndc.length());
                         // Check for Shortnumber after NDC if NDC is Optional (<=> Fixline)
                         if (numberplan.isNDCOptional(ndc)) {
-                            shortNumberKey = numberplan.startingWithShortNumberKey(numberWithoutNationDestinationCode);
-                            if (shortNumberKey.length() > 0) {
-                                if (numberWithoutNationDestinationCode.length() == numberplan.getShortCodeLength(shortNumberKey)) {
-                                    if (!numberplan.isUsableWithNACandNDC(shortNumberKey)) {
-                                        return PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE;
-                                    } else {
-                                        return PhoneNumberValidationResult.IS_POSSIBLE; // TODO: check if only international
-                                    }
-                                } else {
-                                    return PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER;
-                                }
+
+                            PhoneNumberValidationResult isShortCodeDirectlyAfterNACandNDC = checkShortCodeOverlapping(numberplan, numberWithoutNationDestinationCode,
+                                    ShortCodeUseable.WITH_NAC_AND_NDC, null,
+                                    PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE, PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY, PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER);
+
+                            if (isShortCodeDirectlyAfterNACandNDC!=null) {
+                                return isShortCodeDirectlyAfterNACandNDC;
                             }
+
                             // when NDC is optional, then number must not start with NAC again.
                             String nac = wrapper.getNationalAccessCode();
                             if (numberWithoutNationDestinationCode.startsWith(nac)) {
                                 return PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER;
                             }
-
                         }
-
-
 
                         if (numberplan.isNumberTooShortForNationalDestinationCode(ndc,numberWithoutNationDestinationCode)) {
                                 return PhoneNumberValidationResult.TOO_SHORT;
@@ -274,17 +256,12 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                         return PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY;
                     }
 
-                    String shortNumberKey = numberplan.startingWithShortNumberKey(wrapper.getDialableNumber());
-                    if (shortNumberKey.length()>0) {
-                        if (!numberplan.isUsableDirectly(shortNumberKey)) {
-                            return PhoneNumberValidationResult.INVALID_LENGTH;
-                        } else {
-                            if (wrapper.getDialableNumber().length() == numberplan.getShortCodeLength(shortNumberKey)) {
-                                return PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY;
-                            } else {
-                                return PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER;
-                            }
-                        }
+                    PhoneNumberValidationResult isShortCodeDirectly = checkShortCodeOverlapping(numberplan, wrapper.getDialableNumber(),
+                            ShortCodeUseable.DIRECTLY, null,
+                            PhoneNumberValidationResult.INVALID_LENGTH, PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY, PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER);
+
+                    if (isShortCodeDirectly!=null) {
+                        return isShortCodeDirectly;
                     }
 
                     return PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY;
