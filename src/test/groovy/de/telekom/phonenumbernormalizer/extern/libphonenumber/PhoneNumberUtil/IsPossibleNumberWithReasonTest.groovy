@@ -170,20 +170,33 @@ class IsPossibleNumberWithReasonTest extends Specification {
         number                      | regionCode  | expectedResult                                           | expectingFail
         // 155 is Public Service Number for German administration, it is internationally reachable only from foreign countries
         "115"                       | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
-        "0115"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <-- not valid by BnetzA definition from within Germany
-        "+49115"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // TODO: Maybe IS_POSSIBLE_LOCAL_ONLY is also acceptable, if used on +49110 & +49112 + see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1 at chapter 2.3
-        "+49115"                    | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | true  // <-- see https://www.115.de/SharedDocs/Nachrichten/DE/2018/115_aus_dem_ausland_erreichbar.html
-        // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
-        "0203115"                   | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        "+49203115"                 | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        "+49203115"                 | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        // 155 does not have additional digits
-        "115555"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "115556677"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "0115"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not valid by BnetzA definition from within Germany
         "0115 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "0175 115"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "0175 115555"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "0175 1155555"              | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "0175 11555555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // <--
+        "0175 115555555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // <--
+        "0203 115"                  | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
         "0203 115555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49115"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // IS_POSSIBLE_LOCAL_ONLY would also be acceptable, if used on +49110 & +49112 + see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1 at chapter 2.3
         "+49115 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49115 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49175 115"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+49175 115555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+49175 1155555"            | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49175 11555555"           | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // <--
+        "+49175 115555555"          | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // <--
+        "+49203 115"                | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
         "+49203 115555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49115"                    | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | true  // see https://www.115.de/SharedDocs/Nachrichten/DE/2018/115_aus_dem_ausland_erreichbar.html
+        "+49115 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49175 115"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+49175 115555"             | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+49175 1155555"            | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49175 11555555"           | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // <--
+        "+49175 115555555"          | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // <--
+        "+49203 115"                | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
         "+49203 115555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         // end of 115
     }

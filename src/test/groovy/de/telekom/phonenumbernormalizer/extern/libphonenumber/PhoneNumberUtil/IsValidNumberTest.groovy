@@ -167,23 +167,36 @@ class IsValidNumberTest extends Specification {
 
         where:
 
-        number                      | regionCode  | expectedResult  | expectingFail
+        number                      | regionCode | expectedResult   | expectingFail
         // 155 is Public Service Number for German administration, it is internationally reachable only from foreign countries
         "115"                       | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "115556677"                 | "DE"       | true             | true  // <--
         "0115"                      | "DE"       | false            | false // not valid by BnetzA definition from within Germany
-        "+49115"                    | "DE"       | false            | false // see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1 at chapter 2.3
-        "+49115"                    | "FR"       | true             | true  // see https://www.115.de/SharedDocs/Nachrichten/DE/2018/115_aus_dem_ausland_erreichbar.html
-        // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
-        "0203115"                   | "DE"       | true             | false
-        "+49203115"                 | "DE"       | true             | false
-        "+49203115"                 | "FR"       | true             | false
-        // 155 does not have additional digits
-        "115555"                    | "DE"       | false            | false
         "0115 556677"               | "DE"       | false            | false
+        "0175 115"                  | "DE"       | false            | false
+        "0175 115555"               | "DE"       | false            | false
+        "0175 1155555"              | "DE"       | true             | false
+        "0175 11555555"             | "DE"       | false            | true  // <--
+        "0175 115555555"            | "DE"       | false            | false
+        "0203 115"                  | "DE"       | true             | false // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
         "0203 115555"               | "DE"       | false            | true  // <--
+        "+49115"                    | "DE"       | false            | false // see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1 at chapter 2.3
         "+49115 556677"             | "DE"       | false            | false
-        "+49115 556677"             | "FR"       | false            | false
+        "+49175 115"                | "DE"       | false            | false
+        "+49175 115555"             | "DE"       | false            | false
+        "+49175 1155555"            | "DE"       | true             | false
+        "+49175 11555555"           | "DE"       | false            | true  // <--
+        "+49175 115555555"          | "DE"       | false            | false
+        "+49203 115"                | "DE"       | true             | false
         "+49203 115555"             | "DE"       | false            | true  // <--
+        "+49115"                    | "FR"       | true             | true  // see https://www.115.de/SharedDocs/Nachrichten/DE/2018/115_aus_dem_ausland_erreichbar.html
+        "+49115 556677"             | "FR"       | false            | false
+        "+49175 115"                | "FR"       | false            | false
+        "+49175 115555"             | "FR"       | false            | false
+        "+49175 1155555"            | "FR"       | true             | false
+        "+49175 11555555"           | "FR"       | false            | true  // <--
+        "+49175 115555555"          | "FR"       | false            | false
+        "+49203 115"                | "FR"       | true             | false
         "+49203 115555"             | "FR"       | false            | true  // <--
         // end of 115
     }
