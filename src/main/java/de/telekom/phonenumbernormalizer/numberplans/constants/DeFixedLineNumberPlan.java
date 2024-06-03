@@ -98,7 +98,7 @@ public class DeFixedLineNumberPlan extends NumberPlan {
     private static final Map<String, ShortNumberDetails> SHORT_NUMBER_CODES_DETAILS = Map.of(
             "110", new ShortNumberDetails(3, false, false, false, false, false, false, true),
             "112", new ShortNumberDetails(3, false, false, false, false, false, false, true),
-            "115", new ShortNumberDetails(3, false, false, false, false, false, false, true),
+            "115", new ShortNumberDetails(3, true, true, false, true, false, true, true),
             "116", new ShortNumberDetails(6, false, false, false, false, false, false, true),
             "1180", new ShortNumberDetails(6, false, false, false, false, false, false, true),
             "118", new ShortNumberDetails(5, false, false, false, false, false, false, true)  // This covers  1181 - 1189 since 1180 is longer prefix and has its own value.
