@@ -144,6 +144,31 @@ public abstract class NumberPlan {
     }
 
 
+    public boolean isUsable(ShortCodeUseable how, String number) {
+
+        if (how == null) {
+            return false;
+        }
+
+        switch (how) {
+            case WITH_IDP_AND_CC_FROM_OUTSIDE:
+                return isUsableWithIDPandCCfromOutside(number);
+            case WITH_IDP_AND_CC_AND_NDC_FROM_OUTSIDE:
+                return isUsableWithIDPandCCandNDCfromOutside(number);
+            case WITH_IDP_AND_CC_FROM_INSIDE:
+                return isUsableWithIDPandCCfromInside(number);
+            case WITH_IDP_AND_CC_AND_NDC_FROM_INSIDE:
+                return isUsableWithIDPandCCandNDCfromInside(number);
+            case WITH_NAC:
+                return isUsableWithNAC(number);
+            case WITH_NAC_AND_NDC:
+                return isUsableWithNACandNDC(number);
+            case DIRECTLY:
+                return isUsableDirectly(number);
+        }
+        return false;
+    }
+
     /**
      * Finds the longest prefix of a short number rule of the current number plan, at the beginning of a number.
      *
