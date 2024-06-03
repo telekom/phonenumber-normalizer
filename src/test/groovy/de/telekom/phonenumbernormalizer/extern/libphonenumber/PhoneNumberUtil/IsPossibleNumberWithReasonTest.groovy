@@ -7601,6 +7601,31 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0040-0176 3 0 6 9 6544"  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH | true // <--
     }
 
+    def "check if original lib fixes number starting with NAC digit after optional NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when:
+        "get number isPossibleNumberWithReason: $number"
+
+        def result = phoneUtil.isPossibleNumberWithReason(phoneNumber)
+
+        then:
+        "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                    | regionCode | expectedResult                                          | expectingFail
+        "0203056677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true  // after NAC+optional NDC number must not start with digit equal to NAC
+        "+49203056677"            | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true  // after CC+optional NDC number must not start with digit equal to NAC
+        "+49203056677"            | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true  // after CC+optional NDC number must not start with digit equal to NAC
+        "01750556677"             | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE            | false // after NAC+mandatory NDC number may start with digit equal to NAC
+        "+491750556677"           | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE            | false // after CC+mandatory NDC number may start with digit equal to NAC
+        "+491750556677"           | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE            | false // after CCC+mandatory NDC number may start with digit equal to NAC
+    }
+
     def "check if original lib fixed non check of NAC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
