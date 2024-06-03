@@ -7340,4 +7340,30 @@ class IsValidNumberTest extends Specification {
         "0998"               | "DE"       | false           | false
         "0999"               | "DE"       | false           | false
     }
+
+
+    def "check if original lib fixes number starting with NAC digit after optional NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when:
+        "get number isPossibleNumberWithReason: $number"
+
+        def result = phoneUtil.isValidNumber(phoneNumber)
+
+        then:
+        "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                    | regionCode | expectedResult | expectingFail
+        "0203056677"              | "DE"       | false          | true  // after NAC+optional NDC number must not start with digit equal to NAC
+        "+49203056677"            | "DE"       | false          | true  // after CC+optional NDC number must not start with digit equal to NAC
+        "+49203056677"            | "FR"       | false          | true  // after CC+optional NDC number must not start with digit equal to NAC
+        "01750556677"             | "DE"       | true           | false // after NAC+mandatory NDC number may start with digit equal to NAC
+        "+491750556677"           | "DE"       | true           | false // after CC+mandatory NDC number may start with digit equal to NAC
+        "+491750556677"           | "FR"       | true           | false // after CCC+mandatory NDC number may start with digit equal to NAC
+    }
 }
