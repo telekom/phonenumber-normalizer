@@ -75,7 +75,11 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                             if (!numberplan.isUsableWithIDPandCCfromInside(shortNumberKey)) {
                                 return PhoneNumberValidationResult.INVALID_COUNTRY_CODE;
                             } else {
-                                return PhoneNumberValidationResult.IS_POSSIBLE; // TODO: check if only international
+                                if (numberplan.isUsableWithIDPandCCfromOutside(shortNumberKey)) {
+                                    return PhoneNumberValidationResult.IS_POSSIBLE;
+                                } else {
+                                    return PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY;
+                                }
                             }
                         }  // else path of invalid NDC is checked explicitly here after also for non short number cases.
                     }
@@ -96,7 +100,11 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                                 if (!numberplan.isUsableWithIDPandCCandNDCfromInside(shortNumberKey)) {
                                     return PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE;
                                 } else {
-                                    return PhoneNumberValidationResult.IS_POSSIBLE; // TODO: check if only international
+                                    if (numberplan.isUsableWithIDPandCCandNDCfromOutside(shortNumberKey)) {
+                                        return PhoneNumberValidationResult.IS_POSSIBLE;
+                                    } else {
+                                        return PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY;
+                                    }
                                 }
                             } else {
                                 return PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER;
@@ -130,7 +138,11 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                             if (!numberplan.isUsableWithIDPandCCfromOutside(shortNumberKey)) {
                                 return PhoneNumberValidationResult.INVALID_COUNTRY_CODE;
                             } else {
-                                return PhoneNumberValidationResult.IS_POSSIBLE; // TODO: check if only international
+                                if (numberplan.isUsableWithIDPandCCfromInside(shortNumberKey)) {
+                                    return PhoneNumberValidationResult.IS_POSSIBLE;
+                                } else {
+                                    return PhoneNumberValidationResult.IS_POSSIBLE_INTERNATIONAL_ONLY;
+                                }
                             }
                         }  // else path of invalid NDC is checked explicitly here after also for non short number cases.
                     }
@@ -151,7 +163,11 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                                 if (!numberplan.isUsableWithIDPandCCandNDCfromOutside(shortNumberKey)) {
                                     return PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE;
                                 } else {
-                                    return PhoneNumberValidationResult.IS_POSSIBLE; // TODO: check if only international
+                                    if (numberplan.isUsableWithIDPandCCandNDCfromInside(shortNumberKey)) {
+                                        return PhoneNumberValidationResult.IS_POSSIBLE;
+                                    } else {
+                                        return PhoneNumberValidationResult.IS_POSSIBLE_INTERNATIONAL_ONLY;
+                                    }
                                 }
                             } else {
                                 return PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER;
