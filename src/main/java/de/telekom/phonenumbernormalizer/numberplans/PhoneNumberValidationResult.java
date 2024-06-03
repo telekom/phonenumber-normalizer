@@ -102,6 +102,12 @@ public enum PhoneNumberValidationResult {
     /** The number has an invalid national destination code (aka NDC) for this region or the specific number must not be used with used NDC. */
     INVALID_NATIONAL_DESTINATION_CODE(ValidationResult.INVALID_LENGTH),
 
+    /** The subscriber number starts with digits which makes the number invalid, e.g. overlapping special numbers when NDC is optional, so those numbers could not be distinct in digit by digit calling from those special numbers
+     *  - If Region is using NAC and NDC is optional, the number must not start with NAC
+     *  - IF Region is using shortnumbers valid only without any prefix and NDC is optional, the number must not start with a prefix equal to those shortnumbers
+     * */
+    INVALID_PREFIX_OF_SUBSCRIBER_NUMBER(ValidationResult.INVALID_LENGTH),
+
     /** The number is shorter than all valid numbers for this region or used NDC. */
     TOO_SHORT(ValidationResult.TOO_SHORT),
 
