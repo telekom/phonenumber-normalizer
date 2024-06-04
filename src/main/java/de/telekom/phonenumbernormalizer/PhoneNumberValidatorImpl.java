@@ -214,9 +214,12 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
             }
         }
 
-        // boolean hasNoCCAndNoNAC = wrapper.hasNoCountryCodeNorNationalAccessCode();
-
-        // return PhoneNumberValidationResult.INVALID_DRAMA_NUMBER;
+        // TODO: PhoneNumberValidationResult.INVALID_DRAMA_NUMBER;
+        // TODO: PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_VPN_ONLY
+        // TODO: PhoneNumberValidationResult.IS_POSSIBLE_VPN_ONLY
+        // TODO: PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_OPERATOR_ONLY
+        // TODO: PhoneNumberValidationResult.IS_POSSIBLE_OPERATOR_ONLY
+        // TODO: PhoneNumberValidationResult.INVALID_INTERNATIONAL_DIALING_PREFIX
 
          return wrapper.validate();
     }
