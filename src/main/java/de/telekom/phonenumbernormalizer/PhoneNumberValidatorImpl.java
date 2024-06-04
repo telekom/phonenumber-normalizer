@@ -130,6 +130,58 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
     }
 
 
+    private PhoneNumberValidationResult checkExitCodeUsingNumber(PhoneLibWrapper wrapper, NumberPlan numberplan, String numberWithoutInitalExitCode,
+                                                                 ShortCodeUseable mainSetIDPCC, ShortCodeUseable oppositeSetIDPCC,
+                                                                 ShortCodeUseable mainSetIDPCCNDC, ShortCodeUseable oppositeSetIDPCCNDC,
+                                                                 PhoneNumberValidationResult invalidInitialExitCode,
+                                                                 PhoneNumberValidationResult mainSetResult){
+        if (numberplan!=null) {
+
+            PhoneNumberValidationResult isShortCodeDirectlyAfterInitalExitCode = checkShortCodeOverlapping(numberplan, numberWithoutInitalExitCode,
+                    mainSetIDPCC, oppositeSetIDPCC,
+                    invalidInitialExitCode, mainSetResult, null);
+
+            if (isShortCodeDirectlyAfterInitalExitCode!=null) {
+                return isShortCodeDirectlyAfterInitalExitCode;
+            }
+
+            // Check for NDC after InitalExitCode:
+            String ndc = numberplan.getNationalDestinationCodeFromNationalSignificantNumber(numberWithoutInitalExitCode);
+
+            if (Objects.equals(ndc, "")) {
+                return PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE;  // TODO: What about a Numberplan without NDCs?
+            }
+
+            String numberWithoutNationDestinationCode = numberWithoutInitalExitCode.substring(ndc.length());
+            // Check for Shortnumber after NDC if NDC is Optional (<=> Fixline)
+            if (numberplan.isNDCOptional(ndc)) {
+
+                PhoneNumberValidationResult isShortCodeDirectlyAfterInitalExitCodeandNDC = checkShortCodeOverlapping(numberplan, numberWithoutNationDestinationCode,
+                        mainSetIDPCCNDC, oppositeSetIDPCCNDC,
+                        PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE, mainSetResult, PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER);
+
+                if (isShortCodeDirectlyAfterInitalExitCodeandNDC!=null) {
+                    return isShortCodeDirectlyAfterInitalExitCodeandNDC;
+                }
+
+                // when NDC is optional, then number must not start with NAC again.
+                String nac = wrapper.getNationalAccessCode();
+                if (numberWithoutNationDestinationCode.startsWith(nac)) {
+                    return PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER;
+                }
+            }
+
+            if (numberplan.isNumberTooShortForNationalDestinationCode(ndc,numberWithoutNationDestinationCode)) {
+                return PhoneNumberValidationResult.TOO_SHORT;
+            }
+            if (numberplan.isNumberTooLongForNationalDestinationCode(ndc,numberWithoutNationDestinationCode)) {
+                return PhoneNumberValidationResult.TOO_LONG;
+            }
+        }
+        return null;
+    }
+
+
     @Override
     public PhoneNumberValidationResult isPhoneNumberPossibleWithReason(String number, String regionCode) {
 
