@@ -13,6 +13,8 @@ However, it’s possible that this has caused confusion about which parts of the
 This issue addresses special short codes used for phone number directory assistant services.
 This issue has been resolved. 
 
+Google [fixed](https://github.com/google/libphonenumber/pull/2601/files#diff-1887949025d4940ce0f39cc4ba17666b5d93be2f143867b77c26bcddb36ac696R3400) ít with [8.12.21](https://github.com/google/libphonenumber/pull/2601) on  15.05.2024.
+
 ### 2021-03-25 - [Germany (DE, +49): 116xxx Short Number valid vs. assigned](https://issuetracker.google.com/issues/183669955)
 
 This issue pertains to the EU-wide special social number short code definition. Although the regulation clearly defines a range, PhoneLib is not validating against that range, but against a list of currently assigned/operated numbers. At least for the German number space, as mentioned in the initial issue discussion (see first one above), the library is only partly or even completely checking the whole range in other EU number spaces.
@@ -48,10 +50,14 @@ BnetzA [described special case for NDC 212 and 621](https://www.bundesnetzagentu
 
 We have provided Ludwighafen in our labeling data.
 
+Google [fixed](https://github.com/google/libphonenumber/pull/3473/files#diff-db8e5b3fb2cb4a7ed9856289ea12d54947bfaa10549e6c1058fec7f3a1359dbbR3260) ít with [8.13.37](https://github.com/google/libphonenumber/pull/3473) on  15.05.2024.
 
 ### 2024-05-22 - [Emergency Numbers must not be used with National Destination Code in Germany fixed line](https://issuetracker.google.com/issues/341947688)
 
 BnetzA [described emergency short codes 110 & 112 as numbers without local NDC](https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1), since NDC is optional in fixed line, no number might start with those three digits (otherwise using such a number without NDC would trigger the emergency call). In mobile networks NDC is mandatory, so a number might start with those three digits, since NDC would be a prefix. Real live examples have been found.
 
-Google [fixed](https://github.com/google/libphonenumber/pull/3473/files#diff-db8e5b3fb2cb4a7ed9856289ea12d54947bfaa10549e6c1058fec7f3a1359dbbR3260) ít with [8.13.37](https://github.com/google/libphonenumber/pull/3473) on  15.05.2024.
+Google acknowledged the issue, but marked it as "**Won't fix (Intended behavior)**" because "*We will definitely think about it but it is not a priority right now. Also we have already mentioned about the complexity and invalid or false positive numbers in our XML file of Germany https://github.com/google/libphonenumber/blob/30db8f67a1c06b3ab052497477be1d9f18312387/resources/PhoneNumberMetadata.xml#L8126*" on 27.05.2024
 
+### 2024-06-08 - [Government Service Numbers may be used with National Destination Code in Germany fixed line, but subscriber numbers may not start with it](https://issuetracker.google.com/issues/345753226)
+
+BnetzA [described government short codes 115](https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1), no number might start with those three digits (otherwise using such a number would trigger the short code). Furthermore the short code might be called with IDP and Country code (**+49115**) but from outside Germany and not from within - here the used region must have an influence on the evaluation.

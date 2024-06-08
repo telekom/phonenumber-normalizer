@@ -81,28 +81,28 @@ class IsValidNumberTest extends Specification {
         "0175 110"                  | "DE"       | false            | false
         "0175 110555"               | "DE"       | false            | false
         "0175 1105555"              | "DE"       | true             | false
-        "0175 11055555"             | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "0175 11055555"             | "DE"       | false            | true  // TODO: ISSUE Mobile number length
         "0175 110555555"            | "DE"       | false            | false
-        "0203 110"                  | "DE"       | false            | true
-        "0203 110555"               | "DE"       | false            | true
+        "0203 110"                  | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
+        "0203 110555"               | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
         "+49110"                    | "DE"       | false            | false
         "+49110 556677"             | "DE"       | false            | false
         "+49175 110"                | "DE"       | false            | false
         "+49175 110555"             | "DE"       | false            | false
         "+49175 1105555"            | "DE"       | true             | false
-        "+49175 11055555"           | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 11055555"           | "DE"       | false            | true  // TODO: ISSUE Mobile number length
         "+49175 110555555"          | "DE"       | false            | false
-        "+49203 110"                | "DE"       | false            | true
-        "+49203 110555"             | "DE"       | false            | true
+        "+49203 110"                | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
+        "+49203 110555"             | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
         "+49110"                    | "FR"       | false            | false
         "+49110 556677"             | "FR"       | false            | false
         "+49175 110"                | "FR"       | false            | false
         "+49175 110555"             | "FR"       | false            | false
         "+49175 1105555"            | "FR"       | true             | false
-        "+49175 11055555"           | "FR"       | false            | true   // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 11055555"           | "FR"       | false            | true  // TODO: ISSUE Mobile number length
         "+49175 110555555"          | "FR"       | false            | false
-        "+49203 110"                | "FR"       | false            | true
-        "+49203 110555"             | "FR"       | false            | true
+        "+49203 110"                | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
+        "+49203 110555"             | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
         // end of 110
     }
 
@@ -120,7 +120,7 @@ class IsValidNumberTest extends Specification {
 
         where:
 
-        number                      | regionCode  | expectedResult  | expectingFail
+        number                      | regionCode | expectedResult  | expectingFail
         // short code for emergency (112) is not dial-able internationally nor does it has additional numbers
         "112"                       | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
         "112556677"                 | "DE"       | false            | false
@@ -128,28 +128,28 @@ class IsValidNumberTest extends Specification {
         "0175 112"                  | "DE"       | false            | false
         "0175 112555"               | "DE"       | false            | false
         "0175 1125555"              | "DE"       | true             | false
-        "0175 11255555"             | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "0175 11255555"             | "DE"       | false            | true  // TODO: ISSUE Mobile number length
         "0175 112555555"            | "DE"       | false            | false
-        "0203 112"                  | "DE"       | false            | true
-        "0203 112555"               | "DE"       | false            | true
+        "0203 112"                  | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
+        "0203 112555"               | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
         "+49112"                    | "DE"       | false            | false
         "+49112 556677"             | "DE"       | false            | false
         "+49175 112"                | "DE"       | false            | false
         "+49175 112555"             | "DE"       | false            | false
         "+49175 1125555"            | "DE"       | true             | false
-        "+49175 11255555"           | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 11255555"           | "DE"       | false            | true  // TODO: ISSUE Mobile number length
         "+49175 112555555"          | "DE"       | false            | false
-        "+49203 112"                | "DE"       | false            | true
-        "+49203 112555"             | "DE"       | false            | true
+        "+49203 112"                | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
+        "+49203 112555"             | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
         "+49112"                    | "FR"       | false            | false
         "+49112 556677"             | "FR"       | false            | false
         "+49175 112"                | "FR"       | false            | false
         "+49175 112555"             | "FR"       | false            | false
         "+49175 1125555"            | "FR"       | true             | false
-        "+49175 11255555"           | "FR"       | false            | true   // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 11255555"           | "FR"       | false            | true  // TODO: ISSUE Mobile number length
         "+49175 112555555"          | "FR"       | false            | false
-        "+49203 112"                | "FR"       | false            | true
-        "+49203 112555"             | "FR"       | false            | true
+        "+49203 112"                | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
+        "+49203 112555"             | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
         // end of 112
     }
 
@@ -170,34 +170,34 @@ class IsValidNumberTest extends Specification {
         number                      | regionCode | expectedResult   | expectingFail
         // 155 is Public Service Number for German administration, it is internationally reachable only from foreign countries
         "115"                       | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
-        "115556677"                 | "DE"       | true             | true
+        "115556677"                 | "DE"       | true             | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
         "0115"                      | "DE"       | false            | false // not valid by BnetzA definition from within Germany
         "0115 556677"               | "DE"       | false            | false
         "0175 115"                  | "DE"       | false            | false
         "0175 115555"               | "DE"       | false            | false
         "0175 1155555"              | "DE"       | true             | false
-        "0175 11555555"             | "DE"       | false            | true
+        "0175 11555555"             | "DE"       | false            | true  // TODO: ISSUE Mobile number length
         "0175 115555555"            | "DE"       | false            | false
         "0203 115"                  | "DE"       | true             | false // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
-        "0203 115555"               | "DE"       | false            | true
+        "0203 115555"               | "DE"       | false            | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
         "+49115"                    | "DE"       | false            | false // see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1 at chapter 2.3
         "+49115 556677"             | "DE"       | false            | false
         "+49175 115"                | "DE"       | false            | false
         "+49175 115555"             | "DE"       | false            | false
         "+49175 1155555"            | "DE"       | true             | false
-        "+49175 11555555"           | "DE"       | false            | true
+        "+49175 11555555"           | "DE"       | false            | true  // TODO: ISSUE Mobile number length
         "+49175 115555555"          | "DE"       | false            | false
         "+49203 115"                | "DE"       | true             | false
-        "+49203 115555"             | "DE"       | false            | true
-        "+49115"                    | "FR"       | true             | true  // see https://www.115.de/SharedDocs/Nachrichten/DE/2018/115_aus_dem_ausland_erreichbar.html
+        "+49203 115555"             | "DE"       | false            | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
+        "+49115"                    | "FR"       | true             | true  // see https://issuetracker.google.com/issues/345753226 - https://www.115.de/SharedDocs/Nachrichten/DE/2018/115_aus_dem_ausland_erreichbar.html
         "+49115 556677"             | "FR"       | false            | false
         "+49175 115"                | "FR"       | false            | false
         "+49175 115555"             | "FR"       | false            | false
         "+49175 1155555"            | "FR"       | true             | false
-        "+49175 11555555"           | "FR"       | false            | true
+        "+49175 11555555"           | "FR"       | false            | true  // TODO: ISSUE Mobile number length
         "+49175 115555555"          | "FR"       | false            | false
         "+49203 115"                | "FR"       | true             | false
-        "+49203 115555"             | "FR"       | false            | true
+        "+49203 115555"             | "FR"       | false            | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
         // end of 115
     }
 
