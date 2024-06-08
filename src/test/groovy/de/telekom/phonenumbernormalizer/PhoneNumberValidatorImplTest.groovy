@@ -184,7 +184,6 @@ class PhoneNumberValidatorImplTest extends Specification {
         // end of 112
     }
 
-
     def "validate German Government short code 115 in combination as NDC"(String number, regionCode, expectedResult) {
         given:
 
@@ -232,6 +231,7 @@ class PhoneNumberValidatorImplTest extends Specification {
         "+49203 115555"             | "FR"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER      // number starts with IDP+CC, optional fixed line NDC follows, SN starts with short code (overlapping) => assuming NDC is intended, which means SN is wrong
         // end of 110
     }
+
 
 
 }
