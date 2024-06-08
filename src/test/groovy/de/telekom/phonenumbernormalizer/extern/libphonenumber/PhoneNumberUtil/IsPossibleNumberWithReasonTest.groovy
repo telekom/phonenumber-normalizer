@@ -75,33 +75,34 @@ class IsPossibleNumberWithReasonTest extends Specification {
         number                      | regionCode  | expectedResult                                           | expectingFail
         // short code for Police (110) is not dial-able internationally nor does it has additional numbers
         "110"                       | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
-        "110556677"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "0110"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // checked
-        "0110 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "0175 110"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "0175 110555"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "0175 1105555"              | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "0175 11055555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "0175 110555555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "0203 110"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "0203 110555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49110"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // IS_POSSIBLE_LOCAL_ONLY would also acceptable
-        "+49110 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49175 110"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "+49175 110555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "+49175 1105555"            | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "+49175 11055555"           | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "+49175 110555555"          | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "+49203 110"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49203 110555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49110"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // IS_POSSIBLE_LOCAL_ONLY would also acceptable
-        "+49110 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49175 110"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "+49175 110555"             | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "+49175 1105555"            | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "+49175 11055555"           | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
-        "+49175 110555555"          | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110        "+49203 110"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49203 110555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "110556677"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
+        "0110"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 110
+        "0110 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 110
+        "0175 110"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "0175 110555"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "0175 1105555"              | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "0175 11055555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "0175 110555555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "0203 110"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
+        "0203 110555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
+        "+49110"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 110 - IS_POSSIBLE_LOCAL_ONLY would also acceptable
+        "+49110 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 110
+        "+49175 110"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49175 110555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49175 1105555"            | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49175 11055555"           | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49175 110555555"          | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49203 110"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
+        "+49203 110555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
+        "+49110"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 110 - IS_POSSIBLE_LOCAL_ONLY would also acceptable
+        "+49110 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 110
+        "+49175 110"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49175 110555"             | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49175 1105555"            | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49175 11055555"           | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49175 110555555"          | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49203 110"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
+        "+49203 110555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
         // end of 110
     }
 
@@ -122,34 +123,34 @@ class IsPossibleNumberWithReasonTest extends Specification {
         number                      | regionCode  | expectedResult                                           | expectingFail
         // short code for emergency (112) is not dial-able internationally nor does it has additional numbers
         "112"                       | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
-        "112556677"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "0112"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // checked
-        "0112 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "0175 112"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "0175 112555"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "0175 1125555"              | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "0175 11255555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "0175 112555555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "0203 112"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "0203 112555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49112"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // IS_POSSIBLE_LOCAL_ONLY would also acceptable
-        "+49112 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49175 112"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "+49175 112555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "+49175 1125555"            | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "+49175 11255555"           | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "+49175 112555555"          | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "+49203 112"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49203 112555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49112"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // IS_POSSIBLE_LOCAL_ONLY would also acceptable
-        "+49112 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49175 112"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "+49175 112555"             | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "+49175 1125555"            | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "+49175 11255555"           | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "+49175 112555555"          | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112
-        "+49203 112"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49203 112555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "112556677"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
+        "0112"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 112
+        "0112 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 112
+        "0175 112"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "0175 112555"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "0175 1125555"              | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "0175 11255555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "0175 112555555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "0203 112"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
+        "0203 112555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
+        "+49112"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 112 - IS_POSSIBLE_LOCAL_ONLY would also acceptable
+        "+49112 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 112
+        "+49175 112"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49175 112555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49175 1125555"            | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49175 11255555"           | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49175 112555555"          | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49203 112"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
+        "+49203 112555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
+        "+49112"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 112 - IS_POSSIBLE_LOCAL_ONLY would also acceptable
+        "+49112 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 112
+        "+49175 112"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49175 112555"             | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49175 1125555"            | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49175 11255555"           | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49175 112555555"          | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49203 112"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
+        "+49203 112555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
         // end of 112
     }
 
@@ -170,34 +171,34 @@ class IsPossibleNumberWithReasonTest extends Specification {
         number                      | regionCode  | expectedResult                                           | expectingFail
         // 155 is Public Service Number for German administration, it is internationally reachable only from foreign countries
         "115"                       | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
-        "115556677"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "0115"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // not valid by BnetzA definition from within Germany
-        "0115 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "0175 115"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
-        "0175 115555"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "115556677"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
+        "0115"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
+        "0115 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 NDC must not start with 115
+        "0175 115"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "0175 115555"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
         "0175 1155555"              | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        "0175 11555555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
-        "0175 115555555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "0175 11555555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "0175 115555555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
         "0203 115"                  | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
-        "0203 115555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49115"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // IS_POSSIBLE_LOCAL_ONLY would also be acceptable, if used on +49110 & +49112 + see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1 at chapter 2.3
-        "+49115 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49175 115"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
-        "+49175 115555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0203 115555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
+        "+49115"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 IS_POSSIBLE_LOCAL_ONLY would also be acceptable, if used on +49110 & +49112 + see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1 at chapter 2.3
+        "+49115 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
+        "+49175 115"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "+49175 115555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
         "+49175 1155555"            | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        "+49175 11555555"           | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
-        "+49175 115555555"          | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "+49175 11555555"           | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "+49175 115555555"          | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
         "+49203 115"                | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
-        "+49203 115555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49203 115555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
         "+49115"                    | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | true  // see https://www.115.de/SharedDocs/Nachrichten/DE/2018/115_aus_dem_ausland_erreichbar.html
-        "+49115 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
-        "+49175 115"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
-        "+49175 115555"             | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+49115 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 NDC must not start with 115
+        "+49175 115"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "+49175 115555"             | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
         "+49175 1155555"            | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        "+49175 11555555"           | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
-        "+49175 115555555"          | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
+        "+49175 11555555"           | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "+49175 115555555"          | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
         "+49203 115"                | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
-        "+49203 115555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49203 115555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
         // end of 115
     }
 
