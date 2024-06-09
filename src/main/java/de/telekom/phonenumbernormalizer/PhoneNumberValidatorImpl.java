@@ -37,7 +37,7 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
 
     private PhoneNumberValidationResult checkShortCodeOverlapping(NumberPlan numberplan, String numberToCheck, ShortCodeUseable mainSet, ShortCodeUseable oppositeSet,
                                                                   PhoneNumberValidationResult notUseableInMainSet, PhoneNumberValidationResult useableOnlyInMainSet,
-                                                                  PhoneNumberValidationResult longerThanShortCode) {
+                                                                  PhoneNumberValidationResult longerThanShortCode, PhoneNumberValidationResult shorterThanShortCode) {
         String shortNumberKey = numberplan.startingWithShortNumberKey(numberToCheck);
         if (shortNumberKey.length() > 0) {
             if (numberToCheck.length() == numberplan.getShortCodeLength(shortNumberKey)) {
@@ -51,7 +51,19 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                     }
                 }
             } else {
-                return longerThanShortCode;
+                if (!numberplan.isUsable(mainSet, shortNumberKey) || !numberplan.isUsable(oppositeSet, shortNumberKey)) {
+                    if (numberToCheck.length() < numberplan.getShortCodeLength(shortNumberKey)) {
+                        return shorterThanShortCode;
+                    } else {
+                        return longerThanShortCode;
+                    }
+                } else {
+                    if (numberToCheck.length() < numberplan.getShortCodeLength(shortNumberKey)) {
+                        return PhoneNumberValidationResult.TOO_SHORT;
+                    } else {
+                        return PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER;  // similar to TOO_LONG, but more accurate
+                    }
+                }
             }
         }
         return null;
@@ -67,7 +79,7 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
 
             PhoneNumberValidationResult isShortCodeDirectlyAfterInitalExitCode = checkShortCodeOverlapping(numberplan, numberWithoutInitalExitCode,
                     mainSetIDPCC, oppositeSetIDPCC,
-                    invalidInitialExitCode, mainSetResult, null);
+                    invalidInitialExitCode, mainSetResult, null, null);
 
             if (isShortCodeDirectlyAfterInitalExitCode!=null) {
                 return isShortCodeDirectlyAfterInitalExitCode;
@@ -86,7 +98,7 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
 
                 PhoneNumberValidationResult isShortCodeDirectlyAfterInitalExitCodeandNDC = checkShortCodeOverlapping(numberplan, numberWithoutNationDestinationCode,
                         mainSetIDPCCNDC, oppositeSetIDPCCNDC,
-                        PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE, mainSetResult, PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER);
+                        PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE, mainSetResult, PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER, PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER);
 
                 if (isShortCodeDirectlyAfterInitalExitCodeandNDC!=null) {
                     return isShortCodeDirectlyAfterInitalExitCodeandNDC;
@@ -203,7 +215,7 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
 
                     PhoneNumberValidationResult isShortCodeDirectly = checkShortCodeOverlapping(numberplan, wrapper.getDialableNumber(),
                             ShortCodeUseable.DIRECTLY, null,
-                            PhoneNumberValidationResult.INVALID_LENGTH, PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY, PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER);
+                            PhoneNumberValidationResult.INVALID_LENGTH, PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY, PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER, PhoneNumberValidationResult.TOO_SHORT);
 
                     if (isShortCodeDirectly!=null) {
                         return isShortCodeDirectly;
