@@ -342,9 +342,6 @@ public class DeFixedLineNumberPlan extends NumberPlan {
             if (nsn.length()<2) {
                 return "";
             }
-
-
-
         }
         // Geographic Area Codes
         return GermanAreaCodeExtractor.fromNumber(nsn);
