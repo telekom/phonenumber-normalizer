@@ -234,6 +234,13 @@ class IsValidNumberTest extends Specification {
         "0116 5566"                 | "DE"       | false            | false
         "0116 55"                   | "DE"       | false            | false
 
+        // NAC + NDC (mobile) + 116xxx
+        "0175 116"                  | "DE"       | false            | false
+        "0175 116555"               | "DE"       | false            | false
+        "0175 1165555"              | "DE"       | true             | false
+        "0175 11655555"             | "DE"       | false            | true  // TODO: ISSUE Mobile number length
+        "0175 116555555"            | "DE"       | false            | false
+
         // NAC + NDC (e.g. for Duisburg) + 116xxx
         "0203116"                   | "DE"       | false            | true
         "0203116000"                | "DE"       | false            | true
@@ -250,6 +257,13 @@ class IsValidNumberTest extends Specification {
         "+49116 5566"               | "DE"       | false            | false
         "+49116 55"                 | "DE"       | false            | false
 
+        // CC + NDC (mobile) + 116xxx
+        "+49175 116"                | "DE"       | false            | false
+        "+49175 116555"             | "DE"       | false            | false
+        "+49175 1165555"            | "DE"       | true             | false
+        "+49175 11655555"           | "DE"       | false            | true  // TODO: ISSUE Mobile number length
+        "+49175 116555555"          | "DE"       | false            | false
+
         // CC + NDC (e.g. for Duisburg) + 116xxx
         "+49203116"                 | "DE"       | false            | true
         "+49203116000"              | "DE"       | false            | true
@@ -265,6 +279,22 @@ class IsValidNumberTest extends Specification {
         "+49116999"                 | "FR"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
         "+49116 5566"               | "FR"       | false            | false
         "+49116 55"                 | "FR"       | false            | false
+
+        // CC + NDC (mobile) + 116xxx from outside Germany
+        "+49175 116"                | "FR"       | false            | false
+        "+49175 116555"             | "FR"       | false            | false
+        "+49175 1165555"            | "FR"       | true             | false
+        "+49175 11655555"           | "FR"       | false            | true  // TODO: ISSUE Mobile number length
+        "+49175 116555555"          | "FR"       | false            | false
+
+        // CC + NDC (e.g. for Duisburg) + 116xxx from outside Germany
+        "+49203116"                 | "FR"       | false            | true
+        "+49203116000"              | "FR"       | false            | true
+        "+49203116116"              | "FR"       | false            | true
+        "+49203116999"              | "FR"       | false            | true
+        "+49203116 5566"            | "FR"       | false            | true
+        "+49203116 55"              | "FR"       | false            | true
+
         // end of 116
     }
 
