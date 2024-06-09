@@ -61,3 +61,5 @@ Google acknowledged the issue, but marked it as "**Won't fix (Intended behavior)
 ### 2024-06-08 - [Government Service Numbers may be used with National Destination Code in Germany fixed line, but subscriber numbers may not start with it](https://issuetracker.google.com/issues/345753226)
 
 BnetzA [described government short codes 115](https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1), no number might start with those three digits (otherwise using such a number would trigger the short code). Furthermore the short code might be called with IDP and Country code (**+49115**) but from outside Germany and not from within - here the used region must have an influence on the evaluation.
+
+Google since 09.07.2024, the Issue is not publicly accessible anymore - we wrote a [post in the Google discussion group](https://groups.google.com/g/libphonenumber-discuss/c/WQv244-PVmI).
