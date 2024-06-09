@@ -235,6 +235,13 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0116 5566"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "0116 55"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
 
+        // NAC + NDC (mobile) + 116xxx
+        "0175 116"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // TODO: ISSUE Mobile number length
+        "0175 116555"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // TODO: ISSUE Mobile number length
+        "0175 1165555"              | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "0175 11655555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // TODO: ISSUE Mobile number length
+        "0175 116555555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // TODO: ISSUE Mobile number length
+
         // NAC + NDC (e.g. for Duisburg) + 116xxx
         "0203116"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "0203116000"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
@@ -251,6 +258,13 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+49116 5566"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // <--
         "+49116 55"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
 
+        // CC + NDC (mobile) + 116xxx
+        "+49175 116"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // TODO: ISSUE Mobile number length
+        "+49175 116555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // TODO: ISSUE Mobile number length
+        "+49175 1165555"           | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49175 11655555"          | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // TODO: ISSUE Mobile number length
+        "+49175 116555555"         | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // TODO: ISSUE Mobile number length
+
         // CC + NDC (e.g. for Duisburg) + 116xxx
         "+49203116"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49203116000"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
@@ -266,6 +280,22 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+49116999"                 | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "+49116 5566"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // <--
         "+49116 55"                 | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+
+        // CC + NDC (mobile) + 116xxx from outside Germany
+        "+49175 116"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                 | true  // TODO: ISSUE Mobile number length
+        "+49175 116555"            | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                 | true  // TODO: ISSUE Mobile number length
+        "+49175 1165555"           | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE               | false
+        "+49175 11655555"          | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                  | true  // TODO: ISSUE Mobile number length
+        "+49175 116555555"         | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                  | true  // TODO: ISSUE Mobile number length
+
+        // CC + NDC (e.g. for Duisburg) + 116xxx from outside Germany
+        "+49203116"                 | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49203116000"              | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49203116116"              | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49203116999"              | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49203116 5566"            | "FR "      | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49203116 55"              | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+
         // end of 116
     }
 
