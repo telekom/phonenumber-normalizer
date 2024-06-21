@@ -63,3 +63,7 @@ Google acknowledged the issue, but marked it as "**Won't fix (Intended behavior)
 BnetzA [described government short codes 115](https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1), no number might start with those three digits (otherwise using such a number would trigger the short code). Furthermore the short code might be called with IDP and Country code (**+49115**) but from outside Germany and not from within - here the used region must have an influence on the evaluation.
 
 Google since 09.07.2024, the Issue is not publicly accessible anymore - we wrote a [post in the Google discussion group](https://groups.google.com/g/libphonenumber-discuss/c/WQv244-PVmI).
+
+### 2024-06-16 - [+49115 German Government short number with IDP+CC is only valid from outside Germany but not within (so IS_POSSIBLE_LOCAL_ONLY is also wrong)](https://issuetracker.google.com/issues/347356467)
+
+Since the previous Issue "disappeared" without notice, we assume, it was structural too similar to the emergencies number issue and the reviewer did not recordnized the differences. So we reported the main difference - again and this time the issue is at least accepted. But the reviewer comment seems only to focus on the short number call-ability from outside the country and not that IDP+CC+115 must not be used from inside. 
