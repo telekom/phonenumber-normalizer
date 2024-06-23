@@ -116,6 +116,10 @@ public abstract class NumberPlan {
         return true;
     }
 
+    public boolean isReserved(String number) {return false; }
+
+    public Integer isMatchingLength(String number) {return null;}
+
     public boolean isUsableWithIDPandCCfromOutside(String number) {
         return false;
     }
