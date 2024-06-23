@@ -316,7 +316,193 @@ class PhoneNumberValidatorImplTest extends Specification {
         "+49203116999"              | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE        // number starts with NAC, optional fixed line NDC follows, SN equals short code (but overlapping) => assuming Short Code is intended, which means NDC is wrongly used
         "+49203116 5566"            | "FR"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER      // number starts with NAC, optional fixed line NDC follows, SN starts with short code (overlapping) => assuming NDC is intended, which means SN is wrong
         "+49203116 55"              | "FR"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER      // number starts with NAC, optional fixed line NDC follows, SN starts with short code (overlapping) => assuming NDC is intended, which means SN is wrong
-        // end of 1105
+        // end of 116xxx
+    }
+
+    def "validate German Call Assistant short codes in combination as NDC"(String number, regionCode, expectedResult) {
+        given:
+
+        when: "validate number: $number for country: $regionCode"
+
+        PhoneNumberValidationResult result = target.isPhoneNumberPossibleWithReason(number, regionCode)
+
+        then: "it should validate to: $expectedResult"
+        result == expectedResult
+
+        where:
+
+        number                      | regionCode  | expectedResult
+        // https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/118xy/118xyNummernplan.pdf?__blob=publicationFile&v=1
+        // it is mentioned, that those numbers are nationally reachable - which excludes them from locally, so no local number should work this way because without NDC it could not be seperated from the national number
+        // implicitly it could also mean that those numbers are not routed from outside germany
+
+        // 118 is starting part and in general 5 digits long - except if the 4th digit is 0, than it is six digits long
+        "118"                       | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "1180"                      | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "11800"                     | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "118000"                    | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "118099"                    | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "1180000"                   | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "1181"                      | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "11810"                     | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
+        // Call Assistant of Deutsche Telekom - will be retired on 01.12.2024 see https://www.telekom.com/de/blog/konzern/artikel/telekom-stellt-auskunftsdienste-ein-1065536
+        "11833"                     | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
+        "118100"                    | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "1189"                      | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "11899"                     | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
+        "118999"                    | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+
+        // Tested on 26.12.2023 - 11833 works on TMD, but neither 011833 nor +4911833 is working on T-Mobile Germany
+        // NAC + 118(y)xx belongs to the number reserve of NAC + 11
+
+        "0118"                      | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "01180"                     | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "011800"                    | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "0118000"                   | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "0118099"                   | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "01180000"                  | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "01181"                     | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "011810"                    | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE
+        "011833"                    | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE
+        "0118100"                   | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "01189"                     | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "011899"                    | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE
+        "0118999"                   | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+
+        // NAC + NDC (e.g. for Duisburg) + 118(y)xx
+        "0203118"                   | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "02031180"                  | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "020311800"                 | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "0203118000"                | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "0203118099"                | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "02031180000"               | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "02031181"                  | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "020311810"                 | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "020311833"                 | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "0203118100"                | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "02031189"                  | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "020311899"                 | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "0203118999"                | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+
+        // NAC + mobile NDC  + 118(y)xx
+        "0175118"                   | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "01751180"                  | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "017511800"                 | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "0175118000"                | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "0175118099"                | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "01751180000"               | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "017511800000"              | "DE"       | PhoneNumberValidationResult.TOO_LONG  // special for mobile
+        "01751181"                  | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "017511810"                 | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "017511833"                 | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "0175118100"                | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "01751181000"               | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY // special for mobile
+        "017511810000"              | "DE"       | PhoneNumberValidationResult.TOO_LONG // special for mobile
+        "01751189"                  | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "017511899"                 | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "0175118999"                | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "01751189999"               | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY // special for mobile
+        "017511899999"              | "DE"       | PhoneNumberValidationResult.TOO_LONG // special for mobile
+
+        // CC + 118(y)xx
+        "+49118"                    | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+491180"                   | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+4911800"                  | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49118000"                 | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49118099"                 | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+491180000"                | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+491181"                   | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+4911810"                  | "DE"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
+        "+4911833"                  | "DE"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
+        "+49118100"                 | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+491189"                   | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+4911899"                  | "DE"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
+        "+49118999"                 | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+
+        // CC + NDC (e.g. for Duisburg) + 118(y)xx
+        "+49203118"                 | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+492031180"                | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+4920311800"               | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+49203118000"              | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+492031180000"             | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+492031181"                | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+4920311810"               | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+4920311833"               | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49203118100"              | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+492031189"                | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+4920311899"               | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49203118999"              | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+
+        // CC + mobile NDC  + 118(y)xx
+        "+49175118"                 | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+491751180"                | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+4917511800"               | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175118000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175118099"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+491751180000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+4917511800000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG  // special for mobile
+        "+491751181"                | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+4917511810"               | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+4917511833"               | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175118100"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+491751181000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE // special for mobile
+        "+4917511810000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG // special for mobile
+        "+491751189"                | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+4917511899"               | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175118999"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        "+491751189999"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE // special for mobile
+        "+4917511899999"            | "DE"       | PhoneNumberValidationResult.TOO_LONG // special for mobile
+
+        // CC + 118(y)xx from outside Germany
+        "+49118"                    | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+491180"                   | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+4911800"                  | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49118000"                 | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49118099"                 | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+491180000"                | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+491181"                   | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+4911810"                  | "FR"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
+        "+4911833"                  | "FR"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
+        "+49118100"                 | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+491189"                   | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+4911899"                  | "FR"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
+        "+49118999"                 | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+
+        // CC + NDC (e.g. for Duisburg) + 118(y)xx from outside Germany
+        "+49203118"                 | "FR"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+492031180"                | "FR"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+4920311800"               | "FR"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+49203118000"              | "FR"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+492031180000"             | "FR"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+492031181"                | "FR"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+4920311810"               | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+4920311833"               | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49203118100"              | "FR"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+492031189"                | "FR"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+        "+4920311899"               | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49203118999"              | "FR"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
+
+        // CC + mobile NDC  + 118(y)xx from outside Germany
+        "+49175118"                 | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+491751180"                | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+4917511800"               | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175118000"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175118099"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+491751180000"             | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+4917511800000"            | "FR"       | PhoneNumberValidationResult.TOO_LONG  // special for mobile
+        "+491751181"                | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+4917511810"               | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+4917511833"               | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175118100"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+491751181000"             | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE // special for mobile
+        "+4917511810000"            | "FR"       | PhoneNumberValidationResult.TOO_LONG // special for mobile
+        "+491751189"                | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+4917511899"               | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49175118999"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+491751189999"             | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE // special for mobile
+        "+4917511899999"            | "FR"       | PhoneNumberValidationResult.TOO_LONG // special for mobile
+
+        // end of 118
     }
 
 

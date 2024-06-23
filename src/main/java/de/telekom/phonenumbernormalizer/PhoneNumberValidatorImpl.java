@@ -40,6 +40,10 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                                                                   PhoneNumberValidationResult longerThanShortCode, PhoneNumberValidationResult shorterThanShortCode) {
         String shortNumberKey = numberplan.startingWithShortNumberKey(numberToCheck);
         if (shortNumberKey.length() > 0) {
+            if (numberplan.isReserved(shortNumberKey)) {
+                return null;
+            }
+
             if (numberToCheck.length() == numberplan.getShortCodeLength(shortNumberKey)) {
                 if (!numberplan.isUsable(mainSet, shortNumberKey)) {
                     return notUseableInMainSet;
@@ -102,6 +106,10 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
 
                 if (isShortCodeDirectlyAfterInitalExitCodeandNDC!=null) {
                     return isShortCodeDirectlyAfterInitalExitCodeandNDC;
+                } else {
+                    if (numberplan.isReserved(numberWithoutNationDestinationCode))    {
+                        return PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER;
+                    }
                 }
 
                 // when NDC is optional, then number must not start with NAC again.
@@ -219,6 +227,19 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
 
                     if (isShortCodeDirectly!=null) {
                         return isShortCodeDirectly;
+                    } else {
+                        if (numberplan.isReserved(wrapper.getDialableNumber()))    {
+                            Integer lengthMatch = numberplan.isMatchingLength(wrapper.getDialableNumber());
+                            if (lengthMatch!=null) {
+                                if (lengthMatch>0) {
+                                    return PhoneNumberValidationResult.TOO_SHORT;
+                                }
+                                if (lengthMatch<0) {
+                                    return PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER;
+                                }
+                            }
+                            return PhoneNumberValidationResult.INVALID_RESERVE_NUMBER;
+                        }
                     }
 
                     return PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY;
@@ -232,6 +253,7 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
         // TODO: PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_OPERATOR_ONLY
         // TODO: PhoneNumberValidationResult.IS_POSSIBLE_OPERATOR_ONLY
         // TODO: PhoneNumberValidationResult.INVALID_INTERNATIONAL_DIALING_PREFIX
+        // TODO: PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
 
          return wrapper.validate();
     }

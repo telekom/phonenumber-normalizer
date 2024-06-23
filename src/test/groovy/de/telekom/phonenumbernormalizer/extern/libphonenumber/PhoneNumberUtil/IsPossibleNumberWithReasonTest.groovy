@@ -323,11 +323,12 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "118"                       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
         "1180"                      | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
         "11800"                     | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
-        "118000"                    | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "118000"                    | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false  // since it is reserve INVALID_LENGTH could also be possible
+        "118099"                    | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false  // since it is reserve INVALID_LENGTH could also be possible
         "1180000"                   | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
         "1181"                      | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
         "11810"                     | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        // Call Assistant of Deutsche Telekom
+        // Call Assistant of Deutsche Telekom - will be retired on 01.12.2024 see https://www.telekom.com/de/blog/konzern/artikel/telekom-stellt-auskunftsdienste-ein-1065536
         "11833"                     | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "118100"                    | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true
         "1189"                      | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
@@ -341,6 +342,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "01180"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "011800"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0118000"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0118099"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "01180000"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "01181"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "011810"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
@@ -355,6 +357,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "02031180"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "020311800"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0203118000"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "0203118099"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "02031180000"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "02031181"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "020311810"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
@@ -364,11 +367,32 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "020311899"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "0203118999"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
 
+        // NAC + mobile NDC  + 118(y)xx
+        "0175118"                   | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "01751180"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "017511800"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0175118000"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0175118099"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "01751180000"               | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "017511800000"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+        "01751181"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "017511810"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "017511833"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0175118100"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "01751181000"               | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // special for mobile
+        "017511810000"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+        "01751189"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "017511899"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "0175118999"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "01751189999"               | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // special for mobile
+        "017511899999"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+
         // CC + 118(y)xx
         "+49118"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+491180"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+4911800"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+49118000"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49118099"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+491180000"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+491181"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+4911810"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
@@ -392,11 +416,32 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+4920311899"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+49203118999"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
 
+        // CC + mobile NDC  + 118(y)xx
+        "+49175118"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+491751180"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+4917511800"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+49175118000"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+49175118099"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+491751180000"             | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+4917511800000"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+        "+491751181"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+4917511810"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+4917511833"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+49175118100"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+491751181000"             | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // special for mobile
+        "+4917511810000"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+        "+491751189"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+4917511899"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+49175118999"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+491751189999"             | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // special for mobile
+        "+4917511899999"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+
         // CC + 118(y)xx from outside Germany
         "+49118"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+491180"                   | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+4911800"                  | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+49118000"                 | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49118099"                 | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+491180000"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+491181"                   | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+4911810"                  | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
@@ -405,6 +450,40 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+491189"                   | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+4911899"                  | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
         "+49118999"                 | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+
+        // CC + NDC (e.g. for Duisburg) + 118(y)xx from outside Germany
+        "+49203118"                 | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+492031180"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4920311800"               | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49203118000"              | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+492031180000"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+492031181"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4920311810"               | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4920311833"               | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49203118100"              | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+492031189"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+4920311899"               | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+        "+49203118999"              | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true
+
+        // CC + mobile NDC  + 118(y)xx from outside Germany
+        "+49175118"                 | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+491751180"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+4917511800"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+49175118000"              | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+49175118099"              | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+491751180000"             | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+4917511800000"            | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+        "+491751181"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+4917511810"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+4917511833"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+49175118100"              | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+491751181000"             | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // special for mobile
+        "+4917511810000"            | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+        "+491751189"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+4917511899"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+49175118999"              | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true
+        "+491751189999"             | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // special for mobile
+        "+4917511899999"            | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
 
         // end of 118
     }
