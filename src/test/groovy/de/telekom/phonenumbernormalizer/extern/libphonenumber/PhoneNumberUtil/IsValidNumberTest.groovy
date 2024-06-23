@@ -322,7 +322,8 @@ class IsValidNumberTest extends Specification {
         "118"                       | "DE"       | false            | false
         "1180"                      | "DE"       | false            | false
         "11800"                     | "DE"       | false            | false
-        "118000"                    | "DE"       | true             | true  // <--
+        "118000"                    | "DE"       | false            | false // since its just reserve
+        "118099"                    | "DE"       | false            | false // since its just reserve
         "1180000"                   | "DE"       | false            | false
         "1181"                      | "DE"       | false            | false
         "11810"                     | "DE"       | true             | true  // <--
@@ -340,6 +341,7 @@ class IsValidNumberTest extends Specification {
         "01180"                     | "DE"       | false            | false
         "011800"                    | "DE"       | false            | false
         "0118000"                   | "DE"       | false            | false
+        "0118099"                   | "DE"       | false            | false
         "01180000"                  | "DE"       | false            | false
         "01181"                     | "DE"       | false            | false
         "011810"                    | "DE"       | false            | false
@@ -354,6 +356,7 @@ class IsValidNumberTest extends Specification {
         "02031180"                  | "DE"       | false            | true  // <--
         "020311800"                 | "DE"       | false            | true  // <--
         "0203118000"                | "DE"       | false            | true  // <--
+        "0203118099"                | "DE"       | false            | true  // <--
         "02031180000"               | "DE"       | false            | true  // <--
         "02031181"                  | "DE"       | false            | true  // <--
         "020311810"                 | "DE"       | false            | true  // <--
@@ -363,11 +366,32 @@ class IsValidNumberTest extends Specification {
         "020311899"                 | "DE"       | false            | true  // <--
         "0203118999"                | "DE"       | false            | true  // <--
 
+        // NAC + mobile NDC  + 118(y)xx
+        "0175118"                   | "DE"       | false            | false
+        "01751180"                  | "DE"       | false            | false
+        "017511800"                 | "DE"       | false            | false
+        "0175118000"                | "DE"       | false            | false
+        "0175118099"                | "DE"       | false            | false
+        "01751180000"               | "DE"       | true             | false
+        "017511800000"              | "DE"       | false            | true  // special for mobile
+        "01751181"                  | "DE"       | false            | false
+        "017511810"                 | "DE"       | false            | false
+        "017511833"                 | "DE"       | false            | false
+        "0175118100"                | "DE"       | false            | false
+        "01751181000"               | "DE"       | true             | false // special for mobile
+        "017511810000"              | "DE"       | false            | true  // special for mobile
+        "01751189"                  | "DE"       | false            | false
+        "017511899"                 | "DE"       | false            | false
+        "0175118999"                | "DE"       | false            | false
+        "01751189999"               | "DE"       | true             | false // special for mobile
+        "017511899999"              | "DE"       | false            | true  // special for mobile
+
         // CC + 118(y)xx
         "+49118"                    | "DE"       | false            | false
         "+491180"                   | "DE"       | false            | false
         "+4911800"                  | "DE"       | false            | false
         "+49118000"                 | "DE"       | false            | false
+        "+49118099"                 | "DE"       | false            | false
         "+491180000"                | "DE"       | false            | false
         "+491181"                   | "DE"       | false            | false
         "+4911810"                  | "DE"       | false            | false
@@ -382,6 +406,7 @@ class IsValidNumberTest extends Specification {
         "+492031180"                | "DE"       | false            | true  // <--
         "+4920311800"               | "DE"       | false            | true  // <--
         "+49203118000"              | "DE"       | false            | true  // <--
+        "+49203118099"              | "DE"       | false            | true  // <--
         "+492031180000"             | "DE"       | false            | true  // <--
         "+492031181"                | "DE"       | false            | true  // <--
         "+4920311810"               | "DE"       | false            | true  // <--
@@ -391,11 +416,32 @@ class IsValidNumberTest extends Specification {
         "+4920311899"               | "DE"       | false            | true  // <--
         "+49203118999"              | "DE"       | false            | true  // <--
 
+        // CC + mobile NDC  + 118(y)xx
+        "+49175118"                 | "DE"       | false            | false
+        "+491751180"                | "DE"       | false            | false
+        "+4917511800"               | "DE"       | false            | false
+        "+49175118000"              | "DE"       | false            | false
+        "+49175118099"              | "DE"       | false            | false
+        "+491751180000"             | "DE"       | true             | false
+        "+4917511800000"            | "DE"       | false            | true  // special for mobile
+        "+491751181"                | "DE"       | false            | false
+        "+4917511810"               | "DE"       | false            | false
+        "+4917511833"               | "DE"       | false            | false
+        "+49175118100"              | "DE"       | false            | false
+        "+491751181000"             | "DE"       | true             | false // special for mobile
+        "+4917511810000"            | "DE"       | false            | true  // special for mobile
+        "+491751189"                | "DE"       | false            | false
+        "+4917511899"               | "DE"       | false            | false
+        "+49175118999"              | "DE"       | false            | false
+        "+491751189999"             | "DE"       | true             | false // special for mobile
+        "+4917511899999"            | "DE"       | false            | true  // special for mobile
+
         // CC + 118(y)xx from outside Germany
         "+49118"                    | "FR"       | false            | false
         "+491180"                   | "FR"       | false            | false
         "+4911800"                  | "FR"       | false            | false
         "+49118000"                 | "FR"       | false            | false
+        "+49118099"                 | "FR"       | false            | false
         "+491180000"                | "FR"       | false            | false
         "+491181"                   | "FR"       | false            | false
         "+4911810"                  | "FR"       | false            | false
@@ -405,6 +451,40 @@ class IsValidNumberTest extends Specification {
         "+4911899"                  | "FR"       | false            | false
         "+49118999"                 | "FR"       | false            | false
 
+        // CC + NDC (e.g. for Duisburg) + 118(y)xx from outside Germany
+        "+49203118"                 | "FR"       | false            | true
+        "+492031180"                | "FR"       | false            | true
+        "+4920311800"               | "FR"       | false            | true
+        "+49203118000"              | "FR"       | false            | true
+        "+49203118099"              | "FR"       | false            | true
+        "+492031180000"             | "FR"       | false            | true
+        "+492031181"                | "FR"       | false            | true
+        "+4920311810"               | "FR"       | false            | true
+        "+4920311833"               | "FR"       | false            | true
+        "+49203118100"              | "FR"       | false            | true
+        "+492031189"                | "FR"       | false            | true
+        "+4920311899"               | "FR"       | false            | true
+        "+49203118999"              | "FR"       | false            | true
+
+        // CC + mobile NDC  + 118(y)xx from outside Germany
+        "+49175118"                 | "FR"       | false            | false
+        "+491751180"                | "FR"       | false            | false
+        "+4917511800"               | "FR"       | false            | false
+        "+49175118000"              | "FR"       | false            | false
+        "+49175118099"              | "FR"       | false            | false
+        "+491751180000"             | "FR"       | true             | false
+        "+4917511800000"            | "FR"       | false            | true  // special for mobile
+        "+491751181"                | "FR"       | false            | false
+        "+4917511810"               | "FR"       | false            | false
+        "+4917511833"               | "FR"       | false            | false
+        "+49175118100"              | "FR"       | false            | false
+        "+491751181000"             | "FR"       | true             | false // special for mobile
+        "+4917511810000"            | "FR"       | false            | true  // special for mobile
+        "+491751189"                | "FR"       | false            | false
+        "+4917511899"               | "FR"       | false            | false
+        "+49175118999"              | "FR"       | false            | false
+        "+491751189999"             | "FR"       | true             | false // special for mobile
+        "+4917511899999"            | "FR"       | false            | true  // special for mobile
         // end of 118
     }
 
