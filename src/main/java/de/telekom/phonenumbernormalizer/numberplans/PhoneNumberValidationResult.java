@@ -104,9 +104,12 @@ public enum PhoneNumberValidationResult {
 
     /** The subscriber number starts with digits which makes the number invalid, e.g. overlapping special numbers when NDC is optional, so those numbers could not be distinct in digit by digit calling from those special numbers
      *  - If Region is using NAC and NDC is optional, the number must not start with NAC
-     *  - IF Region is using shortnumbers valid only without any prefix and NDC is optional, the number must not start with a prefix equal to those shortnumbers
+     *  - If Region is using shortnumbers valid only without any prefix and NDC is optional, the number must not start with a prefix equal to those shortnumbers
      * */
     INVALID_PREFIX_OF_SUBSCRIBER_NUMBER(ValidationResult.INVALID_LENGTH),
+
+    /** The region is using a definition for a number (range), which matches for the number, but the definition is marked as reserve for future use. So currently it is not a valid number */
+    INVALID_RESERVE_NUMBER(ValidationResult.INVALID_LENGTH),
 
     /** The number is shorter than all valid numbers for this region or used NDC. */
     TOO_SHORT(ValidationResult.TOO_SHORT),
