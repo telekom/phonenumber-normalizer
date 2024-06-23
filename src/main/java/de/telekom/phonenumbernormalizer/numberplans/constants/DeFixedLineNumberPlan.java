@@ -100,7 +100,7 @@ public class DeFixedLineNumberPlan extends NumberPlan {
             "112", new ShortNumberDetails(3, false, false, false, false, false, false, true),
             "115", new ShortNumberDetails(3, true, true, false, true, false, true, true),
             "116", new ShortNumberDetails(6, true, false, true, false, false, false, true),
-            "1180", new ShortNumberDetails(6, false, false, false, false, false, false, true),
+            "1180", new ShortNumberDetails(6, false, false, false, false, false, false, false), // 1180xx is currently just reserved for future used
             "118", new ShortNumberDetails(5, false, false, false, false, false, false, true)  // This covers  1181 - 1189 since 1180 is longer prefix and has its own value.
     );
 
@@ -261,6 +261,32 @@ public class DeFixedLineNumberPlan extends NumberPlan {
 
         return GermanAreaCodeExtractor.isNDCOptional(ndc);
     }
+
+    @Override
+    public boolean isReserved(String number) {
+        // if the number is not usable at all, but it is defined so it is reserved (not valid yet - but maybe in the future)
+        ShortNumberDetails numberDetails = SHORT_NUMBER_CODES_DETAILS.get(startingWithShortNumberKey(number));
+        if (numberDetails == null) {
+            return false;
+        }
+        return !(numberDetails.usableWithIDPandCCfromOutside ||
+                 numberDetails.usableWithIDPandCCandNDCfromOutside ||
+                 numberDetails.usableWithIDPandCCfromInside ||
+                 numberDetails.usableWithIDPandCCandNDCfromInside ||
+                 numberDetails.usableWithNAC ||
+                 numberDetails.usableWithNACandNDC ||
+                 numberDetails.usableDirectly);
+    }
+
+    @Override
+    public Integer isMatchingLength(String number) {
+        ShortNumberDetails numberDetails = SHORT_NUMBER_CODES_DETAILS.get(startingWithShortNumberKey(number));
+        if (numberDetails == null) {
+            return null;
+        }
+        return numberDetails.length - number.length();
+    }
+
 
     @Override
     public boolean isUsableWithIDPandCCfromOutside(String number) {
