@@ -49,3 +49,9 @@ BnetzA [described special case for NDC 212 and 621](https://www.bundesnetzagentu
 We have provided Ludwighafen in our labeling data.
 
 Google [fixed](https://github.com/google/libphonenumber/pull/3473/files#diff-db8e5b3fb2cb4a7ed9856289ea12d54947bfaa10549e6c1058fec7f3a1359dbbR3260) ít with [8.13.37](https://github.com/google/libphonenumber/pull/3473) on  15.05.2024.
+
+### 2024-09-03 - [German Mobile number length validation for range 17x inconsistently differentiated in 8.13.43](https://issuetracker.google.com/issues/364179199)
+
+Previous to Version 8.13.43 any German number within the range 17x was identified valid for both length 10 & 11. Now the 11 length case (176) is differentiated, that 176 is not validated valid with 10 digits. But 170-175, 177-179 is still validated valid for both length, but should be only valid with length of 10.
+
+Google stated it is aware and will bring changes after investigation that users are not unblock.
