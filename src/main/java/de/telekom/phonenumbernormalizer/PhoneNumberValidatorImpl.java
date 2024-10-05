@@ -138,6 +138,9 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
 
         PhoneLibWrapper wrapper = new PhoneLibWrapper(number, regionCode);
 
+        // TODO: change parameter regionCode to deviceContext
+        NumberPlan numberplan = NumberPlanFactory.INSTANCE.getNumberPlan(DeviceContextLineType.UNKNOWN, String.valueOf(PhoneLibWrapper.getCountryCodeForRegion(regionCode)));
+
         if (wrapper.startsWithIDP()) {     // Country Exit Code is part
             // IDP indicates CC is used
 
@@ -204,10 +207,10 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                     PhoneNumberValidationResult fallBackResult = wrapper.validate();
 
                     if ( (fallBackResult == PhoneNumberValidationResult.IS_POSSIBLE) ||
-                         (fallBackResult == PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY) ||
-                         // short number check e.g. AU 000 is short code which starts with NAC but is not treated as one:
-                        ((fallBackResult == PhoneNumberValidationResult.TOO_SHORT) && (wrapper.isShortNumber()))
-                       ) {
+                            (fallBackResult == PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY) ||
+                            // short number check e.g. AU 000 is short code which starts with NAC but is not treated as one:
+                            ((fallBackResult == PhoneNumberValidationResult.TOO_SHORT) && (wrapper.isShortNumber()))
+                    ) {
                         return PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY;
                     }
                 } else {
