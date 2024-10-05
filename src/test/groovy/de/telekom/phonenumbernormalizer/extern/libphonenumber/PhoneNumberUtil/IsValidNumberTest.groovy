@@ -1502,7 +1502,7 @@ class IsValidNumberTest extends Specification {
                                      false, true, true, false]
 
         when:
-        Boolean[] results = []
+        PhoneNumberUtil.ValidationResult[] results = []
         for (number in numbersToTest) {
             def phoneNumber = phoneUtil.parse(number, regionCode)
             results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
@@ -1522,17 +1522,17 @@ class IsValidNumberTest extends Specification {
         //
         // 0160
         //
-        "016013"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016013"         | "DE" | [true, true, true, true, true, true, true, true]
         //
         // 0162
         //
-        "016250"         | "DE" | [true, false, false, true, true, false, false, true]
-        "016255"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016250"         | "DE" | [true, true, true, true, true, true, true, true]
+        "016255"         | "DE" | [true, true, true, true, true, true, true, true]
 
         //
         // 0163
         //
-        "016399"         | "DE" | [true, false, false, true, true, false, false, true]
+        "016399"         | "DE" | [true, true, true, true, true, true, true, true]
     }
 
     def "check if original lib fixed isValid for German reserve 16 range"(String reserve, regionCode, boolean[] expectingFails) {
@@ -1552,7 +1552,7 @@ class IsValidNumberTest extends Specification {
         Boolean[] expectedResults = [false, false, false, false, false, false, false, false, false, false, false]
 
         when:
-        Boolean[] results = []
+        PhoneNumberUtil.ValidationResult[] results = []
         for (number in numbersToTest) {
             def phoneNumber = phoneUtil.parse(number, regionCode)
             results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
@@ -2093,7 +2093,7 @@ class IsValidNumberTest extends Specification {
                                      true, true, true, true, true, true, true, true, false]
 
         when:
-        Boolean[] results = []
+        PhoneNumberUtil.ValidationResult[] results = []
         for (number in numbersToTest) {
             def phoneNumber = phoneUtil.parse(number, regionCode)
             results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
@@ -2109,8 +2109,8 @@ class IsValidNumberTest extends Specification {
         //  0181 is VPN: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0181/181_node.html
         //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0181/Nummernplan_IVPN.pdf?__blob=publicationFile&v=1
         //  nation number with 14 digits
-        "0181"           | "DE" | [true, true, true, false, false, false, false, false, false, false, false, true]
-        "+49181"         | "FR" | [true, true, true, false, false, false, false, false, false, false, false, true]
+        "0181"           | "DE" | [true, true, true, true, true, true, true, true, true, true, true, true]
+        "+49181"         | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true]
     }
 
     def "check if original lib fixed isValid for German VPN 18(2-9) range"(String reserve, regionCode, boolean[] expectingFails) {
@@ -2822,7 +2822,7 @@ class IsValidNumberTest extends Specification {
         }
 
         when:
-        Boolean[] results = []
+        PhoneNumberUtil.ValidationResult[] results = []
         for (number in numbersToTest) {
             def phoneNumber = phoneUtil.parse(number, regionCode)
             results += phoneUtil.isPossibleNumberWithReason(phoneNumber)
@@ -2841,9 +2841,9 @@ class IsValidNumberTest extends Specification {
         //  01988-xx TODO: verify called number information is transfered outside the number (no digits after xx)
         //  for traditional libphone it makes no difference if number is used by public user or operator, so one of it will always fail until it could distinguish it
         "01988"     | false    | "DE" | [true, true, true, true, true, true, true, true, true, true, true, true, true]
-        "01988"     | true     | "DE" | [true, true, false, true, true, true, true, true, false, true, true, true, true]
+        "01988"     | true     | "DE" | [true, true, true, true, true, true, true, true, true, true, true, true, true]
         "+491988"   | false    | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true, true]
-        "+491988"   | true     | "FR" | [true, true, false, true, true, true, true, true, false, true, true, true, true]
+        "+491988"   | true     | "FR" | [true, true, true, true, true, true, true, true, true, true, true, true, true]
     }
 
     def "check if original lib fixed isValid for German traffic routing 01989 for Call Assistant"(String number, boolean Operator, regionCode, expectedResult, expectingFail) {
