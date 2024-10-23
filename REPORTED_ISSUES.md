@@ -55,3 +55,6 @@ Google [fixed](https://github.com/google/libphonenumber/pull/3473/files#diff-db8
 Previous to Version 8.13.43 any German number within the range 17x was identified valid for both length 10 & 11. Now the 11 length case (176) is differentiated, that 176 is not validated valid with 10 digits. But 170-175, 177-179 is still validated valid for both length, but should be only valid with length of 10.
 
 Google stated it is aware and will bring changes after investigation that users are not unblock.
+
+Google [fixed](https://github.com/google/libphonenumber/pull/3671/files#diff-5061a7d3c54ba589aacce00dcee1ce92e098c40034749bcae4c8a4780bb40233) it with [8.13.48](https://github.com/google/libphonenumber/pull/3671) on 16.10.2024
+While normal mobile numbers are now aligend, voicemail numbers length is still problematic (BUG needs to be reported!).
