@@ -11,7 +11,8 @@ public class GermanAreaCodeExtractor {
      */
 
     public static Boolean isNDCOptional(String number) {
-        return ! (number.startsWith("1"));
+        // primarly this covers mobile numbers 
+        return !(number.startsWith("1"));
     }
 
     /*
@@ -52,12 +53,27 @@ public class GermanAreaCodeExtractor {
         }
 
         switch (number.charAt(0)) {
+            case '9':
+                return fromNumber19(number.substring(1));
             case '5':
                 return fromNumber15(number.substring(1));
             case '6':
                 return fromNumber16(number.substring(1));
             case '7':
                 return fromNumber17(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber19(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '9':
+                return "199"; // special NDC for German Operators internal use
             default:
                 return "";
         }
@@ -222,7 +238,7 @@ public class GermanAreaCodeExtractor {
             case '6':
                 return "1526"; // Vodafone GmbH
             case '9':
-                return "1529"; // Vodafone GmbH  (Netznutzungsvereinbarung mit Fa. TP Germany Operations GmbH  ehemals Fa. Truphone GmbH )
+                return "1529"; // Vodafone GmbH (Netznutzungsvereinbarung mit Fa. TP Germany Operations GmbH ehemals Fa. Truphone GmbH)
             default:
                 return "";
         }
@@ -341,13 +357,13 @@ public class GermanAreaCodeExtractor {
             case '0':
                 return fromNumber1570(number.substring(1));
             case '3':
-                return "1573"; // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
+                return "1573"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
             case '5':
-                return "1575"; // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
+                return "1575"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
             case '7':
-                return "1577"; // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
+                return "1577"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
             case '8':
-                return "1578"; // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
+                return "1578"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
             default:
                 return "";
         }
@@ -426,7 +442,7 @@ public class GermanAreaCodeExtractor {
             case '2':
                 return "162"; // Vodafone GmbH
             case '3':
-                return "163"; // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
+                return "163"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
             default:
                 return "";
         }
@@ -453,9 +469,9 @@ public class GermanAreaCodeExtractor {
             case '6':
                 return "176"; // Telefónica Germany GmbH & Co. OHG
             case '7':
-                return "177"; // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
+                return "177"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
             case '8':
-                return "178"; // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
+                return "178"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
             case '9':
                 return "179"; // Telefónica Germany GmbH & Co. OHG
             default:

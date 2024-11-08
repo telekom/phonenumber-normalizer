@@ -52,10 +52,9 @@ with open('mobile_ndcs.html', newline='') as f:
     data = data.split("</tbody>")[0]
     data = data.split("</th>")[2]
 
-    data = data.replace('                                            <tr class="odd">', "")
-    data = data.replace('                                            <tr class="even">', "")
-    data = data.replace('                                            </tr>', "")
-    data = data.replace('                                            </tr>', "")
+    data = data.replace('<tr class="odd">', "")
+    data = data.replace('<tr class="even">', "")
+    data = data.replace('</tr>', "")
     data = data.replace('                                                ', "")
     data = data.replace('<abbr title="Gesellschaft mit beschränkter Haftung">', "")
     data = data.replace('<abbr title="Offene Handelsgesellschaft">', "")
