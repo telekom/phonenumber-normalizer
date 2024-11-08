@@ -112,9 +112,13 @@ public abstract class NumberPlan {
         return ((maxLength != -1) && (maxLength<number.length()));
     }
 
+    public boolean isSupportingNDC() { return true; }
+
     public boolean isNDCOptional(String ndc) {
         return true;
     }
+
+    public boolean isNDCNationalOperatorOnly(String ndc) { return false; }
 
     public boolean isReserved(String number) {return false; }
 

@@ -89,11 +89,19 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                 return isShortCodeDirectlyAfterInitalExitCode;
             }
 
+            if (! numberplan.isSupportingNDC()) {
+                return null;
+            }
+
             // Check for NDC after InitalExitCode:
             String ndc = numberplan.getNationalDestinationCodeFromNationalSignificantNumber(numberWithoutInitalExitCode);
 
             if (Objects.equals(ndc, "")) {
-                return PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE;  // TODO: What about a Numberplan without NDCs?
+                return PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE;
+            }
+
+            if (numberplan.isNDCNationalOperatorOnly(ndc)) {
+                return PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_OPERATOR_ONLY;
             }
 
             String numberWithoutNationDestinationCode = numberWithoutInitalExitCode.substring(ndc.length());

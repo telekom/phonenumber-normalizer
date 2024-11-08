@@ -505,4 +505,58 @@ class PhoneNumberValidatorImplTest extends Specification {
         // end of 118
     }
 
+    def "check if original lib fixed isValid for German traffic routing 0199 for internal traffic routing"(String reserve,regionCode) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "0",
+                                  reserve + "00",
+                                  reserve + "000",
+                                  reserve + "0000",
+                                  reserve + "00000",
+                                  reserve + "000000",
+                                  reserve + "0000000",
+                                  reserve + "00000000",
+                                  reserve + "000000000",
+                                  reserve + "0000000000",
+                                  reserve + "00000000000",
+                                  reserve + "000000000000",
+                                  reserve + "9",
+                                  reserve + "99",
+                                  reserve + "999",
+                                  reserve + "9999",
+                                  reserve + "99999",
+                                  reserve + "999999",
+                                  reserve + "9999999",
+                                  reserve + "99999999",
+                                  reserve + "999999999",
+                                  reserve + "9999999999",
+                                  reserve + "99999999999",
+                                  reserve + "999999999999"]
+
+        when:
+        PhoneNumberValidationResult[] results = []
+        for (number in numbersToTest) {
+            results +=  target.isPhoneNumberPossibleWithReason(number, regionCode)
+        }
+
+
+        then:
+
+        PhoneNumberValidationResult[] expectedresults = []
+        for (int i = 0; i < results.length; i++) {
+            expectedresults += PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_OPERATOR_ONLY
+        }
+
+        expectedresults == results
+
+        where:
+        reserve    | regionCode
+        //  0199 is trafic control: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/Verkehrslenkungsnummern/start.html
+        //  Number Plan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Verkehrslenkungsnr/NummernplanVerkehrslenkungsnrn.pdf?__blob=publicationFile&v=1
+        //  0199 is not further ruled, so assuming ITU rule of max length 15 with no lower limit, but operator only use
+        "0199"     | "DE"
+        "+49199"   | "DE"
+        "+49199"   | "FR"
+    }
+
 }

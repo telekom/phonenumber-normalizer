@@ -203,6 +203,9 @@ public class DeFixedLineNumberPlan extends NumberPlan {
     private static final Map<String, Integer> SHORT_NUMBER_CODES = SHORT_NUMBER_CODES_DETAILS.entrySet().stream()
         .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().length));
 
+    public boolean isNDCNationalOperatorOnly(String ndc) {
+        return "199".equals(ndc);
+    }
 
     public int getNationDestinationCodeMinimalNumberLength(String ndc, String number) {
 
@@ -335,13 +338,6 @@ public class DeFixedLineNumberPlan extends NumberPlan {
     public String getNationalDestinationCodeFromNationalSignificantNumber(String nsn) {
         if ((nsn == null) || (nsn.length()<1)) {
             return "";
-        }
-
-        if ("1".equals(nsn.substring(0,1))) {
-          // Non-Geographic Area Codes
-            if (nsn.length()<2) {
-                return "";
-            }
         }
         // Geographic Area Codes
         return GermanAreaCodeExtractor.fromNumber(nsn);
