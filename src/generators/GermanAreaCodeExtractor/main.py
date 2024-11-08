@@ -50,6 +50,8 @@ def print_function(leaf, prefix):
 # Start, creating a dictonary for placing the Numberplan as a tree
 onkz = {}
 
+add(onkz, "199", "special NDC for German Operators internal use")
+
 # Data from https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/ONRufnr/Vorwahlverzeichnis_ONB.zip.zip?__blob=publicationFile&v=1
 # it is linked at https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/ONRufnr/Einteilung_ONB/start.html
 
@@ -75,10 +77,9 @@ with open('mobile_ndcs.html', newline='') as f:
     data = data.split("</tbody>")[0]
     data = data.split("</th>")[2]
 
-    data = data.replace('                                            <tr class="odd">', "")
-    data = data.replace('                                            <tr class="even">', "")
-    data = data.replace('                                            </tr>', "")
-    data = data.replace('                                            </tr>', "")
+    data = data.replace('<tr class="odd">', "")
+    data = data.replace('<tr class="even">', "")
+    data = data.replace('</tr>', "")
     data = data.replace('                                                ', "")
     data = data.replace('<abbr title="Gesellschaft mit beschränkter Haftung">', "")
     data = data.replace('<abbr title="Offene Handelsgesellschaft">', "")
