@@ -81,7 +81,7 @@ class IsValidNumberTest extends Specification {
         "0175 110"                  | "DE"       | false            | false
         "0175 110555"               | "DE"       | false            | false
         "0175 1105555"              | "DE"       | true             | false
-        "0175 11055555"             | "DE"       | false            | true  // TODO: ISSUE Mobile number length
+        "0175 11055555"             | "DE"       | false            | false
         "0175 110555555"            | "DE"       | false            | false
         "0203 110"                  | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
         "0203 110555"               | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
@@ -90,7 +90,7 @@ class IsValidNumberTest extends Specification {
         "+49175 110"                | "DE"       | false            | false
         "+49175 110555"             | "DE"       | false            | false
         "+49175 1105555"            | "DE"       | true             | false
-        "+49175 11055555"           | "DE"       | false            | true  // TODO: ISSUE Mobile number length
+        "+49175 11055555"           | "DE"       | false            | false
         "+49175 110555555"          | "DE"       | false            | false
         "+49203 110"                | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
         "+49203 110555"             | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
@@ -99,7 +99,7 @@ class IsValidNumberTest extends Specification {
         "+49175 110"                | "FR"       | false            | false
         "+49175 110555"             | "FR"       | false            | false
         "+49175 1105555"            | "FR"       | true             | false
-        "+49175 11055555"           | "FR"       | false            | true  // TODO: ISSUE Mobile number length
+        "+49175 11055555"           | "FR"       | false            | false
         "+49175 110555555"          | "FR"       | false            | false
         "+49203 110"                | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
         "+49203 110555"             | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
@@ -128,7 +128,7 @@ class IsValidNumberTest extends Specification {
         "0175 112"                  | "DE"       | false            | false
         "0175 112555"               | "DE"       | false            | false
         "0175 1125555"              | "DE"       | true             | false
-        "0175 11255555"             | "DE"       | false            | true  // TODO: ISSUE Mobile number length
+        "0175 11255555"             | "DE"       | false            | false
         "0175 112555555"            | "DE"       | false            | false
         "0203 112"                  | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
         "0203 112555"               | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
@@ -137,7 +137,7 @@ class IsValidNumberTest extends Specification {
         "+49175 112"                | "DE"       | false            | false
         "+49175 112555"             | "DE"       | false            | false
         "+49175 1125555"            | "DE"       | true             | false
-        "+49175 11255555"           | "DE"       | false            | true  // TODO: ISSUE Mobile number length
+        "+49175 11255555"           | "DE"       | false            | false
         "+49175 112555555"          | "DE"       | false            | false
         "+49203 112"                | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
         "+49203 112555"             | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
@@ -146,7 +146,7 @@ class IsValidNumberTest extends Specification {
         "+49175 112"                | "FR"       | false            | false
         "+49175 112555"             | "FR"       | false            | false
         "+49175 1125555"            | "FR"       | true             | false
-        "+49175 11255555"           | "FR"       | false            | true  // TODO: ISSUE Mobile number length
+        "+49175 11255555"           | "FR"       | false            | false
         "+49175 112555555"          | "FR"       | false            | false
         "+49203 112"                | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
         "+49203 112555"             | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
@@ -176,7 +176,7 @@ class IsValidNumberTest extends Specification {
         "0175 115"                  | "DE"       | false            | false
         "0175 115555"               | "DE"       | false            | false
         "0175 1155555"              | "DE"       | true             | false
-        "0175 11555555"             | "DE"       | false            | true  // TODO: ISSUE Mobile number length
+        "0175 11555555"             | "DE"       | false            | false
         "0175 115555555"            | "DE"       | false            | false
         "0203 115"                  | "DE"       | true             | false // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
         "0203 115555"               | "DE"       | false            | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
@@ -185,7 +185,7 @@ class IsValidNumberTest extends Specification {
         "+49175 115"                | "DE"       | false            | false
         "+49175 115555"             | "DE"       | false            | false
         "+49175 1155555"            | "DE"       | true             | false
-        "+49175 11555555"           | "DE"       | false            | true  // TODO: ISSUE Mobile number length
+        "+49175 11555555"           | "DE"       | false            | false
         "+49175 115555555"          | "DE"       | false            | false
         "+49203 115"                | "DE"       | true             | false
         "+49203 115555"             | "DE"       | false            | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
@@ -194,7 +194,7 @@ class IsValidNumberTest extends Specification {
         "+49175 115"                | "FR"       | false            | false
         "+49175 115555"             | "FR"       | false            | false
         "+49175 1155555"            | "FR"       | true             | false
-        "+49175 11555555"           | "FR"       | false            | true  // TODO: ISSUE Mobile number length
+        "+49175 11555555"           | "FR"       | false            | false
         "+49175 115555555"          | "FR"       | false            | false
         "+49203 115"                | "FR"       | true             | false
         "+49203 115555"             | "FR"       | false            | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
@@ -238,7 +238,7 @@ class IsValidNumberTest extends Specification {
         "0175 116"                  | "DE"       | false            | false
         "0175 116555"               | "DE"       | false            | false
         "0175 1165555"              | "DE"       | true             | false
-        "0175 11655555"             | "DE"       | false            | true  // TODO: ISSUE Mobile number length
+        "0175 11655555"             | "DE"       | false            | false
         "0175 116555555"            | "DE"       | false            | false
 
         // NAC + NDC (e.g. for Duisburg) + 116xxx
@@ -261,7 +261,7 @@ class IsValidNumberTest extends Specification {
         "+49175 116"                | "DE"       | false            | false
         "+49175 116555"             | "DE"       | false            | false
         "+49175 1165555"            | "DE"       | true             | false
-        "+49175 11655555"           | "DE"       | false            | true  // TODO: ISSUE Mobile number length
+        "+49175 11655555"           | "DE"       | false            | false
         "+49175 116555555"          | "DE"       | false            | false
 
         // CC + NDC (e.g. for Duisburg) + 116xxx
@@ -284,7 +284,7 @@ class IsValidNumberTest extends Specification {
         "+49175 116"                | "FR"       | false            | false
         "+49175 116555"             | "FR"       | false            | false
         "+49175 1165555"            | "FR"       | true             | false
-        "+49175 11655555"           | "FR"       | false            | true  // TODO: ISSUE Mobile number length
+        "+49175 11655555"           | "FR"       | false            | false
         "+49175 116555555"          | "FR"       | false            | false
 
         // CC + NDC (e.g. for Duisburg) + 116xxx from outside Germany
@@ -373,18 +373,18 @@ class IsValidNumberTest extends Specification {
         "0175118000"                | "DE"       | false            | false
         "0175118099"                | "DE"       | false            | false
         "01751180000"               | "DE"       | true             | false
-        "017511800000"              | "DE"       | false            | true  // special for mobile
+        "017511800000"              | "DE"       | false            | false
         "01751181"                  | "DE"       | false            | false
         "017511810"                 | "DE"       | false            | false
         "017511833"                 | "DE"       | false            | false
         "0175118100"                | "DE"       | false            | false
         "01751181000"               | "DE"       | true             | false // special for mobile
-        "017511810000"              | "DE"       | false            | true  // special for mobile
+        "017511810000"              | "DE"       | false            | false
         "01751189"                  | "DE"       | false            | false
         "017511899"                 | "DE"       | false            | false
         "0175118999"                | "DE"       | false            | false
         "01751189999"               | "DE"       | true             | false // special for mobile
-        "017511899999"              | "DE"       | false            | true  // special for mobile
+        "017511899999"              | "DE"       | false            | false
 
         // CC + 118(y)xx
         "+49118"                    | "DE"       | false            | false
@@ -423,18 +423,18 @@ class IsValidNumberTest extends Specification {
         "+49175118000"              | "DE"       | false            | false
         "+49175118099"              | "DE"       | false            | false
         "+491751180000"             | "DE"       | true             | false
-        "+4917511800000"            | "DE"       | false            | true  // special for mobile
+        "+4917511800000"            | "DE"       | false            | false
         "+491751181"                | "DE"       | false            | false
         "+4917511810"               | "DE"       | false            | false
         "+4917511833"               | "DE"       | false            | false
         "+49175118100"              | "DE"       | false            | false
         "+491751181000"             | "DE"       | true             | false // special for mobile
-        "+4917511810000"            | "DE"       | false            | true  // special for mobile
+        "+4917511810000"            | "DE"       | false            | false
         "+491751189"                | "DE"       | false            | false
         "+4917511899"               | "DE"       | false            | false
         "+49175118999"              | "DE"       | false            | false
         "+491751189999"             | "DE"       | true             | false // special for mobile
-        "+4917511899999"            | "DE"       | false            | true  // special for mobile
+        "+4917511899999"            | "DE"       | false            | false
 
         // CC + 118(y)xx from outside Germany
         "+49118"                    | "FR"       | false            | false
@@ -473,18 +473,18 @@ class IsValidNumberTest extends Specification {
         "+49175118000"              | "FR"       | false            | false
         "+49175118099"              | "FR"       | false            | false
         "+491751180000"             | "FR"       | true             | false
-        "+4917511800000"            | "FR"       | false            | true  // special for mobile
+        "+4917511800000"            | "FR"       | false            | false
         "+491751181"                | "FR"       | false            | false
         "+4917511810"               | "FR"       | false            | false
         "+4917511833"               | "FR"       | false            | false
         "+49175118100"              | "FR"       | false            | false
         "+491751181000"             | "FR"       | true             | false // special for mobile
-        "+4917511810000"            | "FR"       | false            | true  // special for mobile
+        "+4917511810000"            | "FR"       | false            | false
         "+491751189"                | "FR"       | false            | false
         "+4917511899"               | "FR"       | false            | false
         "+49175118999"              | "FR"       | false            | false
         "+491751189999"             | "FR"       | true             | false // special for mobile
-        "+4917511899999"            | "FR"       | false            | true  // special for mobile
+        "+4917511899999"            | "FR"       | false            | false
         // end of 118
     }
 
