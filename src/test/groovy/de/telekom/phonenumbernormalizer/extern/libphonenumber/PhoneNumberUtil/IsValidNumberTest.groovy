@@ -146,7 +146,7 @@ class IsValidNumberTest extends Specification {
         "+49175 112"                | "FR"       | false            | false
         "+49175 112555"             | "FR"       | false            | false
         "+49175 1125555"            | "FR"       | true             | false
-        "+49175 11255555"           | "FR"       | false            | true   // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 11255555"           | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
         "+49175 112555555"          | "FR"       | false            | false
         "+49203 112"                | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
         "+49203 112555"             | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
