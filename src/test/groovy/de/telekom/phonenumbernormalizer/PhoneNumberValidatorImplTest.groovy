@@ -505,7 +505,7 @@ class PhoneNumberValidatorImplTest extends Specification {
         // end of 118
     }
 
-    def "check if original lib fixed isValid for German traffic routing 0199 for internal traffic routing"(String reserve,regionCode) {
+    def "validate German traffic routing 0199 for internal traffic routing"(String reserve,regionCode) {
         given:
         String[] numbersToTest = [reserve + "",
                                   reserve + "0",
@@ -557,6 +557,54 @@ class PhoneNumberValidatorImplTest extends Specification {
         "0199"     | "DE"
         "+49199"   | "DE"
         "+49199"   | "FR"
+    }
+
+    def "validate German personal 700 range"(String reserve, regionCode, possibleValue) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        PhoneNumberValidationResult[] expectedResults = [PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         possibleValue,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_LONG]
+
+        when:
+        PhoneNumberValidationResult[] results = []
+        for (number in numbersToTest) {
+            results += target.isPhoneNumberPossibleWithReason(number, regionCode)
+        }
+
+        then:
+
+        expectedResults == results
+
+        where:
+        reserve          | regionCode | possibleValue
+        //  0700 is personal number range: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0700/0700_node.html
+        //  it has 8-digit long numbers TODO: unclear if those numbers may only be called within Germany (no country code example)
+        //  but general numberplan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1
+        //  indicates it is callable from outside Germany
+
+        "0700"           | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "+49700"         | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49700"         | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
     }
 
 }
