@@ -27,67 +27,6 @@ class PhoneNumberValidatorImplTest extends Specification {
         target = new PhoneNumberValidatorImpl()
     }
 
-    def "check if original lib fixes number starting with NAC digit after optional NDC"(String number, countryCode, expectedResult) {
-        given:
-
-
-        when:
-        "get number isPossibleNumberWithReason: $number"
-
-        PhoneNumberValidationResult result = target.isPhoneNumberPossibleWithReason(number, countryCode)
-
-        then:
-        "it should validate to: $expectedResult"
-        result == expectedResult
-
-        where:
-
-        number                    | countryCode | expectedResult
-        "0203056677"              | "DE"        | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER  // after NAC+optional NDC number must not start with digit equal to NAC
-        "+49203056677"            | "DE"        | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER  // after CC+optional NDC number must not start with digit equal to NAC
-        "+49203056677"            | "FR"        | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER  // after CC+optional NDC number must not start with digit equal to NAC
-        "01750556677"             | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY            // after NAC+mandatory NDC number may start with digit equal to NAC
-        "+491750556677"           | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE                          // after CC+mandatory NDC number may start with digit equal to NAC
-        "+491750556677"           | "FR"        | PhoneNumberValidationResult.IS_POSSIBLE                          // after CCC+mandatory NDC number may start with digit equal to NAC
-    }
-
-    def "validate Number by RegionCode"(String number, String countryCode, expectedResult) {
-        given:
-
-        when:
-        "validate number: $number for country: $countryCode"
-        PhoneNumberValidationResult result = target.isPhoneNumberPossibleWithReason(number, countryCode)
-
-        then:
-        "it should validate to: $expectedResult"
-        result == expectedResult
-
-        where:
-        number                    | countryCode | expectedResult
-        null                      | "DE"        | PhoneNumberValidationResult.INVALID_LENGTH
-        // NDC+ national Romania numbers might be longer than 9 digits
-        "0040(0176) 3 0 6 9 6541" | "DE"        | PhoneNumberValidationResult.TOO_LONG
-        "0040 176 3 0 6 9 6542"   | "DE"        | PhoneNumberValidationResult.TOO_LONG
-        "004017630696543"         | "DE"        | PhoneNumberValidationResult.TOO_LONG
-        "0040-0176 3 0 6 9 6544"  | "DE"        | PhoneNumberValidationResult.TOO_LONG
-        "+49176 3 0 6 9 6544"     | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE
-        "0176 3 0 6 9 6544"       | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
-        "+49203556677"            | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE
-        "0203556677"              | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
-        "203556677"               | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
-        "556677"                  | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
-        "5566778"                 | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
-        "55667789"                | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
-        "556677889"               | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
-        "5566778899"              | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
-        "55667788990"             | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
-        "000"                     | "AU"        | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
-        "+39012345678"            | "IT"        | PhoneNumberValidationResult.IS_POSSIBLE
-        "012345678"               | "IT"        | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
-        "+39312345678"            | "IT"        | PhoneNumberValidationResult.IS_POSSIBLE
-        "312345678"               | "IT"        | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
-    }
-
     def "validate police short code 110 in combination as NDC"(String number, regionCode, expectedResult) {
         given:
 
@@ -505,6 +444,56 @@ class PhoneNumberValidatorImplTest extends Specification {
         // end of 118
     }
 
+    /*
+     TODO NDC Ranges see equivalent Testcases in IsValidNumberTest
+     */
+
+    // TODO: 19222
+
+    // TODO: 137
+
+    // TODO: 15
+
+    // TODO: 15 + voicemail infix
+
+    // TODO: 16
+
+    // TODO: 16 + voicemail infix
+
+    // TODO: 17
+
+    // TODO: 17 + voicemail infix
+
+    // TODO: 180
+
+    // TODO: 180 reserve
+
+    // TODO: 181 VPN
+
+    // TODO: 18(2-9) VPN
+
+    // TODO: 18(2-9) VON nationl only
+
+    // TODO: 18 59995 xxxx
+
+    // TODO: 19(1-4)
+
+    // TODO: 1981
+
+    // TODO: 1981xx
+
+    // TODO: 1981xx invalid
+
+    // TODO: 1982
+
+    // TODO: 1986
+
+    // TODO: 1987
+
+    // TODO: 1988
+
+    // TODO: 1989
+
     def "validate German traffic routing 0199 for internal traffic routing"(String reserve,regionCode) {
         given:
         String[] numbersToTest = [reserve + "",
@@ -606,5 +595,96 @@ class PhoneNumberValidatorImplTest extends Specification {
         "+49700"         | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
         "+49700"         | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
     }
+
+    // TODO: 800
+
+    // TODO: 900
+
+    // TODO: 31x
+
+    // TODO: 32
+
+    // TODO: 32 - low level reserve
+
+    // TODO: 32 - mid level reserve
+
+    // TODO: 32 - high level reserve
+
+    // TODO: DRAMA Numbers
+
+    // TODO: DRAMA Numbers 2 digits range
+
+    // TODO: DRAMA Numbers 3 digits range
+
+    // TODO: NDC 010 - 02999
+
+    // TODO: NDC 030 - 039999
+
+    // TODO: NDC 040 - 069
+
+    // TODO: NDC 0700 - 0999
+
+    def "validate number starting with NAC digit after optional NDC"(String number, countryCode, expectedResult) {
+        given:
+
+
+        when:
+        "get number isPossibleNumberWithReason: $number"
+
+        PhoneNumberValidationResult result = target.isPhoneNumberPossibleWithReason(number, countryCode)
+
+        then:
+        "it should validate to: $expectedResult"
+        result == expectedResult
+
+        where:
+
+        number                    | countryCode | expectedResult
+        "0203056677"              | "DE"        | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER  // after NAC+optional NDC number must not start with digit equal to NAC
+        "+49203056677"            | "DE"        | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER  // after CC+optional NDC number must not start with digit equal to NAC
+        "+49203056677"            | "FR"        | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER  // after CC+optional NDC number must not start with digit equal to NAC
+        "01750556677"             | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY            // after NAC+mandatory NDC number may start with digit equal to NAC
+        "+491750556677"           | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE                          // after CC+mandatory NDC number may start with digit equal to NAC
+        "+491750556677"           | "FR"        | PhoneNumberValidationResult.IS_POSSIBLE                          // after CCC+mandatory NDC number may start with digit equal to NAC
+    }
+
+    // see "normalizeNumber by RegionCode" in PhoneNumberNormalizerImplTest
+    def "validate Number by RegionCode"(String number, String countryCode, expectedResult) {
+        given:
+
+        when:
+        "validate number: $number for country: $countryCode"
+        PhoneNumberValidationResult result = target.isPhoneNumberPossibleWithReason(number, countryCode)
+
+        then:
+        "it should validate to: $expectedResult"
+        result == expectedResult
+
+        where:
+        number                    | countryCode | expectedResult
+        null                      | "DE"        | PhoneNumberValidationResult.INVALID_LENGTH
+        // NDC+ national Romania numbers might be longer than 9 digits
+        "0040(0176) 3 0 6 9 6541" | "DE"        | PhoneNumberValidationResult.TOO_LONG
+        "0040 176 3 0 6 9 6542"   | "DE"        | PhoneNumberValidationResult.TOO_LONG
+        "004017630696543"         | "DE"        | PhoneNumberValidationResult.TOO_LONG
+        "0040-0176 3 0 6 9 6544"  | "DE"        | PhoneNumberValidationResult.TOO_LONG
+        "+49176 3 0 6 9 6544"     | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE
+        "0176 3 0 6 9 6544"       | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "+49203556677"            | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE
+        "0203556677"              | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "203556677"               | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
+        "556677"                  | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
+        "5566778"                 | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
+        "55667789"                | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
+        "556677889"               | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
+        "5566778899"              | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
+        "55667788990"             | "DE"        | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY
+        "000"                     | "AU"        | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "+39012345678"            | "IT"        | PhoneNumberValidationResult.IS_POSSIBLE
+        "012345678"               | "IT"        | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "+39312345678"            | "IT"        | PhoneNumberValidationResult.IS_POSSIBLE
+        "312345678"               | "IT"        | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+    }
+
 
 }
