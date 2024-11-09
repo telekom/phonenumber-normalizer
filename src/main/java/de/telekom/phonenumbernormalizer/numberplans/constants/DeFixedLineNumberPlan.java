@@ -16,12 +16,10 @@
 package de.telekom.phonenumbernormalizer.numberplans.constants;
 
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import de.telekom.phonenumbernormalizer.numberplans.NumberPlan;
-import lombok.RequiredArgsConstructor;
 
 
 class NDCDetails {
@@ -115,6 +113,7 @@ public class DeFixedLineNumberPlan extends NumberPlan {
                     code and past it between the comments below.
                 */
 
+                Map.entry("700", new NDCDetails(8, 8, false)), // Personal Numbers
                 /*
                  * Generation started
                  */
@@ -192,6 +191,7 @@ public class DeFixedLineNumberPlan extends NumberPlan {
                 /*
                  * Generation ended
                  */
+
         );
     }
 

@@ -51,6 +51,7 @@ def print_function(leaf, prefix):
 onkz = {}
 
 add(onkz, "199", "special NDC for German Operators internal use")
+add(onkz, "700", "personal phone numbers")
 
 # Data from https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/ONRufnr/Vorwahlverzeichnis_ONB.zip.zip?__blob=publicationFile&v=1
 # it is linked at https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/ONRufnr/Einteilung_ONB/start.html
