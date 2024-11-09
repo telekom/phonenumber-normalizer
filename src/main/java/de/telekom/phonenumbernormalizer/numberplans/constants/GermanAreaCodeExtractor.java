@@ -15451,6 +15451,8 @@ public class GermanAreaCodeExtractor {
         }
 
         switch (number.charAt(0)) {
+            case '0':
+                return "700"; // personal phone numbers
             case '2':
                 return fromNumber702(number.substring(1));
             case '3':
