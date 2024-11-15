@@ -99,7 +99,8 @@ public class DeFixedLineNumberPlan extends NumberPlan {
             "115", new ShortNumberDetails(3, true, true, false, true, false, true, true),
             "116", new ShortNumberDetails(6, true, false, true, false, false, false, true),
             "1180", new ShortNumberDetails(6, false, false, false, false, false, false, false), // 1180xx is currently just reserved for future used
-            "118", new ShortNumberDetails(5, false, false, false, false, false, false, true)  // This covers  1181 - 1189 since 1180 is longer prefix and has its own value.
+            "118", new ShortNumberDetails(5, false, false, false, false, false, false, true),  // This covers  1181 - 1189 since 1180 is longer prefix and has its own value.
+            "19222", new ShortNumberDetails(5, false, true, false, true, false, true, true)
     );
 
     private static final Map<String, NDCDetails> NDC_DETAILS;
