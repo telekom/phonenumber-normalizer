@@ -444,6 +444,36 @@ class PhoneNumberValidatorImplTest extends Specification {
         // end of 118
     }
 
+    def "validate ambulance transport 19222 short codes in combination as NDC"(String number, regionCode, expectedResult) {
+        given:
+
+        when: "get number isValid: $number"
+
+        def result = target.isPhoneNumberPossibleWithReason(number, regionCode)
+
+        then: "is number expected: $expectedResult"
+        result == expectedResult
+
+        where:
+
+        number                      | regionCode | expectedResult
+        // prior to mobile, there where 19xxx short codes in fixed line - only 19222 for no emergency ambulance call is still valid
+        // its a national reserved number, which in contrast to 112 might also be called with NDC to reach a specific ambulance center - not all NDC have a connected 19222.
+        // for more information see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/ONRufnr/Vfg_25_2006_konsFassung100823.pdf?__blob=publicationFile&v=3 chapter 7
+        "19222"                     | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY   // not valid on mobil but on fixedline
+        // using 19222 als NDC after NAC is checked by "online services 019xx"
+        "0203 19222"                | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "0203 19222555"             | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER            // must not be longer
+        // using 19222 from DE als NDC after CC is checked by "online services 019xx"
+        "+49203 19222"              | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49203 19222555"           | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER              // must not be longer
+        // using 19222 from FR als NDC after CC is checked by "online services 019xx"
+        "+49203 19222"              | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49203 19222555"           | "FR"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER              // must not be longer
+        // end of 19222
+    }
+
+
     /*
      TODO NDC Ranges see equivalent Testcases in IsValidNumberTest
      */

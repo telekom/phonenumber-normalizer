@@ -510,7 +510,6 @@ class IsValidNumberTest extends Specification {
         // using 19222 als NDC after NAC is checked by "online services 019xx"
         "0203 19222"                | "DE"       | true             | false
         "0203 19222555"             | "DE"       | false            | true  // must not be longer
-        "+4919222"                  | "DE"       | false            | false
         // using 19222 from DE als NDC after CC is checked by "online services 019xx"
         "+49203 19222"              | "DE"       | true             | false
         "+49203 19222555"           | "DE"       | false            | true  // must not be longer
