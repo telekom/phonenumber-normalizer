@@ -53,6 +53,8 @@ public class GermanAreaCodeExtractor {
         }
 
         switch (number.charAt(0)) {
+            case '3':
+                return fromNumber13(number.substring(1));
             case '9':
                 return fromNumber19(number.substring(1));
             case '5':
@@ -61,6 +63,19 @@ public class GermanAreaCodeExtractor {
                 return fromNumber16(number.substring(1));
             case '7':
                 return fromNumber17(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber13(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '7':
+                return "137"; // mass traffic
             default:
                 return "";
         }

@@ -122,6 +122,8 @@ public abstract class NumberPlan {
 
     public boolean isReserved(String number) {return false; }
 
+    public PhoneNumberValidationResult checkSpecialDefinitions(String nationalSignificantNumber) {return null; }
+
     public Integer isMatchingLength(String number) {return null;}
 
     public boolean isUsableWithIDPandCCfromOutside(String number) {

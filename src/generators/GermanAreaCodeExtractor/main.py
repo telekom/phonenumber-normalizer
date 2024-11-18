@@ -50,6 +50,7 @@ def print_function(leaf, prefix):
 # Start, creating a dictonary for placing the Numberplan as a tree
 onkz = {}
 
+add(onkz, "137", "mass traffic")
 add(onkz, "199", "special NDC for German Operators internal use")
 add(onkz, "700", "personal phone numbers")
 
