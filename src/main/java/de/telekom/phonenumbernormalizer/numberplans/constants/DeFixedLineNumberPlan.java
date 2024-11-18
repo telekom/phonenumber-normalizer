@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import de.telekom.phonenumbernormalizer.numberplans.NumberPlan;
+import de.telekom.phonenumbernormalizer.numberplans.PhoneNumberValidationResult;
 
 
 class NDCDetails {
@@ -31,6 +32,13 @@ class NDCDetails {
 
     int lengthOfNumberPrefix = 0; // some NDC have different length definition for specific ranges defined by the prefix of a number.
 
+    PhoneNumberValidationResult validation;
+
+    public NDCDetails(int min, int max, boolean optional, int prefixLength, PhoneNumberValidationResult defaultValidation) {
+        this(min, max, optional, prefixLength);
+        this.validation = defaultValidation;
+    }
+
     public NDCDetails(int min, int max, boolean optional, int prefixLength) {
         this.minNumberLength = min;
         this.maxNumberLength = max;
@@ -38,11 +46,17 @@ class NDCDetails {
         this.lengthOfNumberPrefix = prefixLength;
     }
 
+    public NDCDetails(int min, int max, boolean optional, PhoneNumberValidationResult defaultValidation) {
+        this(min, max, optional);
+        this.validation = defaultValidation;
+    }
+
     public NDCDetails(int min, int max, boolean optional) {
         this.minNumberLength = min;
         this.maxNumberLength = max;
         this.isOptional = optional;
     }
+
 }
 
 class ShortNumberDetails {
@@ -115,7 +129,7 @@ public class DeFixedLineNumberPlan extends NumberPlan {
 
                     TODO: special NDC need to be added to the script (mobile is done)
                 */
-
+                Map.entry("137", new NDCDetails(7, 7, false)), // Mass Trafic Numbers
                 Map.entry("700", new NDCDetails(8, 8, false)), // Personal Numbers
                 /*
                  * Generation started
@@ -282,6 +296,7 @@ public class DeFixedLineNumberPlan extends NumberPlan {
                  numberDetails.usableDirectly);
     }
 
+
     @Override
     public Integer isMatchingLength(String number) {
         ShortNumberDetails numberDetails = SHORT_NUMBER_CODES_DETAILS.get(startingWithShortNumberKey(number));
@@ -342,6 +357,146 @@ public class DeFixedLineNumberPlan extends NumberPlan {
         }
         // Geographic Area Codes
         return GermanAreaCodeExtractor.fromNumber(nsn);
+    }
+
+    @Override
+    public PhoneNumberValidationResult checkSpecialDefinitions(String nationalSignificantNumber) {
+        if ((nationalSignificantNumber == null) || (nationalSignificantNumber.length()<3)){
+            return null;
+        }
+
+        switch (nationalSignificantNumber.charAt(0)) {
+            case '1':
+                switch (nationalSignificantNumber.charAt(1)) {
+                    case '1':
+                        switch (nationalSignificantNumber.charAt(2)) {
+                            case '5':
+                                return null;
+                            case '6':
+                                return null;
+                            default:
+                                return PhoneNumberValidationResult.INVALID_RESERVE_NUMBER;
+                        }
+                    case '2':
+                    case '4':
+                        return PhoneNumberValidationResult.INVALID_RESERVE_NUMBER;
+                    case '3':
+                        if (nationalSignificantNumber.charAt(2)=='7') {
+                            if (nationalSignificantNumber.startsWith("1370")) {
+                                return PhoneNumberValidationResult.INVALID_RESERVE_NUMBER;
+                            } else {
+                                return null; // mass traffic number
+                            }
+                        } else {
+                            // all 13x where x is not 7 are reserve
+                            return PhoneNumberValidationResult.INVALID_RESERVE_NUMBER;
+                        }
+                    case '6':
+                        switch (nationalSignificantNumber.charAt(2)) {
+                            case '1':
+                            case '5':
+                            case '6':
+                            case '7':
+                                return PhoneNumberValidationResult.INVALID_RESERVE_NUMBER;
+                            default:
+                                return null;
+                        }
+                    case '9':
+                        switch (nationalSignificantNumber.charAt(2)) {
+                            case '1':
+                            case '2':
+                            case '3':
+                            case '4':
+                                return null;
+                            case '8':
+                                if (nationalSignificantNumber.startsWith("1986115")) {
+                                    return PhoneNumberValidationResult.IS_POSSIBLE_OPERATOR_ONLY;
+                                }
+                                if (nationalSignificantNumber.startsWith("1987")) {
+                                    return PhoneNumberValidationResult.IS_POSSIBLE_OPERATOR_ONLY;
+                                }
+                                if (nationalSignificantNumber.startsWith("1988")) {
+                                    return PhoneNumberValidationResult.IS_POSSIBLE_OPERATOR_ONLY;
+                                }
+                                if (nationalSignificantNumber.startsWith("1989")) {
+                                    if (nationalSignificantNumber.startsWith("19890")) {
+                                        return PhoneNumberValidationResult.INVALID_RESERVE_NUMBER;
+                                    }
+                                    return PhoneNumberValidationResult.IS_POSSIBLE_OPERATOR_ONLY;
+                                }
+                                return PhoneNumberValidationResult.INVALID_RESERVE_NUMBER;
+                            case '9':
+                                return PhoneNumberValidationResult.IS_POSSIBLE_OPERATOR_ONLY;
+                            default:
+                                return PhoneNumberValidationResult.INVALID_RESERVE_NUMBER;
+                        }
+
+                    default:
+                        return null;
+                }
+            case '3':
+                if (nationalSignificantNumber.charAt(1) == '1') {
+                    switch (nationalSignificantNumber.charAt(2)) {
+                        case '0':
+                        case '1':
+                            return null;
+                        default:
+                            return PhoneNumberValidationResult.INVALID_RESERVE_NUMBER;
+                    }
+                }
+                return null;
+            case '5':
+                if (nationalSignificantNumber.charAt(1) == '0') {
+                    switch (nationalSignificantNumber.charAt(2)) {
+                        case '0':
+                        case '1':
+                            return PhoneNumberValidationResult.INVALID_RESERVE_NUMBER;
+                        default:
+                            return null;
+                    }
+                }
+                return null;
+            case '7':
+            case '8':
+                if (nationalSignificantNumber.charAt(1) == '0') {
+                    if (nationalSignificantNumber.charAt(2) == '1') {
+                        return PhoneNumberValidationResult.INVALID_RESERVE_NUMBER;
+                    }
+                }
+                return null;
+            case '9':
+                if (nationalSignificantNumber.charAt(1) == '0') {
+                    switch (nationalSignificantNumber.charAt(2)) {
+                        case '0':
+                            if (nationalSignificantNumber.length() > 3) {
+                                switch (nationalSignificantNumber.charAt(3)) {
+                                    case '0':
+                                    case '2':
+                                    case '4':
+                                    case '6':
+                                    case '7':
+                                    case '8':
+                                    case '9':
+                                        return PhoneNumberValidationResult.INVALID_RESERVE_NUMBER;
+                                    default:
+                                        return null;
+                                }
+                            }
+                            return null;
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                            return PhoneNumberValidationResult.INVALID_RESERVE_NUMBER;
+                        default:
+                            return null;
+                    }
+                }
+                return null;
+            default:
+                return null;
+        }
     }
 
 }

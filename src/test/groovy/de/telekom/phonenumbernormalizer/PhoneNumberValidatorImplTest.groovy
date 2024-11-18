@@ -473,14 +473,162 @@ class PhoneNumberValidatorImplTest extends Specification {
         // end of 19222
     }
 
+    def "validate German mass traffic NDC"(String number, regionCode, expectedResult) {
+        given:
+
+        when: "get number isValid: $number"
+
+        def result = target.isPhoneNumberPossibleWithReason(number, regionCode)
+
+        then: "is number expected: $expectedResult"
+        result == expectedResult
+
+        where:
+
+        number                      | regionCode | expectedResult
+        // 137 is masstraffic 10 digits
+        "0137 000 0000"             | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER              // Zone 0 are not assigend https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/freieRNB/0137_MABEZ_FreieRNB.html?nn=326370
+        "0137 000 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "0137 000 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+
+        // https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0137/0137_Nummernplan.pdf?__blob=publicationFile&v=4
+        // within each zone, there are only a few ranges assigned: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/belegteRNB/0137MABEZBelegteRNB_Basepage.html?nn=326370
+        // Zone 1 is valid, but only with exactly 10 digits
+        "0137 100 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "0137 100 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "0137 100 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 2 is valid, but only with exactly 10 digits
+        "0137 200 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "0137 200 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "0137 200 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 3 is valid, but only with exactly 10 digits
+        "0137 300 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "0137 300 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "0137 300 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 4 is valid, but only with exactly 10 digits
+        "0137 400 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "0137 400 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "0137 400 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 5 is valid, but only with exactly 10 digits
+        "0137 500 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "0137 500 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "0137 500 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 6 is valid, but only with exactly 10 digits
+        "0137 600 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "0137 600 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "0137 600 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 7 is valid, but only with exactly 10 digits
+        "0137 700 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "0137 700 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "0137 700 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 8 is valid, but only with exactly 10 digits
+        "0137 800 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "0137 800 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "0137 800 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 9 is valid, but only with exactly 10 digits
+        "0137 900 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
+        "0137 900 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "0137 900 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+
+        // with CC from DE
+
+        // 137 is masstraffic 10 digits
+        "+49137 000 0000"             | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER              // Zone 0 are not assigend https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/freieRNB/0137_MABEZ_FreieRNB.html?nn=326370
+        "+49137 000 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 000 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+
+        // https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0137/0137_Nummernplan.pdf?__blob=publicationFile&v=4
+        // within each zone, there are only a few ranges assigned: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/belegteRNB/0137MABEZBelegteRNB_Basepage.html?nn=326370
+        // Zone 1 is valid, but only with exactly 10 digits
+        "+49137 100 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 100 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 100 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 2 is valid, but only with exactly 10 digits
+        "+49137 200 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 200 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 200 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 3 is valid, but only with exactly 10 digits
+        "+49137 300 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 300 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 300 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 4 is valid, but only with exactly 10 digits
+        "+49137 400 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 400 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 400 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 5 is valid, but only with exactly 10 digits
+        "+49137 500 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 500 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 500 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 6 is valid, but only with exactly 10 digits
+        "+49137 600 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 600 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 600 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 7 is valid, but only with exactly 10 digits
+        "+49137 700 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 700 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 700 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 8 is valid, but only with exactly 10 digits
+        "+49137 800 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 800 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 800 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 9 is valid, but only with exactly 10 digits
+        "+49137 900 0000"             | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 900 00000"            | "DE"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 900 000"              | "DE"       | PhoneNumberValidationResult.TOO_SHORT
+
+
+        // with CC from outside DE
+
+        // 137 is masstraffic 10 digits
+        "+49137 000 0000"             | "FR"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER              // Zone 0 are not assigend https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/freieRNB/0137_MABEZ_FreieRNB.html?nn=326370
+        "+49137 000 00000"            | "FR"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 000 000"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+
+        // https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0137/0137_Nummernplan.pdf?__blob=publicationFile&v=4
+        // within each zone, there are only a few ranges assigned: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/belegteRNB/0137MABEZBelegteRNB_Basepage.html?nn=326370
+        // Zone 1 is valid, but only with exactly 10 digits
+        "+49137 100 0000"             | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 100 00000"            | "FR"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 100 000"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 2 is valid, but only with exactly 10 digits
+        "+49137 200 0000"             | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 200 00000"            | "FR"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 200 000"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 3 is valid, but only with exactly 10 digits
+        "+49137 300 0000"             | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 300 00000"            | "FR"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 300 000"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 4 is valid, but only with exactly 10 digits
+        "+49137 400 0000"             | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 400 00000"            | "FR"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 400 000"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 5 is valid, but only with exactly 10 digits
+        "+49137 500 0000"             | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 500 00000"            | "FR"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 500 000"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 6 is valid, but only with exactly 10 digits
+        "+49137 600 0000"             | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 600 00000"            | "FR"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 600 000"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 7 is valid, but only with exactly 10 digits
+        "+49137 700 0000"             | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 700 00000"            | "FR"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 700 000"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 8 is valid, but only with exactly 10 digits
+        "+49137 800 0000"             | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 800 00000"            | "FR"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 800 000"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        // Zone 9 is valid, but only with exactly 10 digits
+        "+49137 900 0000"             | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE
+        "+49137 900 00000"            | "FR"       | PhoneNumberValidationResult.TOO_LONG
+        "+49137 900 000"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+        "+49137 900 000"              | "FR"       | PhoneNumberValidationResult.TOO_SHORT
+
+    }
 
     /*
      TODO NDC Ranges see equivalent Testcases in IsValidNumberTest
      */
-
-    // TODO: 19222
-
-    // TODO: 137
 
     // TODO: 15
 
@@ -716,5 +864,6 @@ class PhoneNumberValidatorImplTest extends Specification {
         "312345678"               | "IT"        | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY
     }
 
+    // TODO: Reserve NDC like (0)11 where (0)115 and (0)116 is used, or (0)13 where (0)137x is used
 
 }

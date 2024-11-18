@@ -133,6 +133,7 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
             if (numberplan.isNumberTooLongForNationalDestinationCode(ndc,numberWithoutNationDestinationCode)) {
                 return PhoneNumberValidationResult.TOO_LONG;
             }
+
         }
         return null;
     }
@@ -186,6 +187,14 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                 return isIDPNumberValid;
             }
 
+            if (numberplan != null) {
+                PhoneNumberValidationResult specialRuling = numberplan.checkSpecialDefinitions(numberWithoutCountryCode);
+                if (specialRuling != null) {
+                    return specialRuling;
+                }
+            }
+
+
         } else {
             // No Country Exit Code has been used, so no CC is following.
             if (Objects.equals(wrapper.getNationalAccessCode(), "")) {
@@ -209,8 +218,12 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                         if (isNACNumberValid != null) {
                             return isNACNumberValid;
                         }
-                    }
 
+                        PhoneNumberValidationResult specialRuling = numberplan.checkSpecialDefinitions(numberWithOutNac);
+                        if (specialRuling != null) {
+                            return specialRuling;
+                        }
+                    }
                     // As fallback check by libPhone
                     PhoneNumberValidationResult fallBackResult = wrapper.validate();
 
