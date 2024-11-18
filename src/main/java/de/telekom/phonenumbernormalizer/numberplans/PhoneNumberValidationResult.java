@@ -93,14 +93,23 @@ public enum PhoneNumberValidationResult {
     /** The number has an invalid international dialing prefix (aka IDP) for this region. */
     INVALID_INTERNATIONAL_DIALING_PREFIX(ValidationResult.INVALID_LENGTH),
 
-    /** The number has an invalid country calling code (aka CC). */
+    /** The number has an invalid country calling code (aka CC) or the specific number must not be used with used CC.*/
     INVALID_COUNTRY_CODE(ValidationResult.INVALID_COUNTRY_CODE),
 
-    /** The number has an invalid national access code (aka NAC). */
+    /** The number has an invalid national access code (aka NAC) or the specific number must not be used with used NAC.*/
     INVALID_NATIONAL_ACCESS_CODE(ValidationResult.INVALID_LENGTH),
 
-    /** The number has an invalid national destination code (aka NDC) for this region. */
+    /** The number has an invalid national destination code (aka NDC) for this region or the specific number must not be used with used NDC. */
     INVALID_NATIONAL_DESTINATION_CODE(ValidationResult.INVALID_LENGTH),
+
+    /** The subscriber number starts with digits which makes the number invalid, e.g. overlapping special numbers when NDC is optional, so those numbers could not be distinct in digit by digit calling from those special numbers
+     *  - If Region is using NAC and NDC is optional, the number must not start with NAC
+     *  - If Region is using shortnumbers valid only without any prefix and NDC is optional, the number must not start with a prefix equal to those shortnumbers
+     * */
+    INVALID_PREFIX_OF_SUBSCRIBER_NUMBER(ValidationResult.INVALID_LENGTH),
+
+    /** The region is using a definition for a number (range), which matches for the number, but the definition is marked as reserve for future use. So currently it is not a valid number */
+    INVALID_RESERVE_NUMBER(ValidationResult.INVALID_LENGTH),
 
     /** The number is shorter than all valid numbers for this region or used NDC. */
     TOO_SHORT(ValidationResult.TOO_SHORT),
@@ -141,6 +150,24 @@ public enum PhoneNumberValidationResult {
      */
     public ValidationResult getPhoneLibValidationResult() {
         return phoneLibResult;
+    }
+
+    public static PhoneNumberValidationResult byPhoneLibValidationResult(ValidationResult result) {
+        switch(result){
+            case IS_POSSIBLE:
+                return PhoneNumberValidationResult.IS_POSSIBLE;
+            case IS_POSSIBLE_LOCAL_ONLY:
+                return PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY;
+            case INVALID_LENGTH:
+                return PhoneNumberValidationResult.INVALID_LENGTH;
+            case INVALID_COUNTRY_CODE:
+                return PhoneNumberValidationResult.INVALID_COUNTRY_CODE;
+            case TOO_SHORT:
+                return PhoneNumberValidationResult.TOO_SHORT;
+            case TOO_LONG:
+                return PhoneNumberValidationResult.TOO_LONG;
+        }
+        return null;
     }
 
     /**
