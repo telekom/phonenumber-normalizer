@@ -32,23 +32,11 @@ class NDCDetails {
 
     int lengthOfNumberPrefix = 0; // some NDC have different length definition for specific ranges defined by the prefix of a number.
 
-    PhoneNumberValidationResult validation;
-
-    public NDCDetails(int min, int max, boolean optional, int prefixLength, PhoneNumberValidationResult defaultValidation) {
-        this(min, max, optional, prefixLength);
-        this.validation = defaultValidation;
-    }
-
     public NDCDetails(int min, int max, boolean optional, int prefixLength) {
         this.minNumberLength = min;
         this.maxNumberLength = max;
         this.isOptional = optional;
         this.lengthOfNumberPrefix = prefixLength;
-    }
-
-    public NDCDetails(int min, int max, boolean optional, PhoneNumberValidationResult defaultValidation) {
-        this(min, max, optional);
-        this.validation = defaultValidation;
     }
 
     public NDCDetails(int min, int max, boolean optional) {
