@@ -58,3 +58,6 @@ Google stated it is aware and will bring changes after investigation that users 
 
 Google [fixed](https://github.com/google/libphonenumber/pull/3671/files#diff-5061a7d3c54ba589aacce00dcee1ce92e098c40034749bcae4c8a4780bb40233) it with [8.13.48](https://github.com/google/libphonenumber/pull/3671) on 16.10.2024
 While normal mobile numbers are now aligend, voicemail numbers length is still problematic (BUG needs to be reported!).
+
+### 2024-12-14 - [Metadata Update of 8.13.52 for DE mobile 176 range is invalid](https://issuetracker.google.com/issues/384186540)
+While Google had corrected mobile 17x range with prior feedback, they introduced an inconsistency with the last DE meta data update.
