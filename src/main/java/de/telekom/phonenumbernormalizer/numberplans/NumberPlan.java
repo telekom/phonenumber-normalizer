@@ -68,6 +68,154 @@ public abstract class NumberPlan {
     }
 
     /**
+     * Basically the libphone format of RFC 3966 is used to extract the NDC from it.
+     * A subclass can provide a more accurate calculation for the National Destination Code.
+     *
+     * @param nsn - National Significant Number (without IDP + CC or NAC as prefix)
+     * @return National Destination Code without leading National Access Code
+     *
+     * @see NumberPlanFactory
+     */
+    public String getNationalDestinationCodeFromNationalSignificantNumber(String nsn) {
+        PhoneLibWrapper wrapper = new PhoneLibWrapper(nsn, PhoneLibWrapper.getRegionCodeForCountryCode(NumberPlan.getCountryCode()));
+        return wrapper.getNationalDestinationCode();
+    }
+
+    public int getNationDestinationCodeMinimalNumberLength(String ndc, String number) {
+        return -1;
+    }
+
+    public int getNationDestinationCodeMaximumNumberLength(String ndc, String number) {
+        return -1;
+    }
+
+    public int getDefaultMinimalNumberLength() {
+        return -1;
+    }
+
+    public int getDefaultMaximumNumberLength() {
+        return -1;
+    }
+
+    public boolean isNumberTooShortForNationalDestinationCode(String ndc, String number) {
+        int minLength = getNationDestinationCodeMinimalNumberLength(ndc, number);
+        if (minLength == -1) {
+            minLength = getDefaultMinimalNumberLength();
+        }
+        return ((minLength != -1) && (minLength>number.length()));
+    }
+
+    public boolean isNumberTooLongForNationalDestinationCode(String ndc, String number) {
+        int maxLength = getNationDestinationCodeMaximumNumberLength(ndc, number);
+        if (maxLength == -1) {
+            maxLength = getDefaultMaximumNumberLength();
+        }
+        return ((maxLength != -1) && (maxLength<number.length()));
+    }
+
+    public boolean isSupportingNDC() { return true; }
+
+    public boolean isNDCOptional(String ndc) {
+        return true;
+    }
+
+    public boolean isNDCNationalOperatorOnly(String ndc) { return false; }
+
+    public boolean isReserved(String number) {return false; }
+
+    public PhoneNumberValidationResult checkSpecialDefinitions(String nationalSignificantNumber) {return null; }
+
+    public Integer isMatchingLength(String number) {return null;}
+
+    public boolean isUsableWithIDPandCCfromOutside(String number) {
+        return false;
+    }
+
+    public boolean isUsableWithIDPandCCandNDCfromOutside(String number) {
+        return false;
+    }
+
+    public boolean isUsableWithIDPandCCfromInside(String number) {
+        return false;
+    }
+
+    public boolean isUsableWithIDPandCCandNDCfromInside(String number) {
+        return false;
+    }
+
+    public boolean isUsableWithNAC(String number) {
+        return false;
+    }
+    public boolean isUsableWithNACandNDC(String number) {
+        return false;
+    }
+
+    public boolean isUsableDirectly(String number) {
+        return isMatchingShortNumber(number);
+    }
+
+
+    public boolean isUsable(ShortCodeUseable how, String number) {
+
+        if (how == null) {
+            return false;
+        }
+
+        switch (how) {
+            case WITH_IDP_AND_CC_FROM_OUTSIDE:
+                return isUsableWithIDPandCCfromOutside(number);
+            case WITH_IDP_AND_CC_AND_NDC_FROM_OUTSIDE:
+                return isUsableWithIDPandCCandNDCfromOutside(number);
+            case WITH_IDP_AND_CC_FROM_INSIDE:
+                return isUsableWithIDPandCCfromInside(number);
+            case WITH_IDP_AND_CC_AND_NDC_FROM_INSIDE:
+                return isUsableWithIDPandCCandNDCfromInside(number);
+            case WITH_NAC:
+                return isUsableWithNAC(number);
+            case WITH_NAC_AND_NDC:
+                return isUsableWithNACandNDC(number);
+            case DIRECTLY:
+                return isUsableDirectly(number);
+        }
+        return false;
+    }
+
+    /**
+     * Finds the longest prefix of a short number rule of the current number plan, at the beginning of a number.
+     *
+     * @param number - number that should be checked against the number plan
+     * @return String - if number matches starts with a short number rule prefix, this is the longest one - otherwise it is an empty string.
+     */
+    public String startingWithShortNumberKey(String number) {
+        // first check if we have rules at all
+        if (this.getShortNumberCodes() == null) {
+            LOGGER.debug("no short number code rules available");
+            return "";
+        }
+
+        // check if the number is starting with a prefix defined in the rule
+        int minShortNumberKeyLength = this.getMinShortNumberKeyLength();
+        int maxShortNumberKeyLength = this.getMaxShortNumberKeyLength();
+
+        // starting prefix check with the longest prefix, so overlapping prefixes could be realized
+        // e.g. 1180 is in Germany a starting prefix for a 6 digit short number while 1181 - 1189 is in Germany a starting
+        // prefix for a 5 digits number and could be summed up by 118 and only 1180 is overriding this prefix part.
+        for (int i = maxShortNumberKeyLength; i >= minShortNumberKeyLength; i--) {
+            if (number.length() >= i) {
+                String shortNumber = number.substring(0, i);
+                if (this.getShortNumberCodes().containsKey(shortNumber)) {
+                    return shortNumber;
+                }
+            }
+        }
+        return "";
+    }
+
+    public int getShortCodeLength(String shortNumberKey) {
+        return getShortNumberCodes().get(shortNumberKey);
+    }
+
+    /**
      * Checks if a number is matching any a short number rule of the current number plan.
      *
      * @param number - number that should be checked against the number plan
@@ -95,24 +243,10 @@ public abstract class NumberPlan {
             return false;
         }
 
-
-        // check if the number is starting with a prefix defined in the rule
-        int minShortNumberKeyLength = this.getMinShortNumberKeyLength();
-        int maxShortNumberKeyLength = this.getMaxShortNumberKeyLength();
-
-        Integer validShortNumberLength;
-
-        // starting prefix check with the longest prefix, so overlapping prefixes could be realized
-        // e.g. 1180 is in Germany a starting prefix for a 6 digit short number while 1181 - 1189 is in Germany a starting
-        // prefix for a 5 digits number and could be summed up by 118 and only 1180 is overriding this prefix part.
-        for (int i = maxShortNumberKeyLength; i >= minShortNumberKeyLength; i--) {
-            if (number.length() >= i) {
-                String shortNumber = number.substring(0, i);
-                if (this.getShortNumberCodes().containsKey(shortNumber)) {
-                    validShortNumberLength = this.getShortNumberCodes().get(shortNumber);
-                    return number.length() == validShortNumberLength;
-                }
-            }
+        // check if the number length exactly matches the defined length of the prefix
+        String shortNumberKey = startingWithShortNumberKey(number);
+        if (shortNumberKey.length()>0) {
+            return number.length() == getShortCodeLength(shortNumberKey);
         }
 
         LOGGER.debug("no short number, to code found for number: {}", number);

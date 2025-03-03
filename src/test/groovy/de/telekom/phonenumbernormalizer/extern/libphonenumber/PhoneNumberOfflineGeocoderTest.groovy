@@ -68,6 +68,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "201"    | "Essen"                                  | false
         "202"    | "Wuppertal"                              | false
         "203"    | "Duisburg"                               | false
+        "204"    | null                                     | true
         "2041"   | "Bottrop"                                | false
         "2043"   | "Gladbeck"                               | false
         "2045"   | "Bottrop Kirchhellen"                    | false
@@ -75,6 +76,7 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         "2052"   | "Velbert Langenberg"                     | false
         "2053"   | "Velbert Neviges"                        | false
         "2054"   | "Essen Kettwig"                          | false
+        "2055"   | null                                     | true
         "2056"   | "Heiligenhaus"                           | false
         "2058"   | "Wülfrath"                               | false
         "2064"   | "Dinslaken"                              | false
