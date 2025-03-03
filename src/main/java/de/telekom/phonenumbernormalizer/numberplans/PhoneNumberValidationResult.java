@@ -18,9 +18,9 @@ package de.telekom.phonenumbernormalizer.numberplans;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.ValidationResult;
 
 /**
- * Wrapper around the PhoneLib enum {@link ValidationResult} from Google
+ * Wrapper around Google's LibPhoneNumber enum {@link ValidationResult} from Google
  * <p>
- * When the PhoneLib is validating a phone number it returns a value of the enum {@link ValidationResult}.
+ * When Google's LibPhoneNumber is validating a phone number it returns a value of the enum {@link ValidationResult}.
  * </p><p>
  * It differentiates two possible positive and five possible negative results. The value
  * {@link ValidationResult#INVALID_LENGTH} is for any negative case, which is not explicitly covered by any of the other

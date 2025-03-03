@@ -50,14 +50,14 @@ class PhoneNumberOfflineGeocoderTest extends Specification {
         if ((result != expectedResult) && (result2 != expectedResult)){
             if (expectingFail) {
                 if (!LOGONLYUNEXPECTED) {
-                    logger.info("PhoneLib is still not correctly labeling $areacode to $expectedResult by giving $result")
+                    logger.info("LibPhoneNumber is still not correctly labeling $areacode to $expectedResult by giving $result")
                 }
             } else {
-                logger.warning("PhoneLib is suddenly not correctly labeling $areacode to $expectedResult by giving $result")
+                logger.warning("LibPhoneNumber is suddenly not correctly labeling $areacode to $expectedResult by giving $result")
             }
         } else {
             if (expectingFail) {
-                logger.info("!!! PhoneLib is now correctly labeling $areacode to $expectedResult !!!")
+                logger.info("!!! LibPhoneNumber is now correctly labeling $areacode to $expectedResult !!!")
             }
         }
 

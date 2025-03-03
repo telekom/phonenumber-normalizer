@@ -46,7 +46,7 @@ public class DeviceContextDto implements DeviceContext {
 
     /**
      * The Country (Calling) Code of the countries number plan, where the device is originated. Also known as Landesvorwahl.
-     * Without international dialing prefix nor trunc code. If not known or not set, it should return DeviceContext.UNKNOWN_VALUE.
+     * Without international dialing prefix nor trunk code. If not known or not set, it should return DeviceContext.UNKNOWN_VALUE.
      * <p/>
      * E.G. "49" for Germany
      *
@@ -57,13 +57,13 @@ public class DeviceContextDto implements DeviceContext {
 
     /**
      * The National Destination Code (NDC) of the countries number plan, where the device is originated. Also known as AreaCode, ONKZ or (Orts-)Vorwahl.
-     * Without National Access Code (NAC) nor trunc code. If not known or not set, it should return DeviceContext.UNKNOWN_VALUE.
+     * Without National Access Code (NAC) nor trunk code. If not known or not set, it should return DeviceContext.UNKNOWN_VALUE.
      * <p/>
      * E.G. "228" for Bonn in Germany where the Deutsche Telekom Headquarter is located
      *
      * @see DeviceContext#UNKNOWN_VALUE
      */
-    @ApiModelProperty(value = "National Destination Code without leading 0 nor other trunc codes; if not present its unknown", example = "228")
+    @ApiModelProperty(value = "National Destination Code without leading 0 nor other trunk codes; if not present its unknown", example = "228")
     private String nationalDestinationCode = DeviceContext.UNKNOWN_VALUE;
 
 }

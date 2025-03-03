@@ -71,14 +71,14 @@ public class PhoneNumberNormalizerImpl implements PhoneNumberNormalizer {
     }
 
     /**
-     * Uses wrapper of PhoneLib to identify if special rules apply for normalization.<br/>
+     * Uses wrapper of Google's LibPhoneNumber to identify if special rules apply for normalization.<br/>
      * Using device context for enriching the number make it normalizable to E164 format if NDC is optional in the used number plan, but not used in the phone number to be normalized.
-     * @param wrapper instanced wrapper of PhoneLib
+     * @param wrapper instanced wrapper of Google's LibPhoneNumber
      * @param deviceContext information like CC, NDC and {@link de.telekom.phonenumbernormalizer.dto.DeviceContextLineType} from which the number is dialled
      * @return E164 formatted phone number or dialable version of it or null
      */
     private String normalize(PhoneLibWrapper wrapper, DeviceContext deviceContext) {
-        // international prefix has been added by PhoneLib even if it's not valid in the number plan.
+        // international prefix has been added by Google's LibPhoneNumber even if it's not valid in the number plan.
         if (wrapper == null) {
             LOGGER.debug("PhoneLipWrapper was not initialized");
             return null;
@@ -99,10 +99,10 @@ public class PhoneNumberNormalizerImpl implements PhoneNumberNormalizer {
         }
 
         if (wrapper.hasRegionNationalAccessCode() && deviceContext != null) {
-            //Number plan is using a NationalPrefix aka Trunc Code ... so we could add Area Code if not included in the number.
+            //Number plan is using a NationalPrefix aka Trunk Code ... so we could add Area Code if not included in the number.
             return wrapper.extendNumberByDefaultAreaCodeAndCountryCode(wrapper.getNationalAccessCode(), deviceContext.getNationalDestinationCode());
         }
-        // Number plan is not using NationalPrefix aka Trunc Code ... its also not a short number, so country code can be added:
+        // Number plan is not using NationalPrefix aka Trunk Code ... its also not a short number, so country code can be added:
         return wrapper.getE164Formatted();
     }
 
@@ -120,7 +120,7 @@ public class PhoneNumberNormalizerImpl implements PhoneNumberNormalizer {
         }
 
         // international prefix is added by the lib even if it's not valid in the number plan.
-        //checking if the input number is equal to the nationalNumber based on number plan and trunc code logic.
+        //checking if the input number is equal to the nationalNumber based on number plan and trunk code logic.
         boolean hasNoCCAndNoNAC = wrapper.hasNoCountryCodeNorNationalAccessCode();
 
         LOGGER.debug("Number has no CC and no NAC: {}.", hasNoCCAndNoNAC);

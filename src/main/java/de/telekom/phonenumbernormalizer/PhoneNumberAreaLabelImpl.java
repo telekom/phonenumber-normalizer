@@ -32,7 +32,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -43,7 +43,7 @@ import java.util.regex.Pattern;
  *     <li>Country Calling Code to German Country Names</li>
  *     <li>AU-NDC: "Weihnachtsinsel" &amp; "Kokosinseln"</li>
  *     <li>DE-NDC: German City-Names replacing formal abbreviation with long name</li>
- *     <li>RU-NDC: Country seperation "Russland" &amp; "Kasachstan"</li>
+ *     <li>RU-NDC: Country separation "Russland" &amp; "Kasachstan"</li>
  *     <li>US-NDC: For US and CA just the state names</li>
  * </ul>
  */

@@ -18,9 +18,6 @@ package de.telekom.phonenumbernormalizer
 import de.telekom.phonenumbernormalizer.dto.DeviceContext
 import de.telekom.phonenumbernormalizer.dto.DeviceContextDto
 import de.telekom.phonenumbernormalizer.dto.DeviceContextLineType
-import de.telekom.phonenumbernormalizer.numberplans.PhoneLibWrapper
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import spock.lang.Specification
 
 

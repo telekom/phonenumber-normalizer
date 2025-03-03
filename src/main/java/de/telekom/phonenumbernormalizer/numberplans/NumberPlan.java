@@ -29,7 +29,7 @@ import java.util.Comparator;
  * This class provides basic logic to check a given number against a simple set of rules to identify if it is short numbers, which does not need normalization.
  * It also needs to provide its country calling code, to specify where the rules apply.
  * <p>
- * PhoneLib already provide a ShortNumbers, but for EU wide 116xxx range only a few countries are configured to support the range. 
+ * Google's LibPhoneNumber already provide a ShortNumbers, but for EU wide 116xxx range only a few countries are configured to support the range.
  * For Germany only currently assigned numbers are configured which is in contrast to Googles definition of checks, 
  * but nevertheless the <a href="https://issuetracker.google.com/u/1/issues/183669955">corresponding Issues</a> has been rejected.
  * </p><p>
@@ -46,8 +46,8 @@ public abstract class NumberPlan {
      * The key (String) is representing a prefix for the number and the value (Integer) is the total length of the short code (including the prefix)
      * <ul>
      * <li>e.g. "110"; 3 - the total length is already the length of the prefix, so its exactly the short number</li>
-     * <li>e.g. "1100"; 5 - the total length is longer than the length of the prefix, so all number from 11000 to 11009 are coverd</li>
-     * <li>e.g. both rules above can be combined, because longer prefixes are evaluated first, so that partical ranges of rules with shorter prefix can be overriden.</li>
+     * <li>e.g. "1100"; 5 - the total length is longer than the length of the prefix, so all number from 11000 to 11009 are covered</li>
+     * <li>e.g. both rules above can be combined, because longer prefixes are evaluated first, so that partial ranges of rules with shorter prefix can be overridden.</li>
      * </ul>
      * @return Map of rules for the short codes
      *

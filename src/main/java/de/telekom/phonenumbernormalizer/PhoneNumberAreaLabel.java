@@ -23,12 +23,10 @@ import java.util.Optional;
  */
 public interface PhoneNumberAreaLabel {
 
-
-
     /**
-     * Get a location name for a E164 formated number
+     * Get a location name for a E164 formatted number
      *
-     * @param e164number number following E164 schema eg. +4961511234567
+     * @param e164number number following E164 schema e.g. +4961511234567
      * @return nullable optional with either a national label or if non is available a country label
      */
     Optional<String> getLocationByE164Number(String e164number);

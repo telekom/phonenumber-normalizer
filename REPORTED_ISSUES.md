@@ -15,7 +15,7 @@ This issue has been resolved.
 
 ### 2021-03-25 - [Germany (DE, +49): 116xxx Short Number valid vs. assigned](https://issuetracker.google.com/issues/183669955)
 
-This issue pertains to the EU-wide special social number short code definition. Although the regulation clearly defines a range, PhoneLib is not validating against that range, but against a list of currently assigned/operated numbers. At least for the German number space, as mentioned in the initial issue discussion (see first one above), the library is only partly or even completely checking the whole range in other EU number spaces.
+This issue pertains to the EU-wide special social number short code definition. Although the regulation clearly defines a range, Google's LibPhoneNumber is not validating against that range, but against a list of currently assigned/operated numbers. At least for the German number space, as mentioned in the initial issue discussion (see first one above), the library is only partly or even completely checking the whole range in other EU number spaces.
 
 On the one hand, the [FAQ](https://github.com/google/libphonenumber/blob/master/FAQ.md#what_is_valid)(https://github.com/google/libphonenumber/blob/master/FAQ.md) states that “valid” does not mean “numbers are currently assigned to a specific user and reachable.”
 On the other hand, it states that “a valid number range is one from which numbers can be freely assigned by carriers to users,” which is not the case for EU-wide numbers that require special clearance.
@@ -24,8 +24,8 @@ While it seems that the last point is the argument for rejecting the issue (whic
 
 ## Internal Implementation
 
-After a long discussion and closing the issues as stated above, we decided to implement a minimal fix for normalizing German Phonenumbers for our internal use, to support the phoning capability of Deutsche Telekom Smart Speaker.
-We also set up [test cases to verify if PhoneLib behavior changes to correctly normalize the currently failing cases](https://github.com/telekom/phonenumber-normalizer/blob/main/src/test/groovy/de/telekom/phonenumbernormalizer/extern/libphonenumber/PhoneNumberUtilTest.groovy), so that our implementation would become unnecessary.
+After a long discussion and closing the issues as stated above, we decided to implement a minimal fix for normalizing German phone numbers for our internal use, to support the phoning capability of Deutsche Telekom Smart Speaker.
+We also set up [test cases to verify if Google's LibPhoneNumber behavior changes to correctly normalize the currently failing cases](https://github.com/telekom/phonenumber-normalizer/blob/main/src/test/groovy/de/telekom/phonenumbernormalizer/extern/libphonenumber/PhoneNumberUtilTest.groovy), so that our implementation would become unnecessary.
 
 We also discovered, during its development, that the geolocation method uses BenetzA given labels, which include abbreviations.
 [For a smart speaker, we needed a “speakable” label - so we created the following issue and added our own list to our interim solution](https://github.com/telekom/phonenumber-normalizer/blob/main/src/main/resources/arealabels/nationallabels/de.json).
