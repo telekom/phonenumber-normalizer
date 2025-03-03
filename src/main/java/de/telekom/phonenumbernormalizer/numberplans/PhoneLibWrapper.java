@@ -942,6 +942,11 @@ public class PhoneLibWrapper {
      */
     private boolean isNormalizingTried = false;
 
+    public void tryNormalization() {
+        this.isNormalizingTried = true;
+        this.semiNormalizedNumber = PhoneLibWrapper.parseNumber(dialableNumber, regionCode);
+    }
+
     /**
      * Initialize the wrapper by giving a phone number to be analyzed against a number plan of a given region
      * @param number the phone number to be analyzed
@@ -960,8 +965,7 @@ public class PhoneLibWrapper {
                 if (!isSpecialFormat(dialableNumber)) {
                     // Number needs normalization:
                     // international prefix is added by the lib even if it's not valid in the number plan.
-                    this.isNormalizingTried = true;
-                    this.semiNormalizedNumber = PhoneLibWrapper.parseNumber(dialableNumber, regionCode);
+                    this.tryNormalization();
                 }
             }
         }
@@ -1025,6 +1029,18 @@ public class PhoneLibWrapper {
         return hasRegionNationalAccessCode();
     }
 
+    boolean noSemiNormalizedNumber() {
+        if (this.dialableNumber==null) {
+            return true;
+        }
+
+        if ((! this.isNormalizingTried) && (this.semiNormalizedNumber == null)){
+            this.tryNormalization();
+        }
+
+        return (this.semiNormalizedNumber == null);
+    }
+
     /**
      * Using PhoneLib to get a E164 formatted representation of the given number
      * <p>
@@ -1035,9 +1051,44 @@ public class PhoneLibWrapper {
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
      */
     public String getE164Formatted() {
+        if (this.noSemiNormalizedNumber()) {
+            return null;
+        }
         return phoneUtil.format(this.semiNormalizedNumber, PhoneNumberUtil.PhoneNumberFormat.E164);
     }
 
+    /**
+     * Using PhoneLib to get a RFC3966 formatted representation of the given number
+     * <p>
+     * This is a straight invocation, so no compensation of some inaccuracy is done here.
+     * </p>
+     * @return RFC3966 format of the given phone number
+     *
+     * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
+     */
+    public String getRFC3966Formatted() {
+        if (this.noSemiNormalizedNumber()) {
+            return null;
+        }
+        return phoneUtil.format(this.semiNormalizedNumber, PhoneNumberUtil.PhoneNumberFormat.RFC3966);
+    }
+
+
+    public String getNationalDestinationCode() {
+        String rfc3966 = this.getRFC3966Formatted();
+        if (rfc3966 == null) {
+            return null;
+        }
+
+        // e.g. tel:+49-176-30696544
+        String[] parts = rfc3966.split("-");
+
+        if (parts.length>1){
+            return parts[1];
+        }
+        return null;
+
+    }
     /**
      * If we know the given region for the given number {@link PhoneLibWrapper#hasRegionNationalAccessCode()}, this method checks if the given number does not start with a NAC nor a CC,
      * so we could permanently add a default NDC and NAC to the given number and for this new value the method directly return a E164 formatted representation.
@@ -1055,6 +1106,7 @@ public class PhoneLibWrapper {
             String extendedNumber = nationalAccessCode + defaultNationalDestinationCode + nationalPhoneNumberWithoutNationalAccessCode;
 
             try {
+                this.isNormalizingTried = false;
                 this.semiNormalizedNumber = phoneUtil.parse(extendedNumber, regionCode);
                 // after area code has been added, we can add the country code by the lib:
                 return getE164Formatted();
@@ -1326,6 +1378,9 @@ public class PhoneLibWrapper {
      * @see PhoneLibWrapper#nationalPhoneNumberWithoutNationalPrefix(Phonenumber.PhoneNumber)
      */
     private String getNationalPhoneNumberWithoutNationalAccessCode() {
+        if (this.noSemiNormalizedNumber()) {
+            return null;
+        }
         return PhoneLibWrapper.nationalPhoneNumberWithoutNationalPrefix(this.semiNormalizedNumber);
     }
 

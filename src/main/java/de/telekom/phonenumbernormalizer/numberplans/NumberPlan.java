@@ -68,8 +68,8 @@ public abstract class NumberPlan {
     }
 
     /**
-     * A subclass can provide National Destination Code of the rules - not used inside this class, but
-     * re-usable when adding the subclass to the factory.
+     * Basically the libphone format of RFC 3966 is used to extract the NDC from it.
+     * A subclass can provide a more accurate calculation for the National Destination Code.
      *
      * @param nsn - National Significant Number (without IDP + CC or NAC as prefix)
      * @return National Destination Code without leading National Access Code
@@ -77,7 +77,8 @@ public abstract class NumberPlan {
      * @see NumberPlanFactory
      */
     public String getNationalDestinationCodeFromNationalSignificantNumber(String nsn) {
-        return "";
+        PhoneLibWrapper wrapper = new PhoneLibWrapper(nsn, PhoneLibWrapper.getRegionCodeForCountryCode(NumberPlan.getCountryCode()));
+        return wrapper.getNationalDestinationCode();
     }
 
     public int getNationDestinationCodeMinimalNumberLength(String ndc, String number) {
