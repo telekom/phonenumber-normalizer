@@ -11,7 +11,7 @@ public class GermanAreaCodeExtractor {
      */
 
     public static Boolean isNDCOptional(String number) {
-        // primarly this covers mobile numbers 
+        // primarily this covers mobile numbers
         return !(number.startsWith("1"));
     }
 

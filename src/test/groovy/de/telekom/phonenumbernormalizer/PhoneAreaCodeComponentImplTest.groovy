@@ -70,9 +70,12 @@ class PhoneAreaCodeComponentImplTest extends Specification {
 
         then:
         "It should return the area name: ${expectedResult}"
-        result.isPresent() == true
-        result.get() == expectedResult
-
+        if (expectedResult == null) {
+            result.isPresent() == false
+        } else {
+            result.isPresent() == true
+            result.get() == expectedResult
+        }
         where:
         nationalNumber | regionCode | expectedResult
         "201"          | "DE"       | "Essen"
@@ -81,6 +84,11 @@ class PhoneAreaCodeComponentImplTest extends Specification {
         "60411"        | "DE"       | "Bottrop"
         "60412"        | "DE"       | "XXX"
         "60413"        | "DE"       | "Bottrop"
+        "605"          | "DE"       | null
+        "606"          | "DE"       | null
+        "6065"         | "DE"       | null
+        "6066"         | "DE"       | "AAA"
+        "6067"         | "DE"       | null
         "205"          | "US"       | "Alabama"
         "659"          | "US"       | "Alabama"
         "203"          | "US"       | "Connecticut"
