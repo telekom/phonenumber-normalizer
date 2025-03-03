@@ -65,17 +65,17 @@ class PhoneLibWrapperTest extends Specification {
             "00"            | "DE"       | "TOO_SHORT_AFTER_IDD" // because IDC in Germany is 00
             "00"            | "US"       | "00"
             "00"            | "IT"       | "TOO_SHORT_AFTER_IDD" // because IDC in Italy is 00
-            //shorter zero check - just current PhoneLib behavior
+            //shorter zero check - just current Google's LibPhoneNumber behavior
             "0"            | "AU"       | "NOT_A_NUMBER" // because its to short
             "0"            | "DE"       | "NOT_A_NUMBER" // because its to short
             "0"            | "US"       | "NOT_A_NUMBER" // because its to short
             "0"            | "IT"       | "NOT_A_NUMBER" // because its to short
-            //shorter 1 check - just current PhoneLib behavior
+            //shorter 1 check - just current Google's LibPhoneNumber behavior
             "1"            | "AU"       | "NOT_A_NUMBER" // because its to short
             "1"            | "DE"       | "NOT_A_NUMBER" // because its to short
             "1"            | "US"       | "NOT_A_NUMBER" // because its to short
             "1"            | "IT"       | "NOT_A_NUMBER" // because its to short
-            //shorter zero check - just current PhoneLib behavior
+            //shorter zero check - just current Google's LibPhoneNumber behavior
             "01"           | "AU"       | "01"
             "01"           | "DE"       | "01"
             "01"           | "US"       | "01"

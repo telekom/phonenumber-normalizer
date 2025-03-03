@@ -26,11 +26,11 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 
 /**
- * Wrapper around the PhoneLib library from Google
+ * Wrapper around Google's LibPhoneNumber library
  * <p>
  * Using reflection to access internal information to know if a region has a nation prefix &amp; which one it is.
  * </p><p>
- * Providing own NumberPlans logic as an alternative to PhoneLib ShortNumber.
+ * Providing own NumberPlans logic as an alternative to Google's LibPhoneNumber ShortNumber.
  * </p>
  * @see NumberPlan
  */
@@ -48,7 +48,7 @@ public class PhoneLibWrapper {
     String dialableNumber;
 
     /**
-     * The given number normalized with PhoneLib, risking we get a incorrect normalization
+     * The given number normalized with Google's LibPhoneNumber, risking we get an incorrect normalization
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
      * @see PhoneLibWrapper#isNormalizingTried()
@@ -65,24 +65,24 @@ public class PhoneLibWrapper {
     String regionCode;
 
     /**
-     * The number plan metadata which PhoneLib is using for the given region code.
+     * The number plan metadata which Google's LibPhoneNumber is using for the given region code.
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
      */
     Phonemetadata.PhoneMetadata metadata;
 
     /**
-     * An instance of the PhoneLib short number utility.
+     * An instance of Google's LibPhoneNumber short number utility.
      */
     private static final ShortNumberInfo shortNumberUtil = ShortNumberInfo.getInstance();
 
     /**
-     * An instance of the PhoneLib number utility.
+     * An instance of Google's LibPhoneNumber number utility.
      */
     private static final PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
 
     /**
-     * Storing if PhoneLib has been used to parse the given number into semiNormalizedNumber.
+     * Storing if Google's LibPhoneNumber has been used to parse the given number into semiNormalizedNumber.
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
      * @see PhoneLibWrapper#semiNormalizedNumber

@@ -71,14 +71,14 @@ public class PhoneNumberNormalizerImpl implements PhoneNumberNormalizer {
     }
 
     /**
-     * Uses wrapper of PhoneLib to identify if special rules apply for normalization.<br/>
+     * Uses wrapper of Google's LibPhoneNumber to identify if special rules apply for normalization.<br/>
      * Using device context for enriching the number make it normalizable to E164 format if NDC is optional in the used number plan, but not used in the phone number to be normalized.
-     * @param wrapper instanced wrapper of PhoneLib
+     * @param wrapper instanced wrapper of Google's LibPhoneNumber
      * @param deviceContext information like CC, NDC and {@link de.telekom.phonenumbernormalizer.dto.DeviceContextLineType} from which the number is dialled
      * @return E164 formatted phone number or dialable version of it or null
      */
     private String normalize(PhoneLibWrapper wrapper, DeviceContext deviceContext) {
-        // international prefix has been added by PhoneLib even if it's not valid in the number plan.
+        // international prefix has been added by Google's LibPhoneNumber even if it's not valid in the number plan.
         if (wrapper == null) {
             LOGGER.debug("PhoneLipWrapper was not initialized");
             return null;
