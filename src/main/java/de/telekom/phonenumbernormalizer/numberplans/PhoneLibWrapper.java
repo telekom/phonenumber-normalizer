@@ -191,7 +191,7 @@ public class PhoneLibWrapper {
      * so we could permanently add a default NDC and NAC to the given number and for this new value the method directly return a E164 formatted representation.
      * @param nationalAccessCode the NAC to be added e.g. for Germany it would be "0"
      * @param defaultNationalDestinationCode the NDC to be added depending on the use telephone line origination.
-     * @return if possible a E164 formatted representation or just the diallable representation of the given number.
+     * @return if possible a E164 formatted representation or just the dialable representation of the given number.
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
      */
@@ -218,7 +218,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Some Special dial-able characters make a number either not necessary to be normalized ("+" is already normalized) or can't be normalized ("*" control codes)
+     * Some Special dialable characters make a number either not necessary to be normalized ("+" is already normalized) or can't be normalized ("*" control codes)
      * @param value phone number representation
      * @return if phone number starts with special characters which makes normalization unable / not necessary
      */
@@ -311,7 +311,7 @@ public class PhoneLibWrapper {
             return null;
         }
         StringBuilder nationalNumber = new StringBuilder(Long.toString(phoneNumber.getNationalNumber()));
-        // if-clause necessary, because getNumberOfLeadingZeros is always 1 for a possible trunc code and special 0 in Italy
+        // if-clause necessary, because getNumberOfLeadingZeros is always 1 for a possible trunk code and special 0 in Italy
         if (phoneNumber.hasNumberOfLeadingZeros() || phoneNumber.hasItalianLeadingZero())
             for (int i = 0; i < phoneNumber.getNumberOfLeadingZeros(); i++) {
                 nationalNumber.insert(0, "0");

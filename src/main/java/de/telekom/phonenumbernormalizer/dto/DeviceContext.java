@@ -54,7 +54,7 @@ public interface DeviceContext {
 
     /**
      * Getter for the Country (Calling) Code of the countries number plan, where the device is originated.
-     * Without international dialing prefix nor trunc code. If not known or not set, it should return DeviceContext.UNKNOWN_VALUE.
+     * Without international dialing prefix nor trunk code. If not known or not set, it should return DeviceContext.UNKNOWN_VALUE.
      * <p>
      * E.G. "49" for Germany
      * </p>
@@ -67,7 +67,7 @@ public interface DeviceContext {
 
     /**
      * Setter for the Country (Calling) Code of the countries number plan, where the device is originated.
-     * Without international deailing prefix nor trunc code. If not known it should be set to DeviceContext.UNKNOWN_VALUE.
+     * Without international dealing prefix nor trunk code. If not known it should be set to DeviceContext.UNKNOWN_VALUE.
      * <p>
      * E.G. "49" for Germany
      * </p>
@@ -80,7 +80,7 @@ public interface DeviceContext {
 
     /**
      * Getter for the National Destination Code (NDC) of the countries number plan, where the device is originated.
-     * Without National Access Code (NAC) nor trunc code. If not known or not set, it should return DeviceContext.UNKNOWN_VALUE.
+     * Without National Access Code (NAC) nor trunk code. If not known or not set, it should return DeviceContext.UNKNOWN_VALUE.
      * <p>
      * E.G. "228" for Bonn in Germany where the Deutsche Telekom Headquarter is located
      * </p>
@@ -93,7 +93,7 @@ public interface DeviceContext {
 
     /**
      * Setter for the National Destination Code (NDC) of the countries number plan, where the device is originated.
-     * Without National Access Code (NAC) nor trunc code. If not known it should be set to DeviceContext.UNKNOWN_VALUE.
+     * Without National Access Code (NAC) nor trunk code. If not known it should be set to DeviceContext.UNKNOWN_VALUE.
      * <p>
      * E.G. "228" for Bonn in Germany where the Deutsche Telekom Headquarter is located
      * </p>

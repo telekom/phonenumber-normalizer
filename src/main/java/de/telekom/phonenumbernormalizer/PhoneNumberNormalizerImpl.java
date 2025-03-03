@@ -99,10 +99,10 @@ public class PhoneNumberNormalizerImpl implements PhoneNumberNormalizer {
         }
 
         if (wrapper.hasRegionNationalAccessCode() && deviceContext != null) {
-            //Number plan is using a NationalPrefix aka Trunc Code ... so we could add Area Code if not included in the number.
+            //Number plan is using a NationalPrefix aka Trunk Code ... so we could add Area Code if not included in the number.
             return wrapper.extendNumberByDefaultAreaCodeAndCountryCode(wrapper.getNationalAccessCode(), deviceContext.getNationalDestinationCode());
         }
-        // Number plan is not using NationalPrefix aka Trunc Code ... its also not a short number, so country code can be added:
+        // Number plan is not using NationalPrefix aka Trunk Code ... its also not a short number, so country code can be added:
         return wrapper.getE164Formatted();
     }
 
@@ -120,7 +120,7 @@ public class PhoneNumberNormalizerImpl implements PhoneNumberNormalizer {
         }
 
         // international prefix is added by the lib even if it's not valid in the number plan.
-        //checking if the input number is equal to the nationalNumber based on number plan and trunc code logic.
+        //checking if the input number is equal to the nationalNumber based on number plan and trunk code logic.
         boolean hasNoCCAndNoNAC = wrapper.hasNoCountryCodeNorNationalAccessCode();
 
         LOGGER.debug("Number has no CC and no NAC: {}.", hasNoCCAndNoNAC);

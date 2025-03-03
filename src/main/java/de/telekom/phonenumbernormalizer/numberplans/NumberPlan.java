@@ -46,8 +46,8 @@ public abstract class NumberPlan {
      * The key (String) is representing a prefix for the number and the value (Integer) is the total length of the short code (including the prefix)
      * <ul>
      * <li>e.g. "110"; 3 - the total length is already the length of the prefix, so its exactly the short number</li>
-     * <li>e.g. "1100"; 5 - the total length is longer than the length of the prefix, so all number from 11000 to 11009 are coverd</li>
-     * <li>e.g. both rules above can be combined, because longer prefixes are evaluated first, so that partical ranges of rules with shorter prefix can be overriden.</li>
+     * <li>e.g. "1100"; 5 - the total length is longer than the length of the prefix, so all number from 11000 to 11009 are covered</li>
+     * <li>e.g. both rules above can be combined, because longer prefixes are evaluated first, so that partial ranges of rules with shorter prefix can be overridden.</li>
      * </ul>
      * @return Map of rules for the short codes
      *
