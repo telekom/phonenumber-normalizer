@@ -17,7 +17,6 @@ package de.telekom.phonenumbernormalizer.numberplans
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.NumberParseException
-import com.google.i18n.phonenumbers.Phonenumber
 import spock.lang.Specification
 
 
