@@ -626,13 +626,966 @@ class PhoneNumberValidatorImplTest extends Specification {
 
     }
 
+    def "validate German Mobile 15 range"(String numberUntilInfix, regionCode) {
+        given:
+        String[] numbersToTest = []
+
+        if (numberUntilInfix.length() == 5) {
+            numbersToTest = [numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "00000000",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999",
+                             numberUntilInfix + "99999999"]
+        }
+        if (numberUntilInfix.length() == 6) {
+            numbersToTest = [numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999"]
+        }
+        if (numberUntilInfix.length() == 7) {
+            numbersToTest = [numberUntilInfix + "0000",
+                             numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "9999",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999"]
+        }
+        PhoneNumberValidationResult[] expectedResults = [PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.TOO_LONG]
+
+        when: "get numbers isValid: $numbersToTest"
+        PhoneNumberValidationResult[] results = []
+
+        for (number in numbersToTest) {
+            results += target.isPhoneNumberPossibleWithReason(number, regionCode)
+        }
+
+        then:
+
+        for (int i = 0; i<results.length; i++) {
+            results[i] == expectedResults[i]
+        }
+
+        where:
+
+        numberUntilInfix | regionCode
+        // see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/start.html
+        // especially https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // 015xxyyyyyyy xx = block code, yyyyyyy fixed length number in 2 digit block, so together 9 digit is the overall length
+        // 015zzzaaaaaa zzz = newer block zzz, aaaaaa fixes length number in 3 digit block, so together 9 digit is the overall length
+
+        //
+        // 0150
+        //
+        // 015000 is reserved for voicemail - see tests below
+        "015001"         | "DE"
+        "015002"         | "DE"
+        "015003"         | "DE"
+        "015004"         | "DE"
+        "015005"         | "DE"
+        "015006"         | "DE"
+        "015007"         | "DE"
+        "015008"         | "DE"
+        "015009"         | "DE"
+        "01501"          | "DE"
+        "01502"          | "DE"
+        "01503"          | "DE"
+        "01504"          | "DE"
+        "01505"          | "DE"
+        "01506"          | "DE"
+        "01507"          | "DE"
+        "01508"          | "DE"
+        "01509"          | "DE"
+        //
+        // 0151
+        //
+        "01510"          | "DE"
+        "015110"         | "DE"
+        "015111"         | "DE"
+        "015112"         | "DE"
+        // 015113 is reserved for voicemail - see tests below
+        "015114"         | "DE"
+        "015115"         | "DE"
+        "015116"         | "DE"
+        "015117"         | "DE"
+        "015118"         | "DE"
+        "015119"         | "DE"
+        "01512"          | "DE"
+        "01513"          | "DE"
+        "01514"          | "DE"
+        "01515"          | "DE"
+        "01516"          | "DE"
+        "01517"          | "DE"
+        "01518"          | "DE"
+        "01519"          | "DE"
+
+        //
+        // 0152
+        //
+        "015200"         | "DE"
+        "015201"         | "DE"
+        "015202"         | "DE"
+        "015203"         | "DE"
+        "015204"         | "DE"
+        // 0152050 is reserved for voicemail - see tests below
+        "0152051"        | "DE"
+        "0152052"        | "DE"
+        "0152053"        | "DE"
+        "0152054"        | "DE"
+        // 0152055 is reserved for voicemail - see tests below
+        "0152056"        | "DE"
+        "0152057"        | "DE"
+        "0152058"        | "DE"
+        "0152059"        | "DE"
+        "015206"         | "DE"
+        "015207"         | "DE"
+        "015208"         | "DE"
+        "015209"         | "DE"
+
+        "015210"         | "DE"
+        "015211"         | "DE"
+        "015212"         | "DE"
+        "015213"         | "DE"
+        "015214"         | "DE"
+        // 0152150 is reserved for voicemail - see tests below
+        "0152151"        | "DE"
+        "0152152"        | "DE"
+        "0152153"        | "DE"
+        "0152154"        | "DE"
+        // 0152155 is reserved for voicemail - see tests below
+        "0152156"        | "DE"
+        "0152157"        | "DE"
+        "0152158"        | "DE"
+        "0152159"        | "DE"
+        "015216"         | "DE"
+        "015217"         | "DE"
+        "015218"         | "DE"
+        "015219"         | "DE"
+
+        "015220"         | "DE"
+        "015221"         | "DE"
+        "015222"         | "DE"
+        "015223"         | "DE"
+        "015224"         | "DE"
+        // 0152250 is reserved for voicemail - see tests below
+        "0152251"        | "DE"
+        "0152252"        | "DE"
+        "0152253"        | "DE"
+        "0152254"        | "DE"
+        // 0152255 is reserved for voicemail - see tests below
+        "0152256"        | "DE"
+        "0152257"        | "DE"
+        "0152258"        | "DE"
+        "0152259"        | "DE"
+        "015226"         | "DE"
+        "015227"         | "DE"
+        "015228"         | "DE"
+        "015229"         | "DE"
+
+        "015230"         | "DE"
+        "015231"         | "DE"
+        "015232"         | "DE"
+        "015233"         | "DE"
+        "015234"         | "DE"
+        // 0152350 is reserved for voicemail - see tests below
+        "0152351"        | "DE"
+        "0152352"        | "DE"
+        "0152353"        | "DE"
+        "0152354"        | "DE"
+        // 0152355 is reserved for voicemail - see tests below
+        "0152356"        | "DE"
+        "0152357"        | "DE"
+        "0152358"        | "DE"
+        "0152359"        | "DE"
+        "015236"         | "DE"
+        "015237"         | "DE"
+        "015238"         | "DE"
+        "015239"         | "DE"
+
+        "015240"         | "DE"
+        "015241"         | "DE"
+        "015242"         | "DE"
+        "015243"         | "DE"
+        "015244"         | "DE"
+        // 0152450 is reserved for voicemail - see tests below
+        "0152451"        | "DE"
+        "0152452"        | "DE"
+        "0152453"        | "DE"
+        "0152454"        | "DE"
+        // 0152455 is reserved for voicemail - see tests below
+        "0152456"        | "DE"
+        "0152457"        | "DE"
+        "0152458"        | "DE"
+        "0152459"        | "DE"
+        "015246"         | "DE"
+        "015247"         | "DE"
+        "015248"         | "DE"
+        "015249"         | "DE"
+
+        "015250"         | "DE"
+        "015251"         | "DE"
+        "015252"         | "DE"
+        "015253"         | "DE"
+        "015254"         | "DE"
+        // 0152550 is reserved for voicemail - see tests below
+        "0152551"        | "DE"
+        "0152552"        | "DE"
+        "0152553"        | "DE"
+        "0152554"        | "DE"
+        // 0152555 is reserved for voicemail - see tests below
+        "0152556"        | "DE"
+        "0152557"        | "DE"
+        "0152558"        | "DE"
+        "0152559"        | "DE"
+        "015256"         | "DE"
+        "015257"         | "DE"
+        "015258"         | "DE"
+        "015259"         | "DE"
+
+        "015260"         | "DE"
+        "015261"         | "DE"
+        "015262"         | "DE"
+        "015263"         | "DE"
+        "015264"         | "DE"
+        // 0152650 is reserved for voicemail - see tests below
+        "0152651"        | "DE"
+        "0152652"        | "DE"
+        "0152653"        | "DE"
+        "0152654"        | "DE"
+        // 0152655 is reserved for voicemail - see tests below
+        "0152656"        | "DE"
+        "0152657"        | "DE"
+        "0152658"        | "DE"
+        "0152659"        | "DE"
+        "015266"         | "DE"
+        "015267"         | "DE"
+        "015268"         | "DE"
+        "015269"         | "DE"
+
+        "015270"         | "DE"
+        "015271"         | "DE"
+        "015272"         | "DE"
+        "015273"         | "DE"
+        "015274"         | "DE"
+        // 0152750 is reserved for voicemail - see tests below
+        "0152751"        | "DE"
+        "0152752"        | "DE"
+        "0152753"        | "DE"
+        "0152754"        | "DE"
+        // 0152755 is reserved for voicemail - see tests below
+        "0152756"        | "DE"
+        "0152757"        | "DE"
+        "0152758"        | "DE"
+        "0152759"        | "DE"
+        "015276"         | "DE"
+        "015277"         | "DE"
+        "015278"         | "DE"
+        "015279"         | "DE"
+
+        "015280"         | "DE"
+        "015281"         | "DE"
+        "015282"         | "DE"
+        "015283"         | "DE"
+        "015284"         | "DE"
+        // 0152850 is reserved for voicemail - see tests below
+        "0152851"        | "DE"
+        "0152852"        | "DE"
+        "0152853"        | "DE"
+        "0152854"        | "DE"
+        // 0152855 is reserved for voicemail - see tests below
+        "0152856"        | "DE"
+        "0152857"        | "DE"
+        "0152858"        | "DE"
+        "0152859"        | "DE"
+        "015286"         | "DE"
+        "015287"         | "DE"
+        "015288"         | "DE"
+        "015289"         | "DE"
+
+        "015290"         | "DE"
+        "015291"         | "DE"
+        "015292"         | "DE"
+        "015293"         | "DE"
+        "015294"         | "DE"
+        // 0152950 is reserved for voicemail - see tests below
+        "0152951"        | "DE"
+        "0152952"        | "DE"
+        "0152953"        | "DE"
+        "0152954"        | "DE"
+        // 0152955 is reserved for voicemail - see tests below
+        "0152956"        | "DE"
+        "0152957"        | "DE"
+        "0152958"        | "DE"
+        "0152959"        | "DE"
+        "015296"         | "DE"
+        "015297"         | "DE"
+        "015298"         | "DE"
+        "015299"         | "DE"
+
+        //
+        // 0153
+        //
+        // 015300 is reserved for voicemail - see tests below
+        "015301"         | "DE"
+        "015302"         | "DE"
+        "015303"         | "DE"
+        "015304"         | "DE"
+        "015305"         | "DE"
+        "015306"         | "DE"
+        "015307"         | "DE"
+        "015308"         | "DE"
+        "015309"         | "DE"
+        "01531"          | "DE"
+        "01532"          | "DE"
+        "01533"          | "DE"
+        "01534"          | "DE"
+        "01535"          | "DE"
+        "01536"          | "DE"
+        "01537"          | "DE"
+        "01538"          | "DE"
+        "01539"          | "DE"
+
+        //
+        // 0154
+        //
+        // 015400 is reserved for voicemail - see tests below
+        "015401"         | "DE"
+        "015402"         | "DE"
+        "015403"         | "DE"
+        "015404"         | "DE"
+        "015405"         | "DE"
+        "015406"         | "DE"
+        "015407"         | "DE"
+        "015408"         | "DE"
+        "015409"         | "DE"
+        "01541"          | "DE"
+        "01542"          | "DE"
+        "01543"          | "DE"
+        "0154"          | "DE"
+        "01545"          | "DE"
+        "01546"          | "DE"
+        "01547"          | "DE"
+        "01548"          | "DE"
+        "01549"          | "DE"
+
+        //
+        // 0155
+        //
+        // 015500 is reserved for voicemail - see tests below
+        "015501"         | "DE"
+        "015502"         | "DE"
+        "015503"         | "DE"
+        "015504"         | "DE"
+        "015505"         | "DE"
+        "015506"         | "DE"
+        "015507"         | "DE"
+        "015508"         | "DE"
+        "015509"         | "DE"
+        "01551"          | "DE"
+        "01552"          | "DE"
+        "01553"          | "DE"
+        "01554"          | "DE"
+        "01555"          | "DE"
+        "01556"          | "DE"
+        "01557"          | "DE"
+        "01558"          | "DE"
+        "01559"          | "DE"
+
+        //
+        // 0156
+        //
+        // 015600 is reserved for voicemail - see tests below
+        "015601"         | "DE"
+        "015602"         | "DE"
+        "015603"         | "DE"
+        "015604"         | "DE"
+        "015605"         | "DE"
+        "015606"         | "DE"
+        "015607"         | "DE"
+        "015608"         | "DE"
+        "015609"         | "DE"
+        "01561"          | "DE"
+        "01562"          | "DE"
+        "01563"          | "DE"
+        "01564"          | "DE"
+        "01565"          | "DE"
+        "01566"          | "DE"
+        "01567"          | "DE"
+        "01568"          | "DE"
+        "01569"          | "DE"
+
+        //
+        // 0157
+        //
+        "015700"         | "DE"
+        "015701"         | "DE"
+        "015702"         | "DE"
+        "015703"         | "DE"
+        "015704"         | "DE"
+        "015705"         | "DE"
+        "015706"         | "DE"
+        "015707"         | "DE"
+        "015708"         | "DE"
+        "0157090"        | "DE"
+        "0157091"        | "DE"
+        "0157092"        | "DE"
+        "0157093"        | "DE"
+        "0157094"        | "DE"
+        "0157095"        | "DE"
+        "0157096"        | "DE"
+        "0157097"        | "DE"
+        "0157098"        | "DE"
+        // 0157099 is reserved for voicemail - see tests below
+
+        "015710"         | "DE"
+        "015711"         | "DE"
+        "015712"         | "DE"
+        "015713"         | "DE"
+        "015714"         | "DE"
+        "015715"         | "DE"
+        "015716"         | "DE"
+        "015717"         | "DE"
+        "015718"         | "DE"
+        "0157190"        | "DE"
+        "0157191"        | "DE"
+        "0157192"        | "DE"
+        "0157193"        | "DE"
+        "0157194"        | "DE"
+        "0157195"        | "DE"
+        "0157196"        | "DE"
+        "0157197"        | "DE"
+        "0157198"        | "DE"
+        // 0157199 is reserved for voicemail - see tests below
+
+        "015720"         | "DE"
+        "015721"         | "DE"
+        "015722"         | "DE"
+        "015723"         | "DE"
+        "015724"         | "DE"
+        "015725"         | "DE"
+        "015726"         | "DE"
+        "015727"         | "DE"
+        "015728"         | "DE"
+        "0157290"        | "DE"
+        "0157291"        | "DE"
+        "0157292"        | "DE"
+        "0157293"        | "DE"
+        "0157294"        | "DE"
+        "0157295"        | "DE"
+        "0157296"        | "DE"
+        "0157297"        | "DE"
+        "0157298"        | "DE"
+        // 0157299 is reserved for voicemail - see tests below
+
+        "015730"         | "DE"
+        "015731"         | "DE"
+        "015732"         | "DE"
+        "015733"         | "DE"
+        "015734"         | "DE"
+        "015735"         | "DE"
+        "015736"         | "DE"
+        "015737"         | "DE"
+        "015738"         | "DE"
+        "0157390"        | "DE"
+        "0157391"        | "DE"
+        "0157392"        | "DE"
+        "0157393"        | "DE"
+        "0157394"        | "DE"
+        "0157395"        | "DE"
+        "0157396"        | "DE"
+        "0157397"        | "DE"
+        "0157398"        | "DE"
+        // 0157399 is reserved for voicemail - see tests below
+
+        "015740"         | "DE"
+        "015741"         | "DE"
+        "015742"         | "DE"
+        "015743"         | "DE"
+        "015744"         | "DE"
+        "015745"         | "DE"
+        "015746"         | "DE"
+        "015747"         | "DE"
+        "015748"         | "DE"
+        "0157490"        | "DE"
+        "0157491"        | "DE"
+        "0157492"        | "DE"
+        "0157493"        | "DE"
+        "0157494"        | "DE"
+        "0157495"        | "DE"
+        "0157496"        | "DE"
+        "0157497"        | "DE"
+        "0157498"        | "DE"
+        // 0157499 is reserved for voicemail - see tests below
+
+        "015750"         | "DE"
+        "015751"         | "DE"
+        "015752"         | "DE"
+        "015753"         | "DE"
+        "015754"         | "DE"
+        "015755"         | "DE"
+        "015756"         | "DE"
+        "015757"         | "DE"
+        "015758"         | "DE"
+        "0157590"        | "DE"
+        "0157591"        | "DE"
+        "0157592"        | "DE"
+        "0157593"        | "DE"
+        "0157594"        | "DE"
+        "0157595"        | "DE"
+        "0157596"        | "DE"
+        "0157597"        | "DE"
+        "0157598"        | "DE"
+        // 0157599 is reserved for voicemail - see tests below
+
+        "015760"         | "DE"
+        "015761"         | "DE"
+        "015762"         | "DE"
+        "015763"         | "DE"
+        "015764"         | "DE"
+        "015765"         | "DE"
+        "015766"         | "DE"
+        "015767"         | "DE"
+        "015768"         | "DE"
+        "0157690"        | "DE"
+        "0157691"        | "DE"
+        "0157692"        | "DE"
+        "0157693"        | "DE"
+        "0157694"        | "DE"
+        "0157695"        | "DE"
+        "0157696"        | "DE"
+        "0157697"        | "DE"
+        "0157698"        | "DE"
+        // 0157699 is reserved for voicemail - see tests below
+
+        "015770"         | "DE"
+        "015771"         | "DE"
+        "015772"         | "DE"
+        "015773"         | "DE"
+        "015774"         | "DE"
+        "015775"         | "DE"
+        "015776"         | "DE"
+        "015777"         | "DE"
+        "015778"         | "DE"
+        "0157790"        | "DE"
+        "0157791"        | "DE"
+        "0157792"        | "DE"
+        "0157793"        | "DE"
+        "0157794"        | "DE"
+        "0157795"        | "DE"
+        "0157796"        | "DE"
+        "0157797"        | "DE"
+        "0157798"        | "DE"
+        // 0157799 is reserved for voicemail - see tests below
+
+        "015780"         | "DE"
+        "015781"         | "DE"
+        "015782"         | "DE"
+        "015783"         | "DE"
+        "015784"         | "DE"
+        "015785"         | "DE"
+        "015786"         | "DE"
+        "015787"         | "DE"
+        "015788"         | "DE"
+        "0157890"        | "DE"
+        "0157891"        | "DE"
+        "0157892"        | "DE"
+        "0157893"        | "DE"
+        "0157894"        | "DE"
+        "0157895"        | "DE"
+        "0157896"        | "DE"
+        "0157897"        | "DE"
+        "0157898"        | "DE"
+        // 0157899 is reserved for voicemail - see tests below
+
+        "015790"         | "DE"
+        "015791"         | "DE"
+        "015792"         | "DE"
+        "015793"         | "DE"
+        "015794"         | "DE"
+        "015795"         | "DE"
+        "015796"         | "DE"
+        "015797"         | "DE"
+        "015798"         | "DE"
+        "0157990"        | "DE"
+        "0157991"        | "DE"
+        "0157992"        | "DE"
+        "0157993"        | "DE"
+        "0157994"        | "DE"
+        "0157995"        | "DE"
+        "0157996"        | "DE"
+        "0157997"        | "DE"
+        "0157998"        | "DE"
+        // 0157999 is reserved for voicemail - see tests below
+
+        //
+        // 0158
+        //
+        // 015800 is reserved for voicemail - see tests below
+        "015801"         | "DE"
+        "015802"         | "DE"
+        "015803"         | "DE"
+        "015804"         | "DE"
+        "015805"         | "DE"
+        "015806"         | "DE"
+        "015807"         | "DE"
+        "015808"         | "DE"
+        "015809"         | "DE"
+        "01581"          | "DE"
+        "01582"          | "DE"
+        "01583"          | "DE"
+        "01584"          | "DE"
+        "01585"          | "DE"
+        "01586"          | "DE"
+        "01587"          | "DE"
+        "01588"          | "DE"
+        "01589"          | "DE"
+
+        //
+        // 0159
+        //
+        "015900"         | "DE"
+        "015901"         | "DE"
+        "015902"         | "DE"
+        "0159030"        | "DE"
+        "0159031"        | "DE"
+        "0159032"        | "DE"
+        // 0159033 is reserved for voicemail - see tests below
+        "0159034"        | "DE"
+        "0159035"        | "DE"
+        "0159036"        | "DE"
+        "0159037"        | "DE"
+        "0159038"        | "DE"
+        "0159039"        | "DE"
+        "015904"         | "DE"
+        "015905"         | "DE"
+        "015906"         | "DE"
+        "015907"         | "DE"
+        "015908"         | "DE"
+        "015909"         | "DE"
+
+        "015910"         | "DE"
+        "015911"         | "DE"
+        "015912"         | "DE"
+        "0159130"        | "DE"
+        "0159131"        | "DE"
+        "0159132"        | "DE"
+        // 0159133 is reserved for voicemail - see tests below
+        "0159134"        | "DE"
+        "0159135"        | "DE"
+        "0159136"        | "DE"
+        "0159137"        | "DE"
+        "0159138"        | "DE"
+        "0159139"        | "DE"
+        "015914"         | "DE"
+        "015915"         | "DE"
+        "015916"         | "DE"
+        "015917"         | "DE"
+        "015918"         | "DE"
+        "015919"         | "DE"
+
+        "015920"         | "DE"
+        "015921"         | "DE"
+        "015922"         | "DE"
+        "0159230"        | "DE"
+        "0159231"        | "DE"
+        "0159232"        | "DE"
+        // 0159233 is reserved for voicemail - see tests below
+        "0159234"        | "DE"
+        "0159235"        | "DE"
+        "0159236"        | "DE"
+        "0159237"        | "DE"
+        "0159238"        | "DE"
+        "0159239"        | "DE"
+        "015924"         | "DE"
+        "015925"         | "DE"
+        "015926"         | "DE"
+        "015927"         | "DE"
+        "015928"         | "DE"
+        "015929"         | "DE"
+
+        "015930"         | "DE"
+        "015931"         | "DE"
+        "015932"         | "DE"
+        "0159330"        | "DE"
+        "0159331"        | "DE"
+        "0159332"        | "DE"
+        // 0159333 is reserved for voicemail - see tests below
+        "0159334"        | "DE"
+        "0159335"        | "DE"
+        "0159336"        | "DE"
+        "0159337"        | "DE"
+        "0159338"        | "DE"
+        "0159339"        | "DE"
+        "015934"         | "DE"
+        "015935"         | "DE"
+        "015936"         | "DE"
+        "015937"         | "DE"
+        "015938"         | "DE"
+        "015939"         | "DE"
+
+        "015940"         | "DE"
+        "015941"         | "DE"
+        "015942"         | "DE"
+        "0159430"        | "DE"
+        "0159431"        | "DE"
+        "0159432"        | "DE"
+        // 0159433 is reserved for voicemail - see tests below
+        "0159434"        | "DE"
+        "0159435"        | "DE"
+        "0159436"        | "DE"
+        "0159437"        | "DE"
+        "0159438"        | "DE"
+        "0159439"        | "DE"
+        "015944"         | "DE"
+        "015945"         | "DE"
+        "015946"         | "DE"
+        "015947"         | "DE"
+        "015948"         | "DE"
+        "015949"         | "DE"
+
+        "015950"         | "DE"
+        "015951"         | "DE"
+        "015952"         | "DE"
+        "0159530"        | "DE"
+        "0159531"        | "DE"
+        "0159532"        | "DE"
+        // 0159533 is reserved for voicemail - see tests below
+        "0159534"        | "DE"
+        "0159535"        | "DE"
+        "0159536"        | "DE"
+        "0159537"        | "DE"
+        "0159538"        | "DE"
+        "0159539"        | "DE"
+        "015954"         | "DE"
+        "015955"         | "DE"
+        "015956"         | "DE"
+        "015957"         | "DE"
+        "015958"         | "DE"
+        "015959"         | "DE"
+
+        "015960"         | "DE"
+        "015961"         | "DE"
+        "015962"         | "DE"
+        "0159630"        | "DE"
+        "0159631"        | "DE"
+        "0159632"        | "DE"
+        // 0159633 is reserved for voicemail - see tests below
+        "0159634"        | "DE"
+        "0159635"        | "DE"
+        "0159636"        | "DE"
+        "0159637"        | "DE"
+        "0159638"        | "DE"
+        "0159639"        | "DE"
+        "015964"         | "DE"
+        "015965"         | "DE"
+        "015966"         | "DE"
+        "015967"         | "DE"
+        "015968"         | "DE"
+        "015969"         | "DE"
+
+        "015970"         | "DE"
+        "015971"         | "DE"
+        "015972"         | "DE"
+        "0159730"        | "DE"
+        "0159731"        | "DE"
+        "0159732"        | "DE"
+        // 0159733 is reserved for voicemail - see tests below
+        "0159734"        | "DE"
+        "0159735"        | "DE"
+        "0159736"        | "DE"
+        "0159737"        | "DE"
+        "0159738"        | "DE"
+        "0159739"        | "DE"
+        "015974"         | "DE"
+        "015975"         | "DE"
+        "015976"         | "DE"
+        "015977"         | "DE"
+        "015978"         | "DE"
+        "015979"         | "DE"
+
+        "015980"         | "DE"
+        "015981"         | "DE"
+        "015982"         | "DE"
+        "0159830"        | "DE"
+        "0159831"        | "DE"
+        "0159832"        | "DE"
+        // 0159833 is reserved for voicemail - see tests below
+        "0159834"        | "DE"
+        "0159835"        | "DE"
+        "0159836"        | "DE"
+        "0159837"        | "DE"
+        "0159838"        | "DE"
+        "0159839"        | "DE"
+        "015984"         | "DE"
+        "015985"         | "DE"
+        "015986"         | "DE"
+        "015987"         | "DE"
+        "015988"         | "DE"
+        "015989"         | "DE"
+
+        "015990"         | "DE"
+        "015991"         | "DE"
+        "015992"         | "DE"
+        "0159930"        | "DE"
+        "0159931"        | "DE"
+        "0159932"        | "DE"
+        // 0159933 is reserved for voicemail - see tests below
+        "0159934"        | "DE"
+        "0159935"        | "DE"
+        "0159936"        | "DE"
+        "0159937"        | "DE"
+        "0159938"        | "DE"
+        "0159939"        | "DE"
+        "015994"         | "DE"
+        "015995"         | "DE"
+        "015996"         | "DE"
+        "015997"         | "DE"
+        "015998"         | "DE"
+        "015999"         | "DE"
+
+        // end of 015xx 
+    }
+
+    def "validate German Mobile 15 range with voicemail infix"(String numberUntilInfix, regionCode) {
+        given:
+        String[] numbersToTest
+        if (numberUntilInfix.length() == 6) {
+            numbersToTest = [numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "00000000",
+                             numberUntilInfix + "000000000",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999",
+                             numberUntilInfix + "99999999",
+                             numberUntilInfix + "9999999999"]
+        }
+        if (numberUntilInfix.length() == 7) {
+            numbersToTest = [numberUntilInfix + "0000",
+                             numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "00000000",
+                             numberUntilInfix + "9999",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999",
+                             numberUntilInfix + "999999999"]
+        }
+        PhoneNumberValidationResult[] expectedResults = [PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.TOO_LONG]
+
+
+        when:
+        PhoneNumberValidationResult[] results = []
+        for (number in numbersToTest) {
+            results += target.isPhoneNumberPossibleWithReason(number, regionCode)
+        }
+
+        then:
+
+        for (int i = 0; i<results.length; i++) {
+            results[i] == expectedResults[i]
+        }
+
+        where:
+
+        numberUntilInfix | regionCode
+        // There infixes of two digits used to address the voicemail of a line
+        // see 2.5 in https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // This makes the number two digits longer, but on the other hand a short version with the infix does not exists, that is the reason, why above range started at 15001, since 15000 would be an infix
+
+        // 15-0-INFIX:OO-xx 3-Block: 0xx
+        "015000"         | "DE"
+
+        // 15-1-INFIX:13-x(x) 2-Block: 1x and 3-Block: 1xx
+        "015113"         | "DE"
+
+        // 15-2x-INFIX:50-(x) 2-Block: 2x and 3-Block: 2xx  First Infix: 50
+        "0152050"         | "DE"
+        "0152150"         | "DE"
+        "0152250"         | "DE"
+        "0152350"         | "DE"
+        "0152450"         | "DE"
+        "0152550"         | "DE"
+        "0152650"         | "DE"
+        "0152750"         | "DE"
+        "0152850"         | "DE"
+        "0152950"         | "DE"
+        // 15-2x-INFIX:55-(x) 2-Block: 2x and 3-Block: 2xx  Second Infix: 55
+        "0152055"         | "DE"
+        "0152155"         | "DE"
+        "0152255"         | "DE"
+        "0152355"         | "DE"
+        "0152455"         | "DE"
+        "0152555"         | "DE"
+        "0152655"         | "DE"
+        "0152755"         | "DE"
+        "0152855"         | "DE"
+        "0152955"         | "DE"
+
+        // 15-3-INFIX:OO-xx 3-Block: 3xx
+        "015300"         | "DE"
+
+        // 15-4-INFIX:OO-xx 3-Block: 4xx
+        "015400"         | "DE"
+
+        // 15-5-INFIX:OO-xx 3-Block: 5xx
+        "015500"         | "DE"
+
+        // 15-6-INFIX:OO-xx 3-Block: 6xx
+        "015600"         | "DE"
+
+        // 15-7x-INFIX:99-(x) 2-Block: 7x and 3-Block: 7xx
+        "0157099"         | "DE"
+        "0157199"         | "DE"
+        "0157299"         | "DE"
+        "0157399"         | "DE"
+        "0157499"         | "DE"
+        "0157599"         | "DE"
+        "0157699"         | "DE"
+        "0157799"         | "DE"
+        "0157899"         | "DE"
+        "0157999"         | "DE"
+
+        // 15-8-INFIX:OO-xx 3-Block: 8xx
+        "015800"         | "DE"
+
+        // 15-9x-INFIX:33-(x) 2-Block: 9x and 3-Block: 9xx
+        "0159033"         | "DE"
+        "0159133"         | "DE"
+        "0159233"         | "DE"
+        "0159333"         | "DE"
+        "0159433"         | "DE"
+        "0159533"         | "DE"
+        "0159633"         | "DE"
+        "0159733"         | "DE"
+        "0159833"         | "DE"
+        "0159933"         | "DE"
+
+        // end of 015xx for voicemail
+    }
+
     /*
-     TODO NDC Ranges see equivalent Testcases in IsValidNumberTest
-     */
-
-    // TODO: 15
-
-    // TODO: 15 + voicemail infix
+ TODO NDC Ranges see equivalent Testcases in IsValidNumberTest
+ */
 
     // TODO: 16
 

@@ -972,7 +972,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * If PhoneLib has been used to parse the given number into semiNormalizedNumber.
+     * If Google's LibPhoneNumber has been used to parse the given number into semiNormalizedNumber.
      *
      * @return {@link PhoneLibWrapper#isNormalizingTried}
      *
@@ -983,11 +983,11 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Using PhoneLib short number utility if it identifies the given number as a short number, which would not need a NAC.
+     * Using Google's LibPhoneNumber short number utility if it identifies the given number as a short number, which would not need a NAC.
      * <p>
      * This is a fallback for {@link PhoneLibWrapper#isShortNumber(NumberPlan)}, when we do not have an own number plan information.
      * </p>
-     * @return if PhoneLib identifies given number as a short number
+     * @return if Google's LibPhoneNumber identifies given number as a short number
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
      * @see PhoneLibWrapper#isShortNumber(NumberPlan)
@@ -1002,7 +1002,7 @@ public class PhoneLibWrapper {
      * If no number plan is given, {@link PhoneLibWrapper#isShortNumber} is used as fallback.
      * </p>
      * @param numberplan the number plan we identified to be used for a check
-     * @return if number plan or as fallback PhoneLib identifies given number as a short number
+     * @return if number plan or as fallback Google's LibPhoneNumber identifies given number as a short number
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
      */
@@ -1042,7 +1042,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Using PhoneLib to get a E164 formatted representation of the given number
+     * Using Google's LibPhoneNumber to get a E164 formatted representation of the given number
      * <p>
      * This is a straight invocation, so no compensation of some inaccuracy is done here.
      * </p>
@@ -1058,7 +1058,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Using PhoneLib to get a RFC3966 formatted representation of the given number
+     * Using Google's LibPhoneNumber to get a RFC3966 formatted representation of the given number
      * <p>
      * This is a straight invocation, so no compensation of some inaccuracy is done here.
      * </p>
@@ -1089,6 +1089,7 @@ public class PhoneLibWrapper {
         return null;
 
     }
+
     /**
      * If we know the given region for the given number {@link PhoneLibWrapper#hasRegionNationalAccessCode()}, this method checks if the given number does not start with a NAC nor a CC,
      * so we could permanently add a default NDC and NAC to the given number and for this new value the method directly return a E164 formatted representation.
@@ -1184,7 +1185,7 @@ public class PhoneLibWrapper {
     private int parseCountryCode(boolean alsoFromRegionCode) {
         Phonenumber.PhoneNumber tempNumber = parseNumber(this.dialableNumber, this.regionCode);
 
-        // Using PhoneLib to extract Country Code from Number
+        // Using Google's LibPhoneNumber to extract Country Code from Number
         if (tempNumber!=null) {
             int result = tempNumber.getCountryCode();
             if (tempNumber.getCountryCodeSource() == Phonenumber.PhoneNumber.CountryCodeSource.FROM_DEFAULT_COUNTRY) {
@@ -1273,7 +1274,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Use PhoneLib to parse a number for a regions code. If any exception occurs, they are logged and null is returned.
+     * Use Google's LibPhoneNumber to parse a number for a regions code. If any exception occurs, they are logged and null is returned.
      * @param number the phone number to be parsed
      * @param regionCode ISO2 code for the regions number plan used for parsing the number
      * @return either the parsed {@link Phonenumber.PhoneNumber} or null
@@ -1298,7 +1299,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * The International Dialing Prefix used in the given region from PhoneLib
+     * The International Dialing Prefix used in the given region from Google's LibPhoneNumber
      * @return IDP of given {@link PhoneLibWrapper#regionCode}
      */
     public String getInternationalDialingPrefix() {
@@ -1324,7 +1325,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * The National Access Code used before the National Destination Code in the given region from PhoneLib
+     * The National Access Code used before the National Destination Code in the given region from Google's LibPhoneNumber
      * @return NAC of given {@link PhoneLibWrapper#regionCode}
      */
     public String getNationalAccessCode() {
@@ -1332,7 +1333,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * The National Access Code used before the National Destination Code in the given region from PhoneLib
+     * The National Access Code used before the National Destination Code in the given region from Google's LibPhoneNumber
      *
      * @param regionCode the Region which NAC is requested.
      * @return NAC of given regionCode
@@ -1342,7 +1343,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * From PhoneLib, if a National Access Code is used before the National Destination Code in the given region
+     * From Google's LibPhoneNumber, if a National Access Code is used before the National Destination Code in the given region
      * @return if given {@link PhoneLibWrapper#regionCode} is using NAC
      */
     public boolean hasRegionNationalAccessCode() {
@@ -1369,7 +1370,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Using PhoneLib to get the national number from the given number
+     * Using Google's LibPhoneNumber to get the national number from the given number
      *
      * @return national number without NAC, but any other leading zero.
      *
@@ -1385,10 +1386,10 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Using PhoneLib to get the national number from a parsed phone number with leading zeros, if those are not representing a National Access Code.
+     * Using Google's LibPhoneNumber to get the national number from a parsed phone number with leading zeros, if those are not representing a National Access Code.
      * <p/>
-     * This is necessary, because PhoneLib is storing the national number as a long, so leading "0" Digits as part of it are stored in other attributes.
-     * @param phoneNumber A PhoneLib parsed phone number
+     * This is necessary, because Google's LibPhoneNumber is storing the national number as a long, so leading "0" Digits as part of it are stored in other attributes.
+     * @param phoneNumber A Google's LibPhoneNumber parsed phone number
      * @return national number part without NationalPrefix (aka NAC) but any other leading zero.
      */
     private static String nationalPhoneNumberWithoutNationalPrefix(Phonenumber.PhoneNumber phoneNumber) {
@@ -1405,7 +1406,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Using PhoneLib to get the Country Calling Code for a region code
+     * Using Google's LibPhoneNumber to get the Country Calling Code for a region code
      * <p>
      * e.g. "DE" is "49"
      * </p>
@@ -1417,7 +1418,7 @@ public class PhoneLibWrapper {
     }
 
     /**
-     * Using PhoneLib to get the region code for a Country Calling Code
+     * Using Google's LibPhoneNumber to get the region code for a Country Calling Code
      * <p>
      * e.g. "49" is "DE"
      * </p>
@@ -1436,11 +1437,11 @@ public class PhoneLibWrapper {
 
 
     /**
-     * Using PhoneLib to check the number by isPossibleWithReason code. If number has been parsed during initialization
+     * Using Google's LibPhoneNumber to check the number by isPossibleWithReason code. If number has been parsed during initialization
      * this is a straight invocation, so no compensation of some inaccuracy is done here. Otherwise, parsing is done
      * locally and exceptions are directly mapped to a result.
      * </p>
-     * @return PhoneNumberUtil.ValidationResult which is PhoneLib isPossible Reason code
+     * @return PhoneNumberUtil.ValidationResult which is Google's LibPhoneNumber isPossible Reason code
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
      */
@@ -1474,7 +1475,7 @@ public class PhoneLibWrapper {
 
 
     /**
-     * Using PhoneLib to check the number by isPossibleWithReason code by internal wrapper method isPossibleWithReason
+     * Using Google's LibPhoneNumber to check the number by isPossibleWithReason code by internal wrapper method isPossibleWithReason
      * and map the result to PhoneNumberValidationResult type
      *
      * @return PhoneNumberValidationResult
