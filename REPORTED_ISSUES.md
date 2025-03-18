@@ -82,8 +82,16 @@ While normal mobile numbers are now aligend, voicemail numbers length is still p
 While Google had corrected mobile 17x range with prior feedback, they introduced an inconsistency with the last DE meta data update, allowing also 10 length number while only 11 are valid.
 They do not want to change it, because they user are blocked with historical shorter numbers (but no prove found that those really exists)
 
+### 2025-03-08 - [German special ambulance number for non-emergency calls 19222 not correctly identified without NDC and with addition not marked as invalid](https://issuetracker.google.com/issues/401693552)
+
+19222 is used for ambulance without an emergency. It is the only allowed entry of previous special 19xxx number. This is callable at fixedline with or without NDC. Currently Google is not correctly validating it without NDC and with NDC its validation is ok, but also longer numbers are marked valid, which is wrong.
+
+Google first did not acknowledge the issue by referring to the general number plan and marked it as "**Won't fix (Intended behavior)**" (10th May 2025).  On your rebuttal, they keep the mark and responded "*In order to keep the size of the XML files to a reasonable level, it's necessary in some regions (e.g. "DE" or "AT") to simplify number ranges. This results in a relatively small amount of false positive numbers (i.e. numbers that should be reported as invalid, but which are now shown as valid).*"
+
 ### 2025-06-15 - [Metadata Update of 9.0.7 for DE mobile 172 range is invalide](https://issuetracker.google.com/issues/425121215)
 Similar to previously change of 176, Google change mobile 172 ~~introduced an inconsistency with the last DE meta data update, allowing also 11 length number while only 10 are valid~~.
 
 Google clarified, there is [another document by BnetzA](https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/Nummernplan_MobileDienste.pdf?__blob=publicationFile&v=1) which opens the range and maybe the mobile summary page was not updated.
 While 9.0.7 meta data update was inconsistent with 178 & 179 those have been adjusted with 9.0.8
+While Google had corrected mobile 17x range with prior feedback, they introduced an inconsistency with the last DE meta data update.
+
