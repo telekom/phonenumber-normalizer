@@ -23,7 +23,7 @@
     <artifactId>normalizer</artifactId>
     <name>Phonenumber Normalizer</name>
     <description>Library to wrap around Google's LibPhoneNumber library, to fix the ignoring of German Landline specifics when normalizing phone numbers.</description>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.1</version>
     <packaging>jar</packaging>
     <url>https://github.com/telekom/phonenumber-normalizer</url>
 
@@ -68,8 +68,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- Used Versions of Google's libphone project -->
-        <libphonenumber.version>9.0.0</libphonenumber.version>
-        <geocoder.version>3.0</geocoder.version>
+        <libphonenumber.version>9.0.1</libphonenumber.version>
+        <geocoder.version>3.1</geocoder.version>
         <!-- Used Versions of other dependencies: -->
         <java.version>17</java.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
