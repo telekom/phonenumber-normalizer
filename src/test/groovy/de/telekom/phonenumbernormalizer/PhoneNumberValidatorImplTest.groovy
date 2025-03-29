@@ -1583,13 +1583,238 @@ class PhoneNumberValidatorImplTest extends Specification {
         // end of 015xx for voicemail
     }
 
+    def "check if original lib fixed isValid for German Mobile 16 range"(String numberUntilInfix, regionCode) {
+        given:
+        String[] numbersToTest
+
+        if (numberUntilInfix.length() == 5) {
+            numbersToTest = [numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "00000000",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999",
+                             numberUntilInfix + "99999999"]
+        }
+        if (numberUntilInfix.length() == 6) {
+            numbersToTest = [numberUntilInfix + "0000",
+                             numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "9999",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999"]
+        }
+
+        PhoneNumberValidationResult[] expectedResults = [PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.TOO_LONG]
+
+        when:
+        PhoneNumberValidationResult[] results = []
+        for (number in numbersToTest) {
+            results += target.isPhoneNumberPossibleWithReason(number, regionCode)
+        }
+
+        then:
+
+        for (int i = 0; i<results.length; i++) {
+            results[i] == expectedResults[i]
+        }
+
+
+        where:
+        numberUntilInfix | regionCode
+        // see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/start.html
+        // especially https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // 016xyyyyyyy(y) x = block code, yyyyyyy(y) variable line lenx of 7 - 8 digits
+
+        //
+        // 0160
+        //
+        "01600"          | "DE"
+        "016010"         | "DE"
+        "016011"         | "DE"
+        "016012"         | "DE"
+        // 016013 is reserved for voicemail - see tests below
+        "016014"         | "DE"
+        "016015"         | "DE"
+        "016016"         | "DE"
+        "016017"         | "DE"
+        "016018"         | "DE"
+        "016019"         | "DE"
+        "01602"          | "DE"
+        "01603"          | "DE"
+        "01604"          | "DE"
+        "01605"          | "DE"
+        "01606"          | "DE"
+        "01607"          | "DE"
+        "01608"          | "DE"
+        "01609"          | "DE"
+
+        //
+        // 0162
+        //
+        "01620"          | "DE"
+        "01621"          | "DE"
+        "01622"          | "DE"
+        "01623"          | "DE"
+        "01624"          | "DE"
+        // 016250 is reserved for voicemail - see tests below
+        "016251"         | "DE"
+        "016252"         | "DE"
+        "016253"         | "DE"
+        "016254"         | "DE"
+        // 016255 is reserved for voicemail - see tests below
+        "016256"         | "DE"
+        "016257"         | "DE"
+        "016258"         | "DE"
+        "016259"         | "DE"
+        "01626"          | "DE"
+        "01627"          | "DE"
+        "01628"          | "DE"
+        "01629"          | "DE"
+
+        //
+        // 0163
+        //
+        "01630"          | "DE"
+        "01631"          | "DE"
+        "01632"          | "DE"
+        "01633"          | "DE"
+        "01634"          | "DE"
+        "01635"          | "DE"
+        "01636"          | "DE"
+        "01637"          | "DE"
+        "01638"          | "DE"
+        "016390"         | "DE"
+        "016391"         | "DE"
+        "016392"         | "DE"
+        "016393"         | "DE"
+        "016394"         | "DE"
+        "016395"         | "DE"
+        "016396"         | "DE"
+        "016397"         | "DE"
+        "016398"         | "DE"
+        // 016399 is reserved for voicemail - see tests below
+    }
+
+    def "check if original lib fixed isValid for German Mobile 16 range with voicemail infix"(String numberUntilInfix, regionCode) {
+        given:
+        String[] numbersToTest = [numberUntilInfix + "000000",
+                                  numberUntilInfix + "0000000",
+                                  numberUntilInfix + "00000000",
+                                  numberUntilInfix + "000000000",
+                                  numberUntilInfix + "999999",
+                                  numberUntilInfix + "9999999",
+                                  numberUntilInfix + "99999999",
+                                  numberUntilInfix + "999999999"]
+
+        PhoneNumberValidationResult[] expectedResults = [PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.TOO_LONG]
+
+        when:
+        PhoneNumberValidationResult[] results = []
+        for (number in numbersToTest) {
+            results += target.isPhoneNumberPossibleWithReason(number, regionCode)
+        }
+
+        then:
+
+        for (int i = 0; i<results.length; i++) {
+            results[i] == expectedResults[i]
+        }
+
+
+        where:
+        numberUntilInfix | regionCode
+        // see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/start.html
+        // especially https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // 016xyyyyyyy(y) x = block code, yyyyyyy(y) variable line lenx of 7 - 8 digits
+
+        //
+        // 0160
+        //
+        "016013"         | "DE"
+        //
+        // 0162
+        //
+        "016250"         | "DE"
+        "016255"         | "DE"
+
+        //
+        // 0163
+        //
+        "016399"         | "DE"
+    }
+
+    def "check if original lib fixed isValid for German reserve 16 range"(String reserve, regionCode) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        PhoneNumberValidationResult[] expectedResults = [PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER]
+
+        when:
+        PhoneNumberValidationResult[] results = []
+        for (number in numbersToTest) {
+            results += target.isPhoneNumberPossibleWithReason(number, regionCode)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            results[i] == expectedResults[i]
+        }
+
+        where:
+        reserve          | regionCode
+        // see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1
+        // 0161, 165, 166, 167 are reserved for future use
+
+        "0161"           | "DE"
+        "0165"           | "DE"
+        "0166"           | "DE"
+        "0167"           | "DE"
+
+    }
+
     /*
- TODO NDC Ranges see equivalent Testcases in IsValidNumberTest
- */
+TODO NDC Ranges see equivalent Testcases in IsValidNumberTest
+*/
 
-    // TODO: 16
-
-    // TODO: 16 + voicemail infix
+    // TODO: 16((8/9) Funkruf
 
     // TODO: 17
 
