@@ -1810,6 +1810,59 @@ class PhoneNumberValidatorImplTest extends Specification {
 
     }
 
+    def "check if original lib fixed isValid for German 'Funkruf' 16(8/9) range"(String reserve, regionCode) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566",
+                                  reserve + "22334455667",
+                                  reserve + "223344556677"]
+
+
+        PhoneNumberValidationResult[] expectedResults = [PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.TOO_LONG]
+
+        when:
+        PhoneNumberValidationResult[] results = []
+        for (number in numbersToTest) {
+            results += target.isPhoneNumberPossibleWithReason(number, regionCode)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            results[i] == expectedResults[i]
+        }
+
+        where:
+        reserve          | regionCode
+        // see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1
+        // 0168, 169 are using a 14 digit national number (0164 is not further defined).
+        // TODO: could 0164 needs to be covered
+        "0168"           | "DE"
+        "0169"           | "DE"
+
+    }
+
+
     /*
 TODO NDC Ranges see equivalent Testcases in IsValidNumberTest
 */
