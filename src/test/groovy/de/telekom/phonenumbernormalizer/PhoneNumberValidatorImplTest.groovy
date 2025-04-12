@@ -1583,7 +1583,7 @@ class PhoneNumberValidatorImplTest extends Specification {
         // end of 015xx for voicemail
     }
 
-    def "check if original lib fixed isValid for German Mobile 16 range"(String numberUntilInfix, regionCode) {
+    def "validate German Mobile 16 range"(String numberUntilInfix, regionCode) {
         given:
         String[] numbersToTest
 
@@ -1706,7 +1706,7 @@ class PhoneNumberValidatorImplTest extends Specification {
         // 016399 is reserved for voicemail - see tests below
     }
 
-    def "check if original lib fixed isValid for German Mobile 16 range with voicemail infix"(String numberUntilInfix, regionCode) {
+    def "validate German Mobile 16 range with voicemail infix"(String numberUntilInfix, regionCode) {
         given:
         String[] numbersToTest = [numberUntilInfix + "000000",
                                   numberUntilInfix + "0000000",
@@ -1761,7 +1761,7 @@ class PhoneNumberValidatorImplTest extends Specification {
         "016399"         | "DE"
     }
 
-    def "check if original lib fixed isValid for German reserve 16 range"(String reserve, regionCode) {
+    def "validate German reserve 16 range"(String reserve, regionCode) {
         given:
         String[] numbersToTest = [reserve + "",
                                   reserve + "2",
@@ -1810,7 +1810,7 @@ class PhoneNumberValidatorImplTest extends Specification {
 
     }
 
-    def "check if original lib fixed isValid for German 'Funkruf' 16(8/9) range"(String reserve, regionCode) {
+    def "validate German 'Funkruf' 16(8/9) range"(String reserve, regionCode) {
         given:
         String[] numbersToTest = [reserve + "",
                                   reserve + "2",
@@ -1862,14 +1862,409 @@ class PhoneNumberValidatorImplTest extends Specification {
 
     }
 
+    def "validate German Mobile 17 range"(String numberUntilInfix, regionCode) {
+        given:
+        String[] numbersToTest
+
+        if (numberUntilInfix.length() == 5) {
+            numbersToTest = [numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "00000000",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999",
+                             numberUntilInfix + "99999999"]
+        }
+        if (numberUntilInfix.length() == 6) {
+            numbersToTest = [numberUntilInfix + "0000",
+                             numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "9999",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "9999999"]
+        }
+
+
+        // see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/LaengeRufnummernbloecke/start.html
+        // 176 is only 11 digit rest 10
+
+        PhoneNumberValidationResult[] expectedResults = [PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_LONG]
+
+
+        // https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/LaengeRufnummernbloecke/start.html
+        // x: 6 length 8 otherwise 7
+        if (numberUntilInfix.startsWith("0176")) {
+            expectedResults = [PhoneNumberValidationResult.TOO_SHORT,
+                               PhoneNumberValidationResult.TOO_SHORT,
+                               PhoneNumberValidationResult.IS_POSSIBLE,
+                               PhoneNumberValidationResult.TOO_LONG,
+                               PhoneNumberValidationResult.TOO_SHORT,
+                               PhoneNumberValidationResult.TOO_SHORT,
+                               PhoneNumberValidationResult.IS_POSSIBLE,
+                               PhoneNumberValidationResult.TOO_LONG]
+        }
+
+
+        when:
+        PhoneNumberValidationResult[] results = []
+        for (number in numbersToTest) {
+            results += target.isPhoneNumberPossibleWithReason(number, regionCode)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            results[i] == expectedResults[i]
+        }
+
+        where:
+        numberUntilInfix | regionCode
+        // see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/start.html
+        // especially https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // 017xyyyyyyy(y) x = block code, yyyyyyy(y) variable line lenx of 7 - 8 digits
+        // https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/LaengeRufnummernbloecke/start.html
+        // x: 6 length 8 otherwise 7
+
+        //
+        // 0170
+        //
+        "01700"          | "DE"
+        "017010"         | "DE"
+        "017011"         | "DE"
+        "017012"         | "DE"
+        // 017013 is reserved for voicemail - see tests below
+        "017014"         | "DE"
+        "017015"         | "DE"
+        "017016"         | "DE"
+        "017017"         | "DE"
+        "017018"         | "DE"
+        "017019"         | "DE"
+        "01702"          | "DE"
+        "01703"          | "DE"
+        "01704"          | "DE"
+        "01705"          | "DE"
+        "01706"          | "DE"
+        "01707"          | "DE"
+        "01708"          | "DE"
+        "01709"          | "DE"
+
+        //
+        // 0171
+        //
+        "01710"          | "DE"
+        "017110"         | "DE"
+        "017111"         | "DE"
+        "017112"         | "DE"
+        // 017113 is reserved for voicemail - see tests below
+        "017114"         | "DE"
+        "017115"         | "DE"
+        "017116"         | "DE"
+        "017117"         | "DE"
+        "017118"         | "DE"
+        "017119"         | "DE"
+        "01712"          | "DE"
+        "01713"          | "DE"
+        "01714"          | "DE"
+        "01715"          | "DE"
+        "01716"          | "DE"
+        "01717"          | "DE"
+        "01718"          | "DE"
+        "01719"          | "DE"
+
+        //
+        // 0172
+        //
+        "01720"          | "DE"
+        "01721"          | "DE"
+        "01722"          | "DE"
+        "01723"          | "DE"
+        "01724"          | "DE"
+        // 017250 is reserved for voicemail - see tests below
+        "017251"         | "DE"
+        "017252"         | "DE"
+        "017253"         | "DE"
+        "017254"         | "DE"
+        // 017255 is reserved for voicemail - see tests below
+        "017256"         | "DE"
+        "017257"         | "DE"
+        "017258"         | "DE"
+        "017259"         | "DE"
+        "01726"          | "DE"
+        "01727"          | "DE"
+        "01728"          | "DE"
+        "01729"          | "DE"
+
+        //
+        // 0173
+        //
+        "01730"          | "DE"
+        "01731"          | "DE"
+        "01732"          | "DE"
+        "01733"          | "DE"
+        "01734"          | "DE"
+        // 017350 is reserved for voicemail - see tests below
+        "017351"         | "DE"
+        "017352"         | "DE"
+        "017353"         | "DE"
+        "017354"         | "DE"
+        // 017355 is reserved for voicemail - see tests below
+        "017356"         | "DE"
+        "017357"         | "DE"
+        "017358"         | "DE"
+        "017359"         | "DE"
+        "01736"          | "DE"
+        "01737"          | "DE"
+        "01738"          | "DE"
+        "01739"          | "DE"
+
+        //
+        // 0174
+        //
+        "01740"          | "DE"
+        "01741"          | "DE"
+        "01742"          | "DE"
+        "01743"          | "DE"
+        "01744"          | "DE"
+        // 017450 is reserved for voicemail - see tests below
+        "017451"         | "DE"
+        "017452"         | "DE"
+        "017453"         | "DE"
+        "017454"         | "DE"
+        // 017455 is reserved for voicemail - see tests below
+        "017456"         | "DE"
+        "017457"         | "DE"
+        "017458"         | "DE"
+        "017459"         | "DE"
+        "01746"          | "DE"
+        "01747"          | "DE"
+        "01748"          | "DE"
+        "01749"          | "DE"
+
+        //
+        // 0175
+        //
+        "01750"          | "DE"
+        "017510"         | "DE"
+        "017511"         | "DE"
+        "017512"         | "DE"
+        // 017513 is reserved for voicemail - see tests below
+        "017514"         | "DE"
+        "017515"         | "DE"
+        "017516"         | "DE"
+        "017517"         | "DE"
+        "017518"         | "DE"
+        "017519"         | "DE"
+        "01752"          | "DE"
+        "01753"          | "DE"
+        "01754"          | "DE"
+        "01755"          | "DE"
+        "01756"          | "DE"
+        "01757"          | "DE"
+        "01758"          | "DE"
+        "01759"          | "DE"
+
+        //
+        // 0176
+        //
+        "01760"          | "DE"
+        "01761"          | "DE"
+        "01762"          | "DE"
+        "017630"         | "DE"
+        "017631"         | "DE"
+        "017632"         | "DE"
+        // 017633 is reserved for voicemail - see tests below
+        "017634"         | "DE"
+        "017635"         | "DE"
+        "017636"         | "DE"
+        "017637"         | "DE"
+        "017638"         | "DE"
+        "017639"         | "DE"
+        "01764"          | "DE"
+        "01765"          | "DE"
+        "01766"          | "DE"
+        "01767"          | "DE"
+        "01768"          | "DE"
+        "01769"          | "DE"
+
+        //
+        // 0177
+        //
+        "01770"          | "DE"
+        "01771"          | "DE"
+        "01772"          | "DE"
+        "01773"          | "DE"
+        "01774"          | "DE"
+        "01775"          | "DE"
+        "01776"          | "DE"
+        "01777"          | "DE"
+        "01778"          | "DE"
+        "017790"         | "DE"
+        "017791"         | "DE"
+        "017792"         | "DE"
+        "017793"         | "DE"
+        "017794"         | "DE"
+        "017795"         | "DE"
+        "017796"         | "DE"
+        "017797"         | "DE"
+        "017798"         | "DE"
+        // 017799 is reserved for voicemail - see tests below
+
+        //
+        // 0178
+        //
+        "01780"          | "DE"
+        "01781"          | "DE"
+        "01782"          | "DE"
+        "01783"          | "DE"
+        "01784"          | "DE"
+        "01785"          | "DE"
+        "01786"          | "DE"
+        "01787"          | "DE"
+        "01788"          | "DE"
+        "017890"         | "DE"
+        "017891"         | "DE"
+        "017892"         | "DE"
+        "017893"         | "DE"
+        "017894"         | "DE"
+        "017895"         | "DE"
+        "017896"         | "DE"
+        "017897"         | "DE"
+        "017898"         | "DE"
+        // 017899 is reserved for voicemail - see tests below
+
+        //
+        // 0179
+        //
+        "01790"          | "DE"
+        "01791"          | "DE"
+        "01792"          | "DE"
+        "017930"         | "DE"
+        "017931"         | "DE"
+        "017932"         | "DE"
+        // 017933 is reserved for voicemail - see tests below
+        "017934"         | "DE"
+        "017935"         | "DE"
+        "017936"         | "DE"
+        "017937"         | "DE"
+        "017938"         | "DE"
+        "017939"         | "DE"
+        "01794"          | "DE"
+        "01795"          | "DE"
+        "01796"          | "DE"
+        "01797"          | "DE"
+        "01798"          | "DE"
+        "01799"          | "DE"
+    }
+
+    def "check if original lib fixed isValid for German Mobile 17 range with voicemail infix"(String numberUntilInfix, regionCode) {
+        given:
+        String[] numbersToTest = [numberUntilInfix + "000000",
+                                  numberUntilInfix + "0000000",
+                                  numberUntilInfix + "00000000",
+                                  numberUntilInfix + "000000000",
+                                  numberUntilInfix + "999999",
+                                  numberUntilInfix + "9999999",
+                                  numberUntilInfix + "99999999",
+                                  numberUntilInfix + "999999999"]
+
+        PhoneNumberValidationResult[] expectedResults = [PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_LONG]
+
+        // https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/LaengeRufnummernbloecke/start.html
+        // x: 6 length 8 otherwise 7
+        if (numberUntilInfix.startsWith("0176")) {
+            expectedResults = [PhoneNumberValidationResult.TOO_SHORT,
+                               PhoneNumberValidationResult.TOO_SHORT,
+                               PhoneNumberValidationResult.IS_POSSIBLE,
+                               PhoneNumberValidationResult.TOO_LONG,
+                               PhoneNumberValidationResult.TOO_SHORT,
+                               PhoneNumberValidationResult.TOO_SHORT,
+                               PhoneNumberValidationResult.IS_POSSIBLE,
+                               PhoneNumberValidationResult.TOO_LONG]
+        }
+
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            results += target.isPhoneNumberPossibleWithReason(number, regionCode)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            results[i] == expectedResults[i]
+        }
+
+        where:
+        numberUntilInfix | regionCode
+        // see https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/start.html
+        // especially https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
+        // 017xyyyyyyy(y) x = block code, yyyyyyy(y) variable line len of 7 - 8 digits denping on x=6
+
+        //
+        // 0170
+        //
+        "017013"         | "DE"
+        //
+        // 0171
+        //
+        "017113"         | "DE"
+        //
+        // 0172
+        //
+        "017250"         | "DE"
+        "017255"         | "DE"
+        //
+        // 0173
+        //
+        "017350"         | "DE"
+        "017355"         | "DE"
+        //
+        // 0174
+        //
+        "017450"         | "DE"
+        "017455"         | "DE"
+        //
+        // 0175
+        //
+        "017513"         | "DE"
+        //
+        // 0176
+        //
+        "017633"         | "DE"
+        //
+        // 0177
+        //
+        "017799"         | "DE"
+        //
+        // 0178
+        //
+        "017899"         | "DE"
+        //
+        // 0179
+        //
+        "017933"         | "DE"
+    }
+
 
     /*
 TODO NDC Ranges see equivalent Testcases in IsValidNumberTest
 */
-
-    // TODO: 17
-
-    // TODO: 17 + voicemail infix
 
     // TODO: 180
 
