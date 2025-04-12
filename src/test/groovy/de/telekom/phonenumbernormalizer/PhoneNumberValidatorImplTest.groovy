@@ -2165,7 +2165,7 @@ class PhoneNumberValidatorImplTest extends Specification {
         "01799"          | "DE"
     }
 
-    def "check if original lib fixed isValid for German Mobile 17 range with voicemail infix"(String numberUntilInfix, regionCode) {
+    def "validate German Mobile 17 range with voicemail infix"(String numberUntilInfix, regionCode) {
         given:
         String[] numbersToTest = [numberUntilInfix + "000000",
                                   numberUntilInfix + "0000000",
@@ -2261,14 +2261,118 @@ class PhoneNumberValidatorImplTest extends Specification {
         "017933"         | "DE"
     }
 
+    def "validate German ServiceNumbers 180 range"(String reserve, regionCode) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566",
+                                  reserve + "22334455667"]
+
+        PhoneNumberValidationResult[] expectedResults = [PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.TOO_SHORT,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_LONG,
+                                                         PhoneNumberValidationResult.TOO_LONG]
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            results += target.isPhoneNumberPossibleWithReason(number, regionCode)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            results[i] == expectedResults[i]
+        }
+
+        where:
+        reserve          | regionCode
+        //  0180 is Services: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0180/start.html
+        //  Numberplan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0180/Nummernplan0180_ServiceDiensteRufnummer.pdf?__blob=publicationFile&v=1
+        //  points out, that national numbers have 10 (3+7) digits in this range, but that there are historically shorter numbers
+        //  At https://data.bundesnetzagentur.de/Bundesnetzagentur/SharedDocs/ExterneLinks/DE/Sachgebiete/Telekommunikation/Nummerierung/NVMwD.0180.Rufnummer.Vergeben.zip it can be checked, that shorter numbers have 3+5 & 3+6 digits
+        // 01800 is reserve
+        "01801"           | "DE"
+        "01802"           | "DE"
+        "01803"           | "DE"
+        "01804"           | "DE"
+        "01805"           | "DE"
+        "01806"           | "DE"
+        "01807"           | "DE"
+        // 01808 is reserve
+        // 01809 is reserve
+    }
+
+    def "validate German reserve 180 range"(String reserve, regionCode) {
+        given:
+        String[] numbersToTest = [reserve + "",
+                                  reserve + "2",
+                                  reserve + "22",
+                                  reserve + "223",
+                                  reserve + "2233",
+                                  reserve + "22334",
+                                  reserve + "223344",
+                                  reserve + "2233445",
+                                  reserve + "22334455",
+                                  reserve + "223344556",
+                                  reserve + "2233445566"]
+
+        PhoneNumberValidationResult[] expectedResults = [PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER,
+                                                         PhoneNumberValidationResult.INVALID_RESERVE_NUMBER]
+
+        when:
+        Boolean[] results = []
+        for (number in numbersToTest) {
+            results += target.isPhoneNumberPossibleWithReason(number, regionCode)
+        }
+
+        then:
+        for (int i = 0; i < results.length; i++) {
+            results[i] == expectedResults[i]
+        }
+
+        where:
+        reserve          | regionCode
+        //  0180 is Services: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0180/start.html
+        //  Numberplan https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0180/Nummernplan0180_ServiceDiensteRufnummer.pdf?__blob=publicationFile&v=1
+        //  points out, that national numbers have 10 (3+7) digits in this range, but that there are historically shorter numbers
+        //  At https://data.bundesnetzagentur.de/Bundesnetzagentur/SharedDocs/ExterneLinks/DE/Sachgebiete/Telekommunikation/Nummerierung/NVMwD.0180.Rufnummer.Vergeben.zip it can be checked, that shorter numbers have 3+5 & 3+6 digits
+        // reserve:
+
+        "01800"          | "DE"
+        "01808"          | "DE"
+        "01809"          | "DE"
+
+    }
 
     /*
 TODO NDC Ranges see equivalent Testcases in IsValidNumberTest
 */
 
-    // TODO: 180
-
-    // TODO: 180 reserve
 
     // TODO: 181 VPN
 
