@@ -2165,7 +2165,8 @@ class IsValidNumberTest extends Specification {
                                   numberUntilInfix + "99999999",
                                   numberUntilInfix + "999999999"]
 
-        Boolean[] expectedResults;
+        Boolean[] expectedResults = [false, true, false, false,
+                                     false, true, false, false]
 
         // https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/LaengeRufnummernbloecke/start.html
         // x: 6 length 8 otherwise 7
@@ -2173,10 +2174,6 @@ class IsValidNumberTest extends Specification {
             expectedResults = [false, false, true, false,
                                false, false, true, false]
         }
-
-       expectedResults = [false, true, false, false,
-                          false, true, false, false]
-
 
         when:
         Boolean[] results = []
@@ -2226,7 +2223,7 @@ class IsValidNumberTest extends Specification {
         //
         // 0176
         //
-        "017633"         | "DE" | [true, false, true, false, true, false, true, false]  // <--
+        "017633"         | "DE" | [true, true, false, false, true, true, false, false]  // <--
         //
         // 0177
         //
