@@ -1867,8 +1867,6 @@ class PhoneNumberValidatorImplTest extends Specification {
 TODO NDC Ranges see equivalent Testcases in IsValidNumberTest
 */
 
-    // TODO: 16((8/9) Funkruf
-
     // TODO: 17
 
     // TODO: 17 + voicemail infix

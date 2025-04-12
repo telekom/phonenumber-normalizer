@@ -7578,7 +7578,6 @@ class IsValidNumberTest extends Specification {
         "0999"               | "DE"       | false           | false
     }
 
-
     def "check if original lib fixes number starting with NAC digit after optional NDC"(String number, regionCode, expectedResult, expectingFail) {
         given:
 
@@ -7605,9 +7604,6 @@ class IsValidNumberTest extends Specification {
     }
 
     /*
-
     TODO: Reserve NDC like (0)11 where (0)115 and (0)116 is used, or (0)13 where (0)137x is used
-
-
      */
 }
