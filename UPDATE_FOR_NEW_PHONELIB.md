@@ -6,23 +6,14 @@ If Google updates its [LibPhoneNumber](https://github.com/google/libphonenumber)
 
 2. Update [pom.xml](pom.xml) to use the new Google's LibPhoneNumber version:
    ```
-   <dependency>
-     <groupId>com.googlecode.libphonenumber</groupId>
-     <artifactId>libphonenumber</artifactId>
-     <version>X.YY.ZZ</version>
-   </dependency>
+   <libphonenumber.version>X.YY.ZZ</libphonenumber.version>
    ```
    
 3. Check on Maven Central ```https://central.sonatype.com/artifact/com.googlecode.libphonenumber/libphonenumber/X.YY.ZZ/dependents``` the version number for ```geocoder``` (referred as A.BBB).
 
 4. Update [pom.xml](pom.xml) to use the new geocoder version in testing:
    ```
-        <dependency>
-            <groupId>com.googlecode.libphonenumber</groupId>
-            <artifactId>geocoder</artifactId>
-            <version>A.BBB</version>
-            <scope>test</scope>
-        </dependency>
+   <geocoder.version>A.BBB</geocoder.version>
    ```
    
 5. Run all unit test and check log messages if Google's LibPhoneNumber still is not correctly:
