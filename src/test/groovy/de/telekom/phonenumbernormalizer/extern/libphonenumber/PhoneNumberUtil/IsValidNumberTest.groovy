@@ -1972,25 +1972,25 @@ class IsValidNumberTest extends Specification {
         //
         // 0172
         //
-        "01720"          | "DE" | [false, false, false, false, false, false, false, false]
-        "01721"          | "DE" | [false, false, false, false, false, false, false, false]
-        "01722"          | "DE" | [false, false, false, false, false, false, false, false]
-        "01723"          | "DE" | [false, false, false, false, false, false, false, false]
-        "01724"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01720"          | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
+        "01721"          | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
+        "01722"          | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
+        "01723"          | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
+        "01724"          | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
         // 017250 is reserved for voicemail - see tests below
-        "017251"         | "DE" | [false, false, false, false, false, false, false, false]
-        "017252"         | "DE" | [false, false, false, false, false, false, false, false]
-        "017253"         | "DE" | [false, false, false, false, false, false, false, false]
-        "017254"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017251"         | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
+        "017252"         | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
+        "017253"         | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
+        "017254"         | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
         // 017255 is reserved for voicemail - see tests below
-        "017256"         | "DE" | [false, false, false, false, false, false, false, false]
-        "017257"         | "DE" | [false, false, false, false, false, false, false, false]
-        "017258"         | "DE" | [false, false, false, false, false, false, false, false]
-        "017259"         | "DE" | [false, false, false, false, false, false, false, false]
-        "01726"          | "DE" | [false, false, false, false, false, false, false, false]
-        "01727"          | "DE" | [false, false, false, false, false, false, false, false]
-        "01728"          | "DE" | [false, false, false, false, false, false, false, false]
-        "01729"          | "DE" | [false, false, false, false, false, false, false, false]
+        "017256"         | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
+        "017257"         | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
+        "017258"         | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
+        "017259"         | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
+        "01726"          | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
+        "01727"          | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
+        "01728"          | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
+        "01729"          | "DE" | [false, false, true, false, false, false, true, false] // see https://issuetracker.google.com/issues/425121215
 
         //
         // 0173
@@ -2204,8 +2204,8 @@ class IsValidNumberTest extends Specification {
         //
         // 0172
         //
-        "017250"         | "DE" | [false, true, false, false, false, true, false, false]  // <--
-        "017255"         | "DE" | [false, false, true, false, false, false, true, false]  // <--
+        "017250"         | "DE" | [true, true, false, false, true, true, false, false] // see https://issuetracker.google.com/issues/425121215 at least for a few true
+        "017255"         | "DE" | [true, false, true, false, true, false, true, false] // see https://issuetracker.google.com/issues/425121215 at least for a few true
         //
         // 0173
         //
