@@ -60,4 +60,8 @@ Google [fixed](https://github.com/google/libphonenumber/pull/3671/files#diff-506
 While normal mobile numbers are now aligend, voicemail numbers length is still problematic (BUG needs to be reported!).
 
 ### 2024-12-14 - [Metadata Update of 8.13.52 for DE mobile 176 range is invalid](https://issuetracker.google.com/issues/384186540)
-While Google had corrected mobile 17x range with prior feedback, they introduced an inconsistency with the last DE meta data update.
+While Google had corrected mobile 17x range with prior feedback, they introduced an inconsistency with the last DE meta data update, allowing also 10 length number while only 11 are valid.
+They do not want to change it, because they user are blocked with historical shorter numbers (but no prove found that those really exists)
+
+### 2025-06-15 - [Metadata Update of 9.0.7 for DE mobile 172 range is invalide](https://issuetracker.google.com/issues/425121215)
+Similar to previously change of 176, Google change mobile 172 introduced an inconsistency with the last DE meta data update, allowing also 11 length number while only 10 are valid.
