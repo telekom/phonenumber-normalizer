@@ -64,4 +64,7 @@ While Google had corrected mobile 17x range with prior feedback, they introduced
 They do not want to change it, because they user are blocked with historical shorter numbers (but no prove found that those really exists)
 
 ### 2025-06-15 - [Metadata Update of 9.0.7 for DE mobile 172 range is invalide](https://issuetracker.google.com/issues/425121215)
-Similar to previously change of 176, Google change mobile 172 introduced an inconsistency with the last DE meta data update, allowing also 11 length number while only 10 are valid.
+Similar to previously change of 176, Google change mobile 172 ~~introduced an inconsistency with the last DE meta data update, allowing also 11 length number while only 10 are valid~~.
+
+Google clarified, there is [another document by BnetzA](https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/Nummernplan_MobileDienste.pdf?__blob=publicationFile&v=1) which opens the range and maybe the mobile summary page was not updated.
+While 9.0.7 meta data update was inconsistent with 178 & 179 those have been adjusted with 9.0.8
