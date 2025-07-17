@@ -23,7 +23,7 @@
     <artifactId>normalizer</artifactId>
     <name>Phonenumber Normalizer</name>
     <description>Library to wrap around Google's LibPhoneNumber library, to fix the ignoring of German Landline specifics when normalizing phone numbers.</description>
-    <version>2.1.0</version>
+    <version>2.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <url>https://github.com/telekom/phonenumber-normalizer</url>
 
@@ -73,19 +73,19 @@
         <!-- Used Versions of other dependencies: -->
         <java.version>17</java.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <lombok.version>1.18.30</lombok.version>
+        <lombok.version>1.18.38</lombok.version>
         <surefire.plugin.version>2.22.2</surefire.plugin.version> <!-- not yet updated because version 3.x has vulnerability-->
-        <com.fasterxml.jackson.core.version>2.18.0</com.fasterxml.jackson.core.version>
-        <org.codehaus.gmavenplus.version>1.11.0</org.codehaus.gmavenplus.version>
-        <org.springframework.version>6.1.14</org.springframework.version>
-        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-        <org.apache.commons.version>3.17.0</org.apache.commons.version>
-        <io.swagger.verion>1.6.14</io.swagger.verion>
-        <org.slf4j.version>2.0.16</org.slf4j.version>
-        <jakarta.annotation.version>3.0.0-M1</jakarta.annotation.version>
-        <org.apache.groovy.version>4.0.18</org.apache.groovy.version>
-        <org.junit.platform.version>1.10.1</org.junit.platform.version>
-        <org.spockframework.version>2.4-M1-groovy-4.0</org.spockframework.version>
+        <com.fasterxml.jackson.core.version>2.19.1</com.fasterxml.jackson.core.version>
+        <org.codehaus.gmavenplus.version>1.11.0</org.codehaus.gmavenplus.version> <!-- Major Jump to 4.2.1 possible -->
+        <org.springframework.version>6.2.8</org.springframework.version>
+        <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
+        <org.apache.commons.version>3.18.0</org.apache.commons.version>
+        <io.swagger.verion>1.6.16</io.swagger.verion>  <!-- Major Jump to 2.2.34 possible, needs refactoring-->
+        <org.slf4j.version>2.0.17</org.slf4j.version>
+        <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
+        <org.apache.groovy.version>4.0.27</org.apache.groovy.version>
+        <org.junit.platform.version>1.13.3</org.junit.platform.version>
+        <org.spockframework.version>2.4-M6-groovy-4.0</org.spockframework.version>
         <!-- JaCoCo & SonarQube -->
         <rootDir>${project.basedir}</rootDir>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -122,7 +122,7 @@
             <version>${org.apache.commons.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.swagger</groupId>
+            <groupId>io.swagger</groupId>  <!-- Major jump needs .core.v3 addition -->
             <artifactId>swagger-annotations</artifactId>
             <version>${io.swagger.verion}</version>
         </dependency>
