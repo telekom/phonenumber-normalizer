@@ -203,6 +203,12 @@ public class GermanAreaCodeExtractor {
                 return "15182"; // Telekom Deutschland GmbH
             case '3':
                 return "15183"; // Telekom Deutschland GmbH
+            case '4':
+                return "15184"; // Telekom Deutschland GmbH
+            case '5':
+                return "15185"; // Telekom Deutschland GmbH
+            case '6':
+                return "15186"; // Telekom Deutschland GmbH
             default:
                 return "";
         }
@@ -267,6 +273,8 @@ public class GermanAreaCodeExtractor {
         switch (number.charAt(0)) {
             case '1':
                 return fromNumber1551(number.substring(1));
+            case '5':
+                return fromNumber1555(number.substring(1));
             case '6':
                 return fromNumber1556(number.substring(1));
             default:
@@ -284,6 +292,37 @@ public class GermanAreaCodeExtractor {
                 return "15510"; // Lebara Limited
             case '1':
                 return "15511"; // Lebara Limited
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber1555(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '0':
+                return "15550"; // 1&1 Mobilfunk GmbH
+            case '1':
+                return "15551"; // 1&1 Mobilfunk GmbH
+            case '2':
+                return "15552"; // 1&1 Mobilfunk GmbH
+            case '3':
+                return "15553"; // 1&1 Mobilfunk GmbH
+            case '4':
+                return "15554"; // 1&1 Mobilfunk GmbH
+            case '5':
+                return "15555"; // 1&1 Mobilfunk GmbH
+            case '6':
+                return "15556"; // 1&1 Mobilfunk GmbH
+            case '7':
+                return "15557"; // 1&1 Mobilfunk GmbH
+            case '8':
+                return "15558"; // 1&1 Mobilfunk GmbH
+            case '9':
+                return "15559"; // 1&1 Mobilfunk GmbH
             default:
                 return "";
         }
@@ -379,6 +418,8 @@ public class GermanAreaCodeExtractor {
                 return "1577"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
             case '8':
                 return "1578"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
+            case '9':
+                return "1579"; // Telefónica Germany GmbH & Co. OHG (Netznutzungsvereinbarung mit Fa. Sipgate Wireless GmbH zuvor Fa. Vintage Wireless Networks Gesellschaft für Telekommunikation mbH), (ehem. E-Plus-Mobilfunk GmbH)
             default:
                 return "";
         }

@@ -132,6 +132,9 @@ public class DeFixedLineNumberPlan extends NumberPlan {
                 Map.entry("15181", new NDCDetails(6, 6, false)), // Telekom Deutschland GmbH
                 Map.entry("15182", new NDCDetails(6, 6, false)), // Telekom Deutschland GmbH
                 Map.entry("15183", new NDCDetails(6, 6, false)), // Telekom Deutschland GmbH
+                Map.entry("15184", new NDCDetails(6, 6, false)), // Telekom Deutschland GmbH
+                Map.entry("15185", new NDCDetails(6, 6, false)), // Telekom Deutschland GmbH
+                Map.entry("15186", new NDCDetails(6, 6, false)), // Telekom Deutschland GmbH
                 Map.entry("15310", new NDCDetails(6, 6, false)), // MTEL Deutschland GmbH
                 Map.entry("1520", new NDCDetails(7, 7, false)), // Vodafone GmbH
                 Map.entry("1521", new NDCDetails(7, 7, false)), // Lycamobile Europe Ltd.
@@ -142,6 +145,16 @@ public class DeFixedLineNumberPlan extends NumberPlan {
                 Map.entry("1529", new NDCDetails(7, 7, false)), // Vodafone GmbH  (Netznutzungsvereinbarung mit Fa. TP Germany Operations GmbH  ehemals Fa. Truphone GmbH )
                 Map.entry("15510", new NDCDetails(6, 6, false)), // Lebara Limited
                 Map.entry("15511", new NDCDetails(6, 6, false)), // Lebara Limited
+                Map.entry("15550", new NDCDetails(6, 6, false)), // 1&1 Mobilfunk GmbH
+                Map.entry("15551", new NDCDetails(6, 6, false)), // 1&1 Mobilfunk GmbH
+                Map.entry("15552", new NDCDetails(6, 6, false)), // 1&1 Mobilfunk GmbH
+                Map.entry("15553", new NDCDetails(6, 6, false)), // 1&1 Mobilfunk GmbH
+                Map.entry("15554", new NDCDetails(6, 6, false)), // 1&1 Mobilfunk GmbH
+                Map.entry("15555", new NDCDetails(6, 6, false)), // 1&1 Mobilfunk GmbH
+                Map.entry("15556", new NDCDetails(6, 6, false)), // 1&1 Mobilfunk GmbH
+                Map.entry("15557", new NDCDetails(6, 6, false)), // 1&1 Mobilfunk GmbH
+                Map.entry("15558", new NDCDetails(6, 6, false)), // 1&1 Mobilfunk GmbH
+                Map.entry("15559", new NDCDetails(6, 6, false)), // 1&1 Mobilfunk GmbH
                 Map.entry("15560", new NDCDetails(6, 6, false)), // 1&1 Mobilfunk GmbH
                 Map.entry("15561", new NDCDetails(6, 6, false)), // 1&1 Mobilfunk GmbH
                 Map.entry("15562", new NDCDetails(6, 6, false)), // 1&1 Mobilfunk GmbH
@@ -165,6 +178,7 @@ public class DeFixedLineNumberPlan extends NumberPlan {
                 Map.entry("1575", new NDCDetails(7, 7, false)), // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
                 Map.entry("1577", new NDCDetails(7, 7, false)), // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
                 Map.entry("1578", new NDCDetails(7, 7, false)), // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
+                Map.entry("1579", new NDCDetails(7, 7, false)), // Telefónica Germany GmbH & Co. OHG (Netznutzungsvereinbarung mit Fa. Sipgate Wireless GmbH zuvor Fa. Vintage Wireless Networks Gesellschaft für Telekommunikation mbH) (ehem. E-Plus-Mobilfunk GmbH)
                 Map.entry("15888", new NDCDetails(6, 6, false)), // TelcoVillage GmbH
                 Map.entry("1590", new NDCDetails(7, 7, false)), // Telefónica Germany GmbH & Co. OHG
                 Map.entry("160", new NDCDetails(7, 8, false, 1)), // Telekom Deutschland GmbH
