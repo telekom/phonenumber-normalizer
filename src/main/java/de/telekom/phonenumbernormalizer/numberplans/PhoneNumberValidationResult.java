@@ -99,7 +99,22 @@ public enum PhoneNumberValidationResult {
     /** The number has an invalid national access code (aka NAC) or the specific number must not be used with used NAC.*/
     INVALID_NATIONAL_ACCESS_CODE(ValidationResult.INVALID_LENGTH),
 
-    /** The number has an invalid national destination code (aka NDC) for this region or the specific number must not be used with used NDC. */
+    /**
+     * The number has an invalid national destination code (aka NDC) for this region or the specific number must not be used with used NDC:
+     * <ul>
+     * <li>The regulating authority has left out a complete NDC-Block (so its unusable)</li>
+     * <li>The regulating authority has defined a complete NDC-Block as not usable</li>
+     * </ul>
+     * Exception: If the regulating authority has defined a complete NDC-Block as reserved, then it is {@link PhoneNumberValidationResult#INVALID_RESERVE_NUMBER}
+     * <p/>
+     * If the regulating authority has defined a NDC-Block for a specific use (e.g. mobile operators) and a subpart of the block is:
+     * <ul>
+     * <li>reserved e.g. for a specific operator but not in use
+     * <li>free e.g. neither assigned nor reserved for an operator</li>
+     * <li>if a complete assigned, reserved and free list exists, but the subpart is on none of them</li>
+     * </ul>
+     * */
+    // TODO: Check if subparts other than assigned (reserved, free, unspecified) are getting an own result values
     INVALID_NATIONAL_DESTINATION_CODE(ValidationResult.INVALID_LENGTH),
 
     /** The subscriber number starts with digits which makes the number invalid, e.g. overlapping special numbers when NDC is optional, so those numbers could not be distinct in digit by digit calling from those special numbers
