@@ -166,13 +166,6 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
 
             String numberWithoutCountryCode = wrapper.removeIDP().substring(numberCountryCode.length());
 
-            if (numberplan != null) {
-                PhoneNumberValidationResult specialRuling = numberplan.checkSpecialDefinitions(numberWithoutCountryCode);
-                if (specialRuling != null) {
-                    return specialRuling;
-                }
-            }
-
             // using IDP as initial Exit Code
             PhoneNumberValidationResult isIDPNumberValid;
 
@@ -195,8 +188,25 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
             }
 
             if (isIDPNumberValid != null) {
+               if (! isIDPNumberValid.isOverwritingReserve()) {
+                    if (numberplan != null) {
+                        PhoneNumberValidationResult specialRuling = numberplan.checkSpecialDefinitions(numberWithoutCountryCode);
+                        if (specialRuling != null) {
+                            return specialRuling;
+                        }
+                    }
+               }
                 return isIDPNumberValid;
+            } else {
+                    if (numberplan != null) {
+                        PhoneNumberValidationResult specialRuling = numberplan.checkSpecialDefinitions(numberWithoutCountryCode);
+                        if (specialRuling != null) {
+                            return specialRuling;
+                        }
+                    }
             }
+
+
 
         } else {
             // No Country Exit Code has been used, so no CC is following.
@@ -209,11 +219,6 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                     String numberWithOutNac = wrapper.removeNAC();
 
                     if (numberplan!=null) {
-                        PhoneNumberValidationResult specialRuling = numberplan.checkSpecialDefinitions(numberWithOutNac);
-                        if (specialRuling != null) {
-                            return specialRuling;
-                        }
-
                         // check if a shortnumber is used directly after NAC and if that is allowed
 
                         // using NAC as initial Exit Code
@@ -224,7 +229,20 @@ public class PhoneNumberValidatorImpl implements PhoneNumberValidator {
                                 PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY);
 
                         if (isNACNumberValid != null) {
+
+                            if (! isNACNumberValid.isOverwritingReserve()) {
+                                PhoneNumberValidationResult specialRuling = numberplan.checkSpecialDefinitions(numberWithOutNac);
+                                if (specialRuling != null) {
+                                    return specialRuling;
+                                }
+                            }
+
                             return isNACNumberValid;
+                        } else {
+                                PhoneNumberValidationResult specialRuling = numberplan.checkSpecialDefinitions(numberWithOutNac);
+                                if (specialRuling != null) {
+                                    return specialRuling;
+                                }
                         }
                     }
                     // As fallback check by libPhone

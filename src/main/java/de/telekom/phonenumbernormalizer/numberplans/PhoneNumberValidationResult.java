@@ -209,7 +209,23 @@ public enum PhoneNumberValidationResult {
                 || (this == IS_POSSIBLE_LOCAL_ONLY)
                 || (this == IS_POSSIBLE_NATIONAL_ONLY)
                 || (this == IS_POSSIBLE_INTERNATIONAL_ONLY));
+    }
 
+    /**
+     * Returns if the validation result assuming a wrong usage, so taking the plain number would lead to a different result
+     * e.g. emergency short number is used with country code while regulation authority blocked the NDC overlapping with
+     * the short number as a reserved block. The reserved block is identified if its not exactly the shortnumber.
+     * <p/>
+     * So +49110 would lead to {@link PhoneNumberValidationResult#INVALID_COUNTRY_CODE} while +491105566 would lead to {@link PhoneNumberValidationResult#INVALID_RESERVE_NUMBER}
+     * <p/>
+     * This also applies to {@link PhoneNumberValidationResult#TOO_SHORT} and {@link PhoneNumberValidationResult#TOO_LONG}, which is more accurate than just being reserve
+     * since even a reserve block might have length constrains.
+     */
+    public boolean isOverwritingReserve() {
+        return (   (this == INVALID_COUNTRY_CODE)
+                || (this == INVALID_NATIONAL_ACCESS_CODE)
+                || (this == TOO_SHORT)
+                || (this == TOO_LONG));
     }
 
 }

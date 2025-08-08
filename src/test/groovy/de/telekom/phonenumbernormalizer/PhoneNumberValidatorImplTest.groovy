@@ -44,7 +44,7 @@ class PhoneNumberValidatorImplTest extends Specification {
         "110"                       | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY                   // number is short code, valid only locally
         "110556677"                 | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER      // subscriber number starts with short code
         "0110"                      | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE             // number starts with NAC, normally NDC would follow, but that equals short code => assuming Short Code is intended, which means NAC is the problem
-        "0110 556677"               | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE        // number starts with NAC, rest is longer than short code (see one above), so its 11x NDC which is just reserve
+        "0110 556677"               | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER                   // number starts with NAC, rest is longer than short code (see one above), so its 11x NDC which is just reserve
         "0175 110"                  | "DE"       | PhoneNumberValidationResult.TOO_SHORT                                // number starts with NAC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
         "0175 110555"               | "DE"       | PhoneNumberValidationResult.TOO_SHORT                                // number starts with NAC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
         "0175 1105555"              | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY                // number starts with NAC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
@@ -54,7 +54,7 @@ class PhoneNumberValidatorImplTest extends Specification {
         "0203 110555"               | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER      // number starts with NAC, optional fixed line NDC follows, SN starts with short code (overlapping) => assuming NDC is intended, which means SN is wrong
         // using IDP+CC within the region
         "+49110"                    | "DE"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE                     // number starts with IDP+CC, normally NDC would follow, but that equals short code => assuming Short Code is intended, which means CC is the problem
-        "+49110 556677"             | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE        // number starts with IDP+CC, rest is longer than short code (see one above), so its 11x NDC which is just reserve
+        "+49110 556677"             | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER                   // number starts with IDP+CC, rest is longer than short code (see one above), so its 11x NDC which is just reserve
         "+49175 110"                | "DE"       | PhoneNumberValidationResult.TOO_SHORT                                // number starts with IDP+CC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
         "+49175 110555"             | "DE"       | PhoneNumberValidationResult.TOO_SHORT                                // number starts with IDP+CC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
         "+49175 1105555"            | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE                              // number starts with IDP+CC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
@@ -64,7 +64,7 @@ class PhoneNumberValidatorImplTest extends Specification {
         "+49203 110555"             | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER      // number starts with IDP+CC, optional fixed line NDC follows, SN starts with short code (overlapping) => assuming NDC is intended, which means SN is wrong
         // using IDP+CC from outside the region
         "+49110"                    | "FR"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE                     // number starts with IDP+CC, normally NDC would follow, but that equals short code => assuming Short Code is intended, which means CC is the problem
-        "+49110 556677"             | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE        // number starts with IDP+CC, rest is longer than short code (see one above), so its 11x NDC which is just reserve
+        "+49110 556677"             | "FR"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER                   // number starts with IDP+CC, rest is longer than short code (see one above), so its 11x NDC which is just reserve
         "+49175 110"                | "FR"       | PhoneNumberValidationResult.TOO_SHORT                                // number starts with IDP+CC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
         "+49175 110555"             | "FR"       | PhoneNumberValidationResult.TOO_SHORT                                // number starts with IDP+CC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
         "+49175 1105555"            | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE                              // number starts with IDP+CC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
@@ -92,7 +92,7 @@ class PhoneNumberValidatorImplTest extends Specification {
         "112"                       | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_LOCAL_ONLY                   // number is short code, valid only locally
         "112556677"                 | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER      // subscriber number starts with short code
         "0112"                      | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE             // number starts with NAC, normally NDC would follow, but that equals short code => assuming Short Code is intended, which means NAC is the problem
-        "0112 556677"               | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE        // number starts with NAC, rest is longer than short code (see one above), so its 11x NDC which is just reserve
+        "0112 556677"               | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER                   // number starts with NAC, rest is longer than short code (see one above), so its 11x NDC which is just reserve
         "0175 112"                  | "DE"       | PhoneNumberValidationResult.TOO_SHORT                                // number starts with NAC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
         "0175 112555"               | "DE"       | PhoneNumberValidationResult.TOO_SHORT                                // number starts with NAC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
         "0175 1125555"              | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY                // number starts with NAC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
@@ -102,7 +102,7 @@ class PhoneNumberValidatorImplTest extends Specification {
         "0203 112555"               | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER      // number starts with NAC, optional fixed line NDC follows, SN starts with short code (overlapping) => assuming NDC is intended, which means SN is wrong
         // using IDP+CC within the region
         "+49112"                    | "DE"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE                     // number starts with IDP+CC, normally NDC would follow, but that equals short code => assuming Short Code is intended, which means CC is the problem
-        "+49112 556677"             | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE        // number starts with IDP+CC, rest is longer than short code (see one above), so its 11x NDC which is just reserve
+        "+49112 556677"             | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER                   // number starts with IDP+CC, rest is longer than short code (see one above), so its 11x NDC which is just reserve
         "+49175 112"                | "DE"       | PhoneNumberValidationResult.TOO_SHORT                                // number starts with IDP+CC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
         "+49175 112555"             | "DE"       | PhoneNumberValidationResult.TOO_SHORT                                // number starts with IDP+CC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
         "+49175 1125555"            | "DE"       | PhoneNumberValidationResult.IS_POSSIBLE                              // number starts with IDP+CC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
@@ -112,7 +112,7 @@ class PhoneNumberValidatorImplTest extends Specification {
         "+49203 112555"             | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER      // number starts with IDP+CC, optional fixed line NDC follows, SN starts with short code (overlapping) => assuming NDC is intended, which means SN is wrong
         // using IDP+CC from outside the region
         "+49112"                    | "FR"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE                     // number starts with IDP+CC, normally NDC would follow, but that equals short code => assuming Short Code is intended, which means CC is the problem
-        "+49112 556677"             | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE        // number starts with IDP+CC, rest is longer than short code (see one above), so its 11x NDC which is just reserve
+        "+49112 556677"             | "FR"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER                   // number starts with IDP+CC, rest is longer than short code (see one above), so its 11x NDC which is just reserve
         "+49175 112"                | "FR"       | PhoneNumberValidationResult.TOO_SHORT                                // number starts with IDP+CC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
         "+49175 112555"             | "FR"       | PhoneNumberValidationResult.TOO_SHORT                                // number starts with IDP+CC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
         "+49175 1125555"            | "FR"       | PhoneNumberValidationResult.IS_POSSIBLE                              // number starts with IDP+CC, mandatory mobile NDC follows, so subscriber number is not overlapping with short codes - but SN length for this NDC is 7
@@ -294,19 +294,19 @@ class PhoneNumberValidatorImplTest extends Specification {
         // Tested on 26.12.2023 - 11833 works on TMD, but neither 011833 nor +4911833 is working on T-Mobile Germany
         // NAC + 118(y)xx belongs to the number reserve of NAC + 11
 
-        "0118"                      | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "01180"                     | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "011800"                    | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "0118000"                   | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "0118099"                   | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "01180000"                  | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "01181"                     | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "0118"                      | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "01180"                     | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "011800"                    | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "0118000"                   | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "0118099"                   | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "01180000"                  | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "01181"                     | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
         "011810"                    | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE
         "011833"                    | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE
-        "0118100"                   | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "01189"                     | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "0118100"                   | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "01189"                     | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
         "011899"                    | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_ACCESS_CODE
-        "0118999"                   | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "0118999"                   | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
 
         // NAC + NDC (e.g. for Duisburg) + 118(y)xx
         "0203118"                   | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
@@ -344,19 +344,19 @@ class PhoneNumberValidatorImplTest extends Specification {
         "017511899999"              | "DE"       | PhoneNumberValidationResult.TOO_LONG // special for mobile
 
         // CC + 118(y)xx
-        "+49118"                    | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+491180"                   | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+4911800"                  | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+49118000"                 | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+49118099"                 | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+491180000"                | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+491181"                   | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49118"                    | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "+491180"                   | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "+4911800"                  | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "+49118000"                 | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "+49118099"                 | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "+491180000"                | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "+491181"                   | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
         "+4911810"                  | "DE"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
         "+4911833"                  | "DE"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
-        "+49118100"                 | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+491189"                   | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49118100"                 | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "+491189"                   | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
         "+4911899"                  | "DE"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
-        "+49118999"                 | "DE"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49118999"                 | "DE"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
 
         // CC + NDC (e.g. for Duisburg) + 118(y)xx
         "+49203118"                 | "DE"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
@@ -393,19 +393,19 @@ class PhoneNumberValidatorImplTest extends Specification {
         "+4917511899999"            | "DE"       | PhoneNumberValidationResult.TOO_LONG // special for mobile
 
         // CC + 118(y)xx from outside Germany
-        "+49118"                    | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+491180"                   | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+4911800"                  | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+49118000"                 | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+49118099"                 | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+491180000"                | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+491181"                   | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49118"                    | "FR"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "+491180"                   | "FR"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "+4911800"                  | "FR"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "+49118000"                 | "FR"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "+49118099"                 | "FR"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "+491180000"                | "FR"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "+491181"                   | "FR"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
         "+4911810"                  | "FR"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
         "+4911833"                  | "FR"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
-        "+49118100"                 | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
-        "+491189"                   | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49118100"                 | "FR"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
+        "+491189"                   | "FR"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
         "+4911899"                  | "FR"       | PhoneNumberValidationResult.INVALID_COUNTRY_CODE
-        "+49118999"                 | "FR"       | PhoneNumberValidationResult.INVALID_NATIONAL_DESTINATION_CODE
+        "+49118999"                 | "FR"       | PhoneNumberValidationResult.INVALID_RESERVE_NUMBER
 
         // CC + NDC (e.g. for Duisburg) + 118(y)xx from outside Germany
         "+49203118"                 | "FR"       | PhoneNumberValidationResult.INVALID_PREFIX_OF_SUBSCRIBER_NUMBER
@@ -1108,7 +1108,7 @@ class PhoneNumberValidatorImplTest extends Specification {
         "015330"         | "DE"      | "FREE"
         "015331"         | "DE"      | "FREE"
         "015332"         | "DE"      | "FREE"
-        "015333"         | "DE"      | "FREE"
+        "015333"         | "DE"      | "ASSIGNED"
         "015334"         | "DE"      | "FREE"
         "015335"         | "DE"      | "FREE"
         "015336"         | "DE"      | "FREE"
@@ -1976,7 +1976,7 @@ class PhoneNumberValidatorImplTest extends Specification {
         // end of 015xx 
     }
 
-    def "validate German Mobile 15 range with voicemail infix"(String numberUntilInfix, regionCode) {
+    def "validate German Mobile 15 range with voicemail infix"(String numberUntilInfix, regionCode, String expectedResultskey) {
         given:
         String[] numbersToTest
         if (numberUntilInfix.length() == 6) {
@@ -2003,15 +2003,27 @@ class PhoneNumberValidatorImplTest extends Specification {
                              numberUntilInfix + "9999999",
                              numberUntilInfix + "999999999"]
         }
+        if (numberUntilInfix.length() == 8) {
+            numbersToTest = [numberUntilInfix + "000",
+                             numberUntilInfix + "0000",
+                             numberUntilInfix + "00000",
+                             numberUntilInfix + "000000",
+                             numberUntilInfix + "0000000",
+                             numberUntilInfix + "999",
+                             numberUntilInfix + "9999",
+                             numberUntilInfix + "99999",
+                             numberUntilInfix + "999999",
+                             numberUntilInfix + "99999999"]
+        }
         PhoneNumberValidationResult[] expectedResults = [PhoneNumberValidationResult.TOO_SHORT,
                                                          PhoneNumberValidationResult.TOO_SHORT,
                                                          PhoneNumberValidationResult.TOO_SHORT,
-                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY,
                                                          PhoneNumberValidationResult.TOO_LONG,
                                                          PhoneNumberValidationResult.TOO_SHORT,
                                                          PhoneNumberValidationResult.TOO_SHORT,
                                                          PhoneNumberValidationResult.TOO_SHORT,
-                                                         PhoneNumberValidationResult.IS_POSSIBLE,
+                                                         PhoneNumberValidationResult.IS_POSSIBLE_NATIONAL_ONLY,
                                                          PhoneNumberValidationResult.TOO_LONG]
 
 
@@ -2029,78 +2041,78 @@ class PhoneNumberValidatorImplTest extends Specification {
 
         where:
 
-        numberUntilInfix | regionCode
+        numberUntilInfix | regionCode | expectedResultskey
         // There infixes of two digits used to address the voicemail of a line
         // see 2.5 in https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
         // This makes the number two digits longer, but on the other hand a short version with the infix does not exists, that is the reason, why above range started at 15001, since 15000 would be an infix
 
         // 15-0-INFIX:OO-xx 3-Block: 0xx
-        "015000"         | "DE"
+        "015000"         | "DE"      | "TBD"
 
         // 15-1-INFIX:13-x(x) 2-Block: 1x and 3-Block: 1xx
-        "015113"         | "DE"
+        "015113"         | "DE"      | "TBD"
 
         // 15-2x-INFIX:50-(x) 2-Block: 2x and 3-Block: 2xx  First Infix: 50
-        "0152050"         | "DE"
-        "0152150"         | "DE"
-        "0152250"         | "DE"
-        "0152350"         | "DE"
-        "0152450"         | "DE"
-        "0152550"         | "DE"
-        "0152650"         | "DE"
-        "0152750"         | "DE"
-        "0152850"         | "DE"
-        "0152950"         | "DE"
+        "0152050"        | "DE"      | "TBD"
+        "0152150"        | "DE"      | "TBD"
+        "0152250"        | "DE"      | "TBD"
+        "0152350"        | "DE"      | "TBD"
+        "0152450"        | "DE"      | "TBD"
+        "0152550"        | "DE"      | "TBD"
+        "0152650"        | "DE"      | "TBD"
+        "0152750"        | "DE"      | "TBD"
+        "0152850"        | "DE"      | "TBD"
+        "0152950"        | "DE"      | "TBD"
         // 15-2x-INFIX:55-(x) 2-Block: 2x and 3-Block: 2xx  Second Infix: 55
-        "0152055"         | "DE"
-        "0152155"         | "DE"
-        "0152255"         | "DE"
-        "0152355"         | "DE"
-        "0152455"         | "DE"
-        "0152555"         | "DE"
-        "0152655"         | "DE"
-        "0152755"         | "DE"
-        "0152855"         | "DE"
-        "0152955"         | "DE"
+        "0152055"        | "DE"      | "TBD"
+        "0152155"        | "DE"      | "TBD"
+        "0152255"        | "DE"      | "TBD"
+        "0152355"        | "DE"      | "TBD"
+        "0152455"        | "DE"      | "TBD"
+        "0152555"        | "DE"      | "TBD"
+        "0152655"        | "DE"      | "TBD"
+        "0152755"        | "DE"      | "TBD"
+        "0152855"        | "DE"      | "TBD"
+        "0152955"        | "DE"      | "TBD"
 
         // 15-3-INFIX:OO-xx 3-Block: 3xx
-        "015300"         | "DE"
+        "015300"         | "DE"      | "TBD"
 
         // 15-4-INFIX:OO-xx 3-Block: 4xx
-        "015400"         | "DE"
+        "015400"         | "DE"      | "TBD"
 
         // 15-5-INFIX:OO-xx 3-Block: 5xx
-        "015500"         | "DE"
+        "015500"         | "DE"      | "TBD"
 
         // 15-6-INFIX:OO-xx 3-Block: 6xx
-        "015600"         | "DE"
+        "015600"         | "DE"      | "TBD"
 
         // 15-7x-INFIX:99-(x) 2-Block: 7x and 3-Block: 7xx
-        "0157099"         | "DE"
-        "0157199"         | "DE"
-        "0157299"         | "DE"
-        "0157399"         | "DE"
-        "0157499"         | "DE"
-        "0157599"         | "DE"
-        "0157699"         | "DE"
-        "0157799"         | "DE"
-        "0157899"         | "DE"
-        "0157999"         | "DE"
+        "0157099"        | "DE"      | "TBD"
+        "0157199"        | "DE"      | "TBD"
+        "0157299"        | "DE"      | "TBD"
+        "0157399"        | "DE"      | "TBD"
+        "0157499"        | "DE"      | "TBD"
+        "0157599"        | "DE"      | "TBD"
+        "0157699"        | "DE"      | "TBD"
+        "0157799"        | "DE"      | "TBD"
+        "0157899"        | "DE"      | "TBD"
+        "0157999"        | "DE"      | "TBD"
 
         // 15-8-INFIX:OO-xx 3-Block: 8xx
-        "015800"         | "DE"
+        "015800"         | "DE"      | "TBD"
 
         // 15-9x-INFIX:33-(x) 2-Block: 9x and 3-Block: 9xx
-        "0159033"         | "DE"
-        "0159133"         | "DE"
-        "0159233"         | "DE"
-        "0159333"         | "DE"
-        "0159433"         | "DE"
-        "0159533"         | "DE"
-        "0159633"         | "DE"
-        "0159733"         | "DE"
-        "0159833"         | "DE"
-        "0159933"         | "DE"
+        "0159033"        | "DE"      | "TBD"
+        "0159133"        | "DE"      | "TBD"
+        "0159233"        | "DE"      | "TBD"
+        "0159333"        | "DE"      | "TBD"
+        "0159433"        | "DE"      | "TBD"
+        "0159533"        | "DE"      | "TBD"
+        "0159633"        | "DE"      | "TBD"
+        "0159733"        | "DE"      | "TBD"
+        "0159833"        | "DE"      | "TBD"
+        "0159933"        | "DE"      | "TBD"
 
         // end of 015xx for voicemail
     }

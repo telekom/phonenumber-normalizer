@@ -136,6 +136,7 @@ public class DeFixedLineNumberPlan extends NumberPlan {
                 Map.entry("15185", new NDCDetails(6, 6, false)), // Telekom Deutschland GmbH
                 Map.entry("15186", new NDCDetails(6, 6, false)), // Telekom Deutschland GmbH
                 Map.entry("15310", new NDCDetails(6, 6, false)), // MTEL Deutschland GmbH
+                Map.entry("15333", new NDCDetails(6, 6, false)), // Simsalasim Germany GmbH
                 Map.entry("1520", new NDCDetails(7, 7, false)), // Vodafone GmbH
                 Map.entry("1521", new NDCDetails(7, 7, false)), // Lycamobile Europe Ltd.
                 Map.entry("1522", new NDCDetails(7, 7, false)), // Vodafone GmbH
@@ -204,10 +205,12 @@ public class DeFixedLineNumberPlan extends NumberPlan {
                 Map.entry("176", new NDCDetails(8, 8, false)), // Telefónica Germany GmbH & Co. OHG
                 Map.entry("177", new NDCDetails(7, 7, false)), // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
                 Map.entry("178", new NDCDetails(7, 7, false)), // Telefónica Germany GmbH & Co. OHG  (ehem. E-Plus Mobilfunk GmbH )
-                Map.entry("179", new NDCDetails(7, 7, false)) // Telefónica Germany GmbH & Co. OHG
+                Map.entry("179", new NDCDetails(7, 7, false)), // Telefónica Germany GmbH & Co. OHG
                 /*
                  * Generation ended
                  */
+                // VoiceMail Infixes without check if subblock is assigend as above
+                Map.entry("15000", new NDCDetails(8, 8, false))  // 15-0-INFIX:OO-xx 3-Block: 0xx
 
         );
     }

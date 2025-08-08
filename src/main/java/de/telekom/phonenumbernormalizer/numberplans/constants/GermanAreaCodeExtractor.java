@@ -131,6 +131,8 @@ public class GermanAreaCodeExtractor {
         switch (number.charAt(0)) {
             case '1':
                 return fromNumber1501(number.substring(1));
+            case '0':
+                return fromNumber1500(number.substring(1));
             case '2':
                 return fromNumber1502(number.substring(1));
             default:
@@ -146,6 +148,60 @@ public class GermanAreaCodeExtractor {
         switch (number.charAt(0)) {
             case '9':
                 return "15019"; // Tismi BV
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber1500(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '0':
+                return fromNumber15000(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber15000(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '1':
+                return fromNumber150001(number.substring(1));
+            case '2':
+                return fromNumber150002(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber150001(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '9':
+                return "1500019"; // Voicemail Infix inserted for Tismi BV
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber150002(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '0':
+                return "1500020"; // Voicemail Infix inserted for Legos - Local Exchange Global Operation Services
             default:
                 return "";
         }
@@ -171,6 +227,58 @@ public class GermanAreaCodeExtractor {
 
         switch (number.charAt(0)) {
             case '1':
+                // Overlapping NDC 151131
+                if ((number.length() > 2) && (number.substring(1, 3).equals("31"))) {
+                    return "151131"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
+                // Overlapping NDC 151132
+                if ((number.length() > 2) && (number.substring(1, 3).equals("32"))) {
+                    return "151132"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
+                // Overlapping NDC 151134
+                if ((number.length() > 2) && (number.substring(1, 3).equals("34"))) {
+                    return "151134"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
+                // Overlapping NDC 151135
+                if ((number.length() > 2) && (number.substring(1, 3).equals("35"))) {
+                    return "151135"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
+                // Overlapping NDC 151136
+                if ((number.length() > 2) && (number.substring(1, 3).equals("36"))) {
+                    return "151136"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
+                // Overlapping NDC 151137
+                if ((number.length() > 2) && (number.substring(1, 3).equals("37"))) {
+                    return "151137"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
+                // Overlapping NDC 1511380
+                if ((number.length() > 3) && (number.substring(1, 4).equals("380"))) {
+                    return "1511380"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
+                // Overlapping NDC 1511381
+                if ((number.length() > 3) && (number.substring(1, 4).equals("381"))) {
+                    return "1511381"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
+                // Overlapping NDC 1511382
+                if ((number.length() > 3) && (number.substring(1, 4).equals("382"))) {
+                    return "1511382"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
+                // Overlapping NDC 1511383
+                if ((number.length() > 3) && (number.substring(1, 4).equals("383"))) {
+                    return "1511383"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
+                // Overlapping NDC 1511384
+                if ((number.length() > 3) && (number.substring(1, 4).equals("384"))) {
+                    return "1511384"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
+                // Overlapping NDC 1511385
+                if ((number.length() > 3) && (number.substring(1, 4).equals("385"))) {
+                    return "1511385"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
+                // Overlapping NDC 1511386
+                if ((number.length() > 3) && (number.substring(1, 4).equals("386"))) {
+                    return "1511386"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
                 return "1511"; // Telekom Deutschland GmbH
             case '2':
                 return "1512"; // Telekom Deutschland GmbH
@@ -222,6 +330,10 @@ public class GermanAreaCodeExtractor {
         switch (number.charAt(0)) {
             case '1':
                 return fromNumber1531(number.substring(1));
+            case '0':
+                return fromNumber1530(number.substring(1));
+            case '3':
+                return fromNumber1533(number.substring(1));
             default:
                 return "";
         }
@@ -240,6 +352,73 @@ public class GermanAreaCodeExtractor {
         }
     }
 
+    private static String fromNumber1530(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '0':
+                return fromNumber15300(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber15300(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '1':
+                return fromNumber153001(number.substring(1));
+            case '3':
+                return fromNumber153003(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber153001(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '0':
+                return "1530010"; // Voicemail Infix inserted for MTEL Deutschland GmbH
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber153003(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '3':
+                return "1530033"; // Voicemail Infix inserted for Simsalasim Germany GmbH
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber1533(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '3':
+                return "15333"; // Simsalasim Germany GmbH
+            default:
+                return "";
+        }
+    }
+
     private static String fromNumber152(String number) {
         if ((number == null) || (number.length()<1)) {
             return "";
@@ -247,19 +426,75 @@ public class GermanAreaCodeExtractor {
 
         switch (number.charAt(0)) {
             case '0':
+                // Overlapping NDC 152050
+                if ((number.length() > 2) && (number.substring(1, 3).equals("50"))) {
+                    return "152050"; // Voicemail Infix inserted for Vodafone GmbH
+                }
+                // Overlapping NDC 152055
+                if ((number.length() > 2) && (number.substring(1, 3).equals("55"))) {
+                    return "152055"; // Voicemail Infix inserted for Vodafone GmbH
+                }
                 return "1520"; // Vodafone GmbH
             case '1':
+                // Overlapping NDC 152150
+                if ((number.length() > 2) && (number.substring(1, 3).equals("50"))) {
+                    return "152150"; // Voicemail Infix inserted for Lycamobile Europe Ltd.
+                }
+                // Overlapping NDC 152155
+                if ((number.length() > 2) && (number.substring(1, 3).equals("55"))) {
+                    return "152155"; // Voicemail Infix inserted for Lycamobile Europe Ltd.
+                }
                 return "1521"; // Lycamobile Europe Ltd.
             case '2':
+                // Overlapping NDC 152250
+                if ((number.length() > 2) && (number.substring(1, 3).equals("50"))) {
+                    return "152250"; // Voicemail Infix inserted for Vodafone GmbH
+                }
+                // Overlapping NDC 152255
+                if ((number.length() > 2) && (number.substring(1, 3).equals("55"))) {
+                    return "152255"; // Voicemail Infix inserted for Vodafone GmbH
+                }
                 return "1522"; // Vodafone GmbH
             case '3':
+                // Overlapping NDC 152350
+                if ((number.length() > 2) && (number.substring(1, 3).equals("50"))) {
+                    return "152350"; // Voicemail Infix inserted for Vodafone GmbH
+                }
+                // Overlapping NDC 152355
+                if ((number.length() > 2) && (number.substring(1, 3).equals("55"))) {
+                    return "152355"; // Voicemail Infix inserted for Vodafone GmbH
+                }
                 return "1523"; // Vodafone GmbH
             case '5':
+                // Overlapping NDC 152550
+                if ((number.length() > 2) && (number.substring(1, 3).equals("50"))) {
+                    return "152550"; // Voicemail Infix inserted for Vodafone GmbH
+                }
+                // Overlapping NDC 152555
+                if ((number.length() > 2) && (number.substring(1, 3).equals("55"))) {
+                    return "152555"; // Voicemail Infix inserted for Vodafone GmbH
+                }
                 return "1525"; // Vodafone GmbH
             case '6':
+                // Overlapping NDC 152650
+                if ((number.length() > 2) && (number.substring(1, 3).equals("50"))) {
+                    return "152650"; // Voicemail Infix inserted for Vodafone GmbH
+                }
+                // Overlapping NDC 152655
+                if ((number.length() > 2) && (number.substring(1, 3).equals("55"))) {
+                    return "152655"; // Voicemail Infix inserted for Vodafone GmbH
+                }
                 return "1526"; // Vodafone GmbH
             case '9':
-                return "1529"; // Vodafone GmbH (Netznutzungsvereinbarung mit Fa. TP Germany Operations GmbH ehemals Fa. Truphone GmbH)
+                // Overlapping NDC 152950
+                if ((number.length() > 2) && (number.substring(1, 3).equals("50"))) {
+                    return "152950"; // Voicemail Infix inserted for Vodafone GmbH (Netznutzungsvereinbarung mit Fa. TP Germany Operations GmbH ehemals Fa. Truphone GmbH )
+                }
+                // Overlapping NDC 152955
+                if ((number.length() > 2) && (number.substring(1, 3).equals("55"))) {
+                    return "152955"; // Voicemail Infix inserted for Vodafone GmbH (Netznutzungsvereinbarung mit Fa. TP Germany Operations GmbH ehemals Fa. Truphone GmbH )
+                }
+                return "1529"; // Vodafone GmbH (Netznutzungsvereinbarung mit Fa. TP Germany Operations GmbH ehemals Fa. Truphone GmbH )
             default:
                 return "";
         }
@@ -273,6 +508,8 @@ public class GermanAreaCodeExtractor {
         switch (number.charAt(0)) {
             case '1':
                 return fromNumber1551(number.substring(1));
+            case '0':
+                return fromNumber1550(number.substring(1));
             case '5':
                 return fromNumber1555(number.substring(1));
             case '6':
@@ -292,6 +529,113 @@ public class GermanAreaCodeExtractor {
                 return "15510"; // Lebara Limited
             case '1':
                 return "15511"; // Lebara Limited
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber1550(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '0':
+                return fromNumber15500(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber15500(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '1':
+                return fromNumber155001(number.substring(1));
+            case '5':
+                return fromNumber155005(number.substring(1));
+            case '6':
+                return fromNumber155006(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber155001(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '0':
+                return "1550010"; // Voicemail Infix inserted for Lebara Limited
+            case '1':
+                return "1550011"; // Voicemail Infix inserted for Lebara Limited
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber155005(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '0':
+                return "1550050"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '1':
+                return "1550051"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '2':
+                return "1550052"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '3':
+                return "1550053"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '4':
+                return "1550054"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '5':
+                return "1550055"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '6':
+                return "1550056"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '7':
+                return "1550057"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '8':
+                return "1550058"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '9':
+                return "1550059"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber155006(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '0':
+                return "1550060"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '1':
+                return "1550061"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '2':
+                return "1550062"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '3':
+                return "1550063"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '4':
+                return "1550064"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '5':
+                return "1550065"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '6':
+                return "1550066"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '7':
+                return "1550067"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '8':
+                return "1550068"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
+            case '9':
+                return "1550069"; // Voicemail Infix inserted for 1&1 Mobilfunk GmbH
             default:
                 return "";
         }
@@ -367,6 +711,8 @@ public class GermanAreaCodeExtractor {
         switch (number.charAt(0)) {
             case '3':
                 return fromNumber1563(number.substring(1));
+            case '0':
+                return fromNumber1560(number.substring(1));
             case '7':
                 return fromNumber1567(number.substring(1));
             default:
@@ -387,6 +733,62 @@ public class GermanAreaCodeExtractor {
         }
     }
 
+    private static String fromNumber1560(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '0':
+                return fromNumber15600(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber15600(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '3':
+                return fromNumber156003(number.substring(1));
+            case '7':
+                return fromNumber156007(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber156003(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '0':
+                return "1560030"; // Voicemail Infix inserted for multiConnect GmbH
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber156007(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '8':
+                return "1560078"; // Voicemail Infix inserted for Argon Networks UG (haftungsbeschränkt)
+            case '9':
+                return "1560079"; // Voicemail Infix inserted for Argon Networks UG (haftungsbeschränkt)
+            default:
+                return "";
+        }
+    }
+
     private static String fromNumber1567(String number) {
         if ((number == null) || (number.length()<1)) {
             return "";
@@ -394,9 +796,9 @@ public class GermanAreaCodeExtractor {
 
         switch (number.charAt(0)) {
             case '8':
-                return "15678"; // Argon Networks UG
+                return "15678"; // Argon Networks UG (haftungsbeschränkt)
             case '9':
-                return "15679"; // Argon Networks UG
+                return "15679"; // Argon Networks UG (haftungsbeschränkt)
             default:
                 return "";
         }
@@ -411,15 +813,35 @@ public class GermanAreaCodeExtractor {
             case '0':
                 return fromNumber1570(number.substring(1));
             case '3':
-                return "1573"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
+                // Overlapping NDC 157399
+                if ((number.length() > 2) && (number.substring(1, 3).equals("99"))) {
+                    return "157399"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH )
+                }
+                return "1573"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH )
             case '5':
-                return "1575"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
+                // Overlapping NDC 157599
+                if ((number.length() > 2) && (number.substring(1, 3).equals("99"))) {
+                    return "157599"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH )
+                }
+                return "1575"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH )
             case '7':
-                return "1577"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
+                // Overlapping NDC 157799
+                if ((number.length() > 2) && (number.substring(1, 3).equals("99"))) {
+                    return "157799"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH )
+                }
+                return "1577"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH )
             case '8':
-                return "1578"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
+                // Overlapping NDC 157899
+                if ((number.length() > 2) && (number.substring(1, 3).equals("99"))) {
+                    return "157899"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH )
+                }
+                return "1578"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH )
             case '9':
-                return "1579"; // Telefónica Germany GmbH & Co. OHG (Netznutzungsvereinbarung mit Fa. Sipgate Wireless GmbH zuvor Fa. Vintage Wireless Networks Gesellschaft für Telekommunikation mbH), (ehem. E-Plus-Mobilfunk GmbH)
+                // Overlapping NDC 157999
+                if ((number.length() > 2) && (number.substring(1, 3).equals("99"))) {
+                    return "157999"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG (Netznutzungsvereinbarung mit Fa. Sipgate Wireless GmbH zuvor Fa. Vintage Wireless Networks Gesellschaft für Telekommunikation mbH ), <br/> (ehem. E-Plus-Mobilfunk GmbH )
+                }
+                return "1579"; // Telefónica Germany GmbH & Co. OHG (Netznutzungsvereinbarung mit Fa. Sipgate Wireless GmbH zuvor Fa. Vintage Wireless Networks Gesellschaft für Telekommunikation mbH ), <br/> (ehem. E-Plus-Mobilfunk GmbH )
             default:
                 return "";
         }
@@ -433,6 +855,8 @@ public class GermanAreaCodeExtractor {
         switch (number.charAt(0)) {
             case '0':
                 return "15700"; // Telefónica Germany GmbH & Co. OHG
+            case '9':
+                return fromNumber15709(number.substring(1));
             case '1':
                 return "15701"; // Telefónica Germany GmbH & Co. OHG
             case '2':
@@ -448,6 +872,42 @@ public class GermanAreaCodeExtractor {
         }
     }
 
+    private static String fromNumber15709(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '9':
+                return fromNumber157099(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber157099(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '0':
+                return "1570990"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG
+            case '1':
+                return "1570991"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG
+            case '2':
+                return "1570992"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG
+            case '3':
+                return "1570993"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG
+            case '4':
+                return "1570994"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG
+            case '6':
+                return "1570996"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG
+            default:
+                return "";
+        }
+    }
+
     private static String fromNumber158(String number) {
         if ((number == null) || (number.length()<1)) {
             return "";
@@ -456,6 +916,8 @@ public class GermanAreaCodeExtractor {
         switch (number.charAt(0)) {
             case '8':
                 return fromNumber1588(number.substring(1));
+            case '0':
+                return fromNumber1580(number.substring(1));
             default:
                 return "";
         }
@@ -474,6 +936,45 @@ public class GermanAreaCodeExtractor {
         }
     }
 
+    private static String fromNumber1580(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '0':
+                return fromNumber15800(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber15800(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '8':
+                return fromNumber158008(number.substring(1));
+            default:
+                return "";
+        }
+    }
+
+    private static String fromNumber158008(String number) {
+        if ((number == null) || (number.length()<1)) {
+            return "";
+        }
+
+        switch (number.charAt(0)) {
+            case '8':
+                return "1580088"; // Voicemail Infix inserted for TelcoVillage GmbH
+            default:
+                return "";
+        }
+    }
+
     private static String fromNumber159(String number) {
         if ((number == null) || (number.length()<1)) {
             return "";
@@ -481,6 +982,10 @@ public class GermanAreaCodeExtractor {
 
         switch (number.charAt(0)) {
             case '0':
+                // Overlapping NDC 159033
+                if ((number.length() > 2) && (number.substring(1, 3).equals("33"))) {
+                    return "159033"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG
+                }
                 return "1590"; // Telefónica Germany GmbH & Co. OHG
             default:
                 return "";
@@ -494,11 +999,27 @@ public class GermanAreaCodeExtractor {
 
         switch (number.charAt(0)) {
             case '0':
+                // Overlapping NDC 16013
+                if ((number.length() > 2) && (number.substring(1, 3).equals("13"))) {
+                    return "16013"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
                 return "160"; // Telekom Deutschland GmbH
             case '2':
+                // Overlapping NDC 16250
+                if ((number.length() > 2) && (number.substring(1, 3).equals("50"))) {
+                    return "16250"; // Voicemail Infix inserted for Vodafone GmbH
+                }
+                // Overlapping NDC 16255
+                if ((number.length() > 2) && (number.substring(1, 3).equals("55"))) {
+                    return "16255"; // Voicemail Infix inserted for Vodafone GmbH
+                }
                 return "162"; // Vodafone GmbH
             case '3':
-                return "163"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
+                // Overlapping NDC 16399
+                if ((number.length() > 2) && (number.substring(1, 3).equals("99"))) {
+                    return "16399"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH )
+                }
+                return "163"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH )
             default:
                 return "";
         }
@@ -511,24 +1032,76 @@ public class GermanAreaCodeExtractor {
 
         switch (number.charAt(0)) {
             case '0':
+                // Overlapping NDC 17013
+                if ((number.length() > 2) && (number.substring(1, 3).equals("13"))) {
+                    return "17013"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
                 return "170"; // Telekom Deutschland GmbH
             case '1':
+                // Overlapping NDC 17113
+                if ((number.length() > 2) && (number.substring(1, 3).equals("13"))) {
+                    return "17113"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
                 return "171"; // Telekom Deutschland GmbH
             case '2':
+                // Overlapping NDC 17250
+                if ((number.length() > 2) && (number.substring(1, 3).equals("50"))) {
+                    return "17250"; // Voicemail Infix inserted for Vodafone GmbH
+                }
+                // Overlapping NDC 17255
+                if ((number.length() > 2) && (number.substring(1, 3).equals("55"))) {
+                    return "17255"; // Voicemail Infix inserted for Vodafone GmbH
+                }
                 return "172"; // Vodafone GmbH
             case '3':
+                // Overlapping NDC 17350
+                if ((number.length() > 2) && (number.substring(1, 3).equals("50"))) {
+                    return "17350"; // Voicemail Infix inserted for Vodafone GmbH
+                }
+                // Overlapping NDC 17355
+                if ((number.length() > 2) && (number.substring(1, 3).equals("55"))) {
+                    return "17355"; // Voicemail Infix inserted for Vodafone GmbH
+                }
                 return "173"; // Vodafone GmbH
             case '4':
+                // Overlapping NDC 17450
+                if ((number.length() > 2) && (number.substring(1, 3).equals("50"))) {
+                    return "17450"; // Voicemail Infix inserted for Vodafone GmbH
+                }
+                // Overlapping NDC 17455
+                if ((number.length() > 2) && (number.substring(1, 3).equals("55"))) {
+                    return "17455"; // Voicemail Infix inserted for Vodafone GmbH
+                }
                 return "174"; // Vodafone GmbH
             case '5':
+                // Overlapping NDC 17513
+                if ((number.length() > 2) && (number.substring(1, 3).equals("13"))) {
+                    return "17513"; // Voicemail Infix inserted for Telekom Deutschland GmbH
+                }
                 return "175"; // Telekom Deutschland GmbH
             case '6':
+                // Overlapping NDC 17633
+                if ((number.length() > 2) && (number.substring(1, 3).equals("33"))) {
+                    return "17633"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG
+                }
                 return "176"; // Telefónica Germany GmbH & Co. OHG
             case '7':
-                return "177"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
+                // Overlapping NDC 17799
+                if ((number.length() > 2) && (number.substring(1, 3).equals("99"))) {
+                    return "17799"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH )
+                }
+                return "177"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH )
             case '8':
-                return "178"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH)
+                // Overlapping NDC 17899
+                if ((number.length() > 2) && (number.substring(1, 3).equals("99"))) {
+                    return "17899"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH )
+                }
+                return "178"; // Telefónica Germany GmbH & Co. OHG (ehem. E-Plus Mobilfunk GmbH )
             case '9':
+                // Overlapping NDC 17933
+                if ((number.length() > 2) && (number.substring(1, 3).equals("33"))) {
+                    return "17933"; // Voicemail Infix inserted for Telefónica Germany GmbH & Co. OHG
+                }
                 return "179"; // Telefónica Germany GmbH & Co. OHG
             default:
                 return "";
@@ -661,9 +1234,9 @@ public class GermanAreaCodeExtractor {
             case '1':
                 return "211"; // Düsseldorf
             case '2':
-                // special edge case, see: https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/ONVerzeichnisse/ONBVerzeichnis/Sonderregelungen0212_0621.pdf?__blob=publicationFile&v=1
+                // Overlapping NDC 2129
                 if ((number.length() > 1) && (number.substring(1, 2).equals("9"))) {
-                    return "2129"; // Haan Rheinland
+                    return "2129"; // Haan Rheinl
                 }
                 return "212"; // Solingen
             case '3':
