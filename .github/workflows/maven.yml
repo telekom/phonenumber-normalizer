@@ -1,6 +1,7 @@
-name: Java CI with Maven
+name: Run Unit Tests
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
   pull_request:
