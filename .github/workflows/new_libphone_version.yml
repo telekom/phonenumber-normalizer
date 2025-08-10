@@ -1,0 +1,70 @@
+name: Sync libphonenumber version
+
+on:
+  workflow_dispatch:
+#  schedule:
+#   - cron: '0 0 * * 1'  # Weekly on Monday
+
+jobs:
+  sync-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest libphonenumber release
+        id: get-version
+        run: |
+          VERSION=$(curl -s https://api.github.com/repos/google/libphonenumber/releases/latest | jq -r '.tag_name' | sed 's/^v//')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          
+          # Parse version components
+          MAJOR=$(echo $VERSION | cut -d. -f1)
+          MINOR=$(echo $VERSION | cut -d. -f2)
+          PATCH=$(echo $VERSION | cut -d. -f3)
+          
+          BRANCH_NAME="libphone/${MAJOR}_${MINOR}_${PATCH}"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+      - name: Get geocoder version from Maven Central
+        id: get-geocoder
+        run: |
+          GEOCODER_VERSION=$(curl -s "https://search.maven.org/solrsearch/select?q=g:com.googlecode.libphonenumber+AND+a:geocoder+AND+:${{ steps.get-version.outputs.version }}" | jq -r '.response.docs[0].v')
+          echo "geocoder_version=$GEOCODER_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update pom.xml versions
+        run: |
+          sed -i "s|<libphonenumber.version>.*</libphonenumber.version>|<libphonenumber.version>${{ steps.get-version.outputs.version }}</libphonenumber.version>|" pom.xml
+          sed -i "s|<geocoder.version>.*</geocoder.version>|<geocoder.version>${{ steps.get-geocoder.outputs.geocoder_version }}</geocoder.version>|" pom.xml
+          sed -i "s|<version>\(.*\)-SNAPSHOT</version>|<version>\1</version>|" pom.xml
+
+      - name: Create and push branch
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          git checkout -b ${{ steps.get-version.outputs.branch_name }}
+          git add pom.xml
+          git commit -m "Update libphonenumber to ${{ steps.get-version.outputs.version }} and geocoder to ${{ steps.get-geocoder.outputs.geocoder_version }}"
+          git push origin ${{ steps.get-version.outputs.branch_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+#      - name: Send email notification
+#        uses: dawidd6/action-send-mail@v3
+#        with:
+#          server_address: smtp.gmail.com
+#          server_port: 587
+#          username: ${{ secrets.MAIL_USERNAME }}
+#          password: ${{ secrets.MAIL_PASSWORD }}
+#          subject: "New Libphone Version: ${{ steps.get-version.outputs.version }}"
+#          to: ${{ secrets.MAIL_TO }}
+#          from: ${{ secrets.MAIL_FROM }}
+#          body: |
+#            A new libphonenumber version has been processed:
+#
+#            - Version: ${{ steps.get-version.outputs.version }}
+#            - Geocoder Version: ${{ steps.get-geocoder.outputs.geocoder_version }}
+#            - Branch: ${{ steps.get-version.outputs.branch_name }}
+#
+#            The pom.xml has been updated and committed to the new branch.
