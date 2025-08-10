@@ -29,7 +29,7 @@ jobs:
       - name: Get geocoder version from Maven Central
         id: get-geocoder
         run: |
-          GEOCODER_VERSION=$(url -s "https://central.sonatype.com/artifact/com.googlecode.libphonenumber/geocoder/versions" | grep -o '\\"version\\":\\"[^"]*"' | head -n 1 | sed 's/.*\\"version\\":\\"\([^"]*\)\\"/\1/')
+          GEOCODER_VERSION=$(curl -s "https://central.sonatype.com/artifact/com.googlecode.libphonenumber/geocoder/versions" | grep -o '\\"version\\":\\"[^"]*"' | head -n 1 | sed 's/.*\\"version\\":\\"\([^"]*\)\\"/\1/')
           echo "geocoder_version=$GEOCODER_VERSION" >> $GITHUB_OUTPUT
 
       - name: Update pom.xml versions
