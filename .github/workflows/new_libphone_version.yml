@@ -36,7 +36,7 @@ jobs:
         run: |
           sed -i "s|<libphonenumber.version>.*</libphonenumber.version>|<libphonenumber.version>${{ steps.get-version.outputs.version }}</libphonenumber.version>|" pom.xml
           sed -i "s|<geocoder.version>.*</geocoder.version>|<geocoder.version>${{ steps.get-geocoder.outputs.geocoder_version }}</geocoder.version>|" pom.xml
-          sed -i "s|</description>\n    <version>\(.*\)-SNAPSHOT</version>|<version>\1</version>|" pom.xml
+          sed -i -z "s|</description>\n    <version>\(.*\)-SNAPSHOT</version>|<version>\1</version>|" pom.xml
 
       - name: Create and push branch
         run: |
