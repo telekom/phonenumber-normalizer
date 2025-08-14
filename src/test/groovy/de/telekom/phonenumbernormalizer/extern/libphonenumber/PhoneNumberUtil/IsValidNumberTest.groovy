@@ -76,17 +76,33 @@ class IsValidNumberTest extends Specification {
         number                      | regionCode | expectedResult   | expectingFail
         // short code for Police (110) is not dial-able internationally nor does it has additional numbers
         "110"                       | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "110556677"                 | "DE"       | false            | false
         "0110"                      | "DE"       | false            | false
-        "0203 110"                  | "DE"       | false            | true  // <--
-        "0203 110555"               | "DE"       | false            | true  // <--
+        "0175 110"                  | "DE"       | false            | false
+        "0175 110555"               | "DE"       | false            | false
+        "0175 1105555"              | "DE"       | true             | false
+        "0175 11055555"             | "DE"       | false            | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "0175 110555555"            | "DE"       | false            | false
+        "0203 110"                  | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
+        "0203 110555"               | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
         "+49110"                    | "DE"       | false            | false
         "+49110 556677"             | "DE"       | false            | false
-        "+49203 110"                | "DE"       | false            | true  // <--
-        "+49203 110555"             | "DE"       | false            | true  // <--
+        "+49175 110"                | "DE"       | false            | false
+        "+49175 110555"             | "DE"       | false            | false
+        "+49175 1105555"            | "DE"       | true             | false
+        "+49175 11055555"           | "DE"       | false            | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 110555555"          | "DE"       | false            | false
+        "+49203 110"                | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
+        "+49203 110555"             | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
         "+49110"                    | "FR"       | false            | false
         "+49110 556677"             | "FR"       | false            | false
-        "+49203 110"                | "FR"       | false            | true  // <--
-        "+49203 110555"             | "FR"       | false            | true  // <--
+        "+49175 110"                | "FR"       | false            | false
+        "+49175 110555"             | "FR"       | false            | false
+        "+49175 1105555"            | "FR"       | true             | false
+        "+49175 11055555"           | "FR"       | false            | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 110555555"          | "FR"       | false            | false
+        "+49203 110"                | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
+        "+49203 110555"             | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
         // end of 110
     }
 
@@ -104,21 +120,36 @@ class IsValidNumberTest extends Specification {
 
         where:
 
-        number                      | regionCode  | expectedResult  | expectingFail
+        number                      | regionCode | expectedResult   | expectingFail
         // short code for emergency (112) is not dial-able internationally nor does it has additional numbers
         "112"                       | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "112556677"                 | "DE"       | false            | false
         "0112"                      | "DE"       | false            | false
-        "0112 556677"               | "DE"       | false            | false
-        "0203 112"                  | "DE"       | false            | true  // <--
-        "0203 112555"               | "DE"       | false            | true  // <--
+        "0175 112"                  | "DE"       | false            | false
+        "0175 112555"               | "DE"       | false            | false
+        "0175 1125555"              | "DE"       | true             | false
+        "0175 11255555"             | "DE"       | false            | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "0175 112555555"            | "DE"       | false            | false
+        "0203 112"                  | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
+        "0203 112555"               | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
         "+49112"                    | "DE"       | false            | false
         "+49112 556677"             | "DE"       | false            | false
-        "+49203 112"                | "DE"       | false            | true  // <--
-        "+49203 112555"             | "DE"       | false            | true  // <--
+        "+49175 112"                | "DE"       | false            | false
+        "+49175 112555"             | "DE"       | false            | false
+        "+49175 1125555"            | "DE"       | true             | false
+        "+49175 11255555"           | "DE"       | false            | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 112555555"          | "DE"       | false            | false
+        "+49203 112"                | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
+        "+49203 112555"             | "DE"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
         "+49112"                    | "FR"       | false            | false
         "+49112 556677"             | "FR"       | false            | false
-        "+49203 112"                | "FR"       | false            | true  // <--
-        "+49203 112555"             | "FR"       | false            | true  // <--
+        "+49175 112"                | "FR"       | false            | false
+        "+49175 112555"             | "FR"       | false            | false
+        "+49175 1125555"            | "FR"       | true             | false
+        "+49175 11255555"           | "FR"       | false            | false // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110
+        "+49175 112555555"          | "FR"       | false            | false
+        "+49203 112"                | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
+        "+49203 112555"             | "FR"       | false            | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
         // end of 112
     }
 
@@ -136,24 +167,37 @@ class IsValidNumberTest extends Specification {
 
         where:
 
-        number                      | regionCode  | expectedResult  | expectingFail
+        number                      | regionCode | expectedResult   | expectingFail
         // 155 is Public Service Number for German administration, it is internationally reachable only from foreign countries
         "115"                       | "DE"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
+        "115556677"                 | "DE"       | true             | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
         "0115"                      | "DE"       | false            | false // not valid by BnetzA definition from within Germany
-        "+49115"                    | "DE"       | false            | false // see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1 at chapter 2.3
-        "+49115"                    | "FR"       | true             | true  // see https://www.115.de/SharedDocs/Nachrichten/DE/2018/115_aus_dem_ausland_erreichbar.html
-        // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
-        "0203115"                   | "DE"       | true             | false
-        "+49203115"                 | "DE"       | true             | false
-        "+49203115"                 | "FR"       | true             | false
-        // 155 does not have additional digits
-        "115555"                    | "DE"       | false            | false
         "0115 556677"               | "DE"       | false            | false
-        "0203 115555"               | "DE"       | false            | true  // <--
+        "0175 115"                  | "DE"       | false            | false
+        "0175 115555"               | "DE"       | false            | false
+        "0175 1155555"              | "DE"       | true             | false
+        "0175 11555555"             | "DE"       | false            | false // TODO: ISSUE Mobile number length
+        "0175 115555555"            | "DE"       | false            | false
+        "0203 115"                  | "DE"       | true             | false // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
+        "0203 115555"               | "DE"       | false            | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
+        "+49115"                    | "DE"       | false            | false // see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1 at chapter 2.3
         "+49115 556677"             | "DE"       | false            | false
+        "+49175 115"                | "DE"       | false            | false
+        "+49175 115555"             | "DE"       | false            | false
+        "+49175 1155555"            | "DE"       | true             | false
+        "+49175 11555555"           | "DE"       | false            | false // TODO: ISSUE Mobile number length
+        "+49175 115555555"          | "DE"       | false            | false
+        "+49203 115"                | "DE"       | true             | false
+        "+49203 115555"             | "DE"       | false            | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
+        "+49115"                    | "FR"       | true             | true  // see https://issuetracker.google.com/issues/345753226 - https://www.115.de/SharedDocs/Nachrichten/DE/2018/115_aus_dem_ausland_erreichbar.html
         "+49115 556677"             | "FR"       | false            | false
-        "+49203 115555"             | "DE"       | false            | true  // <--
-        "+49203 115555"             | "FR"       | false            | true  // <--
+        "+49175 115"                | "FR"       | false            | false
+        "+49175 115555"             | "FR"       | false            | false
+        "+49175 1155555"            | "FR"       | true             | false
+        "+49175 11555555"           | "FR"       | false            | false // TODO: ISSUE Mobile number length
+        "+49175 115555555"          | "FR"       | false            | false
+        "+49203 115"                | "FR"       | true             | false
+        "+49203 115555"             | "FR"       | false            | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
         // end of 115
     }
 
@@ -190,6 +234,13 @@ class IsValidNumberTest extends Specification {
         "0116 5566"                 | "DE"       | false            | false
         "0116 55"                   | "DE"       | false            | false
 
+        // NAC + NDC (mobile) + 116xxx
+        "0175 116"                  | "DE"       | false            | false
+        "0175 116555"               | "DE"       | false            | false
+        "0175 1165555"              | "DE"       | true             | false
+        "0175 11655555"             | "DE"       | false            | false // TODO: ISSUE Mobile number length
+        "0175 116555555"            | "DE"       | false            | false
+
         // NAC + NDC (e.g. for Duisburg) + 116xxx
         "0203116"                   | "DE"       | false            | true
         "0203116000"                | "DE"       | false            | true
@@ -206,6 +257,13 @@ class IsValidNumberTest extends Specification {
         "+49116 5566"               | "DE"       | false            | false
         "+49116 55"                 | "DE"       | false            | false
 
+        // CC + NDC (mobile) + 116xxx
+        "+49175 116"                | "DE"       | false            | false
+        "+49175 116555"             | "DE"       | false            | false
+        "+49175 1165555"            | "DE"       | true             | false
+        "+49175 11655555"           | "DE"       | false            | false // TODO: ISSUE Mobile number length
+        "+49175 116555555"          | "DE"       | false            | false
+
         // CC + NDC (e.g. for Duisburg) + 116xxx
         "+49203116"                 | "DE"       | false            | true  // <--
         "+49203116000"              | "DE"       | false            | true  // <--
@@ -221,6 +279,22 @@ class IsValidNumberTest extends Specification {
         "+49116999"                 | "FR"       | true             | true  // known as intended to use ShortNumberInfo see https://github.com/google/libphonenumber/blob/master/FAQ.md#why-does-phonenumberutil-return-false-for-valid-short-numbers
         "+49116 5566"               | "FR"       | false            | false
         "+49116 55"                 | "FR"       | false            | false
+
+        // CC + NDC (mobile) + 116xxx from outside Germany
+        "+49175 116"                | "FR"       | false            | false
+        "+49175 116555"             | "FR"       | false            | false
+        "+49175 1165555"            | "FR"       | true             | false
+        "+49175 11655555"           | "FR"       | false            | false // TODO: ISSUE Mobile number length
+        "+49175 116555555"          | "FR"       | false            | false
+
+        // CC + NDC (e.g. for Duisburg) + 116xxx from outside Germany
+        "+49203116"                 | "FR"       | false            | true
+        "+49203116000"              | "FR"       | false            | true
+        "+49203116116"              | "FR"       | false            | true
+        "+49203116999"              | "FR"       | false            | true
+        "+49203116 5566"            | "FR"       | false            | true
+        "+49203116 55"              | "FR"       | false            | true
+
         // end of 116
     }
 
@@ -248,7 +322,8 @@ class IsValidNumberTest extends Specification {
         "118"                       | "DE"       | false            | false
         "1180"                      | "DE"       | false            | false
         "11800"                     | "DE"       | false            | false
-        "118000"                    | "DE"       | true             | true  // <--
+        "118000"                    | "DE"       | false            | false // since its just reserve
+        "118099"                    | "DE"       | false            | false // since its just reserve
         "1180000"                   | "DE"       | false            | false
         "1181"                      | "DE"       | false            | false
         "11810"                     | "DE"       | true             | true  // <--
@@ -266,6 +341,7 @@ class IsValidNumberTest extends Specification {
         "01180"                     | "DE"       | false            | false
         "011800"                    | "DE"       | false            | false
         "0118000"                   | "DE"       | false            | false
+        "0118099"                   | "DE"       | false            | false
         "01180000"                  | "DE"       | false            | false
         "01181"                     | "DE"       | false            | false
         "011810"                    | "DE"       | false            | false
@@ -280,6 +356,7 @@ class IsValidNumberTest extends Specification {
         "02031180"                  | "DE"       | false            | true  // <--
         "020311800"                 | "DE"       | false            | true  // <--
         "0203118000"                | "DE"       | false            | true  // <--
+        "0203118099"                | "DE"       | false            | true  // <--
         "02031180000"               | "DE"       | false            | true  // <--
         "02031181"                  | "DE"       | false            | true  // <--
         "020311810"                 | "DE"       | false            | true  // <--
@@ -289,11 +366,32 @@ class IsValidNumberTest extends Specification {
         "020311899"                 | "DE"       | false            | true  // <--
         "0203118999"                | "DE"       | false            | true  // <--
 
+        // NAC + mobile NDC  + 118(y)xx
+        "0175118"                   | "DE"       | false            | false
+        "01751180"                  | "DE"       | false            | false
+        "017511800"                 | "DE"       | false            | false
+        "0175118000"                | "DE"       | false            | false
+        "0175118099"                | "DE"       | false            | false
+        "01751180000"               | "DE"       | true             | false
+        "017511800000"              | "DE"       | false            | false // special for mobile
+        "01751181"                  | "DE"       | false            | false
+        "017511810"                 | "DE"       | false            | false
+        "017511833"                 | "DE"       | false            | false
+        "0175118100"                | "DE"       | false            | false
+        "01751181000"               | "DE"       | true             | false // special for mobile
+        "017511810000"              | "DE"       | false            | false  // special for mobile
+        "01751189"                  | "DE"       | false            | false
+        "017511899"                 | "DE"       | false            | false
+        "0175118999"                | "DE"       | false            | false
+        "01751189999"               | "DE"       | true             | false // special for mobile
+        "017511899999"              | "DE"       | false            | false // special for mobile
+
         // CC + 118(y)xx
         "+49118"                    | "DE"       | false            | false
         "+491180"                   | "DE"       | false            | false
         "+4911800"                  | "DE"       | false            | false
         "+49118000"                 | "DE"       | false            | false
+        "+49118099"                 | "DE"       | false            | false
         "+491180000"                | "DE"       | false            | false
         "+491181"                   | "DE"       | false            | false
         "+4911810"                  | "DE"       | false            | false
@@ -308,6 +406,7 @@ class IsValidNumberTest extends Specification {
         "+492031180"                | "DE"       | false            | true  // <--
         "+4920311800"               | "DE"       | false            | true  // <--
         "+49203118000"              | "DE"       | false            | true  // <--
+        "+49203118099"              | "DE"       | false            | true  // <--
         "+492031180000"             | "DE"       | false            | true  // <--
         "+492031181"                | "DE"       | false            | true  // <--
         "+4920311810"               | "DE"       | false            | true  // <--
@@ -317,11 +416,32 @@ class IsValidNumberTest extends Specification {
         "+4920311899"               | "DE"       | false            | true  // <--
         "+49203118999"              | "DE"       | false            | true  // <--
 
+        // CC + mobile NDC  + 118(y)xx
+        "+49175118"                 | "DE"       | false            | false
+        "+491751180"                | "DE"       | false            | false
+        "+4917511800"               | "DE"       | false            | false
+        "+49175118000"              | "DE"       | false            | false
+        "+49175118099"              | "DE"       | false            | false
+        "+491751180000"             | "DE"       | true             | false
+        "+4917511800000"            | "DE"       | false            | false // special for mobile
+        "+491751181"                | "DE"       | false            | false
+        "+4917511810"               | "DE"       | false            | false
+        "+4917511833"               | "DE"       | false            | false
+        "+49175118100"              | "DE"       | false            | false
+        "+491751181000"             | "DE"       | true             | false // special for mobile
+        "+4917511810000"            | "DE"       | false            | false // special for mobile
+        "+491751189"                | "DE"       | false            | false
+        "+4917511899"               | "DE"       | false            | false
+        "+49175118999"              | "DE"       | false            | false
+        "+491751189999"             | "DE"       | true             | false // special for mobile
+        "+4917511899999"            | "DE"       | false            | false // special for mobile
+
         // CC + 118(y)xx from outside Germany
         "+49118"                    | "FR"       | false            | false
         "+491180"                   | "FR"       | false            | false
         "+4911800"                  | "FR"       | false            | false
         "+49118000"                 | "FR"       | false            | false
+        "+49118099"                 | "FR"       | false            | false
         "+491180000"                | "FR"       | false            | false
         "+491181"                   | "FR"       | false            | false
         "+4911810"                  | "FR"       | false            | false
@@ -331,6 +451,40 @@ class IsValidNumberTest extends Specification {
         "+4911899"                  | "FR"       | false            | false
         "+49118999"                 | "FR"       | false            | false
 
+        // CC + NDC (e.g. for Duisburg) + 118(y)xx from outside Germany
+        "+49203118"                 | "FR"       | false            | true
+        "+492031180"                | "FR"       | false            | true
+        "+4920311800"               | "FR"       | false            | true
+        "+49203118000"              | "FR"       | false            | true
+        "+49203118099"              | "FR"       | false            | true
+        "+492031180000"             | "FR"       | false            | true
+        "+492031181"                | "FR"       | false            | true
+        "+4920311810"               | "FR"       | false            | true
+        "+4920311833"               | "FR"       | false            | true
+        "+49203118100"              | "FR"       | false            | true
+        "+492031189"                | "FR"       | false            | true
+        "+4920311899"               | "FR"       | false            | true
+        "+49203118999"              | "FR"       | false            | true
+
+        // CC + mobile NDC  + 118(y)xx from outside Germany
+        "+49175118"                 | "FR"       | false            | false
+        "+491751180"                | "FR"       | false            | false
+        "+4917511800"               | "FR"       | false            | false
+        "+49175118000"              | "FR"       | false            | false
+        "+49175118099"              | "FR"       | false            | false
+        "+491751180000"             | "FR"       | true             | false
+        "+4917511800000"            | "FR"       | false            | false // special for mobile
+        "+491751181"                | "FR"       | false            | false
+        "+4917511810"               | "FR"       | false            | false
+        "+4917511833"               | "FR"       | false            | false
+        "+49175118100"              | "FR"       | false            | false
+        "+491751181000"             | "FR"       | true             | false // special for mobile
+        "+4917511810000"            | "FR"       | false            | false // special for mobile
+        "+491751189"                | "FR"       | false            | false
+        "+4917511899"               | "FR"       | false            | false
+        "+49175118999"              | "FR"       | false            | false
+        "+491751189999"             | "FR"       | true             | false // special for mobile
+        "+4917511899999"            | "FR"       | false            | false // special for mobile
         // end of 118
     }
 
@@ -356,7 +510,6 @@ class IsValidNumberTest extends Specification {
         // using 19222 als NDC after NAC is checked by "online services 019xx"
         "0203 19222"                | "DE"       | true             | false
         "0203 19222555"             | "DE"       | false            | true  // must not be longer
-        "+4919222"                  | "DE"       | false            | false
         // using 19222 from DE als NDC after CC is checked by "online services 019xx"
         "+49203 19222"              | "DE"       | true             | false
         "+49203 19222555"           | "DE"       | false            | true  // must not be longer
@@ -383,8 +536,8 @@ class IsValidNumberTest extends Specification {
         number                      | regionCode | expectedResult   | expectingFail
         // 137 is masstraffic 10 digits
         "0137 000 0000"             | "DE"       | false            | false  // Zone 0 are not assigend https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/freieRNB/0137_MABEZ_FreieRNB.html?nn=326370
-        "0137 000 00000"            | "DE"       | false            | false  // Zone 0 are not assigend https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/freieRNB/0137_MABEZ_FreieRNB.html?nn=326370
-        "0137 000 000"              | "DE"       | false            | false  // Zone 0 are not assigend https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/freieRNB/0137_MABEZ_FreieRNB.html?nn=326370
+        "0137 000 00000"            | "DE"       | false            | false  // too long
+        "0137 000 000"              | "DE"       | false            | false  // too short
 
         // https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0137/0137_Nummernplan.pdf?__blob=publicationFile&v=4
         // within each zone, there are only a few ranges assigned: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/belegteRNB/0137MABEZBelegteRNB_Basepage.html?nn=326370
@@ -425,6 +578,97 @@ class IsValidNumberTest extends Specification {
         "0137 900 00000"            | "DE"       | false            | false
         "0137 900 000"              | "DE"       | false            | false
 
+        // with CC from DE
+
+        // 137 is masstraffic 10 digits
+        "+49137 000 0000"           | "DE"       | false            | false  // Zone 0 are not assigend https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/freieRNB/0137_MABEZ_FreieRNB.html?nn=326370
+        "+49137 000 00000"          | "DE"       | false            | false  // too long
+        "+49137 000 000"            | "DE"       | false            | false  // too short
+
+        // https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0137/0137_Nummernplan.pdf?__blob=publicationFile&v=4
+        // within each zone, there are only a few ranges assigned: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/belegteRNB/0137MABEZBelegteRNB_Basepage.html?nn=326370
+        // Zone 1 is valid, but only with exactly 10 digits
+        "+49137 100 0000"           | "DE"       | true             | false
+        "+49137 100 00000"          | "DE"       | false            | false
+        "+49137 100 000"            | "DE"       | false            | false
+        // Zone 2 is valid, but only with exactly 10 digits
+        "+49137 200 0000"           | "DE"       | true             | false
+        "+49137 200 00000"          | "DE"       | false            | false
+        "+49137 200 000"            | "DE"       | false            | false
+        // Zone 3 is valid, but only with exactly 10 digits
+        "+49137 300 0000"           | "DE"       | true             | false
+        "+49137 300 00000"          | "DE"       | false            | false
+        "+49137 300 000"            | "DE"       | false            | false
+        // Zone 4 is valid, but only with exactly 10 digits
+        "+49137 400 0000"           | "DE"       | true             | false
+        "+49137 400 00000"          | "DE"       | false            | false
+        "+49137 400 000"            | "DE"       | false            | false
+        // Zone 5 is valid, but only with exactly 10 digits
+        "+49137 500 0000"           | "DE"       | true             | false
+        "+49137 500 00000"          | "DE"       | false            | false
+        "+49137 500 000"            | "DE"       | false            | false
+        // Zone 6 is valid, but only with exactly 10 digits
+        "+49137 600 0000"           | "DE"       | true             | false
+        "+49137 600 00000"          | "DE"       | false            | false
+        "+49137 600 000"            | "DE"       | false            | false
+        // Zone 7 is valid, but only with exactly 10 digits
+        "+49137 700 0000"           | "DE"       | true             | false
+        "+49137 700 00000"          | "DE"       | false            | false
+        "+49137 700 000"            | "DE"       | false            | false
+        // Zone 8 is valid, but only with exactly 10 digits
+        "+49137 800 0000"           | "DE"       | true             | false
+        "+49137 800 00000"          | "DE"       | false            | false
+        "+49137 800 000"            | "DE"       | false            | false
+        // Zone 9 is valid, but only with exactly 10 digits
+        "+49137 900 0000"           | "DE"       | true             | false
+        "+49137 900 00000"          | "DE"       | false            | false
+        "+49137 900 000"            | "DE"       | false            | false
+
+        // with CC from outside DE
+
+        // 137 is masstraffic 10 digits
+        "+49137 000 0000"           | "FR"       | false            | false  // Zone 0 are not assigend https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/freieRNB/0137_MABEZ_FreieRNB.html?nn=326370
+        "+49137 000 00000"          | "FR"       | false            | false  // too long
+        "+49137 000 000"            | "FR"       | false            | false  // too short
+
+        // https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/0137/0137_Nummernplan.pdf?__blob=publicationFile&v=4
+        // within each zone, there are only a few ranges assigned: https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/0137/belegteRNB/0137MABEZBelegteRNB_Basepage.html?nn=326370
+        // Zone 1 is valid, but only with exactly 10 digits
+        "+49137 100 0000"           | "FR"       | true             | false
+        "+49137 100 00000"          | "FR"       | false            | false
+        "+49137 100 000"            | "FR"       | false            | false
+        // Zone 2 is valid, but only with exactly 10 digits
+        "+49137 200 0000"           | "FR"       | true             | false
+        "+49137 200 00000"          | "FR"       | false            | false
+        "+49137 200 000"            | "FR"       | false            | false
+        // Zone 3 is valid, but only with exactly 10 digits
+        "+49137 300 0000"           | "FR"       | true             | false
+        "+49137 300 00000"          | "FR"       | false            | false
+        "+49137 300 000"            | "FR"       | false            | false
+        // Zone 4 is valid, but only with exactly 10 digits
+        "+49137 400 0000"           | "FR"       | true             | false
+        "+49137 400 00000"          | "FR"       | false            | false
+        "+49137 400 000"            | "FR"       | false            | false
+        // Zone 5 is valid, but only with exactly 10 digits
+        "+49137 500 0000"           | "FR"       | true             | false
+        "+49137 500 00000"          | "FR"       | false            | false
+        "+49137 500 000"            | "FR"       | false            | false
+        // Zone 6 is valid, but only with exactly 10 digits
+        "+49137 600 0000"           | "FR"       | true             | false
+        "+49137 600 00000"          | "FR"       | false            | false
+        "+49137 600 000"            | "FR"       | false            | false
+        // Zone 7 is valid, but only with exactly 10 digits
+        "+49137 700 0000"           | "FR"       | true             | false
+        "+49137 700 00000"          | "FR"       | false            | false
+        "+49137 700 000"            | "FR"       | false            | false
+        // Zone 8 is valid, but only with exactly 10 digits
+        "+49137 800 0000"           | "FR"       | true             | false
+        "+49137 800 00000"          | "FR"       | false            | false
+        "+49137 800 000"            | "FR"       | false            | false
+        // Zone 9 is valid, but only with exactly 10 digits
+        "+49137 900 0000"           | "FR"       | true             | false
+        "+49137 900 00000"          | "FR"       | false            | false
+        "+49137 900 000"            | "FR"       | false            | false
     }
 
     def "check if original lib fixed isValid for German Mobile 15 range"(String numberUntilInfix, regionCode, boolean[] expectingFails) {
@@ -475,6 +719,10 @@ class IsValidNumberTest extends Specification {
         // especially https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/Mobile%20Dienste/Nummernplan-2018-03-02.pdf?__blob=publicationFile&v=1
         // 015xxyyyyyyy xx = block code, yyyyyyy fixed length number in 2 digit block, so together 9 digit is the overall length
         // 015zzzaaaaaa zzz = newer block zzz, aaaaaa fixes length number in 3 digit block, so together 9 digit is the overall length
+
+        // >>> https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/zugeteilte%20RNB/start.html is a list of used blocks
+        // >>> https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/freie%20RNB/start.html
+        // >>> markes testcases from isPosible, which are not valid right now.
 
         //
         // 0150
@@ -4621,7 +4869,7 @@ class IsValidNumberTest extends Specification {
         "035051"             | "DE"       | false           | [false, true, true, true, true, true, true, true, true]  // <--
         // 035052 till 035058
         "035059"             | "DE"       | false           | [false, true, true, true, true, true, true, true, true]  // <--
-        "03506"              | "DE"       | false           | [false, false, true, true, true, true, true, true, true] // <-- 
+        "03506"              | "DE"       | false           | [false, false, true, true, true, true, true, true, true] // <--
         "03507"              | "DE"       | false           | [false, false, true, true, true, true, true, true, true] // <--
         "03508"              | "DE"       | false           | [false, false, true, true, true, true, true, true, true] // <--
         "03509"              | "DE"       | false           | [false, false, true, true, true, true, true, true, true] // <--
@@ -7327,4 +7575,33 @@ class IsValidNumberTest extends Specification {
         "0998"               | "DE"       | false           | false
         "0999"               | "DE"       | false           | false
     }
+
+    def "check if original lib fixes number starting with NAC digit after optional NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when:
+        "get number isPossibleNumberWithReason: $number"
+
+        def result = phoneUtil.isValidNumber(phoneNumber)
+
+        then:
+        "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                    | regionCode | expectedResult | expectingFail
+        "0203056677"              | "DE"       | false          | true  // after NAC+optional NDC number must not start with digit equal to NAC
+        "+49203056677"            | "DE"       | false          | true  // after CC+optional NDC number must not start with digit equal to NAC
+        "+49203056677"            | "FR"       | false          | true  // after CC+optional NDC number must not start with digit equal to NAC
+        "01750556677"             | "DE"       | true           | false // after NAC+mandatory NDC number may start with digit equal to NAC
+        "+491750556677"           | "DE"       | true           | false // after CC+mandatory NDC number may start with digit equal to NAC
+        "+491750556677"           | "FR"       | true           | false // after CCC+mandatory NDC number may start with digit equal to NAC
+    }
+
+    /*
+    TODO: Reserve NDC like (0)11 where (0)115 and (0)116 is used, or (0)13 where (0)137x is used
+     */
 }
