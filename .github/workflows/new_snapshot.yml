@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Get latest libphonenumber release
+      - name: Prepare Branchname
         id: get-version
         run: |
           BRANCH_NAME="start_snapshot/${{ inputs.newVersion }}"
@@ -22,7 +22,7 @@ jobs:
 
       - name: Update pom.xml versions
         run: |
-          sed -i -z "s|</description>\n    <version>\(.*\)</version>|</description>\n    <version>${{ inputs.newVersion }}-SNAPSHOT</version>|" pom.xml
+          sed -i -z "s|</description>\n    <version>[^<]*</version>|</description>\n    <version>${{ inputs.newVersion }}-SNAPSHOT</version>|" pom.xml
 
       - name: Create and push branch
         run: |
