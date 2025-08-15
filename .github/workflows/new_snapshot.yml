@@ -1,0 +1,56 @@
+name: Create new Snapshot
+
+on:
+  workflow_dispatch:
+    inputs:
+      newVersion:
+        description: 'New Version for Snapshot'
+        required: true
+        type: string
+jobs:
+  sync-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest libphonenumber release
+        id: get-version
+        run: |
+          BRANCH_NAME="start_snapshot/${{ inputs.newVersion }}"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+      - name: Update pom.xml versions
+        run: |
+          sed -i -z "s|</description>\n    <version>\(.*\)</version>|</description>\n    <version>${{ inputs.newVersion }}-SNAPSHOT</version>|" pom.xml
+
+      - name: Create and push branch
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          git checkout -b ${{ steps.get-version.outputs.branch_name }}
+          git add pom.xml
+          git commit -m "Start new Snapshot"
+          git push origin ${{ steps.get-version.outputs.branch_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+#      - name: Send email notification
+#        uses: dawidd6/action-send-mail@v3
+#        with:
+#          server_address: smtp.gmail.com
+#          server_port: 587
+#          username: ${{ secrets.MAIL_USERNAME }}
+#          password: ${{ secrets.MAIL_PASSWORD }}
+#          subject: "New Libphone Version: ${{ steps.get-version.outputs.version }}"
+#          to: ${{ secrets.MAIL_TO }}
+#          from: ${{ secrets.MAIL_FROM }}
+#          body: |
+#            A new libphonenumber version has been processed:
+#
+#            - Version: ${{ steps.get-version.outputs.version }}
+#            - Geocoder Version: ${{ steps.get-geocoder.outputs.geocoder_version }}
+#            - Branch: ${{ steps.get-version.outputs.branch_name }}
+#
+#            The pom.xml has been updated and committed to the new branch.
