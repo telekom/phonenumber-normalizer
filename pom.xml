@@ -68,8 +68,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- Used Versions of Google's libphone project -->
-        <libphonenumber.version>9.0.12</libphonenumber.version>
-        <geocoder.version>3.12</geocoder.version>
+        <libphonenumber.version>9.0.15</libphonenumber.version>
+        <geocoder.version>3.15</geocoder.version>
         <!-- Used Versions of other dependencies: -->
         <java.version>17</java.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
