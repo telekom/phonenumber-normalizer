@@ -24,6 +24,7 @@ class NumberPlanTest extends Specification {
     NumberPlan nullTarget
     NumberPlan target2
     NumberPlan invalidTarget3
+    NumberPlan target3
 
     def short_numbers
     def short_numbers2
@@ -37,6 +38,23 @@ class NumberPlanTest extends Specification {
                 return short_numbers
             }
         }
+
+        target3 = new NumberPlan() {
+            @Override
+            protected Map<String, Integer> getShortNumberCodes() {
+                return null
+            }
+
+            @Override
+            public String getNationalDestinationCodeFromNationalSignificantNumber(String nsn) {
+                PhoneLibWrapper wrapper = new PhoneLibWrapper(nsn, PhoneLibWrapper.getRegionCodeForCountryCode("49"));
+                return wrapper.getNationalDestinationCode();
+            }
+        }
+
+
+
+
         nullTarget = new NumberPlan() {
             @Override
             protected Map<String, Integer> getShortNumberCodes() {
@@ -59,6 +77,21 @@ class NumberPlanTest extends Specification {
                 return invalid_short_numbers3
             }
         }
+    }
+
+    def "getNationalDestinationCodeFromNationalSignificantNumber"(number, expectedResult) {
+        given:
+
+        when:
+        String result = target3.getNationalDestinationCodeFromNationalSignificantNumber(number)
+
+        then:
+        assert result == expectedResult
+
+        where:
+        number              | expectedResult
+        "0203556677"        | "203"
+
     }
 
     def "matchShortNumber "(number, expectedResult) {

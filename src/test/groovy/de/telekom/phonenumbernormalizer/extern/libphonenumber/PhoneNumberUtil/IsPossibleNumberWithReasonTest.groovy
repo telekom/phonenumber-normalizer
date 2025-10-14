@@ -75,18 +75,34 @@ class IsPossibleNumberWithReasonTest extends Specification {
         number                      | regionCode  | expectedResult                                           | expectingFail
         // short code for Police (110) is not dial-able internationally nor does it has additional numbers
         "110"                       | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
-        "0110"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // checked
-        "0110 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "0203 110"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "0203 110555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49110"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <-- IS_POSSIBLE_LOCAL_ONLY would also acceptable
-        "+49110 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49203 110"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49203 110555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49110"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <-- IS_POSSIBLE_LOCAL_ONLY would also acceptable
-        "+49110 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49203 110"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49203 110555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "110556677"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
+        "0110"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 110
+        "0110 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 110
+        "0175 110"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "0175 110555"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "0175 1105555"              | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "0175 11055555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "0175 110555555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "0203 110"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
+        "0203 110555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
+        "+49110"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 110 - IS_POSSIBLE_LOCAL_ONLY would also acceptable
+        "+49110 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 110
+        "+49175 110"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49175 110555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49175 1105555"            | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49175 11055555"           | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49175 110555555"          | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49203 110"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
+        "+49203 110555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
+        "+49110"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 110 - IS_POSSIBLE_LOCAL_ONLY would also acceptable
+        "+49110 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 110
+        "+49175 110"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49175 110555"             | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49175 1105555"            | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49175 11055555"           | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49175 110555555"          | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 110 - TODO: ISSUE Mobile number length
+        "+49203 110"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 110
+        "+49203 110555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 110
         // end of 110
     }
 
@@ -107,18 +123,34 @@ class IsPossibleNumberWithReasonTest extends Specification {
         number                      | regionCode  | expectedResult                                           | expectingFail
         // short code for emergency (112) is not dial-able internationally nor does it has additional numbers
         "112"                       | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
-        "0112"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // checked
-        "0112 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "0203 112"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "0203 112555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49112"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <-- IS_POSSIBLE_LOCAL_ONLY would also acceptable
-        "+49112 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49203 112"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49203 112555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49112"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <-- IS_POSSIBLE_LOCAL_ONLY would also acceptable
-        "+49112 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49203 112"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49203 112555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "112556677"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
+        "0112"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 112
+        "0112 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 112
+        "0175 112"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "0175 112555"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "0175 1125555"              | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "0175 11255555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "0175 112555555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "0203 112"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
+        "0203 112555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
+        "+49112"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 112 - IS_POSSIBLE_LOCAL_ONLY would also acceptable
+        "+49112 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 112
+        "+49175 112"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49175 112555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49175 1125555"            | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49175 11255555"           | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49175 112555555"          | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49203 112"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
+        "+49203 112555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
+        "+49112"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 112 - IS_POSSIBLE_LOCAL_ONLY would also acceptable
+        "+49112 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 NDC must not start with 112
+        "+49175 112"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49175 112555"             | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49175 1125555"            | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49175 11255555"           | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49175 112555555"          | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/341947688 mobile number may start with 112 - TODO: ISSUE Mobile number length
+        "+49203 112"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number with NDC must not use 112
+        "+49203 112555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/341947688 fixline number must not start with 112
         // end of 112
     }
 
@@ -139,21 +171,34 @@ class IsPossibleNumberWithReasonTest extends Specification {
         number                      | regionCode  | expectedResult                                           | expectingFail
         // 155 is Public Service Number for German administration, it is internationally reachable only from foreign countries
         "115"                       | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE_LOCAL_ONLY   | false
-        "0115"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <-- not valid by BnetzA definition from within Germany
-        "+49115"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // TODO: Maybe IS_POSSIBLE_LOCAL_ONLY is also acceptable, if used on +49110 & +49112 + see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1 at chapter 2.3
-        "+49115"                    | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | true  // <-- see https://www.115.de/SharedDocs/Nachrichten/DE/2018/115_aus_dem_ausland_erreichbar.html
-        // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
-        "0203115"                   | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        "+49203115"                 | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        "+49203115"                 | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        // 155 does not have additional digits
-        "115555"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "0115 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "0203 115555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49115 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49115 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49203 115555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
-        "+49203 115555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "115556677"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
+        "0115"                      | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
+        "0115 556677"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 NDC must not start with 115
+        "0175 115"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "0175 115555"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "0175 1155555"              | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "0175 11555555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "0175 115555555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "0203 115"                  | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
+        "0203 115555"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
+        "+49115"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 IS_POSSIBLE_LOCAL_ONLY would also be acceptable, if used on +49110 & +49112 + see https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1 at chapter 2.3
+        "+49115 556677"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
+        "+49175 115"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "+49175 115555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "+49175 1155555"            | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49175 11555555"           | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "+49175 115555555"          | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "+49203 115"                | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
+        "+49203 115555"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
+        "+49115"                    | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | true  // see https://www.115.de/SharedDocs/Nachrichten/DE/2018/115_aus_dem_ausland_erreichbar.html
+        "+49115 556677"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 NDC must not start with 115
+        "+49175 115"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "+49175 115555"             | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "+49175 1155555"            | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49175 11555555"           | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "+49175 115555555"          | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // see https://issuetracker.google.com/issues/345753226 mobile number may start with 115 - TODO: ISSUE Mobile number length
+        "+49203 115"                | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // 155 is supporting NDC to reach specific local government hotline: https://www.geoportal.de/Info/tk_05-erreichbarkeit-der-115
+        "+49203 115555"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // see https://issuetracker.google.com/issues/345753226 fixline number must not start with 155
         // end of 115
     }
 
@@ -190,6 +235,13 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0116 5566"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "0116 55"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
 
+        // NAC + NDC (mobile) + 116xxx
+        "0175 116"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // TODO: ISSUE Mobile number length
+        "0175 116555"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // TODO: ISSUE Mobile number length
+        "0175 1165555"              | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "0175 11655555"             | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // TODO: ISSUE Mobile number length
+        "0175 116555555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // TODO: ISSUE Mobile number length
+
         // NAC + NDC (e.g. for Duisburg) + 116xxx
         "0203116"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "0203116000"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
@@ -206,6 +258,13 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+49116 5566"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // <--
         "+49116 55"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
 
+        // CC + NDC (mobile) + 116xxx
+        "+49175 116"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // TODO: ISSUE Mobile number length
+        "+49175 116555"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // TODO: ISSUE Mobile number length
+        "+49175 1165555"           | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+49175 11655555"          | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // TODO: ISSUE Mobile number length
+        "+49175 116555555"         | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // TODO: ISSUE Mobile number length
+
         // CC + NDC (e.g. for Duisburg) + 116xxx
         "+49203116"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49203116000"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
@@ -221,6 +280,22 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+49116999"                 | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "+49116 5566"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // <--
         "+49116 55"                 | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+
+        // CC + NDC (mobile) + 116xxx from outside Germany
+        "+49175 116"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                 | true  // TODO: ISSUE Mobile number length
+        "+49175 116555"            | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                 | true  // TODO: ISSUE Mobile number length
+        "+49175 1165555"           | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE               | false
+        "+49175 11655555"          | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                  | true  // TODO: ISSUE Mobile number length
+        "+49175 116555555"         | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                  | true  // TODO: ISSUE Mobile number length
+
+        // CC + NDC (e.g. for Duisburg) + 116xxx from outside Germany
+        "+49203116"                 | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49203116000"              | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49203116116"              | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49203116999"              | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49203116 5566"            | "FR "      | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49203116 55"              | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+
         // end of 116
     }
 
@@ -248,11 +323,12 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "118"                       | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
         "1180"                      | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
         "11800"                     | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
-        "118000"                    | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "118000"                    | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false  // since it is reserve INVALID_LENGTH could also be possible
+        "118099"                    | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false  // since it is reserve INVALID_LENGTH could also be possible
         "1180000"                   | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // <--
         "1181"                      | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
         "11810"                     | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
-        // Call Assistant of Deutsche Telekom
+        // Call Assistant of Deutsche Telekom - will be retired on 01.12.2024 see https://www.telekom.com/de/blog/konzern/artikel/telekom-stellt-auskunftsdienste-ein-1065536
         "11833"                     | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
         "118100"                    | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // <--
         "1189"                      | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
@@ -266,6 +342,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "01180"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "011800"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "0118000"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "0118099"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "01180000"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "01181"                     | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "011810"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
@@ -280,6 +357,7 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "02031180"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "020311800"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "0203118000"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "0203118099"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "02031180000"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "02031181"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "020311810"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
@@ -289,11 +367,32 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "020311899"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "0203118999"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
 
+        // NAC + mobile NDC  + 118(y)xx
+        "0175118"                   | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "01751180"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "017511800"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "0175118000"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "0175118099"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "01751180000"               | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "017511800000"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+        "01751181"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "017511810"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "017511833"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "0175118100"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "01751181000"               | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // special for mobile
+        "017511810000"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+        "01751189"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "017511899"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "0175118999"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "01751189999"               | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // special for mobile
+        "017511899999"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+
         // CC + 118(y)xx
         "+49118"                    | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+491180"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+4911800"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49118000"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49118099"                 | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+491180000"                | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+491181"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+4911810"                  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
@@ -317,11 +416,32 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+4920311899"               | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49203118999"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
 
+        // CC + mobile NDC  + 118(y)xx
+        "+49175118"                 | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+491751180"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+4917511800"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+49175118000"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+49175118099"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+491751180000"             | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+4917511800000"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+        "+491751181"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+4917511810"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+4917511833"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+49175118100"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+491751181000"             | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // special for mobile
+        "+4917511810000"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+        "+491751189"                | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+4917511899"               | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+49175118999"              | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+491751189999"             | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // special for mobile
+        "+4917511899999"            | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+
         // CC + 118(y)xx from outside Germany
         "+49118"                    | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+491180"                   | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+4911800"                  | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49118000"                 | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49118099"                 | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+491180000"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+491181"                   | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+4911810"                  | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
@@ -330,6 +450,40 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "+491189"                   | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+4911899"                  | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
         "+49118999"                 | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+
+        // CC + NDC (e.g. for Duisburg) + 118(y)xx from outside Germany
+        "+49203118"                 | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+492031180"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+4920311800"               | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49203118000"              | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+492031180000"             | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+492031181"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+4920311810"               | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+4920311833"               | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49203118100"              | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+492031189"                | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+4920311899"               | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+        "+49203118999"              | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH           | true  // <--
+
+        // CC + mobile NDC  + 118(y)xx from outside Germany
+        "+49175118"                 | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+491751180"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+4917511800"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+49175118000"              | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+49175118099"              | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+491751180000"             | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false
+        "+4917511800000"            | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+        "+491751181"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+4917511810"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+4917511833"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+49175118100"              | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+491751181000"             | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // special for mobile
+        "+4917511810000"            | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
+        "+491751189"                | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+4917511899"               | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+49175118999"              | "FR"       | PhoneNumberUtil.ValidationResult.TOO_SHORT                | true  // <--
+        "+491751189999"             | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE              | false // special for mobile
+        "+4917511899999"            | "FR"       | PhoneNumberUtil.ValidationResult.TOO_LONG                 | true  // special for mobile
 
         // end of 118
     }
@@ -7568,6 +7722,31 @@ class IsPossibleNumberWithReasonTest extends Specification {
         "0040 176 3 0 6 9 6542"   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH | true // <--
         "004017630696543"         | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH | true // <--
         "0040-0176 3 0 6 9 6544"  | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH | true // <--
+    }
+
+    def "check if original lib fixes number starting with NAC digit after optional NDC"(String number, regionCode, expectedResult, expectingFail) {
+        given:
+
+        def phoneNumber = phoneUtil.parse(number, regionCode)
+
+        when:
+        "get number isPossibleNumberWithReason: $number"
+
+        def result = phoneUtil.isPossibleNumberWithReason(phoneNumber)
+
+        then:
+        "is number expected: $expectedResult"
+        this.logResult(result, expectedResult, expectingFail, number, regionCode)
+
+        where:
+
+        number                    | regionCode | expectedResult                                          | expectingFail
+        "0203056677"              | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true  // after NAC+optional NDC number must not start with digit equal to NAC
+        "+49203056677"            | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true  // after CC+optional NDC number must not start with digit equal to NAC
+        "+49203056677"            | "FR"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH         | true  // after CC+optional NDC number must not start with digit equal to NAC
+        "01750556677"             | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE            | false // after NAC+mandatory NDC number may start with digit equal to NAC
+        "+491750556677"           | "DE"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE            | false // after CC+mandatory NDC number may start with digit equal to NAC
+        "+491750556677"           | "FR"       | PhoneNumberUtil.ValidationResult.IS_POSSIBLE            | false // after CCC+mandatory NDC number may start with digit equal to NAC
     }
 
     def "check if original lib fixed non check of NAC"(String number, regionCode, expectedResult, expectingFail) {
