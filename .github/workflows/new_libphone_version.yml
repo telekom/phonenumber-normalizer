@@ -9,13 +9,11 @@ jobs:
   sync-version:
     permissions:
       contents: write
-      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.PAT_TOKEN }}  # Use PAT for checkout
+
       - name: Get latest libphonenumber release
         id: get-version
         run: |
@@ -52,25 +50,7 @@ jobs:
           git commit -m "Update libphonenumber to ${{ steps.get-version.outputs.version }} and geocoder to ${{ steps.get-geocoder.outputs.geocoder_version }}"
           git push origin ${{ steps.get-version.outputs.branch_name }}
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}  # formerly secrets.GITHUB_TOKEN
-      - name: Create Pull Request
-        run: |
-          gh pr create \
-            --base main \
-            --head ${{ steps.get-version.outputs.branch_name }} \
-            --title "Update libphonenumber to ${{ steps.get-version.outputs.version }}" \
-            --body "## Library Version Updates
-
-          This PR updates the following dependencies:
-          
-          - **libphonenumber**: \`${{ steps.get-version.outputs.version }}\`
-          - **geocoder**: \`${{ steps.get-geocoder.outputs.geocoder_version }}\`
-          
-          ### Changes
-          - Updated \`pom.xml\` with new dependency versions
-          - Removed \`-SNAPSHOT\` suffix from project version"
-        env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}  # formerly secrets.GITHUB_TOKEN
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 #      - name: Send email notification
 #        uses: dawidd6/action-send-mail@v3
