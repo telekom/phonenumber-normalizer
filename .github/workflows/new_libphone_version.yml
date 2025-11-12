@@ -14,7 +14,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+        with:
+          token: ${{ secrets.PAT_TOKEN }}  # Use PAT for checkout
       - name: Get latest libphonenumber release
         id: get-version
         run: |
@@ -51,7 +52,7 @@ jobs:
           git commit -m "Update libphonenumber to ${{ steps.get-version.outputs.version }} and geocoder to ${{ steps.get-geocoder.outputs.geocoder_version }}"
           git push origin ${{ steps.get-version.outputs.branch_name }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}  # formerly secrets.GITHUB_TOKEN
       - name: Create Pull Request
         run: |
           gh pr create \
@@ -69,7 +70,7 @@ jobs:
           - Updated \`pom.xml\` with new dependency versions
           - Removed \`-SNAPSHOT\` suffix from project version"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}  # formerly secrets.GITHUB_TOKEN
 
 #      - name: Send email notification
 #        uses: dawidd6/action-send-mail@v3
