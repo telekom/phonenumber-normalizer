@@ -51,6 +51,24 @@ jobs:
           git push origin ${{ steps.get-version.outputs.branch_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Pull Request
+        run: |
+          gh pr create \
+            --base main \
+            --head ${{ steps.get-version.outputs.branch_name }} \
+            --title "Update libphonenumber to ${{ steps.get-version.outputs.version }}" \
+            --body "## Library Version Updates
+
+          This PR updates the following dependencies:
+          
+          - **libphonenumber**: \`${{ steps.get-version.outputs.version }}\`
+          - **geocoder**: \`${{ steps.get-geocoder.outputs.geocoder_version }}\`
+          
+          ### Changes
+          - Updated \`pom.xml\` with new dependency versions
+          - Removed \`-SNAPSHOT\` suffix from project version"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 #      - name: Send email notification
 #        uses: dawidd6/action-send-mail@v3
