@@ -43,10 +43,10 @@ class PhoneNumberNormalizerImplTest extends Specification {
         where:
         number                    | countryCode | expectedResult
         null                      | "DE"        | null
-        "0040(0176) 3 0 6 9 6541" | "DE"        | "+4017630696541"
-        "0040 176 3 0 6 9 6542"   | "DE"        | "+4017630696542"
-        "004017630696543"         | "DE"        | "+4017630696543"
-        "0040-0176 3 0 6 9 6544"  | "DE"        | "+4017630696544"
+        "0723 413 641"            | "DE"        | "+49723413641"
+        "0040 723 413 641"        | "DE"        | "+40723413641"
+        "+40723413641"            | "DE"        | "+40723413641"
+        "0040-723-413-641"        | "DE"        | "+40723413641"
         "0176 3 0 6 9 6544"       | "DE"        | "+4917630696544"
         "0203556677"              | "DE"        | "+49203556677"
         "203556677"               | "DE"        | "203556677"
@@ -79,10 +79,10 @@ class PhoneNumberNormalizerImplTest extends Specification {
 
         number                    | countryCode | expectedResult
         null                      | "DE"        | null
-        "0040(0176) 3 0 6 9 6541" | "DE"        | "+4017630696541"
-        "0040 176 3 0 6 9 6542"   | "DE"        | "+4017630696542"
-        "004017630696543"         | "DE"        | "+4017630696543"
-        "0040-0176 3 0 6 9 6544"  | "DE"        | "+4017630696544"
+        "0723 413 641"            | "DE"        | "+49723413641"
+        "0040 723 413 641"        | "DE"        | "+40723413641"
+        "+40723413641"            | "DE"        | "+40723413641"
+        "0040-723-413-641"        | "DE"        | "+40723413641"
         "0176 3 0 6 9 6544"       | "DE"        | "+4917630696544"
         "0203556677"              | "DE"        | "+49203556677"
         "203556677"               | "DE"        | "203556677"
@@ -135,11 +135,12 @@ class PhoneNumberNormalizerImplTest extends Specification {
 
         number                    | countryCode | areaCode |expectedResult
         //Special Case where Number already includes country code with leading +
-        "+4017630696541"          | "49"        | "203"    | "+4017630696541"
-        "(+40)17630696541"        | "49"        | "203"    | "+4017630696541"
-        "(+40)(176)30696541"      | "49"        | "203"    | "+4017630696541"
-        "(+40)176/30696541"       | "49"        | "203"    | "+4017630696541"
-        "(+40)176-30696541"       | "49"        | "203"    | "+4017630696541"
+        "+49723 413 641"        | DeviceContext.UNKNOWN_VALUE | DeviceContext.UNKNOWN_VALUE   | "+49723413641"
+        "+40723413641"          | DeviceContext.UNKNOWN_VALUE | DeviceContext.UNKNOWN_VALUE   | "+40723413641"
+        "(+40)723413641"        | DeviceContext.UNKNOWN_VALUE | DeviceContext.UNKNOWN_VALUE   | "+40723413641"
+        "(+40)(723)413641"      | DeviceContext.UNKNOWN_VALUE | DeviceContext.UNKNOWN_VALUE   | "+40723413641"
+        "(+40)723/413641"       | DeviceContext.UNKNOWN_VALUE | DeviceContext.UNKNOWN_VALUE   | "+40723413641"
+        "(+40)723-413641"       | DeviceContext.UNKNOWN_VALUE | DeviceContext.UNKNOWN_VALUE   | "+40723413641"
         //Special Case areaCode is unknown
         "0203556677"              | "49"        | DeviceContext.UNKNOWN_VALUE | "+49203556677"
         "203556677"               | "49"        | DeviceContext.UNKNOWN_VALUE | "203556677"
@@ -165,10 +166,13 @@ class PhoneNumberNormalizerImplTest extends Specification {
         "0203556677"              | "xxx"       | DeviceContext.UNKNOWN_VALUE | "+49203556677"
         "203556677"               | "xxx"       | DeviceContext.UNKNOWN_VALUE | "203556677"
         //New Logic, if Country and Area Code is present for normalization:
-        "0040(0176) 3 0 6 9 6541" | "49"        | "203"    | "+4017630696541"
-        "0040 176 3 0 6 9 6542"   | "49"        | "203"    | "+4017630696542"
-        "004017630696543"         | "49"        | "203"    | "+4017630696543"
-        "0040-0176 3 0 6 9 6544"  | "49"        | "203"    | "+4017630696544"
+        "0723 413 641"         | "49"        | "203"    | "+49723413641"
+        "+49723 413 641"       | "49"        | "203"    | "+49723413641"
+        "+40723413641"         | "49"        | "203"    | "+40723413641"
+        "(+40)723413641"       | "49"        | "203"    | "+40723413641"
+        "(+40)(723)413641"     | "49"        | "203"    | "+40723413641"
+        "(+40)723/413641"      | "49"        | "203"    | "+40723413641"
+        "(+40)723-413641"      | "49"        | "203"    | "+40723413641"
         "0176 3 0 6 9 6544"       | "49"        | "203"    | "+4917630696544"
         "0203556677"              | "49"        | "203"    | "+49203556677"
         "203556677"               | "49"        | "203"    | "+49203203556677"
@@ -217,11 +221,12 @@ class PhoneNumberNormalizerImplTest extends Specification {
         "000"                     | "61"        | "222"    | "000"
         "012345678"               | "39"        | "222"    | "+39012345678"
         "312345678"               | "39"        | "222"    | "+39312345678"
-        //Default Behavior if no device Context is present
-        "0040(0176) 3 0 6 9 6541" | null        | null     | "+4017630696541"
-        "0040 176 3 0 6 9 6542"   | null        | null     | "+4017630696542"
-        "004017630696543"         | null        | null     | "+4017630696543"
-        "0040-0176 3 0 6 9 6544"  | null        | null     | "+4017630696544"
+        "+49723 413 641"          | null        | null     | "+49723413641"
+        "+40723413641"            | null        | null     | "+40723413641"
+        "(+40)723413641"          | null        | null     | "+40723413641"
+        "(+40)(723)413641"        | null        | null     | "+40723413641"
+        "(+40)723/413641"         | null        | null     | "+40723413641"
+        "(+40)723-413641"         | null        | null     | "+40723413641"
         "0176 3 0 6 9 6544"       | null        | null     | "+4917630696544"
         "0203556677"              | null        | null     | "+49203556677"
         "203556677"               | null        | null     | "203556677"
