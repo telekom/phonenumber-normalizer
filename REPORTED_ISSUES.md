@@ -13,6 +13,8 @@ However, it’s possible that this has caused confusion about which parts of the
 This issue addresses special short codes used for phone number directory assistant services.
 This issue has been resolved. 
 
+Google [fixed](https://github.com/google/libphonenumber/pull/2601/files#diff-1887949025d4940ce0f39cc4ba17666b5d93be2f143867b77c26bcddb36ac696R3400) ít with [8.12.21](https://github.com/google/libphonenumber/pull/2601) on  15.05.2024.
+
 ### 2021-03-25 - [Germany (DE, +49): 116xxx Short Number valid vs. assigned](https://issuetracker.google.com/issues/183669955)
 
 This issue pertains to the EU-wide special social number short code definition. Although the regulation clearly defines a range, Google's LibPhoneNumber is not validating against that range, but against a list of currently assigned/operated numbers. At least for the German number space, as mentioned in the initial issue discussion (see first one above), the library is only partly or even completely checking the whole range in other EU number spaces.
@@ -50,6 +52,23 @@ We have provided Ludwighafen in our labeling data.
 
 Google [fixed](https://github.com/google/libphonenumber/pull/3473/files#diff-db8e5b3fb2cb4a7ed9856289ea12d54947bfaa10549e6c1058fec7f3a1359dbbR3260) ít with [8.13.37](https://github.com/google/libphonenumber/pull/3473) on  15.05.2024.
 
+### 2024-05-22 - [Emergency Numbers must not be used with National Destination Code in Germany fixed line](https://issuetracker.google.com/issues/341947688)
+
+BnetzA [described emergency short codes 110 & 112 as numbers without local NDC](https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/np_nummernraum.pdf?__blob=publicationFile&v=1), since NDC is optional in fixed line, no number might start with those three digits (otherwise using such a number without NDC would trigger the emergency call). In mobile networks NDC is mandatory, so a number might start with those three digits, since NDC would be a prefix. Real live examples have been found.
+
+Google acknowledged the issue, but marked it as "**Won't fix (Intended behavior)**" because "*We will definitely think about it but it is not a priority right now. Also we have already mentioned about the complexity and invalid or false positive numbers in our XML file of Germany https://github.com/google/libphonenumber/blob/30db8f67a1c06b3ab052497477be1d9f18312387/resources/PhoneNumberMetadata.xml#L8126*" on 27.05.2024
+Google [fixed](https://github.com/google/libphonenumber/pull/3473/files#diff-db8e5b3fb2cb4a7ed9856289ea12d54947bfaa10549e6c1058fec7f3a1359dbbR3260) ít with [8.13.37](https://github.com/google/libphonenumber/pull/3473) on  15.05.2024.
+
+### 2024-06-08 - [Government Service Numbers may be used with National Destination Code in Germany fixed line, but subscriber numbers may not start with it](https://issuetracker.google.com/issues/345753226)
+
+BnetzA [described government short codes 115](https://www.bundesnetzagentur.de/SharedDocs/Downloads/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Nummerierung/Rufnummern/115/115_Nummernplan_konsolidiert.pdf?__blob=publicationFile&v=1), no number might start with those three digits (otherwise using such a number would trigger the short code). Furthermore the short code might be called with IDP and Country code (**+49115**) but from outside Germany and not from within - here the used region must have an influence on the evaluation.
+
+Google since 09.07.2024, the Issue is not publicly accessible anymore - we wrote a [post in the Google discussion group](https://groups.google.com/g/libphonenumber-discuss/c/WQv244-PVmI).
+
+### 2024-06-16 - [+49115 German Government short number with IDP+CC is only valid from outside Germany but not within (so IS_POSSIBLE_LOCAL_ONLY is also wrong)](https://issuetracker.google.com/issues/347356467)
+
+Since the previous Issue "disappeared" without notice, we assume, it was structural too similar to the emergencies number issue and the reviewer did not recordnized the differences. So we reported the main difference - again and this time the issue is at least accepted. But the reviewer comment seems only to focus on the short number call-ability from outside the country and not that IDP+CC+115 must not be used from inside.
+
 ### 2024-09-03 - [German Mobile number length validation for range 17x inconsistently differentiated in 8.13.43](https://issuetracker.google.com/issues/364179199)
 
 Previous to Version 8.13.43 any German number within the range 17x was identified valid for both length 10 & 11. Now the 11 length case (176) is differentiated, that 176 is not validated valid with 10 digits. But 170-175, 177-179 is still validated valid for both length, but should be only valid with length of 10.
@@ -63,8 +82,16 @@ While normal mobile numbers are now aligend, voicemail numbers length is still p
 While Google had corrected mobile 17x range with prior feedback, they introduced an inconsistency with the last DE meta data update, allowing also 10 length number while only 11 are valid.
 They do not want to change it, because they user are blocked with historical shorter numbers (but no prove found that those really exists)
 
+### 2025-03-08 - [German special ambulance number for non-emergency calls 19222 not correctly identified without NDC and with addition not marked as invalid](https://issuetracker.google.com/issues/401693552)
+
+19222 is used for ambulance without an emergency. It is the only allowed entry of previous special 19xxx number. This is callable at fixedline with or without NDC. Currently Google is not correctly validating it without NDC and with NDC its validation is ok, but also longer numbers are marked valid, which is wrong.
+
+Google first did not acknowledge the issue by referring to the general number plan and marked it as "**Won't fix (Intended behavior)**" (10th May 2025).  On your rebuttal, they keep the mark and responded "*In order to keep the size of the XML files to a reasonable level, it's necessary in some regions (e.g. "DE" or "AT") to simplify number ranges. This results in a relatively small amount of false positive numbers (i.e. numbers that should be reported as invalid, but which are now shown as valid).*"
+
 ### 2025-06-15 - [Metadata Update of 9.0.7 for DE mobile 172 range is invalide](https://issuetracker.google.com/issues/425121215)
 Similar to previously change of 176, Google change mobile 172 ~~introduced an inconsistency with the last DE meta data update, allowing also 11 length number while only 10 are valid~~.
 
 Google clarified, there is [another document by BnetzA](https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Nummerierung/MobileDienste/Nummernplan_MobileDienste.pdf?__blob=publicationFile&v=1) which opens the range and maybe the mobile summary page was not updated.
 While 9.0.7 meta data update was inconsistent with 178 & 179 those have been adjusted with 9.0.8
+While Google had corrected mobile 17x range with prior feedback, they introduced an inconsistency with the last DE meta data update.
+

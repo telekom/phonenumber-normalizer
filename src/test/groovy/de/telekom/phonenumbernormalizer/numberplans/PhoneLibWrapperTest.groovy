@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023 Deutsche Telekom AG (opensource@telekom.de)
+ * Copyright © 2024 Deutsche Telekom AG (opensource@telekom.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -95,6 +95,78 @@ class PhoneLibWrapperTest extends Specification {
             "0039312345678" | "DE"       | "312345678"  //Italy called from Germany
             "+39312345678"  | "US"       | "312345678"  //Italy called from North America
             "01139312345678"| "US"       | "312345678"  //Italy called from North America
+    }
+
+    def "getE164Formatted"(number, regionCode, expectedResult) {
+        given:
+        target = new PhoneLibWrapper(number, regionCode)
+
+        when:
+        def result = target.getE164Formatted()
+
+        then:
+        result == expectedResult
+
+        where:
+        number                    | regionCode | expectedResult
+        null                      | "DE"        | null
+        "0723 413 641"            | "DE"        | "+49723413641"
+        "0040 723 413 641"        | "DE"        | "+40723413641"
+        "+40723413641"            | "DE"        | "+40723413641"
+        "0040-723-413-641"        | "DE"        | "+40723413641"
+        "0176 3 0 6 9 6544"       | "DE"        | "+4917630696544"
+        "0203556677"              | "DE"        | "+49203556677"
+        "0305556677"              | "DE"        | "+49305556677"
+        "012345678"               | "IT"        | "+39012345678"
+        "312345678"               | "IT"        | "+39312345678"
+    }
+
+    def "getRFC3966Formatted"(number, regionCode, expectedResult) {
+        given:
+        target = new PhoneLibWrapper(number, regionCode)
+
+        when:
+        def result = target.getRFC3966Formatted()
+
+        then:
+        result == expectedResult
+
+        where:
+        number                    | regionCode | expectedResult
+        null                      | "DE"        | null
+        "0723 413 641"            | "DE"        | "tel:+49-7234-13641"
+        "0040 723 413 641"        | "DE"        | "tel:+40-723-413-641"
+        "+40723413641"            | "DE"        | "tel:+40-723-413-641"
+        "0040-723-413-641"        | "DE"        | "tel:+40-723-413-641"
+        "0176 3 0 6 9 6544"       | "DE"        | "tel:+49-176-30696544"
+        "0203556677"              | "DE"        | "tel:+49-203-556677"
+        "0305556677"              | "DE"        | "tel:+49-30-5556677"
+        "012345678"               | "IT"        | "tel:+39-0123-45678"
+        "312345678"               | "IT"        | "tel:+39-312-345-678"
+    }
+
+    def "getNationalDestinationCode"(number, regionCode, expectedResult) {
+        given:
+        target = new PhoneLibWrapper(number, regionCode)
+
+        when:
+        def result = target.getNationalDestinationCode()
+
+        then:
+        result == expectedResult
+
+        where:
+        number                    | regionCode | expectedResult
+        null                      | "DE"        | null
+        "0723 413 641"            | "DE"        | "7234"
+        "0040 723 413 641"        | "DE"        | "723"
+        "+40723413641"            | "DE"        | "723"
+        "0040-723-413-641"        | "DE"        | "723"
+        "0176 3 0 6 9 6544"       | "DE"        | "176"
+        "0203556677"              | "DE"        | "203"
+        "0305556677"              | "DE"        | "30"
+        "012345678"               | "IT"        | "0123"
+        "312345678"               | "IT"        | "312"
     }
 
     def "isNormalizingTried"( number,  regionCode, expectedResult) {
@@ -298,7 +370,25 @@ class PhoneLibWrapperTest extends Specification {
         ""          | PhoneLibWrapper.UNKNOWN_REGIONCODE
         "invalid"   | PhoneLibWrapper.UNKNOWN_REGIONCODE
         "49"        | "DE"
+    }
 
+    def "test parsing within validate"(String number, String regionCode, expectedResult) {
+        given:
+        target = new PhoneLibWrapper(number, regionCode)
+
+        when:
+        def result = target.isPossibleWithReason()
+
+        then:
+        result == expectedResult
+
+        where:
+        number                  | regionCode | expectedResult
+        "XXX"                   | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_LENGTH          // NOT_A_NUMBER
+        "+99123456"             | "DE"       | PhoneNumberUtil.ValidationResult.INVALID_COUNTRY_CODE    // INVALID_COUNTRY_CODE
+        "+491"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT               // TOO_SHORT_NSN
+        "0049"                  | "DE"       | PhoneNumberUtil.ValidationResult.TOO_SHORT               // TOO_SHORT_AFTER_IDD
+        "+492031234567891011"   | "DE"       | PhoneNumberUtil.ValidationResult.TOO_LONG                // TOO_LONG
     }
 
 }
