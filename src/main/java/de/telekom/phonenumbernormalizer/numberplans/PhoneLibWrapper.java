@@ -21,14 +21,12 @@ import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import java.lang.reflect.Method;
 import java.util.Objects;
 
 /**
  * Wrapper around Google's LibPhoneNumber library
  * <p>
- * Using reflection to access internal information to know if a region has a nation prefix &amp; which one it is.
+ * Using generated metadata from Google's LibPhoneNumber to know if a region has a nation prefix &amp; which one it is.
  * </p><p>
  * Providing own NumberPlans logic as an alternative to Google's LibPhoneNumber ShortNumber.
  * </p>
@@ -65,11 +63,11 @@ public class PhoneLibWrapper {
     String regionCode;
 
     /**
-     * The number plan metadata which Google's LibPhoneNumber is using for the given region code.
+     * The number plan metadata extracted from Google's LibPhoneNumber for the given region code.
      *
      * @see PhoneLibWrapper#PhoneLibWrapper(String, String)
      */
-    Phonemetadata.PhoneMetadata metadata;
+    RegionDialingMetadata metadata;
 
     /**
      * An instance of Google's LibPhoneNumber short number utility.
@@ -97,7 +95,7 @@ public class PhoneLibWrapper {
      */
     public PhoneLibWrapper(String number, String regionCode) {
         this.regionCode = regionCode;
-        this.metadata = getMetadataForRegion();
+        this.metadata = GeneratedRegionDialingMetadata.forRegion(this.regionCode);
 
         if (number != null) {
             this.dialableNumber = PhoneNumberUtil.normalizeDiallableCharsOnly(number);
@@ -256,7 +254,7 @@ public class PhoneLibWrapper {
         if (metadata == null) {
             return null;
         }
-        return metadata.getNationalPrefix();
+        return metadata.nationalPrefix();
     }
 
     /**
@@ -265,25 +263,6 @@ public class PhoneLibWrapper {
      */
     public boolean hasRegionNationalAccessCode() {
         return metadata != null && metadata.hasNationalPrefix();
-    }
-
-    /**
-     * Since we need the PhoneMetadta for fixing calculation of some number normalization,
-     * we need to break encapsulation via reflection, because that data is private to phoneUtil
-     * and Google rejected suggestion to make it public, because they did not see our need in correcting normalization.
-     * @return {@link Phonemetadata.PhoneMetadata} of {@link PhoneLibWrapper#regionCode}
-     */
-    private Phonemetadata.PhoneMetadata getMetadataForRegion() {
-        try {
-            Method m = phoneUtil.getClass().getDeclaredMethod("getMetadataForRegion", String.class);
-            // violating encupsulation is intended by this method, so no need for SONAR code smell warning here
-            m.setAccessible(true); //NOSONAR
-            return (Phonemetadata.PhoneMetadata) m.invoke(phoneUtil, regionCode);
-        } catch (Exception e) {
-            LOGGER.warn("Error while accessing getMetadataForRegion on PhoneNumberUtil via Reflection.");
-            LOGGER.debug("{}", e.getMessage());
-            return null;
-        }
     }
 
     /**

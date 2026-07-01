@@ -64,7 +64,6 @@
     </scm>
 
     <properties>
-        <rootDir>${project.basedir}/..</rootDir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- Used Versions of Google's libphone project -->
@@ -80,12 +79,13 @@
         <org.springframework.version>6.2.8</org.springframework.version>
         <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
         <org.apache.commons.version>3.18.0</org.apache.commons.version>
-        <io.swagger.verion>1.6.16</io.swagger.verion>  <!-- Major Jump to 2.2.34 possible, needs refactoring-->
+        <io.swagger.version>1.6.16</io.swagger.version>  <!-- Major Jump to 2.2.34 possible, needs refactoring-->
         <org.slf4j.version>2.0.17</org.slf4j.version>
         <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
         <org.apache.groovy.version>4.0.27</org.apache.groovy.version>
         <org.junit.platform.version>1.13.3</org.junit.platform.version>
         <org.spockframework.version>2.4-M6-groovy-4.0</org.spockframework.version>
+        <org.codehaus.mojo.exec.version>3.3.0</org.codehaus.mojo.exec.version>
         <!-- JaCoCo & SonarQube -->
         <rootDir>${project.basedir}</rootDir>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -124,7 +124,7 @@
         <dependency>
             <groupId>io.swagger</groupId>  <!-- Major jump needs .core.v3 addition -->
             <artifactId>swagger-annotations</artifactId>
-            <version>${io.swagger.verion}</version>
+            <version>${io.swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -238,6 +238,32 @@
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
                 <version>${org.codehaus.gmavenplus.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${org.codehaus.mojo.exec.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-region-dialing-metadata</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${java.home}/bin/java</executable>
+                            <classpathScope>compile</classpathScope>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <classpath/>
+                                <argument>${project.basedir}/src/generators/metaDataExtractor/MetaDataExtractor.java</argument>
+                                <argument>${project.basedir}/src/main/java/de/telekom/phonenumbernormalizer/numberplans/GeneratedRegionDialingMetadata.java</argument>
+                                <argument>${libphonenumber.version}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

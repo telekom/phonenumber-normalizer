@@ -220,27 +220,18 @@ class PhoneLibWrapperTest extends Specification {
         "*"             | true
     }
 
-    /*
-   *
-   *  getMetadataForRegion is used via reflection an thus needs to catch possible exceptions.
-   *
-   *  did not found a way to make a test for this, so this means 3% of lines are not covered.
-   *
-   */
-
-    def "getMetadataForRegion"(regionCode, expectedResult) {
+    def "generated region metadata is used by wrapper"(regionCode, expectedNationalPrefix, expectedHasNationalPrefix) {
         given:
         target = new PhoneLibWrapper(null, regionCode)
 
-        when: "getMedadataForRegion: $regionCode"
-        def result = target.getMetadataForRegion()
-
-        then: "it should normalize the number to: $expectedResult"
-        result == expectedResult
+        expect:
+        target.getNationalAccessCode() == expectedNationalPrefix
+        target.hasRegionNationalAccessCode() == expectedHasNationalPrefix
 
         where:
-        regionCode | expectedResult
-        null       | null
+        regionCode | expectedNationalPrefix | expectedHasNationalPrefix
+        null       | null                   | false
+        "DE"       | "0"                    | true
     }
 
     def "private extendNumberByDefaultAreaCodeAndCountryCode null"() {
@@ -270,18 +261,6 @@ class PhoneLibWrapperTest extends Specification {
             ""     | ""         | null
     }
 
-    def "exception check for getMetadataForRegion: phoneUtil == null"(){
-        given:
-            //overriding read only attribute by .metaClass. access
-            target = new PhoneLibWrapper(null, "49")
-            target.metaClass.phoneUtil = null
-
-        when:
-            def result = target.getMetadataForRegion()
-
-        then:
-            assert result == null
-    }
 
     def "getRegionCodeForCountryCode"(countryCode, expectedResult) {
         given:
