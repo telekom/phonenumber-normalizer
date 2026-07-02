@@ -9,6 +9,8 @@ on:
         type: string
 jobs:
   sync-version:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
