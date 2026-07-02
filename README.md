@@ -115,16 +115,17 @@ String normalizedNumber = new PhoneNumberNormalizerImpl().normalizePhoneNumber(n
 
 Now we get a E164 formatted number, because now we know, how which NDC has to be added after the CC.
 
-### Use Of Reflection
+### Build-Time Source Generation and Reflection
 
 To check if a number plan of a country is using an optional NDC and NAC, we need to get the countries region metadata from Google's LibPhoneNumber.
 
 With getMetadataForRegion there is a method on the PhoneNumberUtil class, but it is not public.
 
-So we are forced to [use reflection and override its accessibility](https://github.com/telekom/phonenumber-normalizer/blob/main/src/main/java/de/telekom/phonenumbernormalizer/numberplans/PhoneLibWrapper.java#L280).
+So we are forced to [use reflection and override its accessibility](https://github.com/telekom/phonenumber-normalizer/blob/main/src/main/java/de/telekom/phonenumbernormalizer/numberplans/PhoneLibWrapper.java#L280). Before Version 2.2.0 this was done during runtime. Starting with Version 2.2.0 we moved this to build-time in Maven's 'generate-sources' phase, which generates an own class providing this data by a static mapping. 
 
-If you are using AOT (ahead of time) compiler, you need to take care of this.
+If you are using AOT (ahead of time) compiler, you need to take care of this when you are using a version prior to 2.2.0.
 (While it is used indirectly with the normal Google's LibPhoneNumber use of the wrapper, it might not be safe for all AOT compilers).
+The project already includes a file with the generated class and a unit test which checks if this class has been generated with the LibPhoneNumber configured in the projects pom.xml. 
 
 ### Use of Own ShortNumber Recognition
 

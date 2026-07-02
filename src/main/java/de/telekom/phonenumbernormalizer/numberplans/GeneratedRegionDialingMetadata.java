@@ -31,7 +31,7 @@ import java.util.Map;
 public final class GeneratedRegionDialingMetadata {
 
     public static final String LIBPHONENUMBER_VERSION = "9.0.33";
-    public static final OffsetDateTime GENERATED_AT = OffsetDateTime.parse("2026-07-02T07:18:21Z");
+    public static final OffsetDateTime GENERATED_AT = OffsetDateTime.parse("2026-07-02T07:35:29Z");
 
     private static final Map<String, RegionDialingMetadata> METADATA_BY_REGION = createMetadata();
 
