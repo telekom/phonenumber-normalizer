@@ -1672,48 +1672,48 @@ class IsValidNumberTest extends Specification {
         //
         // 0170
         //
-        "01700"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017010"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017011"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017012"         | "DE" | [false, false, true, false, false, false, true, false] // <--
+        "01700"          | "DE" | [false, false, false, false, false, false, false, false]
+        "017010"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017011"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017012"         | "DE" | [false, false, false, false, false, false, false, false]
         // 017013 is reserved for voicemail - see tests below
-        "017014"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017015"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017016"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017017"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017018"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017019"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01702"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01703"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01704"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01705"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01706"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01707"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01708"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01709"          | "DE" | [false, false, true, false, false, false, true, false] // <--
+        "017014"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017015"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017016"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017017"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017018"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017019"         | "DE" | [false, false, false, false, false, false, false, false]
+        "01702"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01703"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01704"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01705"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01706"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01707"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01708"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01709"          | "DE" | [false, false, false, false, false, false, false, false]
 
         //
         // 0171
         //
-        "01710"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017110"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017111"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017112"         | "DE" | [false, false, true, false, false, false, true, false] // <--
+        "01710"          | "DE" | [false, false, false, false, false, false, false, false]
+        "017110"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017111"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017112"         | "DE" | [false, false, false, false, false, false, false, false]
         // 017113 is reserved for voicemail - see tests below
-        "017114"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017115"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017116"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017117"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017118"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017119"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01712"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01713"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01714"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01715"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01716"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01717"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01718"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01719"          | "DE" | [false, false, true, false, false, false, true, false] // <--
+        "017114"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017115"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017116"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017117"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017118"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017119"         | "DE" | [false, false, false, false, false, false, false, false]
+        "01712"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01713"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01714"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01715"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01716"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01717"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01718"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01719"          | "DE" | [false, false, false, false, false, false, false, false]
 
         //
         // 0172
@@ -1744,71 +1744,71 @@ class IsValidNumberTest extends Specification {
         //
         // 0173
         //
-        "01730"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01731"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01732"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01733"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01734"          | "DE" | [false, false, true, false, false, false, true, false] // <--
+        "01730"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01731"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01732"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01733"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01734"          | "DE" | [false, false, false, false, false, false, false, false]
         // 017350 is reserved for voicemail - see tests below
-        "017351"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017352"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017353"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017354"         | "DE" | [false, false, true, false, false, false, true, false] // <--
+        "017351"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017352"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017353"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017354"         | "DE" | [false, false, false, false, false, false, false, false]
         // 017355 is reserved for voicemail - see tests below
-        "017356"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017357"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017358"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017359"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01736"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01737"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01738"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01739"          | "DE" | [false, false, true, false, false, false, true, false] // <--
+        "017356"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017357"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017358"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017359"         | "DE" | [false, false, false, false, false, false, false, false]
+        "01736"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01737"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01738"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01739"          | "DE" | [false, false, false, false, false, false, false, false]
 
         //
         // 0174
         //
-        "01740"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01741"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01742"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01743"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01744"          | "DE" | [false, false, true, false, false, false, true, false] // <--
+        "01740"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01741"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01742"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01743"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01744"          | "DE" | [false, false, false, false, false, false, false, false]
         // 017450 is reserved for voicemail - see tests below
-        "017451"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017452"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017453"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017454"         | "DE" | [false, false, true, false, false, false, true, false] // <--
+        "017451"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017452"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017453"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017454"         | "DE" | [false, false, false, false, false, false, false, false]
         // 017455 is reserved for voicemail - see tests below
-        "017456"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017457"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017458"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017459"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01746"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01747"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01748"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01749"          | "DE" | [false, false, true, false, false, false, true, false] // <--
+        "017456"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017457"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017458"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017459"         | "DE" | [false, false, false, false, false, false, false, false]
+        "01746"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01747"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01748"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01749"          | "DE" | [false, false, false, false, false, false, false, false]
 
         //
         // 0175
         //
-        "01750"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017510"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017511"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017512"         | "DE" | [false, false, true, false, false, false, true, false] // <--
+        "01750"          | "DE" | [false, false, false, false, false, false, false, false]
+        "017510"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017511"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017512"         | "DE" | [false, false, false, false, false, false, false, false]
         // 017513 is reserved for voicemail - see tests below
-        "017514"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017515"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017516"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017517"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017518"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "017519"         | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01752"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01753"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01754"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01755"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01756"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01757"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01758"          | "DE" | [false, false, true, false, false, false, true, false] // <--
-        "01759"          | "DE" | [false, false, true, false, false, false, true, false] // <--
+        "017514"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017515"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017516"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017517"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017518"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017519"         | "DE" | [false, false, false, false, false, false, false, false]
+        "01752"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01753"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01754"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01755"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01756"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01757"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01758"          | "DE" | [false, false, false, false, false, false, false, false]
+        "01759"          | "DE" | [false, false, false, false, false, false, false, false]
 
         //
         // 0176
@@ -1947,11 +1947,11 @@ class IsValidNumberTest extends Specification {
         //
         // 0170
         //
-        "017013"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017013"         | "DE" | [true, false, false, false, true, false, false, false] // <--
         //
         // 0171
         //
-        "017113"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017113"         | "DE" | [true, false, false, false, true, false, false, false] // <--
         //
         // 0172
         //
@@ -1962,17 +1962,17 @@ class IsValidNumberTest extends Specification {
         //
         // 0173
         //
-        "017350"         | "DE" | [false, true, true, false, false, true, true, false] // <--
-        "017355"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017350"         | "DE" | [true, true, true, false, true, true, true, false] // <--
+        "017355"         | "DE" | [true, false, false, false, true, false, false, false] // <--
         //
         // 0174
         //
-        "017450"         | "DE" | [false, true, true, false, false, true, true, false] // <--
-        "017455"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017450"         | "DE" | [true, true, true, false, true, true, true, false] // <--
+        "017455"         | "DE" | [true, false, false, false, true, false, false, false] // <--
         //
         // 0175
         //
-        "017513"         | "DE" | [false, false, false, false, false, false, false, false]
+        "017513"         | "DE" | [true, false, false, false, true, false, false, false] // <--
         //
         // 0176
         //
