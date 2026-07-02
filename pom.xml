@@ -74,9 +74,10 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok.version>1.18.38</lombok.version>
         <surefire.plugin.version>2.22.2</surefire.plugin.version> <!-- not yet updated because version 3.x has vulnerability-->
-        <com.fasterxml.jackson.core.version>2.19.1</com.fasterxml.jackson.core.version>
+        <com.fasterxml.jackson.core.version>2.21.1</com.fasterxml.jackson.core.version>
+        <com.fasterxml.jackson.annotation.version>2.21</com.fasterxml.jackson.annotation.version>
         <org.codehaus.gmavenplus.version>1.11.0</org.codehaus.gmavenplus.version> <!-- Major Jump to 4.2.1 possible -->
-        <org.springframework.version>6.2.8</org.springframework.version>
+        <org.springframework.version>6.2.11</org.springframework.version>
         <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
         <org.apache.commons.version>3.18.0</org.apache.commons.version>
         <io.swagger.version>1.6.16</io.swagger.version>  <!-- Major Jump to 2.2.34 possible, needs refactoring-->
@@ -134,7 +135,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${com.fasterxml.jackson.core.version}</version>
+            <version>${com.fasterxml.jackson.annotation.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

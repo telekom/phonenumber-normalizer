@@ -26,7 +26,15 @@ class GeneratedRegionDialingMetadataTest extends Specification {
     private static final Path PROJECT_DIR = Paths.get("").toAbsolutePath()
 
     def "generated metadata records the configured LibPhoneNumber version"() {
+        given:
+        String generatedVersion = GeneratedRegionDialingMetadata.LIBPHONENUMBER_VERSION
+        String configuredVersion = pomLibPhoneNumberVersion()
+
         expect:
+        assert generatedVersion == configuredVersion:
+        "GeneratedRegionDialingMetadata was generated with LibPhoneNumber ${generatedVersion}, " +
+                "but pom.xml configures ${configuredVersion}. Run 'mvn -DskipTests generate-sources' " +
+                "and commit the generated GeneratedRegionDialingMetadata.java"
         GeneratedRegionDialingMetadata.LIBPHONENUMBER_VERSION == pomLibPhoneNumberVersion()
     }
 
